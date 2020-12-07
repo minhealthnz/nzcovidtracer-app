@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`externalLinks still have the same content 1`] = `
+Object {
+  "aboutBluetoothLink": "https://www.health.govt.nz/nz-covid-tracer-about-bt",
+  "addressLink": "/places/register?src=app",
+  "contactAlertslink": "https://www.health.govt.nz/nz-covid-tracer-contact-alerts",
+  "contactDetailsLink": "/profile/details?src=app",
+  "contactLink": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-resources-and-tools/nz-covid-tracer-app/contact-nz-covid-tracer",
+  "copyrightLink": "/help/copyright?src=app",
+  "feedbackLink": "mailto:help@covidtracer.min.health.nz?subject=NZ COVID Tracer App Feedback",
+  "helpLink": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-novel-coronavirus-resources-and-tools/nz-covid-tracer-app/questions-and-answers-nz-covid-tracer",
+  "loginLink": "/login?src=app",
+  "privacyLink": "/help/privacypolicy?src=app",
+  "resourcesLink": "/resources?src=app",
+  "supportPhoneLink": "tel:0800800606",
+  "termsOfUseLink": "/help/termsofuse?src=app",
+}
+`;

@@ -1,0 +1,16 @@
+export enum OnboardingScreen {
+  Navigator = "Onboarding/Navigator",
+  ExistingUser = "Onboarding/ExistingUser",
+  MultipleDiaries = "Onboarding/MultipleDiaries",
+  SplashScreen = "Onboarding/SplashScreen",
+  ValueStatements = "Onboarding/ValueStatements",
+  PrivacyStatement = "Onboarding/PrivacyStatement",
+  EnableENF = "Onboarding/EnableENF",
+  ContactDetails = "Onboarding/ContactDetails",
+  EnableAlerts = "Onboarding/EnableAlerts",
+  Thanks = "Onboarding/Thanks",
+  Splash = "Onboarding/Splash",
+  LockCode = "Onboarding/LockCode",
+  LockCodeNavigator = "Onboarding/LockCodeNavigator",
+  EnableENFNavigator = "Onboarding/EnableENFNavigator",
+}

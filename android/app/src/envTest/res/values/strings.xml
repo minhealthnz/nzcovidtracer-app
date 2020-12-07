@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="asset_statements" translatable="false">
+    [{
+    \"include\": \"https://test--tracing-app-c03c63136ec0-bb2f4f2091bb.netlify.app/.well-known/assetlinks.json\"
+    }]
+    </string>
+    <string name="app_name">TEST NZ COVID Tracer</string>
+</resources>

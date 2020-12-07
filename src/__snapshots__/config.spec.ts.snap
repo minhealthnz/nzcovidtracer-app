@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`still have the same content 1`] = `
+Object {
+  "APIServiceAddress": "",
+  "APPCENTER_BUILD_ID": "1",
+  "APP_VERSION": "999.0.0",
+  "AboutBluetoothLink": "https://www.health.govt.nz/nz-covid-tracer-about-bt",
+  "ApiBaseUrl": "https://api.",
+  "ApiClientIdAndroid": "",
+  "ApiClientIdIOS": "",
+  "ApiDomain": "",
+  "AppAddress": "",
+  "CognitoIdentityPoolId": "",
+  "CognitoUserPoolAppClientId": "",
+  "CognitoUserPoolPoolId": "",
+  "CognitoUserPoolRegion": "",
+  "ContactAlertsUrl": "https://www.health.govt.nz/nz-covid-tracer-contact-alerts",
+  "ContactUsPageUrl": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-resources-and-tools/nz-covid-tracer-app/contact-nz-covid-tracer",
+  "DbEncryptionKey": "",
+  "ENFServerUrl": "",
+  "ExposureEventsBaseUrl": "https://exposure-events.",
+  "Features": Set {},
+  "FeedbackEmailLink": "mailto:help@covidtracer.min.health.nz?subject=NZ COVID Tracer App Feedback",
+  "GeneratePrivateDbEncryptionKey": false,
+  "HelpPageUrl": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-novel-coronavirus-resources-and-tools/nz-covid-tracer-app/questions-and-answers-nz-covid-tracer",
+  "IsDev": true,
+  "MaxCheckInDays": 60,
+  "PinpointApplicationId": "",
+  "PinpointRegion": "",
+  "PrivateDbEncryptionKeyService": "unite-app-react-native-private-db-key",
+  "SafetynetKey": "",
+  "SupportPhoneLink": "tel:0800800606",
+  "WebAppBaseUrl": "",
+}
+`;

@@ -1,0 +1,34 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColor">@color/primaryBlack</item>
+        <item name="android:windowBackground">@color/primaryBlack</item>
+    </style>
+
+    <style name="SpinnerDatePickerDialog" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:datePickerStyle">@style/SpinnerDatePickerStyle</item>
+        <item name="android:colorAccent">@color/supernova</item>
+        <item name="android:textColor">@color/primaryBlack</item>
+        <item name="android:textColorPrimary">@color/primaryBlack</item>
+    </style>
+
+    <style name="SpinnerDatePickerStyle" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">spinner</item>
+    </style>
+
+    <style name="SpinnerTimePickerDialog" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:timePickerStyle">@style/SpinnerTimePickerStyle</item>
+        <item name="android:colorAccent">@color/supernova</item>
+        <item name="android:textColor">@color/primaryBlack</item>
+        <item name="android:textColorPrimary">@color/primaryBlack</item>
+    </style>
+
+    <style name="SpinnerTimePickerStyle" parent="android:Widget.Material.Light.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+    </style>
+
+    <style name="SplashScreenTheme" parent="SplashScreen_SplashTheme">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+</resources>

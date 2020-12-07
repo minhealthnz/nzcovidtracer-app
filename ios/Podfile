@@ -1,0 +1,84 @@
+require_relative '../node_modules/react-native/scripts/react_native_pods'
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+
+platform :ios, '10.0'
+
+# Convert all permission pods into static libraries
+pre_install do |installer|
+  installer.pod_targets.each do |pod|
+    if pod.name.eql?('BugsnagReactNative') ||
+      pod.name.eql?('RNPermissions') ||
+      pod.name.start_with?('Permission-') ||
+      pod.name.eql?('RNSslPinning') ||
+      pod.name.start_with?('RNFB') ||
+      pod.name.start_with?("react_native_splash_screen")
+      def pod.build_type;
+        # Uncomment one line depending on your CocoaPods version
+        Pod::BuildType.static_library # >= 1.9
+        # Pod::Target::BuildType.static_library # < 1.9
+      end
+    end    
+  end
+end
+
+target 'UniteAppRN' do
+  config = use_native_modules!
+
+  use_react_native!(:path => config["reactNativePath"])
+
+  pod 'RNReactNativeHapticFeedback', :path => '../node_modules/react-native-haptic-feedback'
+
+  pod 'RNIOS11DeviceCheck', :path => '../node_modules/react-native-ios11-devicecheck/ios'
+
+  target 'UniteAppRN-DEV' do
+    inherit! :complete
+  end
+
+  target 'UniteAppRN-ENF' do
+    inherit! :complete
+  end
+
+  target 'UniteAppRN-DEVOPS' do
+    inherit! :complete
+  end
+
+  target 'UniteAppRN-TEST' do
+    inherit! :complete
+  end
+
+  target 'UniteAppRN-UAT' do
+    inherit! :complete
+  end
+
+  target 'UniteAppRNTests' do
+    inherit! :complete
+    # Pods for testing
+  end
+
+  # Enables Flipper.
+  #
+  # Note that if you have use_frameworks! enabled, Flipper will not work and
+  # you should disable these next few lines.
+  # use_flipper!
+  post_install do |installer|
+    # flipper_post_install(installer)
+
+    puts "Updating Targets to include react-native-config env variables"
+    installer.generated_aggregate_targets.each do |target|
+      ["Debug", "Release"].each do |config|
+        rpath = target.xcconfig_relative_path(config)
+        puts "    updating #{target.name} :#{config}"
+        open(rpath, 'a') { |f|
+            f.puts "#include? \"tmp.xcconfig\""
+        }
+      end
+    end
+  end
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications.podspec"
+  pod 'react-native-exposure-notification-service', :path => "../node_modules/react-native-exposure-notification-service/react-native-exposure-notification-service.podspec"
+
+  use_frameworks!
+end

@@ -1,0 +1,647 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`strings still have the same content 1`] = `
+Object {
+  "en": Object {
+    "accessibility": Object {
+      "button": Object {
+        "back": "Go back",
+        "close": "close",
+        "diaryHistory": "diary history",
+        "startTutorial": "start tutorial",
+      },
+      "dashboard": Object {
+        "beenInCloseContact": "Alert from Bluetooth tracing match",
+        "beenInContact": "Location alert from a diary entry match",
+        "notificationTitleHintDouble": "You have 2 exposure alerts. Swipe right to find out more",
+        "notificationTitleHintSingle": "You have 1 exposure alert. Swipe right to find out more",
+      },
+      "datePicker": Object {
+        "selectDateAndTime": "double tap to select the entry date and time",
+      },
+      "enf": Object {
+        "enfShareImageAlt": "Upload your information",
+      },
+      "textFieldHint1": "Please swipe right to edit text field",
+      "textFieldHint2": "Please swipe right twice to edit text field",
+      "textFieldLabel": "{0} {1}. error, {2}",
+    },
+    "common": Object {
+      "ok": "OK",
+      "optional": "Optional",
+      "recommended": "Recommended",
+      "required": "Required",
+      "tab1of3": "1 of 3",
+      "tab2of3": "2 of 3",
+      "tab3of3": "3 of 3",
+    },
+    "components": Object {
+      "diaryDisclaimer": Object {
+        "disclaimer": "Your digital diary is kept securely on your phone. Whenever you open the app, entries older than 60 days will be automatically deleted.",
+      },
+    },
+    "errors": Object {
+      "dataRequestCode": Object {
+        "incorrectCode": "Incorrect code. Check your code and try again",
+        "network": "Something went wrong. Check your code and network connection and try again.",
+      },
+      "error": "Error",
+      "generic": "Something went wrong. Please try again.",
+      "mfaEnabled": Object {
+        "cancel": "Cancel",
+        "detail": "We are removing the use of login and two-factor authentication. We advise that you turn two-factor authentication off on the website to be able to confirm your email address during this step.",
+        "loginOnline": "Go to website",
+        "title": "We couldn’t confirm your email address",
+      },
+      "network": "A network error occured. Check your internet connection and try again.",
+    },
+    "exposureNotification": Object {
+      "defaultSystemNotificationBody": "You may have been in contact with COVID-19. Tap for more information.",
+    },
+    "headerButtons": Object {
+      "skip": "Skip",
+    },
+    "screenTitles": Object {
+      "addEntryManually": "Add manual entry",
+      "addNHI": "Add your NHI number",
+      "chooseOldDiary": "Choose an old diary",
+      "contactDetails": "Tell us your contact details",
+      "copiedDiary": "Choose an old diary",
+      "dashboard": "Dashboard",
+      "diary": "Diary",
+      "diaryEntry": "Diary entry",
+      "diaryShared": "Share my diary",
+      "editDiary": "Edit entry",
+      "editNHI": "Edit your NHI number",
+      "enableAlerts": "Enable contact alerts",
+      "enableENF": "NZ COVID Tracer Update",
+      "enableENFModal": "Bluetooth tracing",
+      "enfSettings": "Bluetooth tracing",
+      "enfShare": "Share Bluetooth tracing data",
+      "enfShareSuccess": "Share Bluetooth tracing data",
+      "enterEmail": "Enter email",
+      "existingUser": "NZ COVID Tracer Update",
+      "lockCode": "Protect your privacy",
+      "multipleDiaries": "NZ COVID Tracer Update",
+      "myData": "My data",
+      "myProfile": "My data",
+      "nhiAdded": "NHI added",
+      "nhiView": "My NHI details",
+      "privacyStatement": "Privacy statement",
+      "recordAVisit": "Record a visit",
+      "recordVisit": "Record visit",
+      "recorded": "Visit recorded",
+      "requestCallback": "Send your details",
+      "requestCallbackConfirm": "Send your details",
+      "scanNotRecorded": "Visit not recorded",
+      "shareDiary": "Share my diary",
+      "stepTemplate": "Step {0} of {1}",
+      "thanks": "Thank you",
+      "tutorial": "How it works",
+      "verifyEmail": "Verify email",
+      "viewDiary": "Choose an old diary",
+    },
+    "screens": Object {
+      "addManualDiaryEntry": Object {
+        "address": "Address",
+        "datePicker": "Arrival date & time",
+        "details": "Details",
+        "disclaimer": "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
+        "gln": "Global location number",
+        "placeOrActivity": "Place or activity",
+        "save": "Add entry",
+      },
+      "addNHI": Object {
+        "description": "The National Health Index number (NHI number) is a unique identifier that is assigned to every person who uses health and disability support services in New Zealand (e.g. ZZZ1234).",
+        "more1": "You can usually find your NHI on:",
+        "more2": "• your online patient portal",
+        "more3": "• a prescription",
+        "more4": "• a prescription receipt",
+        "more5": "• a prescription medicine label",
+        "more6": "• a hospital letter",
+        "more7": "• an xray or test result",
+        "more8": "If you still can't find your NHI, check with your general practitioner or pharmacist",
+        "moreTitle": "Where can I find my NHI?",
+        "title": "What is your NHI?",
+      },
+      "addedNHI": Object {
+        "description": "Thanks for adding your NHI to help staff at COVID-19 testing sites.
+
+Together we can stop the spread of COVID-19.",
+        "title": "Thanks for helping stop the spread",
+      },
+      "buttonNHI": Object {
+        "continue": "Continue",
+        "finish": "Finish",
+        "next": "Next",
+        "save": "Save",
+      },
+      "contactDetails": Object {
+        "description": "This information helps contact tracers reach you faster if we need to.
+
+If you are known by multiple names, enter the one that most people would use.",
+        "doThisLater": "Do this later",
+        "email": "Email address",
+        "firstName": "First name",
+        "heading": "Tell us your contact details",
+        "lastName": "Last name ",
+        "phoneNumber": "Phone number",
+        "phoneNumberInfo": "Mobile numbers are preferred.",
+        "submit": "Submit",
+      },
+      "copiedDiary": Object {
+        "copyAnother": "Copy another diary",
+        "descriptionP1": "Your diary has been updated with the diary entries from ",
+        "descriptionP2": "These entries will be kept in your diary and any entries older than 60 days will be deleted when you open the app.",
+        "submit": "Finish",
+        "title": "You've successfully copied this diary!",
+      },
+      "dashboard": Object {
+        "alerts": Object {
+          "dismiss": Object {
+            "cancel": "Cancel",
+            "dimiss": "Dismiss",
+            "title": "Would you like to dismiss these alerts?",
+          },
+          "dismissAllAction": "Dismiss all",
+        },
+        "beenInCloseContact": Object {
+          "dismiss": Object {
+            "cancel": "Cancel",
+            "dimiss": "Dismiss",
+            "title": "Would you like to dismiss this alert?",
+          },
+          "lastExposed": "Last exposed: ",
+          "more": "Find out more",
+          "moreAccessibilityHint": "Leaves the app and navigates to a webpage",
+          "numberOfExposures": " times over the last 14 days",
+        },
+        "beenInContact": Object {
+          "callbackRequested": "Details sent",
+          "description": "Confirm your name and phone number and we’ll give you a call. If you begin to feel unwell, call Healthline at 0800 358 5453.",
+          "detailsSent": "Details sent",
+          "dismiss": Object {
+            "cancel": "Cancel",
+            "dimiss": "Dismiss",
+            "title": "Would you like to dismiss this alert?",
+          },
+          "lastExposed": "Last exposed: ",
+          "more": "Find out more",
+          "moreAccessibilityHint": "Leaves the app and navigates to a webpage",
+          "requestCallback": "Send your details",
+          "title": "You may have been in contact with COVID-19",
+        },
+        "cards": Object {
+          "bluetoothTracing": Object {
+            "accessibilityHint": "Tap to learn more and change Bluetooth tracing status",
+            "disabled": Object {
+              "description": "Turn on to anonymously log other nearby app users",
+              "title": "Bluetooth tracing is off",
+            },
+            "enabled": Object {
+              "description": "Anonymously log other nearby app users",
+              "title": "Bluetooth tracing is on",
+            },
+            "notSupported": Object {
+              "accessibilityHint": "Tap to learn more",
+              "description": "Your device may not be supported",
+              "title": "Bluetooth Tracing could not be activated",
+            },
+            "notVerified": Object {
+              "description": "We are checking whether your device supports Bluetooth tracing",
+              "title": "Activating Bluetooth tracing...",
+            },
+          },
+          "contactAlerts": Object {
+            "description": "Get an alert if you may have been exposed to COVID-19",
+            "title": "Enable contact alerts",
+          },
+          "moreInfo": Object {
+            "description": "Find resources about contact tracing and how to stay safe",
+            "title": "Learn more",
+          },
+          "nhi": Object {
+            "description": "Have your details ready for a faster COVID-19 test",
+            "title": "Add your NHI number",
+          },
+          "places": Object {
+            "description": "Scan or add entries to your digital diary",
+            "title": "Record a visit",
+          },
+          "registerDetails": Object {
+            "description": "Help us contact you faster if we need to",
+            "title": "Update your details",
+          },
+          "registerLocation": Object {
+            "description": "Help us locate you faster if we need to",
+            "title": "Update your address",
+          },
+          "unite": Object {
+            "description": "The more of us who help contact tracing, the safer we all are",
+            "shareMessage": "NZ COVID Tracer app - Sign up to protect yourself, your whānau, and your community https://tracing.covid19.govt.nz/",
+            "title": "Share the app",
+          },
+        },
+        "footer": Object {
+          "detail": "Wash often. Use soap. 20 seconds. Then dry. This kills the virus by bursting its protective bubble.",
+          "title": "Remember to wash your hands",
+        },
+        "heading": "Protect yourself, your whānau, and
+your community",
+        "sections": Object {
+          "advice": "Advice",
+          "alertDoubleExposure": "COVID-19 contact alerts",
+          "alertENFExposure": "COVID-19 Bluetooth alert",
+          "alertLocationExposure": "COVID-19 location alert",
+          "help": "Help contact tracers",
+          "trace": "Trace your steps",
+        },
+      },
+      "diaryEntry": Object {
+        "address": "Address",
+        "dateTime": "Date & time",
+        "delete": "Delete entry",
+        "deleteModal": Object {
+          "cancel": "Cancel",
+          "message": "Are you sure you want to delete this entry?",
+          "ok": "OK",
+          "title": "",
+        },
+        "details": "Details",
+        "edit": "Edit",
+        "gln": "Global location number",
+        "placeOrActivity": "Place or activity",
+      },
+      "diaryShared": Object {
+        "description": "Your digital diary has been sent to the Contact Tracing team.",
+        "done": "Finish",
+        "title": "Thanks for helping stop the spread",
+      },
+      "editDiaryEntry": Object {
+        "address": "Address",
+        "areYouSure": Object {
+          "cancel": "Cancel",
+          "message": "Are you sure you want to discard these changes?",
+          "ok": "Yes",
+        },
+        "dateTime": "Date & time",
+        "details": "Details",
+        "disclaimer": "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
+        "gln": "Global location number",
+        "placeOrActivity": "Place or activity",
+        "save": "Save changes",
+      },
+      "enableAlerts": Object {
+        "description": "We use notifications to let you know if you may have been in contact with someone with COVID-19.",
+        "done": "Done",
+        "enableNotifications": "Enable notifications",
+        "heading": "Enable contact alerts",
+      },
+      "enableENF": Object {
+        "description1": "Anonymously log when other app users are nearby by enabling your phone’s Exposure Notification System.",
+        "description2": "Your phone will use Bluetooth to exchange anonymous IDs with other phones that are using the app and have Bluetooth enabled.",
+        "description3": "It cannot share your location, your name, or anything else about you.",
+        "description4": "It will allow you to receive an exposure notification if you may have been in close contact with another app user who has COVID-19.",
+        "done": "Done",
+        "doneAccessibility": "Done",
+        "enableTracing": "Enable Bluetooth Tracing",
+        "enableTracingAccessibility": "Enable Bluetooth Tracing",
+        "heading": "Enable Bluetooth tracing",
+        "more": "Find out more",
+        "moreAccessibility": "Read more info about Bluetooth tracing",
+        "moreAccessibilityHint": "Leaves the app and navigates to a webpage",
+        "settings": "Turn it on in settings",
+        "settingsAccessibility": "Turn bluetooth tracing on in settings",
+      },
+      "enfSettings": Object {
+        "bannerDisabled": "Bluetooth tracing is off",
+        "bannerDisabledAccessibilityLabel": "Bluetooth tracing status: Bluetooth tracing is off",
+        "bannerEnabled": "Bluetooth tracing is on",
+        "bannerEnabledAccessibilityLabel": "Bluetooth tracing status: Bluetooth tracing is on",
+        "buttonBlocked": "Authorise in settings",
+        "buttonBlockedAccessibility": "Authorise bluetooth tracing in settings",
+        "buttonDisabled": "Turn it on",
+        "buttonDisabledAccessibility": "Turn bluetooth tracing on",
+        "buttonEnabled": "Turn it off",
+        "buttonEnabledAccessibility": "Turn bluetooth tracing off",
+        "description": "Anonymously log when you are near other app users by enabling your phone’s Exposure Notification System.",
+        "disableModal": Object {
+          "cancel": "Cancel",
+          "description": "If you turn off this feature, you will stop logging when you are near other app users and won’t receive exposure notifications.
+If you’ve been nearby someone with COVID-19 during the last 14 days, you won’t be notified. This action will not delete random IDs saved by the Exposure Notification System.",
+          "title": "Turn off Bluetooth contact tracing?",
+          "turnOff": "Turn off",
+        },
+        "notSupported": Object {
+          "link": "help@covidtracer.min.health.nz",
+          "subtext": "We can't currently activate Bluetooth Tracing for you.",
+          "subtextP1": "Make sure you're connected to the internet.",
+          "subtextP2": "Make sure your operating system is up to date.",
+          "subtextP3": "If you're not sure why you're seeing this message, get in touch with us at ",
+          "subtextP4": "You can still help contact tracing efforts by scanning the QR code posters and creating manual entries in your diary.",
+        },
+        "secondaryButton": "Find out more",
+        "secondaryButtonAccessibilityHint": "Leaves the app and navigates to a webpage",
+        "secondaryButtonAccessibilityLabel": "Read more info about Bluetooth tracing",
+        "subheading": "How it works",
+        "subtext": "Your phone will use Bluetooth to exchange anonymous codes with other phones using the app with Bluetooth enabled.",
+        "subtextP2": "It cannot share your location, your name, or anything else about you.",
+        "subtextP3": "You will receive an exposure notification through the app if you may have been in close contact with another app user who has COVID-19.",
+        "title": "Bluetooth tracing",
+      },
+      "enfShare": Object {
+        "button": "Share",
+        "buttonAccessibilityLabel": "Share my Bluetooth tracing codes",
+        "description": "This will upload the anonymous codes your phone generated over the last two weeks so Exposure Notifications can be quickly sent to other Bluetooth users who may have been in close contact with you.",
+        "errors": Object {
+          "code": Object {
+            "invalid": "Incorrect code. Check your code and try again",
+            "network": "Something went wrong. Make sure you have a network connection and try again.",
+            "rateLimited": "You have tried to share your tracing codes too many times. Try again later.",
+          },
+        },
+        "inputInfo": "Enter the code texted to you by a Contact Tracer",
+        "inputLabel": "Data request code",
+        "title": "Share my Bluetooth tracing codes",
+      },
+      "enfShareSuccess": Object {
+        "button": "Finish",
+        "buttonAccessibilityHint": "Navigates to My Data screen",
+        "description": "Your Bluetooth tracing data has been sent to the Contact Tracing System.",
+        "title": "Thanks for helping stop the spread",
+      },
+      "enterEmail": Object {
+        "description": "We need the email address you used to log in and record entries in your digital diary.
+
+If there are any diary entries on this device that were linked to this email address, you'll be able to copy them over to the current diary.",
+        "email": "Email address",
+        "submit": "Submit",
+        "title": "Confirm your email address",
+      },
+      "existingUser": Object {
+        "infoEnf": "Use Bluetooth to anonymously log when you are near other app users",
+        "infoLook": "We've simplified the dashboard to make it easier to get around",
+        "infoPassword": "You don't need to set a password or log in to use the app",
+        "okay": "Continue",
+        "title": "We’ve made a few changes for you",
+      },
+      "lockCode": Object {
+        "description": "Your diary is stored only on your phone. It isn’t uploaded anywhere unless a contact tracer asks you to share it and you say yes.
+
+We recommend you set a lock code on your phone to keep your data safe and private.",
+        "heading": "A reminder about privacy",
+        "okay": "Okay",
+      },
+      "multipleDiaries": Object {
+        "description": "We've noticed that more than one account has been used to keep a digital diary on this device, and this no longer possible.
+
+You can copy over any diary you want to keep using now, or you can do this later.",
+        "later": "Do this later",
+        "okay": "Choose a diary",
+        "title": "You have multiple diaries stored on this device",
+      },
+      "privacyNHI": Object {
+        "description": "Your NHI Number will be kept safely on your phone and will not be shared with health officials unless you disclose it to staff at a COVID-19 testing site.",
+        "title": "This data will be safely kept on your device",
+      },
+      "privacyStatement": Object {
+        "buttonPrimary": "Continue",
+        "section1": Object {
+          "copy": "You can choose which of the NZ COVID Tracer App features you wish to use:",
+          "title": "Any personal information you share through NZ COVID Tracer will be used only for public health purposes related to contact tracing during the COVID-19 pandemic response.",
+        },
+        "section2": Object {
+          "copy": "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days. You can choose to send your digital diary to us if a contact tracer asks you to (they will give you a code).",
+          "title": "Digital Diary:",
+        },
+        "section3": Object {
+          "copy": "You can choose what contact details you share with us. This is to help contact tracers if they need to get in touch with you.",
+          "title": "Contact Details:",
+        },
+        "section4": Object {
+          "copy": "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19. We will not know you have received an alert unless you choose to contact us about it.",
+          "title": "Notifications:",
+        },
+        "section5": Object {
+          "copy": "You can choose if you want to turn on this new functionality. This will enable your device to anonymously record when you are near other app users who have Bluetooth enabled. It will record only how close to them you were, and how long you were nearby. It does not record who either of you are or where you were. When an app user tests positive for COVID-19, they can choose to anonymously notify the other app users who have been nearby. No identifying information is exchanged. We will not know you have received a notification unless you choose to contact us about it.",
+          "title": "Bluetooth Tracing:",
+        },
+        "section6": Object {
+          "copy": "You can choose if you want to add your NHI number to the app to speed up access to testing if you visit a COVID-19 testing site.",
+          "title": "My NHI Details:",
+        },
+        "section7": Object {
+          "copy1": "If you choose to share your name and contact details with the Ministry, they will be stored securely. All other information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
+          "copy2": "To help keep the information on your phone safe, we recommend you keep your phone locked when you are not using it.",
+        },
+        "section8": Object {
+          "copy": "For more information about how your information is used, or to get in contact with us (the Ministry of Health), please review the ",
+          "link": "full Privacy and Security Statement.",
+          "linkAccessibilityHint": "Leaves the app and navigates to a webpage",
+          "title": "More information",
+        },
+        "title": "Privacy statement",
+      },
+      "profile": Object {
+        "address": "My address",
+        "addressDescription": "Help us locate you faster if we need to",
+        "contactDetails": "My contact details",
+        "contactDetailsDescription": "Help us contact you faster if we need to",
+        "contactUs": "Contact us",
+        "copyrightNAttribution": "Copyright & Attribution",
+        "disclaimer": "© Ministry of Health – Manatū Hauora",
+        "feeback": "Feedback",
+        "help": "Help",
+        "nhiDescription": "Have your details ready for a faster COVID-19 test.",
+        "nhiDescriptionHasNHI": "Getting a COVID-19 test? Show this at a testing station for a faster service",
+        "nhiDetails": "My NHI number",
+        "nhiDetailsHasNHI": "My NHI number",
+        "privacyNSecurity": "Privacy & Security",
+        "recoverDiary": "Choose an old diary",
+        "shareBluetooth": "Share my Bluetooth tracing codes",
+        "shareDiary": "Share my diary",
+        "termsOfUse": "Terms of Use",
+        "viewDiary": "My diary",
+      },
+      "requestCallback": Object {
+        "firstName": "First name",
+        "heading": "Confirm and send your details",
+        "lastName": "Last name",
+        "notes": "Contact notes",
+        "notesInfo": "Let us know if you have preferred time of contact or need special assistance while on the phone.",
+        "phone": "Phone number",
+        "phoneInfo": "Mobile numbers are preferred",
+        "submit": "Submit",
+      },
+      "requestCallbackConfirm": Object {
+        "confirm": "Confirm",
+        "firstName": "First name",
+        "goBack": "Go back",
+        "heading": "Check your details are correct",
+        "lastName": "Last name",
+        "notes": "Contact notes",
+        "phone": "Phone number",
+      },
+      "scan": Object {
+        "addManualEntry": "Add manual entry",
+        "errors": Object {
+          "couldntScanCode": "We couldn't scan this QR code",
+          "notOfficialMessage": "This is not an official NZ COVID Tracer QR code.",
+          "troubleReading": "We're having trouble reading this barcode, please try again.",
+        },
+        "instructions": "Scan NZ COVID Tracer QR code or:",
+        "noCameraPermission": "To scan QR codes, you'll need to allow camera access to the NZ COVID Tracer app.",
+        "openSettings": "Open settings",
+      },
+      "scanNotRecorded": Object {
+        "description": "There was a problem saving a new diary entry and your visit was not recorded.
+
+Try again, and if this issue persists, contact the support team.",
+        "goBack": "Go back",
+        "heading": "Something went wrong",
+        "links": Object {
+          "email": "Email help@covidtracer.min.health.nz",
+          "phone": "Call 0800 800 606",
+        },
+      },
+      "scanTutorial": Object {
+        "footerText": "Your digital diary is kept securely on your phone. Whenever you open the app, entries older than 60 days will be automatically deleted.",
+        "step1": Object {
+          "description": "Scan the QR codes on official NZ COVID Tracer posters when you arrive at participating places.",
+          "title": "Scan to check in",
+        },
+        "step2": Object {
+          "description": "Manually record your visits to places that don't have a QR code on display.",
+          "title": "Record a visit manually",
+        },
+        "step3": Object {
+          "description": "If you scanned in to a place at the same time as someone with COVID-19, we'll send you an alert.",
+          "title": "Contact alerts",
+        },
+        "step4": Object {
+          "description": "Use your digital diary to help remember where you've been when a contact tracer gives you a call.",
+          "title": "Retrace your steps",
+        },
+      },
+      "shareDiary": Object {
+        "dataRequestCode": "Data request code",
+        "dataRequestCodeInfo": "Enter the code given to you by a Contact Tracer",
+        "description": "This will share your digital diary from the past 60 days with Contact Tracers.",
+        "share": "Share",
+        "title": "Share my digital diary",
+      },
+      "thanks": Object {
+        "description": "Thanks for downloading and using the NZ COVID Tracer app to protect yourself, your whānau, and your community.
+
+Together we can stop the spread of COVID-19.",
+        "finish": "Finish",
+        "heading": "You've joined our team of 5 million",
+      },
+      "valueStatements": Object {
+        "buttonPrimary": "Get started",
+        "info1": "Track your steps by scanning QR codes and checking into locations",
+        "info2": "Use Bluetooth to anonymously log when you are near other app users",
+        "info3": "Receive alerts if you might have been exposed to the virus",
+        "subtitle": "Protect yourself, your whānau, and your community",
+        "title": "NZ COVID Tracer",
+      },
+      "verifyEmail": Object {
+        "codeResend": "Resend code",
+        "codeResendDescription": "Haven’t received the code?",
+        "codeSent": "Code sent.",
+        "descriptionP1": "Enter the 6-digit code sent to:",
+        "resendingCode": "Re-sending code...",
+        "submit": "Confirm",
+        "title": "Confirm your email is correct",
+      },
+      "viewDiary": Object {
+        "descriptionP1": "These entries were recorded for",
+        "submit": "Add to current diary",
+        "userNotFound": Object {
+          "message": "There are no diary entries linked to this email address",
+          "ok": "OK",
+          "title": "We couldn't find this diary",
+        },
+      },
+      "viewNHI": Object {
+        "add": "Add",
+        "dateOfBirth": "Date of birth",
+        "disclaimer": "NHI is kept securely on your phone",
+        "edit": "Edit",
+        "fullName": "Full name",
+        "nhiNumber": "NHI number",
+        "pleaseProvide": "Please provide",
+        "title": "Show this screen to the staff at a COVID-19 testing site to be identified faster.",
+      },
+      "visitRecorded": Object {
+        "addDetails": "Add details",
+        "detailsDescription": "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
+        "doneButton": "Finish",
+      },
+    },
+    "validations": Object {
+      "code": Object {
+        "generic": "An unknown error occured. Please try again.",
+        "invalidAuthCode": "Incorrect code. Check your code and try again",
+        "invalidAuthSession": "The verification has timed out. Please go back and enter your email again.",
+        "notValid": "Enter a 6-digit code",
+        "required": "Enter a 6-digit code",
+        "tooManyAttempts": "Too many attempts. Try again later.",
+      },
+      "dataRequestCode": Object {
+        "invalidFormat": "The code should contain 6 characters",
+        "required": "Enter the data request code",
+      },
+      "dateOfBirth": Object {
+        "noFutureDate": "Date of birth can't be in the future",
+        "required": "This field is required",
+      },
+      "details": Object {
+        "tooLong": "Details can be up to 255 characters long",
+      },
+      "email": Object {
+        "generic": "An unknown error occured. Please try again.",
+        "notValid": "Enter an email address in the correct format, like name@example.com",
+        "required": "Enter an email address",
+        "tooManyAttempts": "Too many attempts. Try again later.",
+      },
+      "enfRequestCode": Object {
+        "invalidFormat": "The code should contain 6 digits",
+        "required": "Enter data request code",
+      },
+      "errorTitle": "Error",
+      "firstName": Object {
+        "noNumbersOrSymbols": "First name must only include letters a to z, hyphens, spaces and apostrophes",
+        "required": "Enter first name",
+        "tooLong": "First name can be up to 50 characters long",
+      },
+      "lastName": Object {
+        "noNumbersOrSymbols": "Last name must only include letters a to z, hyphens, spaces and apostrophes",
+        "required": "Enter last name",
+        "tooLong": "Last name can be up to 50 characters long",
+      },
+      "middleName": Object {
+        "noNumbersOrSymbols": "You can’t use  numbers or symbols",
+        "tooLong": "Middle name can be up to 100 characters long",
+      },
+      "nhi": Object {
+        "invalid": "Incorrect NHI. Check your entry and try again",
+        "required": "Enter NHI number",
+      },
+      "phone": Object {
+        "invalid": "Enter a telephone number in the correct format, like +6421123456",
+        "required": "Enter phone number",
+      },
+      "placeOrActivity": Object {
+        "required": "Enter place or activity",
+        "tooLong": "Place or activity can be up to 140 characters long",
+      },
+      "startDate": Object {
+        "noFutureDate": "Date and time must be in the past",
+        "noOlderThan60Days": "Arrival date must be no more than 60 days in the past",
+        "required": "This field is required",
+      },
+    },
+  },
+}
+`;
