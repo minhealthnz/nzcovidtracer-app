@@ -24,6 +24,7 @@ import messaging, {
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useExposure } from "react-native-exposure-notification-service";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -67,13 +68,15 @@ export function ModalStack() {
   const enfEnableNotificationSent = useSelector(
     selectEnfEnableNotificationSent,
   );
+  const { supported: enfSupported } = useExposure();
 
   useEffect(() => {
     if (
       !enfEnableNotificationSent &&
       hasOnboarded &&
       !hasSeenEnf &&
-      deviceRegistered === "success"
+      deviceRegistered === "success" &&
+      enfSupported
     ) {
       notifyRegisterDeviceRetrySuccess()
         .then(() => {
@@ -90,6 +93,7 @@ export function ModalStack() {
     deviceRegistered,
     enfEnableNotificationSent,
     dispatch,
+    enfSupported,
   ]);
 
   useEffect(() => {

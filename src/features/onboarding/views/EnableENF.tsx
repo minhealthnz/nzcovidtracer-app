@@ -7,6 +7,7 @@ import {
   fontSizes,
   grid2x,
 } from "@constants";
+import { ENFEvent } from "@features/enfExposure/events";
 import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -20,6 +21,7 @@ import {
 } from "react-native-exposure-notification-service";
 import styled from "styled-components";
 
+import { recordAnalyticEvent } from "../../../analytics";
 import { OnboardingScreen } from "../screens";
 import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
@@ -103,6 +105,9 @@ export function EnableENF(props: Props) {
 
     try {
       const authorised = await authoriseExposure();
+      if (authorised) {
+        recordAnalyticEvent(ENFEvent.ENFOnboardingEnableSuccess);
+      }
       await readPermissions();
 
       logInfo("Attempt to authoriseExposure" + authorised);

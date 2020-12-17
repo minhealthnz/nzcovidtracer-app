@@ -17,10 +17,6 @@ export const registerDeviceRejected = createAction<RegisterDeviceRejected>(
   "verfication/registerDeviceRejected",
 );
 
-export const registerDeviceSkipped = createAction(
-  "verification/registerDeviceSkipped",
-);
-
 export const setEnfEnabled = createAction<boolean>(
   "verification/setEnfEnabled",
 );

@@ -15,6 +15,7 @@ import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
+import { useAppState } from "@react-native-community/hooks";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { nanoid, unwrapResult } from "@reduxjs/toolkit";
@@ -201,6 +202,7 @@ export function Scan(props: Props) {
 
   useEffect(() => {
     if (!isCameraMounted && isFocused) {
+      logInfo("remount camera");
       setIsCameraMounted(true);
       return;
     }
@@ -209,6 +211,7 @@ export function Scan(props: Props) {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (!isFocused) {
+        logInfo("unmount camera");
         setIsCameraMounted(false);
       }
     }, TIME_TO_UNMOUNT_CAMERA_AFTER);
@@ -372,6 +375,24 @@ export function Scan(props: Props) {
     () => isCameraMounted && cameraPermission === "granted",
     [isCameraMounted, cameraPermission],
   );
+
+  const appState = useAppState();
+
+  useEffect(() => {
+    if (cameraRef.current == null) {
+      return;
+    }
+    switch (appState) {
+      case "background":
+        logInfo("pause preview");
+        cameraRef.current.pausePreview();
+        break;
+      case "active":
+        logInfo("resume preview");
+        cameraRef.current.resumePreview();
+        break;
+    }
+  }, [appState]);
 
   useAccessibleTitle();
 
