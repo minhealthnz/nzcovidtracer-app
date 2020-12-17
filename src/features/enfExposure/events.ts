@@ -13,6 +13,7 @@ export const ENFEvent = {
   ENFEnableSuccess: "enfEnableSuccess",
   ENFDisableButtonPressed: "enfDisableButtonPressed",
   ENFDisableModalPressed: "enfDisableModalPressed",
+  ENFOnboardingEnableSuccess: "enfOnboardingEnableSuccess",
 } as const;
 
 export type ENFEventPayloads = {

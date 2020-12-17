@@ -2,7 +2,6 @@ import { setCountedOldDiaries } from "@features/diary/commonActions";
 import {
   registerDeviceFulfilled,
   registerDeviceRejected,
-  registerDeviceSkipped,
 } from "@features/verification/commonActions";
 import { nanoid } from "@reduxjs/toolkit";
 
@@ -130,7 +129,6 @@ describe("#registerDevice", () => {
   const cases = [
     ["failure", registerDeviceFulfilled.type, "retrySuccess"],
     [undefined, registerDeviceFulfilled.type, "success"],
-    [undefined, registerDeviceSkipped.type, "skipped"],
     [undefined, registerDeviceRejected.type, "failure"],
   ];
 
@@ -142,9 +140,6 @@ describe("#registerDevice", () => {
           token: nanoid(),
           refreshToken: nanoid(),
         });
-        break;
-      case registerDeviceSkipped.type:
-        action = registerDeviceSkipped();
         break;
       case registerDeviceRejected.type:
         action = registerDeviceRejected({ isNetworkError: false });

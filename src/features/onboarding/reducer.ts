@@ -2,7 +2,6 @@ import { setCountedOldDiaries } from "@features/diary/commonActions";
 import {
   registerDeviceFulfilled,
   registerDeviceRejected,
-  registerDeviceSkipped,
 } from "@features/verification/commonActions";
 import { createLogger } from "@logger/createLogger";
 import { createSlice, Draft, PayloadAction } from "@reduxjs/toolkit";
@@ -225,10 +224,6 @@ const slice = createSlice({
             state.deviceRegistered = "success";
             break;
         }
-        reduceIsLoading(state);
-      })
-      .addCase(registerDeviceSkipped, (state) => {
-        state.deviceRegistered = "skipped";
         reduceIsLoading(state);
       })
       .addCase(registerDeviceRejected, (state, _action) => {

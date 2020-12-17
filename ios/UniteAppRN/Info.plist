@@ -52,8 +52,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need your camera to scan QR codes</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Baloo-Black.ttf</string>
@@ -85,8 +83,6 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-		<string>bluetooth-le</string>
-		<string>telephony</string>
 	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

@@ -17,9 +17,11 @@ import { createLogger } from "@logger/createLogger";
 import messaging, {
   FirebaseMessagingTypes,
 } from "@react-native-firebase/messaging";
+import { Analytics } from "aws-amplify";
 import { dirname } from "path";
 import { AppState, AppStateStatus, Platform } from "react-native";
 import DeviceInfo from "react-native-device-info";
+import ExposureNotificationModule from "react-native-exposure-notification-service";
 import { enableScreens } from "react-native-screens";
 
 import { configure as configurePush } from "./src/notifications";
@@ -94,4 +96,23 @@ logInfo(`app state ${AppState.currentState}`);
 
 AppState.addEventListener("change", (value: AppStateStatus) => {
   logInfo(`app state ${value}`);
+});
+
+AppState.addEventListener("change", (value) => {
+  if (value === "active") {
+    ExposureNotificationModule.exposureEnabled()
+      .then((isENFEnabled) => {
+        logInfo(
+          "Update isENFEnabled via Analytics.updateEndpoint with value: " +
+            isENFEnabled,
+        );
+
+        return Analytics.updateEndpoint({
+          attributes: {
+            isENFEnabled: [isENFEnabled],
+          },
+        });
+      })
+      .catch(logError);
+  }
 });

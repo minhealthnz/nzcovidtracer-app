@@ -60,8 +60,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need your camera to scan QR codes</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Baloo-Black.ttf</string>

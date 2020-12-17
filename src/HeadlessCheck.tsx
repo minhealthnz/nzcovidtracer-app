@@ -1,3 +1,4 @@
+import { SplashScreen } from "@features/onboarding/views/SplashScreen";
 import { createLogger } from "@logger/createLogger";
 import { useAppState } from "@react-native-community/hooks";
 import React, { useEffect, useState } from "react";
@@ -25,13 +26,13 @@ export function HeadlessCheck({ isHeadless, isBackground }: Prop) {
   if (isHeadless) {
     // App has been launched in the background by iOS, ignore
     logInfo("is headless, ignore");
-    return null;
+    return <SplashScreen />;
   }
 
   if (!beenActive) {
     // App has been launched in the background by iOS, ignore
     logInfo("app is not active, ignore");
-    return null;
+    return <SplashScreen />;
   }
 
   return <App />;

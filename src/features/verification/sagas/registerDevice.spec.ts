@@ -1,5 +1,4 @@
 import { appDidBecomeAvailable } from "@domain/device/reducer";
-import { selectIsEnfSupported } from "@features/enf/selectors";
 import {
   selectDeviceRegistered,
   selectHasSeenEnf,
@@ -11,10 +10,15 @@ import { select } from "redux-saga-test-plan/matchers";
 import {
   registerDeviceFulfilled,
   registerDeviceRejected,
-  registerDeviceSkipped,
 } from "../commonActions";
 import { selectRefreshToken, selectToken } from "../selectors";
 import { registerDevice } from "./registerDevice";
+
+jest.mock("react-native-exposure-notification-service", () => ({
+  isSupported: async () => {
+    return true;
+  },
+}));
 
 describe("#registerDevice", () => {
   it("fullfills registration", async () => {
@@ -26,7 +30,6 @@ describe("#registerDevice", () => {
     await expectSaga(registerDevice, verifyDevice)
       .provide([
         [select(selectRefreshToken), undefined],
-        [select(selectIsEnfSupported), true],
         [select(selectDeviceRegistered), "skipped"],
         [select(selectHasSeenEnf), false],
       ])
@@ -39,7 +42,6 @@ describe("#registerDevice", () => {
     await expectSaga(registerDevice, verifyDevice)
       .provide([
         [select(selectRefreshToken), undefined],
-        [select(selectIsEnfSupported), true],
         [select(selectDeviceRegistered), "skipped"],
         [select(selectHasSeenEnf), false],
       ])
@@ -55,30 +57,12 @@ describe("#registerDevice", () => {
       .provide([
         [select(selectRefreshToken), refreshToken],
         [select(selectToken), token],
-        [select(selectIsEnfSupported), true],
         [select(selectDeviceRegistered), "skipped"],
         [select(selectHasSeenEnf), false],
       ])
       .dispatch(appDidBecomeAvailable())
       .not.call(verifyDevice)
       .put(registerDeviceFulfilled({ refreshToken, token }))
-      .silentRun();
-  });
-  it("skips registration if device is not supported", async () => {
-    const tokens = {
-      token: nanoid(),
-      refreshToken: nanoid(),
-    };
-    const verifyDevice = jest.fn().mockReturnValue(tokens);
-    await expectSaga(registerDevice, verifyDevice)
-      .provide([
-        [select(selectRefreshToken), undefined],
-        [select(selectIsEnfSupported), false],
-        [select(selectDeviceRegistered), "skipped"],
-        [select(selectHasSeenEnf), false],
-      ])
-      .dispatch(appDidBecomeAvailable())
-      .put(registerDeviceSkipped())
       .silentRun();
   });
 });

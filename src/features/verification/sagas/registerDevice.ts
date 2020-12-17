@@ -1,20 +1,18 @@
 import { appDidBecomeAvailable } from "@domain/device/reducer";
-import { selectIsEnfSupported } from "@features/enf/selectors";
-import { setEnfSupported } from "@features/onboarding/reducer";
 import {
   selectDeviceRegistered,
   selectHasSeenEnf,
 } from "@features/onboarding/selectors";
 import { isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
+import ExposureNotificationModule from "react-native-exposure-notification-service";
 import { SagaIterator } from "redux-saga";
-import { call, put, select, takeLeading } from "redux-saga/effects";
+import { call, put, select, take } from "redux-saga/effects";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import {
   registerDeviceFulfilled,
   registerDeviceRejected,
-  registerDeviceSkipped,
 } from "../commonActions";
 import { setEnfEnableNotificationSent } from "../reducer";
 import {
@@ -28,29 +26,16 @@ import { verifyDevice as _verifyDevice } from "../verifyDevice";
 const { logInfo, logError } = createLogger("registerDevice");
 
 export function* registerDevice(verifyDevice = _verifyDevice): SagaIterator {
-  yield takeLeading(
-    [appDidBecomeAvailable, setEnfSupported],
-    onRegisterDevice,
-    verifyDevice,
-  );
+  while (true) {
+    yield call(onRegisterDevice, verifyDevice);
+    yield take(appDidBecomeAvailable);
+  }
 }
 
 function* onRegisterDevice(
   verifyDevice: () => Promise<{ token: string; refreshToken: string }>,
 ) {
   try {
-    const isSupported: ReturnType<typeof selectIsEnfSupported.resultFunc> = yield select(
-      selectIsEnfSupported,
-    );
-    if (isSupported === undefined) {
-      logInfo("still loading is supported, skipped");
-      return;
-    }
-    if (!isSupported) {
-      yield put(registerDeviceSkipped());
-      logInfo("register device skipped, not supported");
-      return;
-    }
     const refreshToken = yield select(selectRefreshToken);
     if (refreshToken) {
       const token = yield select(selectToken);
@@ -77,10 +62,14 @@ function* onRegisterDevice(
     const enfEnableNotificationSent = yield select(
       selectEnfEnableNotificationSent,
     );
+    const enfSupported: boolean = yield call(
+      ExposureNotificationModule.isSupported,
+    );
     const notifyEnfOnSuccess =
       previousDeviceRegisteredState === "failure" &&
       !hasSeenEnf &&
-      !enfEnableNotificationSent;
+      !enfEnableNotificationSent &&
+      enfSupported;
 
     if (notifyEnfOnSuccess) {
       yield call(notifyRegisterDeviceRetrySuccess);
