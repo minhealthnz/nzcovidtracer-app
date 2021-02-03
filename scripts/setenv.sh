@@ -25,6 +25,7 @@ echo "APP_VERSION=${APP_VERSION}" >>.env
 echo "APPCENTER_BUILD_ID=${APPCENTER_BUILD_ID}" >>.env
 echo "ENFServerUrl=${ENFServerUrl}" >>.env
 echo "SafetynetKey=${SafetynetKey}" >>.env
+echo "ENFCheckInterval=${ENFCheckInterval}" >>.env
 
 
 printf "\n.env created with contents:\n"

@@ -43,12 +43,12 @@ export default function* updateENFAlert(
     const match = contacts.reduce<CloseContact | undefined>(
       (current, contact) => {
         const currentExposureDate = current
-          ? moment(parseInt(contact.exposureAlertDate, 10))
+          ? moment(contact.exposureAlertDate)
               .subtract(contact.daysSinceLastExposure, "days")
               .valueOf()
           : 0;
 
-        const exposureDate = moment(parseInt(contact.exposureAlertDate, 10))
+        const exposureDate = moment(contact.exposureAlertDate)
           .subtract(contact.daysSinceLastExposure, "days")
           .valueOf();
 
@@ -87,7 +87,7 @@ export default function* updateENFAlert(
       return;
     }
 
-    const alertDate = parseInt(match.exposureAlertDate, 10);
+    const alertDate = match.exposureAlertDate;
 
     const result: ENFAlertData = {
       exposureCount,

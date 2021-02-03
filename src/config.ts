@@ -32,6 +32,7 @@ export interface AppConfigRaw {
   ANDROID_VERSION_CODE_OFFSET?: string;
   ENFServerUrl?: string;
   SafetynetKey?: string;
+  ENFCheckInterval?: string;
 }
 
 export interface AppConfig {
@@ -65,6 +66,7 @@ export interface AppConfig {
   APPCENTER_BUILD_ID: string;
   ENFServerUrl: string;
   SafetynetKey: string;
+  ENFCheckInterval: number;
 }
 
 export let disableAnimations = false;
@@ -119,6 +121,16 @@ export const getBuildId = (offset?: string, buildId?: string) => {
 
 export { buildUrl as _buildUrl };
 
+const getENFCheckInterval = () => {
+  if (raw.ENFCheckInterval) {
+    const parsed = parseInt(raw.ENFCheckInterval);
+    if (!isNaN(parsed)) {
+      return Math.max(15, parsed);
+    }
+  }
+  return 180;
+};
+
 const config: AppConfig = {
   APIServiceAddress: raw.APIServiceAddress || "",
   AppAddress: raw.AppAddress || "",
@@ -169,6 +181,7 @@ const config: AppConfig = {
   ),
   ENFServerUrl: raw.ENFServerUrl || "",
   SafetynetKey: raw.SafetynetKey || "",
+  ENFCheckInterval: getENFCheckInterval(),
 };
 
 export default config;

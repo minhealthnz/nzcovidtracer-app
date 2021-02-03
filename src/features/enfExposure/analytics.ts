@@ -16,9 +16,7 @@ export const recordDismissENFAlert = (enfAlert: ENFAlertData) => {
 export const recordDisplayENFAlert = (match: CloseContact) => {
   recordAnalyticEvent(ENFEvent.ENFBannerDisplayed, {
     attributes: {
-      alertDate: moment(parseInt(match.exposureAlertDate, 10)).format(
-        "DD MMM YYYY",
-      ),
+      alertDate: moment(match.exposureAlertDate).format("DD MMM YYYY"),
     },
     metrics: {
       riskScore: match.maxRiskScore,

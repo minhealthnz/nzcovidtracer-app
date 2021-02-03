@@ -9387,10 +9387,10 @@ react-native-device-info@^6.0.2:
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-6.2.1.tgz#6b63faeef833d8959d636c0413ccd5066eada2bf"
   integrity sha512-+9Li07jD+7IiSIn9VVmb1YWYfJtgERVMsgO/hG+aUzsFD6uFklpM2TOEBlfKPWP/8J6s8MZgpGfA/Dl1WZrn2g==
 
-react-native-exposure-notification-service@^1.1.44:
-  version "1.1.44"
-  resolved "https://registry.yarnpkg.com/react-native-exposure-notification-service/-/react-native-exposure-notification-service-1.1.44.tgz#bf02c63efa98f61cff4c01b0a7eb150c094d6640"
-  integrity sha512-sL4+NnVcWSjh9l8S2oLHMJh5YPEJGGg0jKAqERoKlwS2lA51uWJGS7/DcHDQSTiiwp5y4EEvPF4ZJ4y5YjM4sA==
+react-native-exposure-notification-service@1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-native-exposure-notification-service/-/react-native-exposure-notification-service-1.2.6.tgz#e0ba0b80352d243b7843ee01edd669a372198abd"
+  integrity sha512-BJwgj1G0iN+5vvJgCgN3z6tdEVz3xXzrKPqoTk6Z0BTl9bQ47VEhHsILvygc5aN5HKJM78eBsQezccgLNDrLpg==
 
 react-native-flipper@^0.34.0:
   version "0.34.0"

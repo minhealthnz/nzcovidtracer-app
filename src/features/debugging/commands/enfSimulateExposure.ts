@@ -18,6 +18,6 @@ export const enfSimulateExposure = (
         return;
       }
     }
-    exposure.simulateExposure(0);
+    exposure.simulateExposure(0, 0);
   },
 });

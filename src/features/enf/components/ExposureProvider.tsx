@@ -27,7 +27,7 @@ export function ExposureProvider(props: ExposureProviderProps) {
     keyServerUrl: config.ENFServerUrl,
     keyServerType: KeyServerType.nearform,
     traceConfiguration: {
-      exposureCheckInterval: 180,
+      exposureCheckInterval: config.ENFCheckInterval,
       storeExposuresFor: 14,
       fileLimit: 1,
       fileLimitiOS: 3,

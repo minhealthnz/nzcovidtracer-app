@@ -9,7 +9,7 @@ export const enfCheckExposure = (
   title: "Check Exposure",
   async run() {
     const { checkExposure } = exposure;
-    checkExposure(true, false);
+    checkExposure(false);
     Alert.alert("checkExposure", "Done");
   },
 });

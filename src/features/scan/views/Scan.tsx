@@ -371,28 +371,23 @@ export function Scan(props: Props) {
     [canScanBarcode, currentUserId, isFocused, saveEntryAsync, showError, t],
   );
 
-  const showCamera = useMemo(
-    () => isCameraMounted && cameraPermission === "granted",
-    [isCameraMounted, cameraPermission],
-  );
-
   const appState = useAppState();
 
+  const showCamera = useMemo(
+    () =>
+      appState !== "background" &&
+      isCameraMounted &&
+      cameraPermission === "granted",
+    [isCameraMounted, cameraPermission, appState],
+  );
+
   useEffect(() => {
-    if (cameraRef.current == null) {
-      return;
+    if (showCamera) {
+      logInfo("show camera");
+    } else {
+      logInfo("hide camera");
     }
-    switch (appState) {
-      case "background":
-        logInfo("pause preview");
-        cameraRef.current.pausePreview();
-        break;
-      case "active":
-        logInfo("resume preview");
-        cameraRef.current.resumePreview();
-        break;
-    }
-  }, [appState]);
+  }, [showCamera]);
 
   useAccessibleTitle();
 

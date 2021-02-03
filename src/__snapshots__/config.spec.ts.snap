@@ -18,6 +18,7 @@ Object {
   "ContactAlertsUrl": "https://www.health.govt.nz/nz-covid-tracer-contact-alerts",
   "ContactUsPageUrl": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-resources-and-tools/nz-covid-tracer-app/contact-nz-covid-tracer",
   "DbEncryptionKey": "",
+  "ENFCheckInterval": 180,
   "ENFServerUrl": "",
   "ExposureEventsBaseUrl": "https://exposure-events.",
   "Features": Set {},

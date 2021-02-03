@@ -11,7 +11,7 @@ export const enfContacts = (exposure: ExposureContextValue): TestCommand => ({
     const contacts = await getCloseContacts();
 
     const latestExposureDate = contacts?.reduce<number>((max, contact) => {
-      const exposureDate = moment(parseInt(contact.exposureAlertDate, 10))
+      const exposureDate = moment(contact.exposureAlertDate)
         .subtract(contact.daysSinceLastExposure, "days")
         .valueOf();
       return max > exposureDate ? max : exposureDate;
@@ -21,12 +21,12 @@ export const enfContacts = (exposure: ExposureContextValue): TestCommand => ({
       (acc, contact, ix, array) =>
         acc
           .concat(
-            `Alert date: ${moment(
-              parseInt(contact.exposureAlertDate, 10),
-            ).format("DD MMM HH:mm")}`,
+            `Alert date: ${moment(contact.exposureAlertDate).format(
+              "DD MMM HH:mm",
+            )}`,
           )
           .concat(
-            `\nExposure date: ${moment(parseInt(contact.exposureAlertDate, 10))
+            `\nExposure date: ${moment(contact.exposureAlertDate)
               .subtract(contact.daysSinceLastExposure, "days")
               .format("DD MMM HH:mm")}`,
           )

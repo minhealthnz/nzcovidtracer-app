@@ -13,29 +13,33 @@ import {
 import updateENFAlert from "./updateENFAlert";
 
 const CONTACT1: CloseContact = {
-  exposureAlertDate: moment("2020-11-10T00:00:00.000Z").valueOf().toString(),
+  exposureAlertDate: moment("2020-11-10T00:00:00.000Z").valueOf(),
   daysSinceLastExposure: 2,
   attenuationDurations: [],
   matchedKeyCount: 1,
   maxRiskScore: 10,
-  summationRiskScore: 10,
+  riskScoreSumFullRange: 10,
+  maxRiskScoreFullRange: 10,
+  exposureDate: moment("2020-11-10T00:00:00.000Z").valueOf(),
 };
 
 // the most recent exposure date, alert date is between contact1 and 3
-const CONTACT2 = {
+const CONTACT2: CloseContact = {
   maxRiskScore: 120,
-  exposureAlertDate: moment("2020-11-15T00:00:00.000Z").valueOf().toString(),
+  exposureAlertDate: moment("2020-11-15T00:00:00.000Z").valueOf(),
   daysSinceLastExposure: 2,
   attenuationDurations: [],
   matchedKeyCount: 1,
-  summationRiskScore: 120,
+  riskScoreSumFullRange: 120,
+  maxRiskScoreFullRange: 120,
+  exposureDate: moment("2020-11-15T00:00:00.000Z").valueOf(),
 };
 
 // this one has the most recent alert date, but not recent exposure date
-const CONTACT3 = {
+const CONTACT3: CloseContact = {
   ...CONTACT1,
   maxRiskScore: 10,
-  exposureAlertDate: moment("2020-11-20T00:00:00.000Z").valueOf().toString(),
+  exposureAlertDate: moment("2020-11-20T00:00:00.000Z").valueOf(),
   daysSinceLastExposure: 10,
   matchedKeyCount: 2,
 };
@@ -47,8 +51,8 @@ const RESULT_FROM_CONTACT1_BUCKET0: ENFAlertData = {
   alertTitle: enfConfig[0].alertTitle,
   alertMessage: enfConfig[0].alertMessage,
   linkUrl: enfConfig[0].linkUrl,
-  alertDate: parseInt(CONTACT1.exposureAlertDate, 10),
-  exposureDate: moment(parseInt(CONTACT1.exposureAlertDate, 10))
+  alertDate: CONTACT1.exposureAlertDate,
+  exposureDate: moment(CONTACT1.exposureAlertDate)
     .subtract(CONTACT1.daysSinceLastExposure, "days")
     .valueOf(),
   exposureCount: 1,
@@ -58,8 +62,8 @@ const RESULT_FROM_CONTACT2_BUCKET2: ENFAlertData = {
   alertTitle: enfConfig[2].alertTitle,
   alertMessage: enfConfig[2].alertMessage,
   linkUrl: enfConfig[2].linkUrl,
-  alertDate: parseInt(CONTACT2.exposureAlertDate, 10),
-  exposureDate: moment(parseInt(CONTACT2.exposureAlertDate, 10))
+  alertDate: CONTACT2.exposureAlertDate,
+  exposureDate: moment(CONTACT2.exposureAlertDate)
     .subtract(CONTACT2.daysSinceLastExposure, "days")
     .valueOf(),
   exposureCount: 1,
@@ -69,8 +73,8 @@ const RESULT_FROM_CONTACT2_BUCKET2_1: ENFAlertData = {
   alertTitle: enfConfig[2].alertTitle,
   alertMessage: enfConfig[2].alertMessage,
   linkUrl: enfConfig[2].linkUrl,
-  alertDate: parseInt(CONTACT2.exposureAlertDate, 10),
-  exposureDate: moment(parseInt(CONTACT2.exposureAlertDate, 10))
+  alertDate: CONTACT2.exposureAlertDate,
+  exposureDate: moment(CONTACT2.exposureAlertDate)
     .subtract(CONTACT2.daysSinceLastExposure, "days")
     .valueOf(),
   exposureCount: 3,
