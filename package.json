@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "node scripts/add-certs.js",
-    "android": "react-native run-android --variant=envDevelopDebug",
+    "android": "react-native run-android --variant=envEnfDebug",
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "yarn fix:test:realm && jest",

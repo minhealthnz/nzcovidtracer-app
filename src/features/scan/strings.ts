@@ -47,7 +47,8 @@ export const strings = {
       },
       visitRecorded: {
         addDetails: "Add details",
-        doneButton: "Finish",
+        doneButton: "Okay",
+        doneHint: "Navigates back to scan page",
         detailsDescription:
           "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
       },

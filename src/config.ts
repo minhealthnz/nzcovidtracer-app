@@ -33,6 +33,7 @@ export interface AppConfigRaw {
   ENFServerUrl?: string;
   SafetynetKey?: string;
   ENFCheckInterval?: string;
+  iOS12SupportLink?: string;
 }
 
 export interface AppConfig {
@@ -67,6 +68,7 @@ export interface AppConfig {
   ENFServerUrl: string;
   SafetynetKey: string;
   ENFCheckInterval: number;
+  iOS12SupportLink: string;
 }
 
 export let disableAnimations = false;
@@ -182,6 +184,9 @@ const config: AppConfig = {
   ENFServerUrl: raw.ENFServerUrl || "",
   SafetynetKey: raw.SafetynetKey || "",
   ENFCheckInterval: getENFCheckInterval(),
+  iOS12SupportLink:
+    raw.iOS12SupportLink ||
+    "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-resources-and-tools/nz-covid-tracer-app/getting-started-nz-covid-tracer/bluetooth-tracing#ios-12-5",
 };
 
 export default config;

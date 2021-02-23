@@ -124,6 +124,7 @@ export function VisitRecordedScreen(props: Props) {
       headerImage={assets.tickSmall}
       headerBackgroundColor={colors.green}
       buttonText={t("screens:visitRecorded:doneButton")}
+      buttonAccessibilityHint={t("screens:visitRecorded:doneHint")}
       buttonTestID="visitRecorded:done"
       onButtonPress={handleDonePress}
       keyboardAvoiding={true}

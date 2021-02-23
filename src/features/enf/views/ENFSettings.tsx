@@ -9,6 +9,7 @@ import {
 import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
+import { iOS12EnfSupported } from "@utils/versions";
 import React, { useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
@@ -20,6 +21,7 @@ import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { Subtext } from "../components/Subtext";
+import { ENFiOS12Support } from "./ENFiOS12Support";
 
 const Subheading = styled(Text)`
   font-family: ${fontFamilies["open-sans-bold"]};
@@ -150,6 +152,9 @@ export function ENFSettings() {
       headerImage={require("../assets/images/information.png")}
       heading={t("screens:enfSettings:title")}
       description={t("screens:enfSettings:description")}
+      descriptionElement={
+        iOS12EnfSupported ? <ENFiOS12Support showLogParagraph /> : undefined
+      }
       buttonText={buttonText}
       onButtonPress={onButtonPress}
       buttonAccessibilityLabel={buttonAccessibilityLabel}
@@ -174,7 +179,9 @@ export function ENFSettings() {
       <Subheading>{t("screens:enfSettings:subheading")}</Subheading>
       <Subtext>{t("screens:enfSettings:subtext")}</Subtext>
       <Subtext>{t("screens:enfSettings:subtextP2")}</Subtext>
-      <Subtext>{t("screens:enfSettings:subtextP3")}</Subtext>
+      {!iOS12EnfSupported && (
+        <Subtext>{t("screens:enfSettings:subtextP3")}</Subtext>
+      )}
     </FormV2>
   );
 }

@@ -6,7 +6,7 @@ import ExposureNotificationModule from "react-native-exposure-notification-servi
 import { SagaIterator } from "redux-saga";
 import { all, call, delay, put, race, select, take } from "redux-saga/effects";
 
-import { setEnfSupported, setSessionType } from "./reducer";
+import { patchEnfCompleted, setEnfSupported, setSessionType } from "./reducer";
 import { selectSessionType } from "./selectors";
 import { SessionType } from "./types";
 
@@ -60,5 +60,9 @@ function* onboarding(): SagaIterator {
 }
 
 export default function* sagaWatcher(): SagaIterator {
-  yield all([call(onboarding), call(loadEnfSupported)]);
+  yield all([
+    put(patchEnfCompleted()),
+    call(onboarding),
+    call(loadEnfSupported),
+  ]);
 }

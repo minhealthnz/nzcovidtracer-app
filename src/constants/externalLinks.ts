@@ -13,3 +13,4 @@ export const helpLink = config.HelpPageUrl;
 export const contactLink = config.ContactUsPageUrl;
 export const contactAlertslink = config.ContactAlertsUrl;
 export const aboutBluetoothLink = config.AboutBluetoothLink;
+export const iOS12SupportLink = config.iOS12SupportLink;
