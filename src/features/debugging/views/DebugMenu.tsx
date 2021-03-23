@@ -20,7 +20,6 @@ import { copySessionLog } from "../commands/copySessionLog";
 import { createCrash } from "../commands/createCrash";
 import { buildCreateExposureEvent } from "../commands/createExposureEvent";
 import { enfCheckExposure } from "../commands/enfCheckExposure";
-import { enfContacts } from "../commands/enfContacts";
 import { enfDeleteExposure } from "../commands/enfDeleteExposure";
 import { enfGetLogData } from "../commands/enfGetLogData";
 import { enfInfo } from "../commands/enfInfo";
@@ -113,7 +112,6 @@ export function DebugMenu() {
           enfSimulateExposure(exposure),
           enfCheckExposure(exposure),
           enfGetLogData(exposure),
-          enfContacts(exposure),
           enfDeleteExposure(exposure),
         ],
       },

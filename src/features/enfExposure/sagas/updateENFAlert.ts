@@ -1,7 +1,6 @@
 import { createLogger } from "@logger/createLogger";
 import { PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
-import moment from "moment";
 import { CloseContact } from "react-native-exposure-notification-service";
 import { SagaIterator } from "redux-saga";
 import { call, put, select } from "redux-saga/effects";
@@ -14,13 +13,28 @@ import {
   selectLastEnfAlertDismissDate,
 } from "../selectors";
 
-const { logError } = createLogger("saga/updateENFAlert");
+const { logInfo, logError } = createLogger("saga/updateENFAlert");
+
+const maxRiskScoreV2 = 540000;
+
+export const getLatestMatch = (
+  contacts: CloseContact[],
+  lastEnfAlertDismissDate: number,
+) => {
+  const recentMatches = contacts.filter(
+    (x) => x.exposureDate > lastEnfAlertDismissDate,
+  );
+  return _.maxBy(recentMatches, (x: CloseContact) => x.exposureDate);
+};
 
 export default function* updateENFAlert(
   action: PayloadAction<CloseContact[] | undefined>,
 ): SagaIterator {
   try {
+    logInfo(`update enf alert with payload: ${JSON.stringify(action.payload)}`);
+
     if (!action.payload) {
+      logInfo("empty enf alert, abort");
       yield put(setEnfAlert(undefined));
       return;
     }
@@ -29,6 +43,7 @@ export default function* updateENFAlert(
 
     // no contacts, no alert
     if (!contacts.length) {
+      logInfo("no contacts, abort");
       yield put(setEnfAlert(undefined));
       return;
     }
@@ -39,26 +54,12 @@ export default function* updateENFAlert(
       selectLastEnfAlertDismissDate,
     );
 
+    logInfo(`lastEnfAlertDismissDate: ${lastEnfAlertDismissDate}`);
+
     // Find the most recent contact based on the exposure date
-    const match = contacts.reduce<CloseContact | undefined>(
-      (current, contact) => {
-        const currentExposureDate = current
-          ? moment(contact.exposureAlertDate)
-              .subtract(contact.daysSinceLastExposure, "days")
-              .valueOf()
-          : 0;
+    const match = getLatestMatch(contacts, lastEnfAlertDismissDate);
 
-        const exposureDate = moment(contact.exposureAlertDate)
-          .subtract(contact.daysSinceLastExposure, "days")
-          .valueOf();
-
-        return exposureDate > lastEnfAlertDismissDate && // We are interested in the new exposures only (that happen since last dismiss)
-          currentExposureDate < exposureDate
-          ? contact
-          : current;
-      },
-      undefined,
-    );
+    logInfo(`reduced match ${JSON.stringify(match)}`);
 
     if (!match) {
       yield put(setEnfAlert(undefined));
@@ -68,12 +69,13 @@ export default function* updateENFAlert(
     // find corresponding alert configuration based on the risk score
     const riskBucketSelector = yield call(
       selectENFNotificationRiskBucket,
-      match.maxRiskScore,
+      Math.min(match.maxRiskScore, maxRiskScoreV2),
     ); // split factory selector into 2 effects call and select
 
     const riskBucket = yield select(riskBucketSelector);
 
     if (!riskBucket) {
+      logInfo("no risk bucket found, abort");
       // If the exposure notification risk level does not fit into any buckets, then no alert is displayed
       // Heads-up: you will still receive exposure push notification!
       //
@@ -95,17 +97,18 @@ export default function* updateENFAlert(
       alertTitle: riskBucket.alertTitle,
       alertMessage: riskBucket.alertMessage,
       linkUrl: riskBucket.linkUrl,
-      exposureDate: moment(alertDate)
-        .subtract(match.daysSinceLastExposure, "days")
-        .valueOf(),
+      exposureDate: match.exposureDate,
     };
 
     const currentAlert: ENFAlertData = yield select(selectENFAlert);
+
+    logInfo(`result: ${JSON.stringify(result)}`);
 
     // put NEW alarm on the state and log an analytics event
     if (!_.isEqual(result, currentAlert)) {
       yield call(recordDisplayENFAlert, match);
       yield put(setEnfAlert(result));
+      logInfo("new alarm created");
     }
   } catch (error) {
     logError(error);

@@ -14,7 +14,7 @@ function exposureEventChannel() {
   return eventChannel<string>((emit) => {
     const listener = (val: any) => {
       try {
-        const eventString = JSON.stringify(val, null, 2);
+        const eventString = JSON.stringify(val);
         emit(eventString);
       } catch (error) {
         logError(error);
@@ -39,6 +39,9 @@ export function* logExposureEvent(): SagaIterator {
 
   while (true) {
     const event: string = yield take(channel);
-    logInfo(event);
+    // Hide this for debug as it would create double logs
+    if (!__DEV__) {
+      logInfo(event);
+    }
   }
 }

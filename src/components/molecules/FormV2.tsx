@@ -11,7 +11,6 @@ import { useHeaderHeight } from "@react-navigation/stack";
 import React, {
   createContext,
   forwardRef,
-  ReactNode,
   Ref,
   useCallback,
   useEffect,
@@ -110,7 +109,6 @@ export interface FormV2Props extends FormHeaderProps {
   headingStyle?: TextStyle;
   description?: string;
   descriptionStyle?: TextStyle;
-  descriptionElement?: ReactNode;
   buttonText?: string;
   buttonTestID?: string;
   buttonLoading?: boolean;
@@ -166,7 +164,6 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
     headingStyle,
     description,
     descriptionStyle,
-    descriptionElement,
     buttonText,
     buttonTestID,
     buttonLoading,
@@ -396,13 +393,9 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
           }
           <ContentContainer>
             {!!heading && <Heading style={headingStyle}>{heading}</Heading>}
-            {descriptionElement
-              ? descriptionElement
-              : !!description && (
-                  <Description style={descriptionStyle}>
-                    {description}
-                  </Description>
-                )}
+            {!!description && (
+              <Description style={descriptionStyle}>{description}</Description>
+            )}
             <FormV2Context.Provider
               value={{ scrollTo, getHeight, getHeaderHeight, onInputFocus }}
             >

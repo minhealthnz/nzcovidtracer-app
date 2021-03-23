@@ -325,8 +325,6 @@ your community",
         "buttonEnabled": "Turn it off",
         "buttonEnabledAccessibility": "Turn bluetooth tracing off",
         "description": "Anonymously log when you are near other app users by enabling your phone’s Exposure Notification System.",
-        "descriptionLinkiOS12": "Read more about Bluetooth tracing on iOS 12.5 here.",
-        "descriptioniOS12": "Your phone is partially supported. You can enable Bluetooth tracing now, and it will work fully in a future version of the app. ",
         "disableModal": Object {
           "cancel": "Cancel",
           "description": "If you turn off this feature, you will stop logging when you are near other app users and won’t receive exposure notifications.
@@ -382,7 +380,6 @@ If there are any diary entries on this device that were linked to this email add
       },
       "existingUser": Object {
         "infoEnf": "Use Bluetooth to anonymously log when you are near other app users",
-        "infoEnfiOS12": "Your phone is now partially supported for Bluetooth tracing. You can enable it now, and it will work fully soon.",
         "infoLook": "We've simplified the dashboard to make it easier to get around",
         "infoPassword": "You don't need to set a password or log in to use the app",
         "okay": "Continue",

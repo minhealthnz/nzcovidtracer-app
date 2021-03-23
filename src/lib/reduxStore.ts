@@ -25,8 +25,18 @@ const sagaMiddleware = createSagaMiddleware({
   },
 });
 
-export function createStore() {
-  const store = baseConfigureStore({
+export function createStore(): ReturnType<typeof _createStore> {
+  if (_storeRef.current != null) {
+    return _storeRef.current;
+  }
+  const store = _createStore();
+  logPerformance("launch", "created store");
+  _storeRef.current = store;
+  return store;
+}
+
+function _createStore() {
+  return baseConfigureStore({
     reducer: rootReducer,
     enhancers: [reactotron.createEnhancer!()],
     middleware: getDefaultMiddleware({
@@ -34,12 +44,12 @@ export function createStore() {
       immutableCheck: false,
     }).concat(sagaMiddleware),
   });
-  logPerformance("launch", "created store");
-  _storeRef.current = store;
-  return store;
 }
 
 export function createPersistor(store: Store) {
+  if (_persistorRef.current != null) {
+    return _persistorRef.current;
+  }
   const persistor = persistStore(store, undefined, () => {
     logPerformance("launch", "rehydrated persistor");
     sagaMiddleware.run(rootSaga);

@@ -36,6 +36,7 @@ export function ExposureProvider(props: ExposureProviderProps) {
     notificationTitle: "",
     notificationDescription:
       "The app has identified that you have been in close contact with someone who has tested positive for COVID-19.",
+    hideForeground: true,
   };
 
   return (

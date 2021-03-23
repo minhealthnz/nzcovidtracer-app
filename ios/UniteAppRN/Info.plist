@@ -40,7 +40,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(APPCENTER_BUILD_ID)</string>
 	<key>ENAPIVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>ENDeveloperRegion</key>
 	<string>NZ</string>
 	<key>LSRequiresIPhoneOS</key>

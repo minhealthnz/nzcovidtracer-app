@@ -10,7 +10,7 @@ import {
   selectENFNotificationRiskBucket,
   selectLastEnfAlertDismissDate,
 } from "../selectors";
-import updateENFAlert from "./updateENFAlert";
+import updateENFAlert, { getLatestMatch } from "./updateENFAlert";
 
 const CONTACT1: CloseContact = {
   exposureAlertDate: moment("2020-11-10T00:00:00.000Z").valueOf(),
@@ -52,9 +52,7 @@ const RESULT_FROM_CONTACT1_BUCKET0: ENFAlertData = {
   alertMessage: enfConfig[0].alertMessage,
   linkUrl: enfConfig[0].linkUrl,
   alertDate: CONTACT1.exposureAlertDate,
-  exposureDate: moment(CONTACT1.exposureAlertDate)
-    .subtract(CONTACT1.daysSinceLastExposure, "days")
-    .valueOf(),
+  exposureDate: CONTACT1.exposureDate,
   exposureCount: 1,
 };
 
@@ -63,9 +61,7 @@ const RESULT_FROM_CONTACT2_BUCKET2: ENFAlertData = {
   alertMessage: enfConfig[2].alertMessage,
   linkUrl: enfConfig[2].linkUrl,
   alertDate: CONTACT2.exposureAlertDate,
-  exposureDate: moment(CONTACT2.exposureAlertDate)
-    .subtract(CONTACT2.daysSinceLastExposure, "days")
-    .valueOf(),
+  exposureDate: CONTACT2.exposureDate,
   exposureCount: 1,
 };
 
@@ -74,9 +70,7 @@ const RESULT_FROM_CONTACT2_BUCKET2_1: ENFAlertData = {
   alertMessage: enfConfig[2].alertMessage,
   linkUrl: enfConfig[2].linkUrl,
   alertDate: CONTACT2.exposureAlertDate,
-  exposureDate: moment(CONTACT2.exposureAlertDate)
-    .subtract(CONTACT2.daysSinceLastExposure, "days")
-    .valueOf(),
+  exposureDate: CONTACT2.exposureDate,
   exposureCount: 3,
 };
 
@@ -177,5 +171,38 @@ describe("#updateENFAlert", () => {
       ])
       .put(setEnfAlert(RESULT_FROM_CONTACT2_BUCKET2_1))
       .silentRun();
+  });
+
+  it("make sure it returns the most recent contact date", async () => {
+    const contacts: CloseContact[] = [
+      {
+        ...CONTACT2,
+        exposureAlertDate: moment("2021-02-22T00:00:00.000Z").valueOf(),
+        exposureDate: moment("2021-02-21T00:00:00.000Z").valueOf(),
+        daysSinceLastExposure: 1,
+        maxRiskScore: 120,
+      },
+      {
+        ...CONTACT2,
+        exposureAlertDate: moment("2021-02-25T00:00:00.000Z").valueOf(),
+        exposureDate: moment("2021-02-24T00:00:00.000Z").valueOf(),
+        daysSinceLastExposure: 1,
+      },
+      {
+        ...CONTACT2,
+        exposureAlertDate: moment("2021-02-28T00:00:00.000Z").valueOf(),
+        exposureDate: moment("2021-02-27T00:00:00.000Z").valueOf(),
+        daysSinceLastExposure: 1,
+      },
+      {
+        ...CONTACT2,
+        exposureAlertDate: moment("2021-02-20T00:00:00.000Z").valueOf(),
+        exposureDate: moment("2021-02-19T00:00:00.000Z").valueOf(),
+        daysSinceLastExposure: 1,
+      },
+    ];
+
+    const dateBeforeContact = moment("2021-02-22T00:00:00.000Z").valueOf();
+    expect(getLatestMatch(contacts, dateBeforeContact)).toBe(contacts[2]);
   });
 });

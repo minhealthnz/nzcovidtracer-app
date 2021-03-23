@@ -31,6 +31,12 @@ export const shouldSkip = (
   ) {
     return true;
   }
+
+  // This handles cases where the ENF page is not shown the first time (due to attestation failure)
+  if (screen === OnboardingScreen.EnableENF && state.hasSeenDashboardEnf) {
+    return true;
+  }
+
   return false;
 };
 

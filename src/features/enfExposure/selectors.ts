@@ -8,6 +8,7 @@ export const selectENFNotificationConfig = createSelector(
   (enfExposure) => enfExposure.notificationConfig,
 );
 
+// TODO selectors should not have parameters. Convert to utility function
 export const selectENFNotificationRiskBucket = (riskScore: number) =>
   createSelector(selectENFNotificationConfig, (config) => {
     const riskBucket = config?.find(

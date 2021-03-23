@@ -205,11 +205,6 @@ const slice = createSlice({
       state.loadingDidTimeout = true;
       reduceIsLoading(state);
     },
-    patchEnfCompleted(state) {
-      if (state.hasSeenDashboardEnf) {
-        state.screenCompleted[OnboardingScreen.EnableENF] = true;
-      }
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -254,11 +249,6 @@ export const {
   navigateNext,
   setHasSeenEnf,
   loadingDidTimeout,
-  /**
-   * This action patches the enf screen completed state,
-   * in case if it wasn't shown in the first time. (due to attestation failure)
-   */
-  patchEnfCompleted,
 } = actions;
 
 export { reducer as _reducer };

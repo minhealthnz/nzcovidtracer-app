@@ -7,13 +7,11 @@ import {
   fontSizes,
   grid2x,
 } from "@constants";
-import { ENFiOS12Support } from "@features/enf/views/ENFiOS12Support";
 import { ENFEvent } from "@features/enfExposure/events";
 import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
-import { iOS12EnfSupported } from "@utils/versions";
 import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking } from "react-native";
@@ -165,7 +163,6 @@ export function EnableENF(props: Props) {
       headingStyle={styles.headingBig}
       renderButton={renderButton}
       ref={formRef}
-      descriptionElement={iOS12EnfSupported ? <ENFiOS12Support /> : undefined}
     >
       <Paragraph>{t("screens:enableENF:description1")}</Paragraph>
       <VerticalSpacing height={grid2x} />
@@ -173,12 +170,8 @@ export function EnableENF(props: Props) {
       <VerticalSpacing height={grid2x} />
       <Paragraph>{t("screens:enableENF:description3")}</Paragraph>
       <VerticalSpacing height={grid2x} />
-      {!iOS12EnfSupported && (
-        <>
-          <Paragraph>{t("screens:enableENF:description4")}</Paragraph>
-          <VerticalSpacing height={grid2x} />
-        </>
-      )}
+      <Paragraph>{t("screens:enableENF:description4")}</Paragraph>
+      <VerticalSpacing height={grid2x} />
       <Link
         onPress={handleLinkPressed}
         accessibilityLabel={t("screens:enableENF:moreAccessibility")}

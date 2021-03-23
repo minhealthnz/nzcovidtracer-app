@@ -27,9 +27,9 @@
 	<key>CFBundleVersion</key>
 	<string>dev$(APPCENTER_BUILD_ID)</string>
 	<key>ENAPIVersion</key>
-	<string>1</string>
+	<string>2</string>
 	<key>ENDeveloperRegion</key>
-	<string>TEST_NZ_1</string>
+	<string>NZ</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>

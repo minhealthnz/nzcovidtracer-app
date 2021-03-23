@@ -20,8 +20,6 @@ export const strings = {
         title: "We’ve made a few changes for you",
         infoEnf:
           "Use Bluetooth to anonymously log when you are near other app users",
-        infoEnfiOS12:
-          "Your phone is now partially supported for Bluetooth tracing. You can enable it now, and it will work fully soon.",
         infoPassword:
           "You don't need to set a password or log in to use the app",
         infoLook:

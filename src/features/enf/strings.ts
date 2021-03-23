@@ -15,10 +15,6 @@ export const strings = {
         title: "Bluetooth tracing",
         description:
           "Anonymously log when you are near other app users by enabling your phone’s Exposure Notification System.",
-        descriptioniOS12:
-          "Your phone is partially supported. You can enable Bluetooth tracing now, and it will work fully in a future version of the app. ",
-        descriptionLinkiOS12:
-          "Read more about Bluetooth tracing on iOS 12.5 here.",
         buttonEnabled: "Turn it off",
         buttonEnabledAccessibility: "Turn bluetooth tracing off",
         buttonDisabled: "Turn it on",
