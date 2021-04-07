@@ -2,12 +2,12 @@ import { InputGroup, TextInput } from "@components/atoms";
 import { presets } from "@components/atoms/TextInput";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
-import { DiaryStackParamList } from "@features/diary/views/DiaryStack";
 import { isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { emailValidation } from "@validations/validations";
+import { MainStackParamList } from "@views/MainStack";
 import React, {
   useCallback,
   useEffect,
@@ -32,7 +32,7 @@ const schema = yup.object().shape({
 });
 
 interface Props
-  extends StackScreenProps<DiaryStackParamList, OTPScreen.EnterEmail> {}
+  extends StackScreenProps<MainStackParamList, OTPScreen.EnterEmail> {}
 
 const { logError } = createLogger("EnterEmail.tsx");
 

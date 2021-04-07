@@ -1,7 +1,11 @@
-import Button from "@components/atoms/Button";
-import { SecondaryButton } from "@components/atoms/SecondaryButton";
+import { VerticalSpacing } from "@components/atoms/VerticalSpacing";
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from "@components/molecules/NotificationCard";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { AccessibilityRole } from "react-native";
 
 export interface ButtonsProps {
   callbackEnabled: boolean;
@@ -10,6 +14,7 @@ export interface ButtonsProps {
   onPressRequestCallback(): void;
   onPressMore(): void;
   secondaryButtonAccessibilityHint?: string;
+  secondaryButtonAccessibilityRole?: AccessibilityRole;
 }
 
 export function Buttons({
@@ -18,6 +23,7 @@ export function Buttons({
   onPressRequestCallback,
   onPressMore,
   appBannerLinkLabel,
+  secondaryButtonAccessibilityRole,
   secondaryButtonAccessibilityHint,
 }: ButtonsProps) {
   const { t } = useTranslation();
@@ -31,14 +37,17 @@ export function Buttons({
         accessibilityLabel={linkLabel}
         onPress={onPressMore}
         text={linkLabel}
+        accessibilityRole={secondaryButtonAccessibilityRole}
         accessibilityHint={secondaryButtonAccessibilityHint}
+        align="left"
       />
     );
   }
 
   return (
     <>
-      <Button
+      <VerticalSpacing height={20} />
+      <PrimaryButton
         buttonColor={callbackRequested ? "green" : "black"}
         text={
           callbackRequested
@@ -50,6 +59,7 @@ export function Buttons({
 
       <SecondaryButton
         accessibilityLabel={linkLabel}
+        accessibilityRole={secondaryButtonAccessibilityRole}
         onPress={onPressMore}
         text={linkLabel}
       />

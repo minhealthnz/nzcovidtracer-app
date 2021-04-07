@@ -26,7 +26,9 @@ export const colors = {
   yellowConfirm: "#FFF1CC",
   lightBlue: "#DCEAF8",
   paleOrange: "#FFA700",
+  paleYellow: "#FFEB9A",
   carrot: "#FF6D00",
+  lightPink: "#FFC8BF",
 };
 
 export const grid = 8;
@@ -42,6 +44,7 @@ export const fontFamilies = {
   "baloo-extra-bold": "Baloo2-ExtraBold",
   "open-sans-semi-bold-italic": "OpenSans-SemiBoldItalic",
   "open-sans": "OpenSans",
+  "open-sans-italic": "OpenSans-Italic",
   "open-sans-semi-bold": "OpenSans-SemiBold",
   "open-sans-bold": "OpenSans-Bold",
   "open-sans-extra-bold": "OpenSans-ExtraBold",

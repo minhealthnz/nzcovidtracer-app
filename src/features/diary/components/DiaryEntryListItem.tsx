@@ -3,6 +3,7 @@ import { colors, fontFamilies, fontSizes, grid2x } from "@constants";
 import { DiaryEntry } from "@features/diary/types";
 import moment from "moment";
 import React, { Component } from "react";
+import { WithTranslation, withTranslation } from "react-i18next";
 import styled from "styled-components/native";
 
 const Container = styled.TouchableOpacity`
@@ -20,6 +21,11 @@ const TextContainer = styled.View`
   align-items: flex-start;
   flex: 1;
   padding: 8px 0 8px 0;
+`;
+
+const NameContainer = styled.View`
+  flex-direction: row;
+  padding-right: 16px;
 `;
 
 const DateTextContainer = styled.View`
@@ -47,16 +53,23 @@ const Chevron = styled.Image`
   margin-left: ${grid2x}px;
 `;
 
+const Warning = styled.Image`
+  margin-left: 4px;
+  width: 20px;
+  height: 20px;
+`;
+
 const assets = {
   chevronRight: require("@assets/icons/chevron-right.png"),
+  warning: require("@assets/icons/warning.png"),
 };
 
-interface Props {
+interface Props extends WithTranslation {
   entry: DiaryEntry;
   onPress?: () => void;
 }
 
-export class DiaryEntryListItem extends Component<Props> {
+class _DiaryEntryListItem extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
     return this.props.entry.updatedAt !== nextProps.entry.updatedAt;
   }
@@ -65,12 +78,19 @@ export class DiaryEntryListItem extends Component<Props> {
     const dayText = entryDate.format("dddd");
     const dateText = entryDate.format("D MMMM YYYY");
     const timeText = entryDate.format("h:mma");
+    const isRisky = this.props.entry.isRisky;
+    const t = this.props.t;
+
+    const locationAccessibilityLabel = isRisky
+      ? t("components:diaryEntryListItem:locationAccessibilityLabel")
+      : "";
 
     const accessibilityLabel = [
       this.props.entry.name,
       dayText,
       dateText,
       timeText,
+      locationAccessibilityLabel,
     ].join(" ");
 
     return (
@@ -79,10 +99,16 @@ export class DiaryEntryListItem extends Component<Props> {
         disabled={!this.props.onPress}
         accessible={true}
         accessibilityLabel={accessibilityLabel}
+        accessibilityHint={t(
+          "components:diaryEntryListItem:locationAccessibilityHint",
+        )}
         accessibilityRole={this.props.onPress ? "button" : "text"}
       >
         <TextContainer>
-          <NameText numberOfLines={1}>{this.props.entry.name}</NameText>
+          <NameContainer>
+            <NameText numberOfLines={1}>{this.props.entry.name}</NameText>
+            {isRisky && <Warning source={assets.warning} />}
+          </NameContainer>
           <DateTextContainer>
             <DateText>{dayText}</DateText>
             <DateText>{dateText}</DateText>
@@ -94,3 +120,5 @@ export class DiaryEntryListItem extends Component<Props> {
     );
   }
 }
+
+export const DiaryEntryListItem = withTranslation()(_DiaryEntryListItem);

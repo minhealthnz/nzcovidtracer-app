@@ -1,5 +1,6 @@
 package nz.govt.health.covidtracer
 
+import android.content.Context
 import com.facebook.react.bridge.*
 import org.threeten.bp.format.DateTimeFormatter
 import java.security.SecureRandom
@@ -17,6 +18,15 @@ class CovidTracerMigrationModule(reactContext: ReactApplicationContext) : ReactC
         var buffer = ByteArray(64);
         random.nextBytes(buffer);
         promise.resolve(Base64.encodeToString(buffer, Base64.NO_WRAP));
+    }
+
+    @ReactMethod
+    fun readLastLaunchTime(promise: Promise) {
+        val storageName = "nz.govt.health.covidtracer.storage";
+        val key = "lastLaunchTime";
+        val sharedPreference = reactApplicationContext.getSharedPreferences(storageName, Context.MODE_PRIVATE);
+        val value: Double = sharedPreference.getLong(key, 0).toDouble();
+        promise.resolve(value);
     }
 
     @ReactMethod

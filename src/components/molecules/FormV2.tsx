@@ -1,3 +1,4 @@
+import Divider from "@components/atoms/Divider";
 import {
   colors,
   fontFamilies,
@@ -41,9 +42,10 @@ import { SecondaryButton } from "../atoms/SecondaryButton";
 import { Text } from "../atoms/Text";
 import { Toast } from "../atoms/Toast";
 
-const Container = styled.ScrollView`
+const Container = styled.ScrollView<{ backgroundColor?: string }>`
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : colors.white};
   flex: 1;
-  background-color: ${colors.white};
 `;
 
 const Banner = styled.View<{ color?: string }>`
@@ -78,15 +80,18 @@ const Description = styled(Text)`
   text-align: left;
 `;
 
-const ContentContainer = styled.View`
-  padding: ${grid3x}px;
+const ContentContainer = styled.View<{ padding?: number }>`
+  padding: ${(props) => props.padding ?? grid3x}px;
   padding-bottom: 0;
   flex: 1;
 `;
 
-const KeyboardAvoidingView = styled.KeyboardAvoidingView`
+const KeyboardAvoidingView = styled.KeyboardAvoidingView<{
+  backgroundColor?: string;
+}>`
   flex: 1;
-  background-color: ${colors.white};
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : colors.white};
 `;
 
 const MinHeight = styled.View<{ minHeight?: number }>`
@@ -96,11 +101,13 @@ const MinHeight = styled.View<{ minHeight?: number }>`
 export const ButtonContainer = styled.View<{
   bottomPadding?: number;
   padding?: number;
+  backgroundColor?: string;
 }>`
   padding: ${(props) => props.padding ?? grid3x}px;
   padding-bottom: ${(props) =>
     props.bottomPadding ?? props.padding ?? grid3x}px;
-  background-color: ${colors.white};
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : colors.white};
 `;
 
 export interface FormV2Props extends FormHeaderProps {
@@ -122,6 +129,8 @@ export interface FormV2Props extends FormHeaderProps {
   accessibilitySecondaryHint?: string;
   accessibilitySecondaryLabel?: string;
   removePaddingWhenKeyboardShown?: boolean;
+  backgroundColor?: string;
+  padding?: number;
   /**
    * If true, form will respond to keyboard events. Should be true for forms with text inputs
    */
@@ -131,6 +140,7 @@ export interface FormV2Props extends FormHeaderProps {
   bannerTextColor?: string;
   bannerIcon?: ImageSourcePropType;
   bannerAccessibilityLabel?: string;
+  buttonSnapToBottom?: boolean;
 }
 
 export interface FormV2Handle {
@@ -354,11 +364,43 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
       8,
   );
 
+  const shouldSnapToBottom = props.buttonSnapToBottom && !keyboardShown;
+
+  const buttonContainer = useMemo(
+    () => (
+      <>
+        {shouldSnapToBottom && <Divider />}
+        <ButtonContainer
+          padding={
+            keyboardAvoiding && keyboardShown && removePaddingWhenKeyboardShown
+              ? 0
+              : undefined
+          }
+          bottomPadding={renderFooter || !!secondaryButton ? 0 : undefined}
+          backgroundColor={props.backgroundColor}
+        >
+          {buttons}
+        </ButtonContainer>
+      </>
+    ),
+    [
+      keyboardAvoiding,
+      keyboardShown,
+      removePaddingWhenKeyboardShown,
+      secondaryButton,
+      renderFooter,
+      props.backgroundColor,
+      buttons,
+      shouldSnapToBottom,
+    ],
+  );
+
   return (
     <KeyboardAvoidingView
       behavior="padding"
       enabled={Platform.OS === "ios" && (keyboardAvoiding ?? false)}
       keyboardVerticalOffset={navHeaderHeight}
+      backgroundColor={props.backgroundColor}
     >
       {!!toastError && <Toast text={toastError} />}
       <Container
@@ -366,6 +408,7 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
         ref={scrollViewRef}
         onLayout={handleLayout}
         keyboardDismissMode="on-drag"
+        backgroundColor={props.backgroundColor}
       >
         <MinHeight minHeight={minHeight}>
           <FormHeader
@@ -391,7 +434,7 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
               </Banner>
             ) : null
           }
-          <ContentContainer>
+          <ContentContainer padding={props.padding}>
             {!!heading && <Heading style={headingStyle}>{heading}</Heading>}
             {!!description && (
               <Description style={descriptionStyle}>{description}</Description>
@@ -402,21 +445,11 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
               {children}
             </FormV2Context.Provider>
           </ContentContainer>
-          <ButtonContainer
-            padding={
-              keyboardAvoiding &&
-              keyboardShown &&
-              removePaddingWhenKeyboardShown
-                ? 0
-                : undefined
-            }
-            bottomPadding={renderFooter || !!secondaryButton ? 0 : undefined}
-          >
-            <>{buttons}</>
-          </ButtonContainer>
+          {!shouldSnapToBottom && buttonContainer}
           {renderFooter?.()}
         </MinHeight>
       </Container>
+      {shouldSnapToBottom && buttonContainer}
     </KeyboardAvoidingView>
   );
 }

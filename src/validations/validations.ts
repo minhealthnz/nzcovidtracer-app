@@ -13,7 +13,8 @@ const checkInMinDate = (value: number | null | undefined) => {
   return (value || 0) >= calcCheckInMinDate().getTime();
 };
 
-const noNumbersOrSymbolsRegex = /^[-.'A-Za-zĀ-ŌÀ-ÖØ-öø-ÿŠŽā-ɏ ]*$/;
+const nameRegex = /^[-.'`ʼ‘’A-Za-zĀ-ŌÀ-ÖØ-öø-ÿŠŽā-ɏ ]*$/;
+
 const codeRegex = /^\d{6}$/;
 const dataRequestCodeRegex = /^[a-zA-Z\d]{6}$/;
 
@@ -41,19 +42,19 @@ export const detailsValidation = yup
 export const firstNameValidation = yup
   .string()
   .max(50, "validations:firstName:tooLong")
-  .matches(noNumbersOrSymbolsRegex, "validations:firstName:noNumbersOrSymbols")
+  .matches(nameRegex, "validations:firstName:noNumbersOrSymbols")
   .required("validations:firstName:required");
 
 export const middleNameValidation = yup
   .string()
   .max(100, "validations:middleName:tooLong")
-  .matches(noNumbersOrSymbolsRegex, "validations:middleName:noNumbersOrSymbols")
+  .matches(nameRegex, "validations:middleName:noNumbersOrSymbols")
   .notRequired();
 
 export const lastNameValidation = yup
   .string()
   .max(50, "validations:lastName:tooLong")
-  .matches(noNumbersOrSymbolsRegex, "validations:lastName:noNumbersOrSymbols")
+  .matches(nameRegex, "validations:lastName:noNumbersOrSymbols")
   .required("validations:lastName:required");
 
 export const dateOfBirthValidation = yup

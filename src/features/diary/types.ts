@@ -1,3 +1,4 @@
+import { CheckInItemMatch } from "@db/checkInItemMatch";
 import { SerializedError } from "@reduxjs/toolkit";
 
 export type DiaryEntryType = "scan" | "manual";
@@ -14,6 +15,9 @@ export interface DiaryEntry {
   details?: string;
   type: DiaryEntryType;
   updatedAt?: number;
+  isRisky?: boolean;
+  bannerTitle?: string;
+  bannerBody?: string;
 }
 
 export interface DiaryPaginationSession {
@@ -55,10 +59,12 @@ export interface DiaryState {
     error?: SerializedError;
   };
   count: { [userId: string]: number };
+  countActiveDays: number;
   countedOldDiaries: boolean;
   debugging: {
     insertError: boolean;
   };
+  matches: { [gln: string]: CheckInItemMatch[] };
 }
 
 export const errors = {

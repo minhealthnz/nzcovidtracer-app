@@ -8,6 +8,7 @@ Object {
   "contactDetailsLink": "/profile/details?src=app",
   "contactLink": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-resources-and-tools/nz-covid-tracer-app/contact-nz-covid-tracer",
   "copyrightLink": "/help/copyright?src=app",
+  "defaultTestLocationsLink": "https://www.healthpoint.co.nz/covid-19/",
   "feedbackLink": "mailto:help@covidtracer.min.health.nz?subject=NZ COVID Tracer App Feedback",
   "helpLink": "https://www.health.govt.nz/our-work/diseases-and-conditions/covid-19-novel-coronavirus/covid-19-novel-coronavirus-resources-and-tools/nz-covid-tracer-app/questions-and-answers-nz-covid-tracer",
   "loginLink": "/login?src=app",

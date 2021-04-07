@@ -8,11 +8,11 @@ import { disableAnimations } from "../../../config";
 import { ScanScreen } from "../screens";
 import { TutorialScreen } from "./TutorialScreen";
 
-export type TutorialStackParamList = {
-  [ScanScreen.Recorded]: undefined;
+export type TutorialScreenParams = {
+  [ScanScreen.Tutorial]: undefined;
 };
 
-const Stack = createStackNavigator<TutorialStackParamList>();
+const Stack = createStackNavigator<TutorialScreenParams>();
 
 export function TutorialNavigator() {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ export function TutorialNavigator() {
       }}
     >
       <Stack.Screen
-        name={ScanScreen.Recorded}
+        name={ScanScreen.Tutorial}
         options={{ title: t("screenTitles:tutorial") }}
         component={TutorialScreen}
       />

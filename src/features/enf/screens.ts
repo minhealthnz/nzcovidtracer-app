@@ -1,5 +1,4 @@
 export enum ENFScreen {
-  Navigator = "ENF/Navigator",
   Settings = "ENF/Settings",
   Share = "ENF/Share",
   ShareSuccess = "ENF/ShareSuccess",
@@ -7,7 +6,6 @@ export enum ENFScreen {
 }
 
 export type ENFScreenParams = {
-  [ENFScreen.Navigator]: undefined;
   [ENFScreen.Settings]: undefined;
   [ENFScreen.Share]: undefined;
   [ENFScreen.ShareSuccess]: undefined;

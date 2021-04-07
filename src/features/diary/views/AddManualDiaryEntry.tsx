@@ -6,10 +6,8 @@ import { selectUserId } from "@domain/user/selectors";
 import { addEntry } from "@features/diary/reducer";
 import { DiaryEntry } from "@features/diary/types";
 import { ScanScreen } from "@features/scan/screens";
-import { ScanStackParamList } from "@features/scan/views/ScanNavigator";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
-import { debounce } from "@navigation/debounce";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -20,6 +18,7 @@ import {
   placeOrActivityValidation,
   startDateValidation,
 } from "@validations/validations";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
@@ -28,15 +27,11 @@ import * as yup from "yup";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { DiaryScreen } from "../screens";
-import { DiaryStackParamList } from "./DiaryStack";
 
 const { logError } = createLogger("AddManualDiaryEntry.tsx");
 
 interface Props
-  extends StackScreenProps<
-    DiaryStackParamList & ScanStackParamList,
-    DiaryScreen.AddEntryManually
-  > {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.AddEntryManually> {}
 
 const schema = yup.object().shape({
   name: placeOrActivityValidation,
@@ -77,7 +72,13 @@ export function AddManualDiaryEntry(props: Props) {
     }, []),
   );
 
-  const onSavePress = debounce(() => {
+  const saved = useRef(false);
+
+  const onSavePress = useCallback(() => {
+    if (saved.current) {
+      return;
+    }
+
     Keyboard.dismiss();
 
     if (userId == null) {
@@ -104,6 +105,7 @@ export function AddManualDiaryEntry(props: Props) {
       })
       .then(unwrapResult)
       .then(() => {
+        saved.current = true;
         props.navigation.replace(ScanScreen.Recorded, {
           id: newEntry.id,
         });
@@ -130,12 +132,11 @@ export function AddManualDiaryEntry(props: Props) {
 
           inputGroupRef.current?.focusError(...error.inner.map((x) => x.path));
         } else {
-          props.navigation.navigate(ScanScreen.Navigator, {
-            screen: ScanScreen.ScanNotRecorded,
-          });
+          logError("Failed to save entry", error);
+          props.navigation.navigate(ScanScreen.ScanNotRecorded);
         }
       });
-  });
+  }, [props.navigation, t, dispatch, name, details, startDate, userId]);
 
   useAccessibleTitle();
 

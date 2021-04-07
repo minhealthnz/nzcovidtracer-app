@@ -33,6 +33,8 @@ export interface AppConfigRaw {
   ENFServerUrl?: string;
   SafetynetKey?: string;
   ENFCheckInterval?: string;
+  CovidStatsUrl?: string;
+  DevLogModules?: string;
 }
 
 export interface AppConfig {
@@ -67,6 +69,8 @@ export interface AppConfig {
   ENFServerUrl: string;
   SafetynetKey: string;
   ENFCheckInterval: number;
+  CovidStatsUrl: string;
+  DevLogModules: boolean;
 }
 
 export let disableAnimations = false;
@@ -182,6 +186,8 @@ const config: AppConfig = {
   ENFServerUrl: raw.ENFServerUrl || "",
   SafetynetKey: raw.SafetynetKey || "",
   ENFCheckInterval: getENFCheckInterval(),
+  CovidStatsUrl: raw.CovidStatsUrl || "",
+  DevLogModules: raw.DevLogModules === "1",
 };
 
 export default config;

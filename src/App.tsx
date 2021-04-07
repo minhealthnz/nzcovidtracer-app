@@ -1,5 +1,5 @@
 import { colors } from "@constants";
-import { setCurrentRouteName } from "@domain/device/reducer";
+import { setCurrentRouteName } from "@features/device/reducer";
 import { ExposureProvider } from "@features/enf/components/ExposureProvider";
 import { createPersistor, createStore } from "@lib/reduxStore";
 import { navigationRef } from "@navigation/navigation";

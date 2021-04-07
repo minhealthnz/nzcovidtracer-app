@@ -1,4 +1,4 @@
-import { selectIsScreenReaderEnabled } from "@domain/device/selectors";
+import { selectIsScreenReaderEnabled } from "@features/device/selectors";
 import { createLogger } from "@logger/createLogger";
 import { useIsFocused, useNavigation } from "@react-navigation/core";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -15,6 +15,12 @@ interface AccessibleTitleOptions {
   hint?: string;
 }
 
+/**
+ * Make react-navigation header title accessible to screen readers.
+ * Wrap the header string / element with AccessibleHeaderTitle
+ * Auto focus on the header element on focus,
+ * or when title text changes
+ */
 export function useAccessibleTitle({
   title,
   hint,
@@ -24,21 +30,7 @@ export function useAccessibleTitle({
 
   const enabled = useSelector(selectIsScreenReaderEnabled);
 
-  useEffect(() => {
-    if (!enabled) {
-      return;
-    }
-    navigation.setOptions({
-      headerTitle: (props) => (
-        <AccessibleHeaderTitle
-          ref={titleRef}
-          {...props}
-          children={title ?? props.children}
-          accessibilityHint={hint}
-        />
-      ),
-    });
-  }, [navigation, enabled, title, hint]);
+  const headerTextRef = useRef(title);
 
   const isFocused = useIsFocused();
 
@@ -60,6 +52,47 @@ export function useAccessibleTitle({
     logInfo("auto focused");
   }, [titleRef, isFocused]);
 
+  const waitAndFocusTitle = useCallback(() => {
+    setTimeout(() => {
+      focusTitle();
+    }, 0);
+  }, [focusTitle]);
+
+  useEffect(() => {
+    if (!enabled) {
+      return;
+    }
+    navigation.setOptions({
+      headerTitle: (props) => {
+        // Focus on title when text changes
+        if (
+          typeof props.children === "string" &&
+          // Skip initial signal, only fire when title changes
+          headerTextRef.current != null &&
+          headerTextRef.current !== props.children
+        ) {
+          /**
+           * Focus title on the next event loop,
+           * to get rid of react warning that render functions needs to be pure
+           */
+          waitAndFocusTitle();
+        }
+
+        headerTextRef.current = props.children;
+
+        return (
+          <AccessibleHeaderTitle
+            ref={titleRef}
+            {...props}
+            children={title ?? props.children}
+            accessibilityHint={hint}
+          />
+        );
+      },
+    });
+  }, [navigation, enabled, title, hint, waitAndFocusTitle]);
+
+  // Focus on title when screen is brought to foreground (focused)
   useEffect(() => {
     if (!enabled) {
       return;

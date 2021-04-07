@@ -6,6 +6,7 @@ export const headerOptions: StackNavigationOptions = {
   headerTitleAllowFontScaling: false,
   headerBackAllowFontScaling: false,
   headerBackTitle: "",
+  headerBackTitleVisible: false,
   headerStyle: {
     backgroundColor: colors.yellow,
     elevation: 0,

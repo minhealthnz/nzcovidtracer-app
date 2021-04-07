@@ -15,5 +15,8 @@ export default function useEntry(id: string) {
     setLastEntry(entry);
   }, [entry]);
 
-  return lastEntry;
+  return {
+    ...lastEntry,
+    details: lastEntry.details?.trim(),
+  };
 }

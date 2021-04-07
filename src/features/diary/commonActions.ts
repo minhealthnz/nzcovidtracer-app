@@ -1,3 +1,5 @@
+import { CheckInItem } from "@db/checkInItem";
+import { CheckInItemMatch } from "@db/checkInItemMatch";
 import { createAction } from "@reduxjs/toolkit";
 
 /**
@@ -6,3 +8,9 @@ import { createAction } from "@reduxjs/toolkit";
 export const setCountedOldDiaries = createAction<boolean>(
   "diary/setCountedOldDiaries",
 );
+
+export const setMatchedCheckInItem = createAction<CheckInItem | undefined>(
+  "diary/setChckInItem",
+);
+
+export const setMatches = createAction<CheckInItemMatch[]>("diary/setMatches");

@@ -39,6 +39,11 @@ export const selectCopyDiary = createSelector(
 
 export const selectCount = createSelector(selectDiary, (diary) => diary.count);
 
+export const selectCountActiveDays = createSelector(
+  selectDiary,
+  (diary) => diary.countActiveDays,
+);
+
 export const selectCountedOldDiaries = createSelector(
   selectDiary,
   (diary) => diary.countedOldDiaries,

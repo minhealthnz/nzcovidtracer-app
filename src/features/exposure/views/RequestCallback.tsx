@@ -3,13 +3,14 @@ import { presets } from "@components/atoms/TextInput";
 import { FormV2 } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackScreenProps } from "@react-navigation/stack";
 import { formatPhone } from "@utils/formatPhone";
 import {
   firstNameValidation,
   lastNameValidation,
   phoneValidation,
 } from "@validations/validations";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
@@ -17,14 +18,19 @@ import { Country, CountryCode } from "react-native-country-picker-modal";
 import * as yup from "yup";
 
 import { PhoneInput } from "../../../components/atoms/PhoneInput";
+import { recordCallbackSubmitPressed } from "../analytics";
 import { RequestCallbackScreen } from "../screens";
-import { RequestCallbackParamList } from "./RequestCallbackStack";
+
+interface RequestCallbackProps
+  extends StackScreenProps<
+    MainStackParamList,
+    RequestCallbackScreen.RequestCallback
+  > {}
 
 export default function RequestCallback({
   navigation,
-}: {
-  navigation: StackNavigationProp<RequestCallbackParamList>;
-}) {
+  route,
+}: RequestCallbackProps) {
   const [firstName, setFirstName] = useState("");
   const [firstNameError, setFirstNameError] = useState("");
   const [lastName, setLastName] = useState("");
@@ -52,6 +58,7 @@ export default function RequestCallback({
     phone: phoneValidation,
   });
 
+  const alertType = route.params.alertType;
   const onSubmit = () => {
     Keyboard.dismiss();
 
@@ -59,15 +66,24 @@ export default function RequestCallback({
     setLastNameError("");
     setPhoneError("");
 
+    const trimmedFirstName = firstName.trim();
+    const trimmedLastName = lastName.trim();
+
     schema
       .validate(
-        { firstName, lastName, phone: [phone, countryCode] },
+        {
+          firstName: trimmedFirstName,
+          lastName: trimmedLastName,
+          phone: [phone, countryCode],
+        },
         { abortEarly: false },
       )
       .then(() => {
+        recordCallbackSubmitPressed(alertType);
         navigation.navigate(RequestCallbackScreen.Confirm, {
-          firstName,
-          lastName,
+          alertType,
+          firstName: trimmedFirstName,
+          lastName: trimmedLastName,
           phone: formattedPhone,
           notes,
         });

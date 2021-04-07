@@ -7,23 +7,21 @@ if (__DEV__ || config.IsDev) {
 import "react-native-gesture-handler";
 import "./i18n";
 
-import Auth from "@aws-amplify/auth";
-import Amplify from "@aws-amplify/core";
 import covidTracker from "@db/covidTracerMigration";
 import { createPublic } from "@db/create";
 import { formatEnv } from "@features/debugging/commands/copyEnvVar";
+import { recordLaunch } from "@features/device/recordLaunch";
 import { processPushNotification } from "@features/exposure/service/processPushNotification";
 import { createLogger } from "@logger/createLogger";
 import messaging, {
   FirebaseMessagingTypes,
 } from "@react-native-firebase/messaging";
-import { Analytics } from "aws-amplify";
 import { dirname } from "path";
-import { AppState, AppStateStatus, Platform } from "react-native";
-import DeviceInfo from "react-native-device-info";
+import { AppState, AppStateStatus, LogBox, Platform } from "react-native";
 import ExposureNotificationModule from "react-native-exposure-notification-service";
 import { enableScreens } from "react-native-screens";
 
+import { setupAnalytics } from "./src/analytics/setupAnalytics";
 import { configure as configurePush } from "./src/notifications";
 
 enableScreens();
@@ -59,36 +57,12 @@ messaging().setBackgroundMessageHandler(
 
 applyPublicDbFileProtection().catch(logError);
 
-//Configure AWS pinpoint
-Amplify.configure({
-  Auth: {
-    identityPoolId: config.CognitoIdentityPoolId,
-    region: config.CognitoUserPoolRegion,
-  },
-  Analytics: {
-    disabled: false,
-    autoSessionRecord: true,
-    AWSPinpoint: {
-      appId: config.PinpointApplicationId,
-      region: config.PinpointRegion,
-      mandatorySignIn: false,
-      endpoint: {
-        address: DeviceInfo.getUniqueId(),
-        channelType: Platform.OS === "ios" ? "APNS" : "GCM",
-        demographic: {
-          appVersion: config.APP_VERSION,
-          make: DeviceInfo.getBrand(),
-          model: DeviceInfo.getModel(),
-          platform: DeviceInfo.getSystemName(),
-          platformVersion: DeviceInfo.getSystemVersion(),
-        },
-      },
-    },
-  },
-});
+setupAnalytics();
 
-// Need to call this line. See https://github.com/aws-amplify/amplify-js/issues/4448
-Auth.currentCredentials();
+LogBox.ignoreLogs([
+  /AsyncStorage has been extracted from .*/,
+  /Require cycle: .*ws-amplify.*/,
+]);
 
 configurePush();
 
@@ -107,6 +81,8 @@ AppState.addEventListener("change", (value) => {
             isENFEnabled,
         );
 
+        const { Analytics } = require("aws-amplify");
+
         return Analytics.updateEndpoint({
           attributes: {
             isENFEnabled: [isENFEnabled],
@@ -116,3 +92,11 @@ AppState.addEventListener("change", (value) => {
       .catch(logError);
   }
 });
+
+(async () => {
+  try {
+    await recordLaunch();
+  } catch (err) {
+    logError(err);
+  }
+})();

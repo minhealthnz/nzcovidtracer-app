@@ -1,6 +1,8 @@
-import device from "@domain/device/reducer";
 import user from "@domain/user/reducer";
+import announcement from "@features/announcement/reducer";
+import dashboard from "@features/dashboard/reducer";
 import debugging from "@features/debugging/reducer";
+import device from "@features/device/reducer";
 import diary from "@features/diary/reducer";
 import enf from "@features/enf/reducer";
 import enfExposure from "@features/enfExposure/reducer";
@@ -13,6 +15,7 @@ import { combineReducers } from "redux";
 
 export const rootReducer = combineReducers({
   user,
+  dashboard,
   diary,
   device,
   enf,
@@ -23,4 +26,5 @@ export const rootReducer = combineReducers({
   otp,
   verification,
   debugging,
+  announcement,
 });

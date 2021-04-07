@@ -7,7 +7,7 @@ import { testable } from "../../testable";
 import { LoadingSpinner } from "./LoadingSpinner";
 import { Text } from "./Text";
 
-interface ButtonProps {
+export interface ButtonProps {
   text: string;
   buttonColor?: ButtonColor;
   onPress?: () => void;
@@ -16,6 +16,7 @@ interface ButtonProps {
   isLoading?: boolean;
   accessibilityLabel?: string;
   accessibilityHint?: string;
+  accessibilityRole?: "button" | "none";
 }
 
 export type ButtonColor = "black" | "green";
@@ -50,6 +51,7 @@ function Button({
   isLoading,
   accessibilityLabel,
   accessibilityHint,
+  accessibilityRole,
 }: ButtonProps) {
   const color = useMemo(() => {
     switch (buttonColor) {
@@ -71,6 +73,8 @@ function Button({
     }
   }, [buttonColor]);
 
+  const _accessibilityRole = accessibilityRole || "button";
+
   return (
     <Container
       color={color}
@@ -78,11 +82,11 @@ function Button({
       activeOpacity={0.7}
       style={style}
       disabled={isLoading}
-      accessibilityRole="button"
+      accessibilityRole={_accessibilityRole}
       accessibilityLabel={accessibilityLabel || text}
       accessibilityHint={accessibilityHint}
     >
-      {isLoading && (
+      {isLoading && onPress != null && (
         <SpinnerView>
           <LoadingSpinner />
         </SpinnerView>

@@ -1,4 +1,4 @@
-import { appDidBecomeAvailable } from "@domain/device/reducer";
+import { appDidBecomeAvailable } from "@features/device/reducer";
 import { SagaIterator } from "redux-saga";
 import { all, call, takeLatest } from "redux-saga/effects";
 

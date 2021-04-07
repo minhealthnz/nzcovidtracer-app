@@ -4,6 +4,7 @@ import { colors, fontFamilies, fontSizes, grid, grid2x } from "@constants";
 import { useRequest } from "@hooks/useRequest";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, StyleSheet } from "react-native";
@@ -17,7 +18,6 @@ import { copyDiary } from "../reducer";
 import { DiaryScreen } from "../screens";
 import { selectCopyDiary } from "../selectors";
 import { DiaryEntry } from "../types";
-import { DiaryStackParamList } from "./DiaryStack";
 
 const keyExtractor = (diaryEntry: DiaryEntry) => diaryEntry.id;
 
@@ -54,7 +54,7 @@ const Separator = styled.View`
 `;
 
 interface Props
-  extends StackScreenProps<DiaryStackParamList, DiaryScreen.ViewDiary> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.ViewDiary> {}
 
 export function ViewDiary(props: Props) {
   const { t } = useTranslation();

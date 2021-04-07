@@ -129,6 +129,17 @@ export const createMatchesFromEvents = async (
   return newMatches;
 };
 
+export const getAllMatches = async (): Promise<CheckInItemMatch[]> => {
+  const publicDb = await createPublic();
+  const matches = publicDb
+    .objects(CheckInItemMatchEntity)
+    .map((x) => x.toJSON());
+
+  publicDb.close();
+
+  return matches;
+};
+
 export const getMostRecentUnacknowledgedMatch = async (): Promise<
   CheckInItemMatch | undefined
 > => {

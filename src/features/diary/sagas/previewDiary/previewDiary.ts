@@ -100,13 +100,10 @@ function _navigateViewDiary(
   } else {
     // Double navigate to remove the otp screens from stack
     navigationRef.current.navigate(TabScreen.MyData);
-    navigationRef.current.navigate(DiaryScreen.Navigator, {
-      screen: DiaryScreen.ViewDiary,
-      params: {
-        userId,
-        email,
-        isOnboarding,
-      },
+    navigationRef.current.navigate(DiaryScreen.ViewDiary, {
+      userId,
+      email,
+      isOnboarding,
     });
   }
 }

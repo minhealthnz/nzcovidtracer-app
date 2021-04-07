@@ -17,6 +17,7 @@ import {
   placeOrActivityValidation,
   startDateValidation,
 } from "@validations/validations";
+import { MainStackParamList } from "@views/MainStack";
 import moment from "moment";
 import React, {
   useCallback,
@@ -31,10 +32,9 @@ import * as yup from "yup";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { DiaryScreen } from "../screens";
-import { DiaryStackParamList } from "./DiaryStack";
 
 interface Props
-  extends StackScreenProps<DiaryStackParamList, DiaryScreen.DiaryEntry> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.DiaryEntry> {}
 
 const schema = yup.object().shape({
   name: placeOrActivityValidation,

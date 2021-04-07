@@ -109,7 +109,12 @@ export function DebugMenu() {
         commands: [
           enfInfo(exposure),
           resetENFAlert,
-          enfSimulateExposure(exposure),
+          enfSimulateExposure(exposure, 0),
+          enfSimulateExposure(exposure, 1),
+          enfSimulateExposure(exposure, 2),
+          enfSimulateExposure(exposure, 3),
+          enfSimulateExposure(exposure, 4),
+          enfSimulateExposure(exposure, 5),
           enfCheckExposure(exposure),
           enfGetLogData(exposure),
           enfDeleteExposure(exposure),

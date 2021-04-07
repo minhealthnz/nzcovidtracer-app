@@ -1,4 +1,3 @@
-import { Analytics } from "@aws-amplify/analytics";
 import { createLogger } from "@logger/createLogger";
 import { AnalyticsEvent, EventPayloads } from "analytics/events";
 
@@ -23,6 +22,7 @@ export function recordAnalyticEvent(
   },
 ) {
   try {
+    const { Analytics } = require("@aws-amplify/analytics");
     Analytics.record({
       name: eventName,
       ...payload,

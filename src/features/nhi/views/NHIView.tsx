@@ -6,13 +6,13 @@ import { fontFamilies, fontSizes, grid3x } from "@constants";
 import { selectUser } from "@domain/user/selectors";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 import { NHIScreen } from "../screens";
-import { NHIStackParamList } from "./NHINavigator";
 
 const assets = {
   lock: require("@assets/icons/lock.png"),
@@ -36,7 +36,7 @@ const SectionLeft = styled.View`
   flex: 1;
 `;
 
-interface Props extends StackScreenProps<NHIStackParamList, NHIScreen.View> {}
+interface Props extends StackScreenProps<MainStackParamList, NHIScreen.View> {}
 export function NHIView(props: Props) {
   const { t } = useTranslation();
   const currentUser = useSelector(selectUser);

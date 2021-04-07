@@ -7,6 +7,7 @@ import { OTPScreen } from "@features/otp/screens";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { nanoid } from "@reduxjs/toolkit";
+import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,7 +15,6 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
 
 import { DiaryScreen } from "../screens";
-import { DiaryStackParamList } from "./DiaryStack";
 
 const assets = {
   tick: require("@assets/images/Tick.png"),
@@ -27,7 +27,7 @@ const Description = styled(Text)`
 `;
 
 interface Props
-  extends StackScreenProps<DiaryStackParamList, DiaryScreen.CopiedDiary> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.CopiedDiary> {}
 
 export function CopiedDiary(props: Props) {
   const { t } = useTranslation();

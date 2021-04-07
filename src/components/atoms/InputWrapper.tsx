@@ -8,7 +8,12 @@ import React, {
   useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { AccessibilityInfo, findNodeHandle, Text } from "react-native";
+import {
+  AccessibilityInfo,
+  findNodeHandle,
+  Text,
+  TextStyle,
+} from "react-native";
 import styled from "styled-components/native";
 
 export type Requiredness = "required" | "optional" | "recommended";
@@ -49,6 +54,7 @@ export interface InputWrapperProps {
   clearErrorMessage?: () => void;
   children: Element;
   marginBottom?: number;
+  infoTextStyle?: TextStyle;
 }
 
 export interface InputWrapperRef {
@@ -57,7 +63,15 @@ export interface InputWrapperRef {
 
 function _InputWrapper(props: InputWrapperProps, ref: Ref<InputWrapperRef>) {
   const { t } = useTranslation();
-  const { label, info, required, disabled, errorMessage, marginBottom } = props;
+  const {
+    label,
+    info,
+    required,
+    disabled,
+    errorMessage,
+    marginBottom,
+    infoTextStyle,
+  } = props;
 
   useImperativeHandle(ref, () => ({
     accessibilityFocus() {
@@ -111,7 +125,11 @@ function _InputWrapper(props: InputWrapperProps, ref: Ref<InputWrapperRef>) {
         >{`${label} ${labelHint}`}</Label>
       )}
       {!!info && (
-        <InfoText accessible accessibilityLabel={`Information ${info}`}>
+        <InfoText
+          accessible
+          accessibilityLabel={`Information ${info}`}
+          style={infoTextStyle}
+        >
           {info}
         </InfoText>
       )}

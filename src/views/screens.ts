@@ -3,7 +3,6 @@ import { RequestCallbackScreen } from "@features/exposure/screens";
 import { NHIScreen } from "@features/nhi/screens";
 import { OnboardingScreen } from "@features/onboarding/screens";
 import { OTPScreen } from "@features/otp/screens";
-import { ProfileScreen } from "@features/profile/screens";
 import { ScanScreen } from "@features/scan/screens";
 
 export enum TabScreen {
@@ -21,7 +20,6 @@ export type AnyScreen =
   | TabScreen
   | MainStackScreen
   | ScanScreen
-  | ProfileScreen
   | NHIScreen
   | OTPScreen
   | DiaryScreen

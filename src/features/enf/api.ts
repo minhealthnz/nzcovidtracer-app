@@ -69,3 +69,14 @@ export const uploadExposureKeys = async (
     ...(await verify(uploadToken)),
   });
 };
+
+interface CallbackRequest {
+  phone: string;
+  firstName?: string;
+  lastName?: string;
+  contactNotes?: string;
+}
+
+export const requestCallback = async (request: CallbackRequest) => {
+  await AuthenticatedENFClient.post("callback", request);
+};

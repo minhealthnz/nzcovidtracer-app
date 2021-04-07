@@ -10,6 +10,12 @@ class CovidTracerMigration: NSObject
     }
 
     @objc
+    func readLastLaunchTime(_ resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
+        let val = UserDefaults.standard.double(forKey: "lastLaunchTime");
+        resolve(val)
+    }
+
+    @objc
     func applyPublicFileProtection(_ publicFolderPath: String, resolve: @escaping RCTPromiseResolveBlock, reject: @escaping RCTPromiseRejectBlock) {
         Repository.applyFileProtection(publicFolderPath: publicFolderPath)
         resolve(nil)

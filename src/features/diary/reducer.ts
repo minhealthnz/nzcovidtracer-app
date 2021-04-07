@@ -14,9 +14,18 @@ import { persistReducer } from "redux-persist";
 
 import config from "../../config";
 import { remove, upsert } from "../../db/checkInItem";
-import { setCountedOldDiaries } from "./commonActions";
-import { mapCheckInItem } from "./mappers";
-import { DiaryEntry, DiaryState, ErrorState } from "./types";
+import {
+  setCountedOldDiaries,
+  setMatchedCheckInItem,
+  setMatches,
+} from "./commonActions";
+import { mapCheckInItem, mapDiaryEntry } from "./mappers";
+import {
+  DiaryEntry,
+  DiaryPaginationSession,
+  DiaryState,
+  ErrorState,
+} from "./types";
 
 export const persistConfig = {
   storage: AsyncStorage,
@@ -41,10 +50,12 @@ const INITIAL_STATE: DiaryState = {
     fulfilled: false,
   },
   count: {},
+  countActiveDays: 0,
   countedOldDiaries: false,
   debugging: {
     insertError: false,
   },
+  matches: {},
 };
 
 const { logInfo, logError } = createLogger("diary/reducer");
@@ -145,6 +156,7 @@ const diarySlice = createSlice({
     addLoadedEntries(state, { payload }: PayloadAction<AddLoadedEntries>) {
       for (const entry of payload.entries) {
         state.byId[entry.id] = entry;
+        mergeMatch(state, entry);
         state.sessions[payload.sessionId].allIds.push(entry.id);
       }
     },
@@ -177,9 +189,6 @@ const diarySlice = createSlice({
       }
     },
     stopPagniationSession(state, { payload }: PayloadAction<string>) {
-      for (const id of state.sessions[payload].allIds) {
-        delete state.byId[id];
-      }
       delete state.sessions[payload];
     },
     shareDiary(state, { payload }: PayloadAction<ShareDiary>) {
@@ -241,6 +250,9 @@ const diarySlice = createSlice({
     setCount(state, { payload }: PayloadAction<SetCount>) {
       state.count[payload.userId] = payload.count;
     },
+    setCountActiveDays(state, { payload }: PayloadAction<SetCount>) {
+      state.countActiveDays = payload.count;
+    },
     injectInsertError(state) {
       state.debugging.insertError = true;
     },
@@ -252,19 +264,16 @@ const diarySlice = createSlice({
         if (state.byId[entry.id] != null) {
           return;
         }
-        const { byId } = state;
 
         const userId = entry.userId;
+        state.byId[entry.id] = entry;
         Object.values(state.sessions).forEach((session) => {
           if (!session.userIds.includes(userId)) {
             return;
           }
-          const index = session.allIds.findIndex(
-            (id) => byId[id].startDate < entry.startDate,
-          );
-          session.allIds.splice(index === -1 ? 0 : index, 0, entry.id);
+          session.allIds.push(entry.id);
+          reorderSession(state, session);
         });
-        byId[entry.id] = entry;
       })
       .addCase(addEntry.rejected, (_state, action) => {
         logError(action.error);
@@ -273,8 +282,8 @@ const diarySlice = createSlice({
         if (state.byId[payload.id] == null) {
           return;
         }
-
         state.byId[payload.id] = payload;
+        mergeMatch(state, payload);
         state.byId[payload.id].updatedAt = new Date().getTime();
 
         // Reorder lists in case if startDate was modified
@@ -282,16 +291,7 @@ const diarySlice = createSlice({
           if (!session.userIds.includes(payload.userId)) {
             return;
           }
-
-          const start = new Date();
-          session.allIds = session.allIds.sort((a, b) => {
-            return state.byId[b].startDate - state.byId[a].startDate;
-          });
-          logInfo(
-            `Reordered session list, took ${
-              new Date().getTime() - start.getTime()
-            }ms`,
-          );
+          reorderSession(state, session);
         });
       })
       .addCase(editEntry.rejected, (_state, action) => {
@@ -319,8 +319,37 @@ const diarySlice = createSlice({
       .addCase(setCountedOldDiaries, (state) => {
         state.countedOldDiaries = true;
       })
+      .addCase(setMatchedCheckInItem, (state, { payload }) => {
+        if (payload !== undefined) {
+          const entry = mapDiaryEntry(payload);
+          state.byId[entry.id] = entry;
+          mergeMatch(state, entry);
+        }
+      })
+      .addCase(setMatches, (state, { payload }) => {
+        const matches = _.groupBy(
+          payload,
+          (match) => match.globalLocationNumberHash,
+        );
+        state.matches = matches;
+
+        for (const id in state.byId) {
+          const entry = state.byId[id];
+          mergeMatch(state, entry);
+        }
+      })
       .addDefaultCase((_state, _action) => {}),
 });
+
+function reorderSession(state: DiaryState, session: DiaryPaginationSession) {
+  const start = new Date();
+  session.allIds = session.allIds.sort((a, b) => {
+    return state.byId[b].startDate - state.byId[a].startDate;
+  });
+  logInfo(
+    `Reordered session list, took ${new Date().getTime() - start.getTime()}ms`,
+  );
+}
 
 const { actions, reducer } = diarySlice;
 
@@ -343,9 +372,30 @@ export const {
   copyDiaryFulfilled,
   copyDiaryRejected,
   setCount,
+  setCountActiveDays,
   injectInsertError,
 } = actions;
 
 export { reducer as _reducer };
 
 export default persistReducer(persistConfig, reducer);
+
+const mergeMatch = (state: DiaryState, entry: DiaryEntry) => {
+  if (entry.globalLocationNumberHash) {
+    if (state.matches[entry.globalLocationNumberHash] == null) {
+      return;
+    }
+
+    state.matches[entry.globalLocationNumberHash].forEach((match) => {
+      if (
+        match.startDate.getTime() <= entry.startDate &&
+        match.endDate.getTime() >= entry.startDate
+      ) {
+        state.byId[entry.id].isRisky = true;
+        state.byId[entry.id].updatedAt = new Date().getTime();
+        state.byId[entry.id].bannerTitle = match.appBannerTitle;
+        state.byId[entry.id].bannerBody = match.appBannerBody;
+      }
+    });
+  }
+};

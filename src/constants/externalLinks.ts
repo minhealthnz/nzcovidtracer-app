@@ -13,3 +13,5 @@ export const helpLink = config.HelpPageUrl;
 export const contactLink = config.ContactUsPageUrl;
 export const contactAlertslink = config.ContactAlertsUrl;
 export const aboutBluetoothLink = config.AboutBluetoothLink;
+export const defaultTestLocationsLink =
+  "https://www.healthpoint.co.nz/covid-19/";

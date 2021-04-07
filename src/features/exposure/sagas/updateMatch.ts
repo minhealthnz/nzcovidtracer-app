@@ -2,7 +2,7 @@ import {
   CheckInItemMatch,
   getMostRecentUnacknowledgedMatch,
 } from "@db/checkInItemMatch";
-import { appDidBecomeAvailable } from "@domain/device/reducer";
+import { appDidBecomeAvailable } from "@features/device/reducer";
 import { setMatchesCopied } from "@features/migration/reducer";
 import { createLogger } from "@logger/createLogger";
 import { put } from "redux-saga-test-plan/matchers";

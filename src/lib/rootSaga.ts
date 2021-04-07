@@ -1,6 +1,6 @@
-import device from "@domain/device/sagas";
 import user from "@domain/user/sagas";
 import debugging from "@features/debugging/saga";
+import device from "@features/device/sagas";
 import diary from "@features/diary/sagas";
 import enf from "@features/enf/sagas";
 import enfExposure from "@features/enfExposure/sagas";

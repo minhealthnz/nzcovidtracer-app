@@ -1,6 +1,12 @@
 import { colors, fontFamilies, fontSizes } from "@constants";
 import React from "react";
-import { Image, ImageSourcePropType, Text, ViewStyle } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  ImageStyle,
+  Text,
+  ViewStyle,
+} from "react-native";
 import styled from "styled-components/native";
 
 import { testable } from "../../testable";
@@ -13,6 +19,7 @@ interface Props {
   text?: string;
   accessibilityLabel?: string;
   accessibilityHint?: string;
+  imageStyle?: ImageStyle;
 }
 
 const TouchableOpacity = styled.TouchableOpacity`
@@ -42,7 +49,7 @@ function ImageButton(props: Props) {
         // Add a top padding here to vertically center with text
         !!props.text && <VerticalSpacing height={4} />
       }
-      <Image source={props.image} />
+      <Image source={props.image} style={props.imageStyle} />
       {!!props.text && <ButtonText>{props.text}</ButtonText>}
     </TouchableOpacity>
   );

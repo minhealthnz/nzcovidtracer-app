@@ -3,15 +3,16 @@ import { colors } from "@constants";
 import { DiaryEntry } from "@features/diary/types";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
-import React, { useCallback } from "react";
+import { MainStackParamList } from "@views/MainStack";
+import React, { useCallback, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet } from "react-native";
 import styled from "styled-components/native";
 
+import { AddEntryButton } from "../components/AddEntryButton";
 import { DiaryEntryListItem } from "../components/DiaryEntryListItem";
 import { usePaginationSession } from "../hooks/usePaginationSession";
 import { DiaryScreen } from "../screens";
-import { DiaryStackParamList } from "./DiaryStack";
 
 const keyExtractor = (diaryEntry: DiaryEntry) => diaryEntry.id;
 
@@ -26,7 +27,7 @@ const DiaryList = styled(FlatList as new () => FlatList<DiaryEntry>)`
 `;
 
 interface Props
-  extends StackScreenProps<DiaryStackParamList, DiaryScreen.Diary> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.Diary> {}
 
 export function Diary(props: Props) {
   const onEntryPress = useCallback(
@@ -51,6 +52,8 @@ export function Diary(props: Props) {
     refresh();
   };
 
+  const { t } = useTranslation();
+
   const renderItem = useCallback(
     ({ item: entry }) => (
       <DiaryEntryListItem entry={entry} onPress={onEntryPress(entry)} />
@@ -58,8 +61,17 @@ export function Diary(props: Props) {
     [onEntryPress],
   );
 
-  const { t } = useTranslation();
+  const handleAddEntry = useCallback(() => {
+    props.navigation.navigate(DiaryScreen.AddEntryManually);
+  }, [props.navigation]);
 
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight() {
+        return <AddEntryButton handleAddEntry={handleAddEntry} />;
+      },
+    });
+  }, [props.navigation, handleAddEntry, t]);
   const renderFooter = useCallback(() => {
     return <Disclaimer text={t("components:diaryDisclaimer:disclaimer")} />;
   }, [t]);

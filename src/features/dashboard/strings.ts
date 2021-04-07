@@ -16,15 +16,31 @@ export const strings = {
     screens: {
       dashboard: {
         heading: "Protect yourself, your whānau, and\nyour community",
+        linkAccessiblityHint: "Leaves the app and navigates to a webpage",
         sections: {
           trace: "Trace your steps",
           help: "Help contact tracers",
           advice: "Advice",
+          stats: {
+            title: "Latest updates",
+            refresh: "Refresh",
+            refreshAccessibility: "Refresh latest updates",
+            accessibilityHint: "Leaves app and navigates to a webpage",
+            footer: "Source",
+            yourEntries: "days of diary entries over last 14 days",
+            error:
+              "Something went wrong and we couldn't load the updates. Check your network connection and try again",
+          },
           alertDoubleExposure: "COVID-19 contact alerts",
           alertENFExposure: "COVID-19 Bluetooth alert",
           alertLocationExposure: "COVID-19 location alert",
         },
         cards: {
+          stats: {
+            linkAccessibilityHint: "Tap to learn more",
+            increase: "increased by {0} since yesterday",
+            decrease: "decreased by {0} since yesterday",
+          },
           places: {
             title: "Record a visit",
             description: "Scan or add entries to your digital diary",
@@ -80,6 +96,10 @@ export const strings = {
             description:
               "Find resources about contact tracing and how to stay safe",
           },
+          test: {
+            title: "COVID-19 test locations",
+            description: "Find where you could get tested",
+          },
         },
         footer: {
           title: "Remember to wash your hands",
@@ -94,6 +114,7 @@ export const strings = {
           callbackRequested: "Details sent",
           more: "Find out more",
           moreAccessibilityHint: "Leaves the app and navigates to a webpage",
+          locationAccessibilityHint: "Double tap to view diary entry",
           dismiss: {
             title: "Would you like to dismiss this alert?",
             dimiss: "Dismiss",
@@ -101,6 +122,7 @@ export const strings = {
           },
           detailsSent: "Details sent",
           lastExposed: "Last exposed: ",
+          riskyLocationAt: "\nat ",
         },
         beenInCloseContact: {
           more: "Find out more",
@@ -110,11 +132,16 @@ export const strings = {
             dimiss: "Dismiss",
             cancel: "Cancel",
           },
-          lastExposed: "Last exposed: ",
-          numberOfExposures: " times over the last 14 days",
+          lastExposed1: "Last exposed in the last 36 hours ",
+          lastExposed2: "Last exposed around {0} ({1}) ",
+          day: "day ago",
+          days: "days ago",
+          daySinceLastExposure: "{0} {1}",
+          numberOfExposures: "times over the last 14 days",
+          requestCallback: "Send your details",
+          callbackRequested: "Details sent",
         },
         alerts: {
-          dismissAllAction: "Dismiss all",
           dismiss: {
             title: "Would you like to dismiss these alerts?",
             dimiss: "Dismiss",

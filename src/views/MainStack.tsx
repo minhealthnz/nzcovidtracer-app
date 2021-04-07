@@ -1,21 +1,31 @@
-import { DebugScreen } from "@features/debugging/screens";
-import { DebugMenuStack } from "@features/debugging/views/DebugMenuStack";
-import { DiaryScreen } from "@features/diary/screens";
-import { DiaryStack } from "@features/diary/views/DiaryStack";
-import { ENFScreen } from "@features/enf/screens";
-import { ENFNavigator } from "@features/enf/views/ENFNavigator";
-import { RequestCallbackScreen } from "@features/exposure/screens";
-import RequestCallbackStack from "@features/exposure/views/RequestCallbackStack";
-import { NHIScreen } from "@features/nhi/screens";
-import { NHINavigator } from "@features/nhi/views/NHINavigator";
+import { HeaderBackImage } from "@components/atoms/HeaderBackImage";
+import {
+  DebugScreenParams,
+  useDebugScreens,
+} from "@features/debugging/hooks/useDebugScreens";
+import { selectCurrentRouteName } from "@features/device/selectors";
+import { useDiaryScreens } from "@features/diary/hooks/useDiaryScreens";
+import { DiaryScreenParams } from "@features/diary/screens";
+import { useENFScreens } from "@features/enf/hooks/useENFScreens";
+import { ENFScreenParams } from "@features/enf/screens";
+import {
+  RequestCallbackScreenParams,
+  useRequestCallbackScreens,
+} from "@features/exposure/hooks/useRequestCallbackScreens";
+import { useNHIScreens } from "@features/nhi/hooks/useNHIScreens";
+import { NHIScreenParams } from "@features/nhi/screens";
 import { setHasSeenLockCode } from "@features/onboarding/reducer";
 import { OnboardingScreen } from "@features/onboarding/screens";
 import { selectHasSeenLockCode } from "@features/onboarding/selectors";
-import { ProfileScreen } from "@features/profile/screens";
-import { ProfileNavigator } from "@features/profile/views/ProfileNavigator";
-import { ScanScreen } from "@features/scan/screens";
-import { ScanNavigator } from "@features/scan/views/ScanNavigator";
+import { OTPScreenParams } from "@features/otp/screens";
+import { useOtpScreens } from "@features/otp/useOtpScreens";
+import { useScanScreens } from "@features/scan/hooks/useScanScreens";
+import { ScanScreenParams } from "@features/scan/screens";
+import { TutorialScreenParams } from "@features/scan/views/TutorialNavigator";
 import { createLogger } from "@logger/createLogger";
+import { getHeaderOptions } from "@navigation/getHeaderOptions";
+import { useInitialTab } from "@navigation/hooks/useInitialTab";
+import { headerOptions } from "@navigation/options";
 import { useFocusEffect } from "@react-navigation/native";
 import {
   createStackNavigator,
@@ -23,29 +33,29 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import React, { useCallback, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
-import config, { disableAnimations } from "../config";
+import { disableAnimations } from "../config";
 import { ModalStackParamList } from "./ModalStack";
-import { MainStackScreen, TabScreen } from "./screens";
-import { TabNavigator } from "./TabNavigator";
+import { TabScreen } from "./screens";
+import { TabNavigator, TabScreenParams } from "./TabNavigator";
 
-export type MainStackParamList = {
-  // TODO Tidy up types
-  [ScanScreen.Navigator]: any;
-  [ProfileScreen.Navigator]: any;
-  [NHIScreen.Navigator]: any;
-  [DebugScreen.Navigator]: any;
-  [DiaryScreen.Navigator]: any;
-  [TabScreen.Navigator]: any;
-  [RequestCallbackScreen.Navigator]: any;
-  [ENFScreen.Navigator]: any;
-} & ModalStackParamList;
+export type MainStackParamList = ScanScreenParams &
+  DiaryScreenParams &
+  TabScreenParams &
+  TutorialScreenParams &
+  OTPScreenParams &
+  NHIScreenParams &
+  ENFScreenParams &
+  DebugScreenParams &
+  RequestCallbackScreenParams & {
+    [TabScreen.Navigator]: any;
+  } & ModalStackParamList;
 
 const Stack = createStackNavigator<MainStackParamList>();
 
-export interface MainStackProps
-  extends StackScreenProps<ModalStackParamList, MainStackScreen.Navigator> {}
+export interface MainStackProps extends StackScreenProps<MainStackParamList> {}
 
 const { logInfo } = createLogger("MainStack.tsx");
 
@@ -71,32 +81,40 @@ export function MainStack(props: MainStackProps) {
     }, [dispatch, props.navigation, shouldShowLockCode]),
   );
 
+  const { t } = useTranslation();
+
+  const initialTab = useInitialTab();
+
+  const route = useSelector(selectCurrentRouteName);
+
+  const tabHeaderOptions = getHeaderOptions(
+    initialTab,
+    props.navigation,
+    route,
+    t,
+  );
+
   return (
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
-        animationEnabled: !disableAnimations,
-        headerTitleAllowFontScaling: false,
-        headerBackAllowFontScaling: false,
+        ...headerOptions,
+        headerBackImage: HeaderBackImage,
         ...TransitionPresets.SlideFromRightIOS,
+        animationEnabled: !disableAnimations,
       }}
     >
-      <Stack.Screen name={TabScreen.Navigator} component={TabNavigator} />
-      <Stack.Screen name={ScanScreen.Navigator} component={ScanNavigator} />
       <Stack.Screen
-        name={ProfileScreen.Navigator}
-        component={ProfileNavigator}
+        name={TabScreen.Navigator}
+        component={TabNavigator}
+        options={tabHeaderOptions}
       />
-      <Stack.Screen
-        name={RequestCallbackScreen.Navigator}
-        component={RequestCallbackStack}
-      />
-      <Stack.Screen name={NHIScreen.Navigator} component={NHINavigator} />
-      <Stack.Screen name={ENFScreen.Navigator} component={ENFNavigator} />
-      {config.IsDev && (
-        <Stack.Screen name={DebugScreen.Navigator} component={DebugMenuStack} />
-      )}
-      <Stack.Screen name={DiaryScreen.Navigator} component={DiaryStack} />
+      {useScanScreens()}
+      {useDiaryScreens()}
+      {useOtpScreens()}
+      {useNHIScreens()}
+      {useENFScreens()}
+      {useRequestCallbackScreens()}
+      {useDebugScreens()}
     </Stack.Navigator>
   );
 }

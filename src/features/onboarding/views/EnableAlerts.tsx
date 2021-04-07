@@ -1,7 +1,7 @@
 import { Button } from "@components/atoms";
 import { FormV2 } from "@components/molecules/FormV2";
-import { requestNotificationPermission } from "@domain/device/reducer";
-import { selectNotificationPermission } from "@domain/device/selectors";
+import { requestNotificationPermission } from "@features/device/reducer";
+import { selectNotificationPermission } from "@features/device/selectors";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useRef } from "react";

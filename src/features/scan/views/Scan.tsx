@@ -1,11 +1,11 @@
-import { Button, ImageButton, Text, VerticalSpacing } from "@components/atoms";
+import { Button, Text, VerticalSpacing } from "@components/atoms";
 import { colors } from "@constants";
-import { requestCameraPermission } from "@domain/device/reducer";
+import { selectUserId } from "@domain/user/selectors";
+import { requestCameraPermission } from "@features/device/reducer";
 import {
   selectCameraPermission,
   selectHasRequestedCameraPermission,
-} from "@domain/device/selectors";
-import { selectUserId } from "@domain/user/selectors";
+} from "@features/device/selectors";
 import { addEntry, setHasSeenScanTutorial } from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectHasSeenScanTutorial } from "@features/diary/selectors";
@@ -14,18 +14,17 @@ import { isAndroid } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
 import { BarcodeMask } from "@nartc/react-native-barcode-mask";
-import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useAppState } from "@react-native-community/hooks";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { nanoid, unwrapResult } from "@reduxjs/toolkit";
+import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import { useCavy } from "cavy";
 import { Base64 } from "js-base64";
 import React, {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -41,7 +40,6 @@ import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import CameraNotAuthorized from "../CameraNotAuthorized";
 import { ScanScreen } from "../screens";
 import { createDiaryEntry } from "./helpers";
-import { ScanStackParamList } from "./ScanNavigator";
 
 const { logInfo, logWarning, logError } = createLogger("Scan.tsx");
 
@@ -81,8 +79,8 @@ function isQRScanDataValid(qrScanData: QRScanData): boolean {
 }
 
 const assets = {
-  history: require("@assets/icons/diary.png"),
-  info: require("@assets/icons/info.png"),
+  flashLightOn: require("@assets/icons/flashlight-on.png"),
+  flashLightOff: require("@assets/icons/flashlight-off.png"),
 };
 
 const Container = styled.View`
@@ -102,22 +100,25 @@ const FooterContainer = styled.View`
   align-items: flex-start;
 `;
 
-const HistoryButton = styled(ImageButton)`
-  width: 60px;
-  height: 60px;
-`;
-
-const InfoButton = styled(ImageButton)`
-  width: 60px;
-  height: 60px;
-`;
-
 const Instruction = styled(Text)`
   padding-left: 1px;
 `;
 
+const FlashLightIconContainer = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding-right: 20px;
+  padding-bottom: 20px;
+`;
+
+const FlashLightIcon = styled.Image`
+  width: 40px;
+  height: 40px;
+`;
+
 interface Props
-  extends StackScreenProps<ScanStackParamList, TabScreen.RecordVisit> {}
+  extends StackScreenProps<MainStackParamList, TabScreen.RecordVisit> {}
 
 export function Scan(props: Props) {
   const cameraRef = useRef<RNCamera>();
@@ -130,6 +131,17 @@ export function Scan(props: Props) {
   const hasSeenScanTutorial = useSelector(selectHasSeenScanTutorial);
   const [isCameraMounted, setIsCameraMounted] = useState(false);
   const cameraPermission = useSelector(selectCameraPermission);
+  const [flashLightMode, setFlashLightMode] = useState(
+    RNCamera.Constants.FlashMode.off,
+  );
+
+  const handleFlashLightMode = useCallback(() => {
+    if (flashLightMode === RNCamera.Constants.FlashMode.off) {
+      setFlashLightMode(RNCamera.Constants.FlashMode.torch);
+    } else {
+      setFlashLightMode(RNCamera.Constants.FlashMode.off);
+    }
+  }, [flashLightMode]);
 
   const canScanBarcode = useCallback(() => {
     const currentTimeStamp = new Date().getTime();
@@ -225,36 +237,6 @@ export function Scan(props: Props) {
     }, []),
   );
 
-  useLayoutEffect(() => {
-    const handleGoToHistory = () => {
-      props.navigation.navigate(DiaryScreen.Navigator, {
-        screen: DiaryScreen.Diary,
-      });
-    };
-    const handleInfoPress = () => {
-      props.navigation.navigate(ScanScreen.TutorialNavigator);
-    };
-
-    props.navigation.setOptions({
-      headerLeft: () => (
-        <HistoryButton
-          image={assets.history}
-          onPress={handleGoToHistory}
-          testID="goToHistory"
-          accessibilityLabel={t("accessibility:button:diaryHistory")}
-        />
-      ),
-      headerRight: () => (
-        <InfoButton
-          image={assets.info}
-          onPress={handleInfoPress}
-          testID="goToTutorial"
-          accessibilityLabel={t("accessibility:button:startTutorial")}
-        />
-      ),
-    });
-  }, [props.navigation, t]);
-
   const saveEntryAsync = useCallback(
     async (entry: DiaryEntry) => {
       try {
@@ -279,17 +261,12 @@ export function Scan(props: Props) {
             );
           }
 
-          props.navigation.navigate(ScanScreen.Navigator, {
-            screen: ScanScreen.Recorded,
-            params: {
-              id: entry.id,
-            },
+          props.navigation.navigate(ScanScreen.Recorded, {
+            id: entry.id,
           });
         } catch (err) {
           logError(err);
-          props.navigation.navigate(ScanScreen.Navigator, {
-            screen: ScanScreen.ScanNotRecorded,
-          });
+          props.navigation.navigate(ScanScreen.ScanNotRecorded);
         }
       } catch (err) {
         showError(t("errors:generic"));
@@ -304,9 +281,7 @@ export function Scan(props: Props) {
       return;
     }
 
-    props.navigation.navigate(DiaryScreen.Navigator, {
-      screen: DiaryScreen.AddEntryManually,
-    });
+    props.navigation.navigate(DiaryScreen.AddEntryManually);
   }, [props.navigation, canScanBarcode]);
 
   const handleBarCodeRead = useCallback(
@@ -373,6 +348,12 @@ export function Scan(props: Props) {
 
   const appState = useAppState();
 
+  useEffect(() => {
+    if (!isFocused || appState !== "active") {
+      setFlashLightMode(RNCamera.Constants.FlashMode.off);
+    }
+  }, [appState, isFocused]);
+
   const showCamera = useMemo(
     () =>
       appState !== "background" &&
@@ -389,11 +370,19 @@ export function Scan(props: Props) {
     }
   }, [showCamera]);
 
-  useAccessibleTitle();
-
   const hasRequestedCameraPermission = useSelector(
     selectHasRequestedCameraPermission,
   );
+
+  const accessibilityLabel =
+    flashLightMode === RNCamera.Constants.FlashMode.off
+      ? t("screens:scan:accessibility:torchOffLabel")
+      : t("screens:scan:accessibility:torchOnLabel");
+
+  const accessibilityHint =
+    flashLightMode === RNCamera.Constants.FlashMode.off
+      ? t("screens:scan:accessibility:hint")
+      : "";
 
   const camera = useMemo(() => {
     switch (cameraPermission) {
@@ -416,6 +405,7 @@ export function Scan(props: Props) {
             onBarCodeRead={handleBarCodeRead}
             barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
             captureAudio={false}
+            flashMode={flashLightMode}
           >
             <BarcodeMask
               width={250}
@@ -425,6 +415,20 @@ export function Scan(props: Props) {
               edgeColor={colors.black}
               showAnimatedLine={false}
             />
+            <FlashLightIconContainer
+              accessibilityLabel={accessibilityLabel}
+              accessibilityRole="button"
+              accessibilityHint={accessibilityHint}
+              onPress={handleFlashLightMode}
+            >
+              <FlashLightIcon
+                source={
+                  flashLightMode === RNCamera.Constants.FlashMode.off
+                    ? assets.flashLightOff
+                    : assets.flashLightOn
+                }
+              />
+            </FlashLightIconContainer>
           </RNCamera>
         ) : (
           <Pending />
@@ -436,6 +440,10 @@ export function Scan(props: Props) {
     handleBarCodeRead,
     showCamera,
     hasRequestedCameraPermission,
+    flashLightMode,
+    handleFlashLightMode,
+    accessibilityLabel,
+    accessibilityHint,
   ]);
 
   return (

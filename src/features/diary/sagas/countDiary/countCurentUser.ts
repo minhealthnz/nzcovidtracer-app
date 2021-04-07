@@ -1,7 +1,7 @@
 import { count } from "@db/checkInItem";
-import { appDidBecomeAvailable } from "@domain/device/reducer";
 import { setAnonymousUser } from "@domain/user/reducer";
 import { selectUserId } from "@domain/user/selectors";
+import { appDidBecomeAvailable } from "@features/device/reducer";
 import { createLogger } from "@logger/createLogger";
 import { SagaIterator } from "redux-saga";
 import { call, put, select, takeLatest } from "redux-saga/effects";

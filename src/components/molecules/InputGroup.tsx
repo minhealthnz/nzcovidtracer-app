@@ -11,7 +11,13 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { Keyboard, LayoutChangeEvent, Platform, View } from "react-native";
+import {
+  Keyboard,
+  LayoutChangeEvent,
+  Platform,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import { FormV2Context } from "./FormV2";
 
@@ -19,6 +25,7 @@ export interface InputGroupProps {
   children: React.ReactNode;
   onSubmit?: () => void;
   onFocus?(index: number): void;
+  style?: ViewStyle;
 }
 
 export interface InputGroupContextValue {
@@ -278,6 +285,7 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
           value={value}
         >
           <View
+            style={props.style}
             onLayout={(event: LayoutChangeEvent) => {
               const layout = _.pick(
                 event.nativeEvent.layout,
@@ -303,6 +311,7 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
     deregister,
     handleFocus,
     logLayouts,
+    props.style,
   ]);
 
   return <>{renderChildren}</>;

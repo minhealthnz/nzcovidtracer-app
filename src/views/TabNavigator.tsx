@@ -1,14 +1,13 @@
 import { Text } from "@components/atoms/Text";
 import { colors } from "@constants";
-import { DashboardNavigator } from "@features/dashboard/views/DashboardNavigator";
-import { selectENFAlert } from "@features/enfExposure/selectors";
-import { selectMatch } from "@features/exposure/selectors";
-import {
-  selectHasSeenDashboard,
-  selectHasSeenDashboardEnf,
-} from "@features/onboarding/selectors";
-import { TabProfileNavigator } from "@features/profile/views/TabProfileNavigator";
-import { TabScanNavigator } from "@features/scan/views/TabScanNavigator";
+import { selectAnnouncement } from "@features/announcement/selectors";
+import { useDashboardTitleHint } from "@features/dashboard/hooks/useDashboardTitleHint";
+import { Dashboard } from "@features/dashboard/views/Dashboard";
+import { selectCurrentRouteName } from "@features/device/selectors";
+import Profile from "@features/profile/views/Profile";
+import { Scan } from "@features/scan/views/Scan";
+import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
+import { useInitialTab } from "@navigation/hooks/useInitialTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -19,7 +18,6 @@ import {
 } from "react-native";
 import { useSelector } from "react-redux";
 
-import { MainStackParamList } from "./MainStack";
 import { TabScreen } from "./screens";
 import { TabBarIcon } from "./TabBarIcon";
 
@@ -32,33 +30,35 @@ const assets = {
   recordVisitActive: require("@assets/images/record-visit-active.png"),
 };
 
-export type RootTabParamList = {
+export type TabScreenParams = {
   [TabScreen.Home]: undefined;
   [TabScreen.RecordVisit]: undefined;
   [TabScreen.MyData]: undefined;
-} & MainStackParamList;
+};
 
-const Tab = createBottomTabNavigator<RootTabParamList>();
+const Tab = createBottomTabNavigator<TabScreenParams>();
 
 export function TabNavigator() {
   const { t } = useTranslation();
 
-  const hasSeenDashboard = useSelector(selectHasSeenDashboard);
-  const hasSeenDashboardEnf = useSelector(selectHasSeenDashboardEnf);
-  const exposureMatch = useSelector(selectMatch);
-  const enfAlert = useSelector(selectENFAlert);
+  const announcement = useSelector(selectAnnouncement);
 
-  const hasAlertOnDashboard = Boolean(exposureMatch || enfAlert);
-  const initialRouteName =
-    !hasSeenDashboard || !hasSeenDashboardEnf || hasAlertOnDashboard
-      ? TabScreen.Home
-      : TabScreen.RecordVisit;
+  const dashboardTitleHint = useDashboardTitleHint();
+  const currentRouteName = useSelector(selectCurrentRouteName);
+  const titleHint =
+    currentRouteName === TabScreen.Home ? dashboardTitleHint : undefined;
+
+  useAccessibleTitle({
+    hint: titleHint,
+  });
+
+  const initialTab = useInitialTab();
 
   return (
     <Tab.Navigator
-      initialRouteName={initialRouteName}
+      initialRouteName={initialTab}
       tabBarOptions={{
-        style: { backgroundColor: colors.black },
+        style: { backgroundColor: colors.primaryBlack },
         activeTintColor: colors.yellow,
         inactiveTintColor: colors.white,
         keyboardHidesTabBar: true,
@@ -67,7 +67,7 @@ export function TabNavigator() {
         tabBarIcon: ({ focused }) => {
           let imageSource: ImageSourcePropType | undefined;
 
-          switch (route.name as keyof RootTabParamList) {
+          switch (route.name as keyof TabScreenParams) {
             case TabScreen.Home:
               imageSource = focused
                 ? assets.dashboardActive
@@ -87,7 +87,15 @@ export function TabNavigator() {
 
           if (imageSource) {
             const routeName = route.name;
-            return <TabBarIcon source={imageSource} routeName={routeName} />;
+            return (
+              <TabBarIcon
+                source={imageSource}
+                routeName={routeName}
+                showBadge={
+                  route.name === TabScreen.Home && announcement != null
+                }
+              />
+            );
           }
 
           return null;
@@ -96,7 +104,7 @@ export function TabNavigator() {
     >
       <Tab.Screen
         name={TabScreen.Home}
-        component={DashboardNavigator}
+        component={Dashboard}
         options={{
           tabBarButton: (props) => (
             <TouchableWithoutFeedback
@@ -124,7 +132,7 @@ export function TabNavigator() {
       />
       <Tab.Screen
         name={TabScreen.RecordVisit}
-        component={TabScanNavigator}
+        component={Scan}
         options={{
           tabBarButton: (props) => (
             <TouchableWithoutFeedback
@@ -152,7 +160,7 @@ export function TabNavigator() {
       />
       <Tab.Screen
         name={TabScreen.MyData}
-        component={TabProfileNavigator}
+        component={Profile}
         options={{
           tabBarButton: (props) => (
             <TouchableWithoutFeedback

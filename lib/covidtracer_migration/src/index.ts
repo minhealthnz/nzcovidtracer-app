@@ -15,6 +15,7 @@ interface CovidTracerMigration {
   applyPublicFileProtection?(publicFolderPath: string): Promise<void>;
   findPublicKey?(): Promise<string | undefined>;
   findPrivateKey?(): Promise<string | undefined>;
+  readLastLaunchTime(): Promise<number>;
 }
 
 export interface MigrationData {

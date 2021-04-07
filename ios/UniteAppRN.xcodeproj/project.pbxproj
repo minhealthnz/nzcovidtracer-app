@@ -13,6 +13,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		14E576586C3640C9866A16D5 /* Baloo2-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1690CB41E2E44D2786672F35 /* Baloo2-ExtraBold.ttf */; };
+		1D7AA34A25FEB78B007347E1 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */; };
+		1D7AA35225FEB78B007347E1 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */; };
+		1D7AA35A25FEB78C007347E1 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */; };
+		1D7AA36225FEB78D007347E1 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */; };
+		1D7AA36A25FEB78E007347E1 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */; };
 		342ECA5924744B1F85EE90CA /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A70EEFC3647B4B9B96CF1EBA /* OpenSans-SemiBoldItalic.ttf */; };
 		3ABDDA1D0753470F882B2712 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 00FBC5BC2ED44DB8808F2409 /* OpenSans-Light.ttf */; };
 		3EEC501D511189A48C541E1D /* Pods_UniteAppRN.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE0D4AF5EACCB2F5F9B35CE /* Pods_UniteAppRN.framework */; };
@@ -105,6 +110,7 @@
 		8B713420252D18C300009D1B /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 13A7A637606B467EA587D4F7 /* OpenSans-SemiBold.ttf */; };
 		A028D1AF3C7C93693DCCAD5B /* Pods_UniteAppRN_UniteAppRN_ENF.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAEF0246B4742002AA4E7316 /* Pods_UniteAppRN_UniteAppRN_ENF.framework */; };
 		B4B832E069844E19A06DFE93 /* Baloo2-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C6E80A3F5194314A21CAD73 /* Baloo2-Regular.ttf */; };
+		BC8D927A5F1645078A2528AF /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */; };
 		BD9D5D27CA4C92895BFA16C7 /* Pods_UniteAppRN_UniteAppRN_DEV.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 198AC3CE7CD6F129810DD056 /* Pods_UniteAppRN_UniteAppRN_DEV.framework */; };
 		BE6B7AF02535125800E6AB50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE6B7AEF2535125800E6AB50 /* GoogleService-Info.plist */; };
 		BE6B7AF12535125800E6AB50 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE6B7AEF2535125800E6AB50 /* GoogleService-Info.plist */; };
@@ -142,8 +148,7 @@
 		00E356F21AD99517003FC87E /* UniteAppRNTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UniteAppRNTests.m; sourceTree = "<group>"; };
 		00FBC5BC2ED44DB8808F2409 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/opensans/OpenSans-Light.ttf"; sourceTree = "<group>"; };
 		0554A65480CF0229EA149A08 /* Pods-UniteAppRN-UniteAppRN-DEV.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniteAppRN-UniteAppRN-DEV.debug.xcconfig"; path = "Target Support Files/Pods-UniteAppRN-UniteAppRN-DEV/Pods-UniteAppRN-UniteAppRN-DEV.debug.xcconfig"; sourceTree = "<group>"; };
-		06A15BC39925488C9C0A84C8 /* Baloo-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo-Medium.ttf"; path = "../src/assets/fonts/baloo/Baloo-Medium.ttf"; sourceTree = "<group>"; };
-		077002E342174EAA920F08C7 /* Baloo-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo-Semibold.ttf"; path = "../src/assets/fonts/baloo/Baloo-Semibold.ttf"; sourceTree = "<group>"; };
+		09ACD2EA25D74905000D867A /* Entitlements_ENF_Debug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Entitlements_ENF_Debug.entitlements; path = UniteAppRN/Entitlements_ENF_Debug.entitlements; sourceTree = "<group>"; };
 		0CAD2E2110CC1291E7183AAA /* Pods-UniteAppRN-UniteAppRN-TEST.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniteAppRN-UniteAppRN-TEST.debug.xcconfig"; path = "Target Support Files/Pods-UniteAppRN-UniteAppRN-TEST/Pods-UniteAppRN-UniteAppRN-TEST.debug.xcconfig"; sourceTree = "<group>"; };
 		13A7A637606B467EA587D4F7 /* OpenSans-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiBold.ttf"; path = "../src/assets/fonts/opensans/OpenSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* UniteAppRN.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniteAppRN.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,9 +177,10 @@
 		564EBDFB043BC77FB23F3674 /* Pods-UniteAppRN-UniteAppRN-TEST.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniteAppRN-UniteAppRN-TEST.release.xcconfig"; path = "Target Support Files/Pods-UniteAppRN-UniteAppRN-TEST/Pods-UniteAppRN-UniteAppRN-TEST.release.xcconfig"; sourceTree = "<group>"; };
 		58F18A5751ED9DEAE1CD73B6 /* Pods-UniteAppRN-UniteAppRN-UAT.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniteAppRN-UniteAppRN-UAT.debug.xcconfig"; path = "Target Support Files/Pods-UniteAppRN-UniteAppRN-UAT/Pods-UniteAppRN-UniteAppRN-UAT.debug.xcconfig"; sourceTree = "<group>"; };
 		5C6E80A3F5194314A21CAD73 /* Baloo2-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo2-Regular.ttf"; path = "../src/assets/fonts/baloo/Baloo2-Regular.ttf"; sourceTree = "<group>"; };
-		6CFE2238255E1575009115C9 /* Entitlements_ENF.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Entitlements_ENF.entitlements; path = UniteAppRN/Entitlements_ENF.entitlements; sourceTree = "<group>"; };
+		6CFE2238255E1575009115C9 /* Entitlements_ENF_Release.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; name = Entitlements_ENF_Release.entitlements; path = UniteAppRN/Entitlements_ENF_Release.entitlements; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = UniteAppRN/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81B48BBA01804A3FADEC6FB2 /* Baloo2-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo2-Medium.ttf"; path = "../src/assets/fonts/baloo/Baloo2-Medium.ttf"; sourceTree = "<group>"; };
+		84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Italic.ttf"; path = "../src/assets/fonts/opensans/OpenSans-Italic.ttf"; sourceTree = "<group>"; };
 		8B7133CA252D189200009D1B /* UniteAppRN-DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UniteAppRN-DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B7133E9252D18AE00009D1B /* UniteAppRN-DEVOPS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UniteAppRN-DEVOPS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B713408252D18B800009D1B /* UniteAppRN-TEST.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UniteAppRN-TEST.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,7 +190,6 @@
 		8B71342C252D1CE800009D1B /* Entitlements_UAT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Entitlements_UAT.entitlements; path = UniteAppRN/Entitlements_UAT.entitlements; sourceTree = "<group>"; };
 		8B71342D252D1CE800009D1B /* Entitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Entitlements.entitlements; path = UniteAppRN/Entitlements.entitlements; sourceTree = "<group>"; };
 		8B71342E252D1CE800009D1B /* Entitlements_DEVOPS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Entitlements_DEVOPS.entitlements; path = UniteAppRN/Entitlements_DEVOPS.entitlements; sourceTree = "<group>"; };
-		8E265B7F400F4D5F9EDBDC5E /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/opensans/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		9618F46E8967D031FF0F366E /* Pods_UniteAppRN_UniteAppRN_UAT.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UniteAppRN_UniteAppRN_UAT.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A57E4AE2AAEE9725CCE70C81 /* Pods_UniteAppRN_UniteAppRNTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UniteAppRN_UniteAppRNTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A70EEFC3647B4B9B96CF1EBA /* OpenSans-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiBoldItalic.ttf"; path = "../src/assets/fonts/opensans/OpenSans-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
@@ -193,10 +198,7 @@
 		BEDB50C02533E2BB00711869 /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "AppCenter-Config.plist"; sourceTree = "<group>"; };
 		C33A2734254BAA2B0078DD48 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		CAEF0246B4742002AA4E7316 /* Pods_UniteAppRN_UniteAppRN_ENF.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UniteAppRN_UniteAppRN_ENF.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC6303A9C13D456B8ACBCD6C /* Baloo-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo-Regular.ttf"; path = "../src/assets/fonts/baloo/Baloo-Regular.ttf"; sourceTree = "<group>"; };
-		DB92CA3349DA4BBA89726ABB /* Baloo-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo-Black.ttf"; path = "../src/assets/fonts/baloo/Baloo-Black.ttf"; sourceTree = "<group>"; };
 		EA926243258C4C46588AC667 /* Pods-UniteAppRN-UniteAppRN-DEV.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniteAppRN-UniteAppRN-DEV.release.xcconfig"; path = "Target Support Files/Pods-UniteAppRN-UniteAppRN-DEV/Pods-UniteAppRN-UniteAppRN-DEV.release.xcconfig"; sourceTree = "<group>"; };
-		EB4D805EE2E64738821A802F /* Baloo-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Baloo-Bold.ttf"; path = "../src/assets/fonts/baloo/Baloo-Bold.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F88AB9336125426223E1B1CB /* Pods-UniteAppRN-UniteAppRN-DEVOPS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UniteAppRN-UniteAppRN-DEVOPS.release.xcconfig"; path = "Target Support Files/Pods-UniteAppRN-UniteAppRN-DEVOPS/Pods-UniteAppRN-UniteAppRN-DEVOPS.release.xcconfig"; sourceTree = "<group>"; };
 		FD01B739F1AAEDB74C1B792F /* Pods_UniteAppRN_UniteAppRN_DEVOPS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UniteAppRN_UniteAppRN_DEVOPS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -373,7 +375,8 @@
 		8B71342F252D1CF400009D1B /* entitlements */ = {
 			isa = PBXGroup;
 			children = (
-				6CFE2238255E1575009115C9 /* Entitlements_ENF.entitlements */,
+				09ACD2EA25D74905000D867A /* Entitlements_ENF_Debug.entitlements */,
+				6CFE2238255E1575009115C9 /* Entitlements_ENF_Release.entitlements */,
 				8B71342B252D1CE800009D1B /* Entitlements_DEV.entitlements */,
 				8B71342E252D1CE800009D1B /* Entitlements_DEVOPS.entitlements */,
 				8B71342A252D1CE800009D1B /* Entitlements_TEST.entitlements */,
@@ -394,12 +397,6 @@
 		E991C56654B2424A926EB80C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DB92CA3349DA4BBA89726ABB /* Baloo-Black.ttf */,
-				EB4D805EE2E64738821A802F /* Baloo-Bold.ttf */,
-				06A15BC39925488C9C0A84C8 /* Baloo-Medium.ttf */,
-				CC6303A9C13D456B8ACBCD6C /* Baloo-Regular.ttf */,
-				077002E342174EAA920F08C7 /* Baloo-Semibold.ttf */,
-				8E265B7F400F4D5F9EDBDC5E /* OpenSans-Regular.ttf */,
 				A70EEFC3647B4B9B96CF1EBA /* OpenSans-SemiBoldItalic.ttf */,
 				23103E0915944450AB1DB9A7 /* Baloo2-Bold.ttf */,
 				1690CB41E2E44D2786672F35 /* Baloo2-ExtraBold.ttf */,
@@ -411,6 +408,7 @@
 				285E0151C2624F1E8E12EA05 /* OpenSans-ExtraBold.ttf */,
 				00FBC5BC2ED44DB8808F2409 /* OpenSans-Light.ttf */,
 				13A7A637606B467EA587D4F7 /* OpenSans-SemiBold.ttf */,
+				84FFBCF22C5E4B3A9F9C7E14 /* OpenSans-Italic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -599,7 +597,7 @@
 						ProvisioningStyle = Automatic;
 					};
 					8B71340A252D18C300009D1B = {
-						DevelopmentTeam = JW8639E9LX;
+						DevelopmentTeam = 7G3LQ2PUCF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -656,6 +654,7 @@
 				BEDB50C12533E2BC00711869 /* AppCenter-Config.plist in Resources */,
 				3ABDDA1D0753470F882B2712 /* OpenSans-Light.ttf in Resources */,
 				5AFBDFB683B24B14B8777442 /* OpenSans-SemiBold.ttf in Resources */,
+				BC8D927A5F1645078A2528AF /* OpenSans-Italic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -672,6 +671,7 @@
 				50953707255B9C9E0069753C /* Baloo2-ExtraBold.ttf in Resources */,
 				50953708255B9C9E0069753C /* Baloo2-Medium.ttf in Resources */,
 				50953709255B9C9E0069753C /* Baloo2-Regular.ttf in Resources */,
+				1D7AA34A25FEB78B007347E1 /* OpenSans-Italic.ttf in Resources */,
 				5095370A255B9C9E0069753C /* Baloo2-Semibold.ttf in Resources */,
 				5095370B255B9C9E0069753C /* OpenSans.ttf in Resources */,
 				5095370C255B9C9E0069753C /* OpenSans-Bold.ttf in Resources */,
@@ -695,6 +695,7 @@
 				8B7133BB252D189200009D1B /* Baloo2-ExtraBold.ttf in Resources */,
 				8B7133BC252D189200009D1B /* Baloo2-Medium.ttf in Resources */,
 				8B7133BD252D189200009D1B /* Baloo2-Regular.ttf in Resources */,
+				1D7AA35225FEB78B007347E1 /* OpenSans-Italic.ttf in Resources */,
 				8B7133BE252D189200009D1B /* Baloo2-Semibold.ttf in Resources */,
 				8B7133BF252D189200009D1B /* OpenSans.ttf in Resources */,
 				8B7133C0252D189200009D1B /* OpenSans-Bold.ttf in Resources */,
@@ -718,6 +719,7 @@
 				8B7133DA252D18AE00009D1B /* Baloo2-ExtraBold.ttf in Resources */,
 				8B7133DB252D18AE00009D1B /* Baloo2-Medium.ttf in Resources */,
 				8B7133DC252D18AE00009D1B /* Baloo2-Regular.ttf in Resources */,
+				1D7AA35A25FEB78C007347E1 /* OpenSans-Italic.ttf in Resources */,
 				8B7133DD252D18AE00009D1B /* Baloo2-Semibold.ttf in Resources */,
 				8B7133DE252D18AE00009D1B /* OpenSans.ttf in Resources */,
 				8B7133DF252D18AE00009D1B /* OpenSans-Bold.ttf in Resources */,
@@ -741,6 +743,7 @@
 				8B7133F9252D18B800009D1B /* Baloo2-ExtraBold.ttf in Resources */,
 				8B7133FA252D18B800009D1B /* Baloo2-Medium.ttf in Resources */,
 				8B7133FB252D18B800009D1B /* Baloo2-Regular.ttf in Resources */,
+				1D7AA36225FEB78D007347E1 /* OpenSans-Italic.ttf in Resources */,
 				8B7133FC252D18B800009D1B /* Baloo2-Semibold.ttf in Resources */,
 				8B7133FD252D18B800009D1B /* OpenSans.ttf in Resources */,
 				8B7133FE252D18B800009D1B /* OpenSans-Bold.ttf in Resources */,
@@ -764,6 +767,7 @@
 				8B713418252D18C300009D1B /* Baloo2-ExtraBold.ttf in Resources */,
 				8B713419252D18C300009D1B /* Baloo2-Medium.ttf in Resources */,
 				8B71341A252D18C300009D1B /* Baloo2-Regular.ttf in Resources */,
+				1D7AA36A25FEB78E007347E1 /* OpenSans-Italic.ttf in Resources */,
 				8B71341B252D18C300009D1B /* Baloo2-Semibold.ttf in Resources */,
 				8B71341C252D18C300009D1B /* OpenSans.ttf in Resources */,
 				8B71341D252D18C300009D1B /* OpenSans-Bold.ttf in Resources */,
@@ -819,6 +823,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -843,10 +848,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -878,6 +886,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -902,10 +911,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -947,6 +959,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -971,10 +984,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -1006,6 +1022,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -1030,10 +1047,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -1097,6 +1117,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -1121,10 +1142,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -1156,6 +1180,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -1180,10 +1205,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -1302,6 +1330,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -1326,10 +1355,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -1361,6 +1393,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -1385,10 +1418,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -1650,6 +1686,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -1674,10 +1711,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -1709,6 +1749,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -1733,10 +1774,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -1778,6 +1822,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -1802,10 +1847,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -1837,6 +1885,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -1861,10 +1910,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -1916,6 +1968,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNCPushNotificationIOS/RNCPushNotificationIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDateTimePicker/RNDateTimePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/RNDeviceInfo/RNDeviceInfo.framework",
+				"${BUILT_PRODUCTS_DIR}/RNFastImage/RNFastImage.framework",
 				"${BUILT_PRODUCTS_DIR}/RNGestureHandler/RNGestureHandler.framework",
 				"${BUILT_PRODUCTS_DIR}/RNIOS11DeviceCheck/RNIOS11DeviceCheck.framework",
 				"${BUILT_PRODUCTS_DIR}/RNKeychain/RNKeychain.framework",
@@ -1940,10 +1993,13 @@
 				"${BUILT_PRODUCTS_DIR}/React-jsinspector/jsinspector.framework",
 				"${BUILT_PRODUCTS_DIR}/ReactCommon/ReactCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmJS/RealmJS.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImageWebPCoder/SDWebImageWebPCoder.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
 				"${BUILT_PRODUCTS_DIR}/covidtracer-migration/covidtracer_migration.framework",
 				"${BUILT_PRODUCTS_DIR}/glog/glog.framework",
+				"${BUILT_PRODUCTS_DIR}/libwebp/libwebp.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-camera/react_native_camera.framework",
 				"${BUILT_PRODUCTS_DIR}/react-native-config/react_native_config.framework",
@@ -1975,6 +2031,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCPushNotificationIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDateTimePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNDeviceInfo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNFastImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNGestureHandler.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNIOS11DeviceCheck.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNKeychain.framework",
@@ -1999,10 +2056,13 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/jsinspector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmJS.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImageWebPCoder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/covidtracer_migration.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/glog.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libwebp.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_camera.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/react_native_config.framework",
@@ -2220,7 +2280,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = UniteAppRN/Entitlements_ENF.entitlements;
+				CODE_SIGN_ENTITLEMENTS = UniteAppRN/Entitlements_ENF_Debug.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0.0dev1;
@@ -2251,7 +2311,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = UniteAppRN/Entitlements_ENF.entitlements;
+				CODE_SIGN_ENTITLEMENTS = UniteAppRN/Entitlements_ENF_Release.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0.0dev1;
@@ -2580,7 +2640,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1.0.0uat1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = JW8639E9LX;
+				DEVELOPMENT_TEAM = 7G3LQ2PUCF;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "UniteAppRN/Info-UAT.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2611,7 +2671,7 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1.0.0uat1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = JW8639E9LX;
+				DEVELOPMENT_TEAM = 7G3LQ2PUCF;
 				INFOPLIST_FILE = "UniteAppRN/Info-UAT.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.0.0;
@@ -2620,9 +2680,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "nz.co.rush.unite-against-covid-19.uat";
+				PRODUCT_BUNDLE_IDENTIFIER = "nz.govt.health.covid-tracing-app.uat";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Unite against COVID 19 In House - UAT";
+				PROVISIONING_PROFILE_SPECIFIER = "NZ Covid19 Tracer UAT - AdHoc";
 				SWIFT_OBJC_BRIDGING_HEADER = "UniteAppRN-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

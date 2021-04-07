@@ -1,6 +1,6 @@
 import { removeMany as dbRemoveCheckInItems } from "@db/checkInItem";
 import { removeMany as dbRemoveMatches } from "@db/checkInItemMatch";
-import { appDidBecomeAvailable } from "@domain/device/reducer";
+import { appDidBecomeAvailable } from "@features/device/reducer";
 import { createLogger } from "@logger/createLogger";
 import { calcCheckInMinDate } from "@utils/checkInDate";
 import { SagaIterator } from "redux-saga";

@@ -79,6 +79,7 @@
 		<string>OpenSans-ExtraBold.ttf</string>
 		<string>OpenSans-Light.ttf</string>
 		<string>OpenSans-SemiBold.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

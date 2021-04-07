@@ -44,13 +44,21 @@ export const strings = {
           troubleReading:
             "We're having trouble reading this barcode, please try again.",
         },
+        accessibility: {
+          torchOnLabel: "Turn torch light off",
+          torchOffLabel: "Turn torch light on",
+          hint: "Turn torchlight on to help scan posters in low light",
+        },
       },
       visitRecorded: {
         addDetails: "Add details",
         doneButton: "Okay",
-        doneHint: "Navigates back to scan page",
+        doneHint: "Closes the page and navigates back",
         detailsDescription:
-          "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
+          "Describing who you were with and what you were doing can help Contact Tracers.",
+        tip:
+          "Tip: You can add a manual entry for any missed day even if you were just staying home.",
+        notProvided: "Not provided.",
       },
       scanNotRecorded: {
         heading: "Something went wrong",

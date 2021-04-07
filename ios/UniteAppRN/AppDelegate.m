@@ -16,6 +16,8 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  NSTimeInterval val = [[NSDate date] timeIntervalSince1970];
+  [[NSUserDefaults standardUserDefaults] setDouble:val forKey:@"lastLaunchTime"];
 
   [AppCenterReactNative register];
   [AppCenterReactNativeCrashes registerWithAutomaticProcessing];

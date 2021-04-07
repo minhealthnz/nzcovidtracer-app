@@ -2,6 +2,7 @@ import { FormV2 } from "@components/molecules/FormV2";
 import { colors } from "@constants";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Linking } from "react-native";
@@ -9,10 +10,9 @@ import { Linking } from "react-native";
 import config from "../../../config";
 import { Link } from "../components/Link";
 import { ScanScreen } from "../screens";
-import { ScanStackParamList } from "./ScanNavigator";
 
 export interface ScanNotRecordedProps
-  extends StackScreenProps<ScanStackParamList, ScanScreen.ScanNotRecorded> {}
+  extends StackScreenProps<MainStackParamList, ScanScreen.ScanNotRecorded> {}
 
 export function ScanNotRecorded({ navigation }: ScanNotRecordedProps) {
   const { t } = useTranslation();

@@ -5,15 +5,17 @@ import {
   VerticalSpacing,
 } from "@components/atoms";
 import { presets } from "@components/atoms/TextInput";
+import { Tip, TipText } from "@components/atoms/Tip";
 import { FormV2 } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
 import More from "@components/molecules/More";
-import { colors, fontFamilies, fontSizes, grid, grid2x } from "@constants";
+import { colors, fontFamilies, fontSizes, grid } from "@constants";
 import { setNHI } from "@domain/user/reducer";
 import { selectSetNHIFulfilled, selectUser } from "@domain/user/selectors";
 import { usePrevious } from "@hooks/usePrevious";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard, View } from "react-native";
@@ -22,7 +24,6 @@ import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { NHIScreen } from "../screens";
-import { NHIStackParamList } from "./NHINavigator";
 
 const Title = styled(Text)`
   font-family: ${fontFamilies["baloo-semi-bold"]};
@@ -31,16 +32,10 @@ const Title = styled(Text)`
 const Description = styled(Text)`
   font-family: ${fontFamilies["open-sans"]};
 `;
-const MoreContainer = styled.View`
-  background-color: ${colors.lightYellow};
-  border-left-width: 5px;
-  border-color: ${colors.yellow};
-  padding: ${grid2x}px;
-`;
 
 const NHIRegex = /^[a-zA-Z]{3}[0-9]{4}$/;
 
-interface Props extends StackScreenProps<NHIStackParamList, NHIScreen.Add> {}
+interface Props extends StackScreenProps<MainStackParamList, NHIScreen.Add> {}
 export function NHIAdd(props: Props) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -144,16 +139,16 @@ export function NHIAdd(props: Props) {
         />
 
         {showMore && (
-          <MoreContainer>
-            <Text>{t("screens:addNHI:more1")}</Text>
-            <Text>{t("screens:addNHI:more2")}</Text>
-            <Text>{t("screens:addNHI:more3")}</Text>
-            <Text>{t("screens:addNHI:more4")}</Text>
-            <Text>{t("screens:addNHI:more5")}</Text>
-            <Text>{t("screens:addNHI:more6")}</Text>
-            <Text>{t("screens:addNHI:more7")}</Text>
-            <Text>{t("screens:addNHI:more8")}</Text>
-          </MoreContainer>
+          <Tip backgroundColor={colors.lightYellow}>
+            <TipText>{t("screens:addNHI:more1")}</TipText>
+            <TipText>{t("screens:addNHI:more2")}</TipText>
+            <TipText>{t("screens:addNHI:more3")}</TipText>
+            <TipText>{t("screens:addNHI:more4")}</TipText>
+            <TipText>{t("screens:addNHI:more5")}</TipText>
+            <TipText>{t("screens:addNHI:more6")}</TipText>
+            <TipText>{t("screens:addNHI:more7")}</TipText>
+            <TipText>{t("screens:addNHI:more8")}</TipText>
+          </Tip>
         )}
       </View>
     </FormV2>

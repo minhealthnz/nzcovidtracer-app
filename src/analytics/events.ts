@@ -1,4 +1,10 @@
+import { AnnouncementEvents } from "@features/announcement/events";
+import { DeviceEventPayloads, DeviceEvents } from "@features/device/events";
 import { ENFEvent, ENFEventPayloads } from "@features/enfExposure/events";
+import {
+  ExposureEventPayloads,
+  ExposureEvents,
+} from "@features/exposure/events";
 
 /**
  * TODO Move to smaller files, divided by feature.
@@ -14,20 +20,13 @@ const Events = {
   EntryPass: "entry_pass",
   EntryPassManual: "entry_pass_manual",
   EntryPassFailure: "entry_pass_failure",
+  EntryComplete: "entry_complete",
   RegistrationLegal: "registration_legal",
   RegistrationCreate: "registration_create",
   RegistrationVerify: "registration_verify",
   RegistrationDetails: "registration_details",
   RegistrationComplete: "registration_complete",
   Dashboard: "dashboard",
-  ExposureNotificationReceived: "exposureNotificationReceived",
-  ExposureNotificationMatchDetected: "exposureNotificationMatchDetected",
-  ExposureNotificationDisplayed: "exposureNotificationDisplayed",
-  ExposureNotificationOpened: "exposureNotificationOpened",
-  ExposureNotificationFindOutMore: "exposureNotificationFindOutMore",
-  CallbackRequested: "callbackRequested",
-  DismissCardBeforeCallbackRequest: "dismissCardBeforeCallbackRequest",
-  DismissCardAfterCallbackRequest: "dismissCardAfterCallbackRequest",
   AddNhi: "addNHI",
   EditNhi: "editNHI",
   ViewNHIFromMyProfile: "viewNHIFromMyProfile",
@@ -38,8 +37,13 @@ const Events = {
 const AnalyticsEvent = {
   ...Events,
   ...ENFEvent,
+  ...ExposureEvents,
+  ...AnnouncementEvents,
+  ...DeviceEvents,
 } as const;
 
-export type EventPayloads = ENFEventPayloads;
+export type EventPayloads = ENFEventPayloads &
+  ExposureEventPayloads &
+  DeviceEventPayloads;
 
 export { AnalyticsEvent };

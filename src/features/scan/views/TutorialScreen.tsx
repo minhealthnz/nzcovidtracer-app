@@ -8,6 +8,7 @@ import { isAndroid, isX } from "@lib/helpers";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import { TFunction } from "i18next";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
@@ -16,7 +17,7 @@ import { Image, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
 
-import { ScanStackParamList } from "./ScanNavigator";
+import { ScanScreen } from "../screens";
 
 const makeStepImages = () => {
   if (isAndroid) {
@@ -112,7 +113,8 @@ const BodyContainer = styled.View`
   flex: 1;
 `;
 
-interface Props extends StackScreenProps<ScanStackParamList> {
+interface Props
+  extends StackScreenProps<MainStackParamList, ScanScreen.Tutorial> {
   onComplete: () => void;
 }
 export function TutorialScreen(props: Props) {

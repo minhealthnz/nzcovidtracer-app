@@ -1,6 +1,8 @@
+import { strings as announcement } from "@features/announcement/strings";
 import { strings as dashboard } from "@features/dashboard/strings";
 import { strings as oldDiary } from "@features/diary/strings";
 import { strings as enf } from "@features/enf/strings";
+import { strings as enfExposure } from "@features/enfExposure/strings";
 import { strings as exposure } from "@features/exposure/strings";
 import { strings as nhi } from "@features/nhi/strings";
 import { strings as onboarding } from "@features/onboarding/strings";
@@ -12,9 +14,9 @@ import _ from "lodash";
 const strings = {
   en: {
     common: {
-      required: "Required",
-      optional: "Optional",
-      recommended: "Recommended",
+      required: "required",
+      optional: "optional",
+      recommended: "recommended",
       tab1of3: "1 of 3",
       tab2of3: "2 of 3",
       tab3of3: "3 of 3",
@@ -54,9 +56,27 @@ const strings = {
         disclaimer:
           "Your digital diary is kept securely on your phone. Whenever you open the app, entries older than 60 days will be automatically deleted.",
       },
+      diaryEntryListItem: {
+        locationAccessibilityLabel: "Location alert from diary entry match",
+        locationAccessibilityHint: "Tap to view entry",
+      },
+      diaryPercentage: {
+        topText: "COMPLETE YOUR DIARY",
+        bottomText: "have recorded entries",
+        middleText: " of the last 14 days",
+        percentageAccessibilityLabel:
+          "Complete your diary. {0} of the last 14 days have recorded entries.",
+        percentageAccessibilityHint: "Double tap to view your digital diary.",
+        tip:
+          "You can add a manual entry to fill out any missed day even if you just stayed home.",
+      },
     },
     screens: {
       diaryEntry: {
+        bannerTitle:
+          "You may have been in contact with COVID-19 during this visit",
+        bannerBody:
+          "If you begin to feel unwell, please isolate and call Healthline 0800 358 5453 for advice on what to do next.",
         placeOrActivity: "Place or activity",
         dateTime: "Date & time",
         address: "Address",
@@ -79,7 +99,7 @@ const strings = {
         details: "Details",
         save: "Save changes",
         disclaimer:
-          "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
+          "Describing who you were with and what you were doing can help Contact Tracers.",
         areYouSure: {
           message: "Are you sure you want to discard these changes?",
           cancel: "Cancel",
@@ -93,7 +113,7 @@ const strings = {
         details: "Details",
         save: "Add entry",
         disclaimer:
-          "Describing who you were with and what you were doing can help the Contact Tracing team if you share your diary.",
+          "Describing who you were with and what you were doing can help Contact Tracers.",
         datePicker: "Arrival date & time",
       },
       shareDiary: {
@@ -200,4 +220,6 @@ export default _.merge(
   nhi,
   enf,
   scan,
+  announcement,
+  enfExposure,
 );

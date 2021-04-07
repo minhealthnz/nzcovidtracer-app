@@ -22,9 +22,9 @@ import { createOTPSession } from "@features/otp/reducer";
 import { OTPScreen } from "@features/otp/screens";
 import { Link } from "@features/profile/components/Link";
 import { selectIsVerified } from "@features/verification/selectors";
-import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { nanoid } from "@reduxjs/toolkit";
+import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,8 +37,6 @@ import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import config from "../../../config";
 import { testable } from "../../../testable";
 import { gray } from "../colors";
-import { ProfileScreen } from "../screens";
-import { ProfileStackParamList } from "./ProfileNavigator";
 
 const assets = {
   diary: require("../assets/icons/diary.png"),
@@ -59,7 +57,7 @@ const Version = styled(Text)`
 `;
 
 interface ProfileProps
-  extends BottomTabScreenProps<ProfileStackParamList, TabScreen.MyData> {}
+  extends BottomTabScreenProps<MainStackParamList, TabScreen.MyData> {}
 
 export default function Profile(props: ProfileProps) {
   const { t } = useTranslation();
@@ -72,8 +70,6 @@ export default function Profile(props: ProfileProps) {
 
   const showShareENF = enfSupported && verified;
 
-  useAccessibleTitle();
-
   return (
     <Container testID="screens:profile">
       <VerticalSpacing height={16} />
@@ -81,9 +77,7 @@ export default function Profile(props: ProfileProps) {
         headerImage={assets.diary}
         title={t("screens:profile:viewDiary")}
         onPress={() => {
-          props.navigation.navigate(DiaryScreen.Navigator, {
-            screen: DiaryScreen.Diary,
-          });
+          props.navigation.navigate(DiaryScreen.Diary);
         }}
       />
       {hasOldDiary && <Divider />}
@@ -102,11 +96,8 @@ export default function Profile(props: ProfileProps) {
                 mfaErrorHandling: "ignore",
               }),
             );
-            props.navigation.navigate(DiaryScreen.Navigator, {
-              screen: OTPScreen.EnterEmail,
-              params: {
-                sessionId,
-              },
+            props.navigation.navigate(OTPScreen.EnterEmail, {
+              sessionId,
             });
           }}
         />
@@ -119,6 +110,8 @@ export default function Profile(props: ProfileProps) {
         onPress={() => {
           Linking.openURL(contactDetailsLink);
         }}
+        isLink
+        accessibilityHint={t("screens:dashboard:linkAccessiblityHint")}
       />
       <Divider />
       <Card
@@ -128,6 +121,8 @@ export default function Profile(props: ProfileProps) {
         onPress={() => {
           Linking.openURL(addressLink);
         }}
+        isLink
+        accessibilityHint={t("screens:dashboard:linkAccessiblityHint")}
       />
       <Divider />
       <Card
@@ -148,9 +143,9 @@ export default function Profile(props: ProfileProps) {
             recordAnalyticEvent(AnalyticsEvent.ViewNHIFromMyProfile);
           }
 
-          props.navigation.navigate(NHIScreen.Navigator, {
-            screen: hasNHI ? NHIScreen.View : NHIScreen.Privacy,
-          });
+          props.navigation.navigate(
+            hasNHI ? NHIScreen.View : NHIScreen.Privacy,
+          );
         }}
       />
       <VerticalSpacing height={16} />
@@ -159,9 +154,7 @@ export default function Profile(props: ProfileProps) {
         testID="profile:shareDiary"
         title={t("screens:profile:shareDiary")}
         onPress={() => {
-          props.navigation.navigate(ProfileScreen.Navigator, {
-            screen: ProfileScreen.ShareDiary,
-          });
+          props.navigation.navigate(DiaryScreen.ShareDiary);
         }}
       />
       {showShareENF && (
@@ -173,9 +166,7 @@ export default function Profile(props: ProfileProps) {
             title={t("screens:profile:shareBluetooth")}
             onPress={() => {
               recordAnalyticEvent(AnalyticsEvent.ENFShareCodesMenuItemPressed);
-              props.navigation.navigate(ENFScreen.Navigator, {
-                screen: ENFScreen.Share,
-              });
+              props.navigation.navigate(ENFScreen.Share);
             }}
           />
         </>
@@ -227,7 +218,7 @@ export default function Profile(props: ProfileProps) {
         <Link
           text={"Dev Menu"}
           onPress={() => {
-            props.navigation.navigate(DebugScreen.Navigator);
+            props.navigation.navigate(DebugScreen.Menu);
           }}
           accessibilityLabel="Dev Menu"
         />

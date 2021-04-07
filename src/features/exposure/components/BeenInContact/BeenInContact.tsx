@@ -1,18 +1,13 @@
+import { HiddenAccessibilityTitle, Text } from "@components/atoms";
 import {
-  HiddenAccessibilityTitle,
-  Text,
-  VerticalSpacing,
-} from "@components/atoms";
-import { ImageButton } from "@components/atoms";
-import {
-  colors,
-  contactAlertslink,
-  fontFamilies,
-  fontSizes,
-  grid2x,
-  grid4x,
-} from "@constants";
+  CloseButton,
+  HeadingText,
+  styles as notificationCardStyles,
+} from "@components/molecules/NotificationCard";
+import { colors, contactAlertslink, fontFamilies, fontSizes } from "@constants";
+import { DiaryScreen } from "@features/diary/screens";
 import { recordDismissLocationAlert } from "@features/exposure/analytics";
+import { navigationRef } from "@navigation/navigation";
 import moment from "moment";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +18,11 @@ import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../../analytics";
 import { acknowledgeMatches } from "../../reducer";
-import { selectMatch } from "../../selectors";
+import {
+  selectCheckInId,
+  selectMatch,
+  selectRiskyLocationName,
+} from "../../selectors";
 import { Buttons } from "./Buttons";
 
 const Container = styled.View<{ callbackRequested: boolean }>`
@@ -33,25 +32,13 @@ const Container = styled.View<{ callbackRequested: boolean }>`
     props.callbackRequested ? colors.lightYellow : colors.yellow};
 `;
 
-const ContentContainer = styled.View`
-  align-items: center;
-`;
-
-const CloseButton = styled(ImageButton)`
-  padding: ${grid2x}px ${grid2x}px ${grid4x}px ${grid4x}px;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  z-index: 1;
-`; // adding z-index to fix "shifted" hitbox
-
-const DateText = styled(Text)`
+const LinkText = styled(Text)`
   font-family: ${fontFamilies["open-sans-semi-bold"]};
   font-size: ${fontSizes.small}px;
   color: ${colors.primaryBlack};
+  text-decoration-line: underline;
   text-align: left;
   align-self: flex-start;
-  margin-right: 64px;
 `;
 
 // TODO Extract h1 component
@@ -59,20 +46,29 @@ const TitleText = styled(Text)`
   font-size: ${fontSizes.xxLarge}px;
   line-height: 26px;
   font-family: ${fontFamilies["baloo-semi-bold"]};
-  text-align: center;
-  padding-top: 4px;
-  padding-bottom: 8px;
+  padding-top: 8px;
+  flex: 1;
+  padding-left: 10px;
 `;
 const BodyText = styled(Text)`
   font-family: ${fontFamilies["open-sans"]};
   font-size: ${fontSizes.normal}px;
   line-height: 24px;
-  text-align: center;
   padding-bottom: 4px;
 `;
 
 const HeaderImage = styled.Image`
-  margin-top: 18px;
+  width: 40px;
+  height: 40px;
+  align-self: flex-start;
+  margin-top: 6px;
+`;
+
+const HeaderContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  padding-top: 12px;
+  padding-bottom: 0px;
 `;
 
 export interface BeenInContactProps {
@@ -82,6 +78,8 @@ export interface BeenInContactProps {
 export function BeenInContact({ onRequestCallback }: BeenInContactProps) {
   const { t } = useTranslation();
   const exposureMatch = useSelector(selectMatch);
+  const riskyLocationName = useSelector(selectRiskyLocationName);
+  const checkInId = useSelector(selectCheckInId);
 
   const callbackRequested = useMemo(
     () => exposureMatch?.callbackRequested ?? false,
@@ -89,6 +87,14 @@ export function BeenInContact({ onRequestCallback }: BeenInContactProps) {
   );
 
   const dispatch = useDispatch();
+
+  const onLinkPressed = useCallback(() => {
+    if (navigationRef.current !== null) {
+      navigationRef.current.navigate(DiaryScreen.DiaryEntry, {
+        id: checkInId,
+      });
+    }
+  }, [checkInId]);
 
   const handleDismissPressed = useCallback(() => {
     if (!exposureMatch) {
@@ -128,6 +134,18 @@ export function BeenInContact({ onRequestCallback }: BeenInContactProps) {
     return null;
   }
 
+  const locationAccessibilityLabel = !riskyLocationName
+    ? [
+        t("screens:dashboard:beenInContact:lastExposed"),
+        moment(exposureMatch.checkInStartDate).format("DD MMMM YYYY"),
+      ].join(" ")
+    : [
+        t("screens:dashboard:beenInContact:lastExposed"),
+        moment(exposureMatch.checkInStartDate).format("DD MMMM YYYY"),
+        t("screens:dashboard:beenInContact:riskyLocationAt"),
+        riskyLocationName,
+      ].join(" ");
+
   return (
     <Container callbackRequested={callbackRequested}>
       <HiddenAccessibilityTitle
@@ -137,31 +155,49 @@ export function BeenInContact({ onRequestCallback }: BeenInContactProps) {
         image={require("@assets/images/close.png")}
         onPress={handleDismissPressed}
         accessibilityLabel={t("accessibility:button:close")}
+        imageStyle={notificationCardStyles.closeButtonImage}
       />
-      <ContentContainer>
+      <>
         {!!exposureMatch.checkInStartDate && (
-          <DateText>
+          <HeadingText
+            accessible
+            accessibilityRole={riskyLocationName ? "button" : "none"}
+            accessibilityLabel={locationAccessibilityLabel}
+            accessibilityHint={
+              riskyLocationName
+                ? t("screens:dashboard:beenInContact:locationAccessibilityHint")
+                : "none"
+            }
+          >
             {t("screens:dashboard:beenInContact:lastExposed")}
             {moment(exposureMatch.checkInStartDate).format("DD MMMM YYYY")}
-          </DateText>
+            {riskyLocationName ? (
+              <>
+                {t("screens:dashboard:beenInContact:riskyLocationAt")}
+                <LinkText onPress={onLinkPressed}>{riskyLocationName}</LinkText>
+              </>
+            ) : (
+              ""
+            )}
+          </HeadingText>
         )}
-        <HeaderImage
-          source={require("@assets/images/alert-location.png")}
-          width={52}
-          height={52}
-        />
-        <VerticalSpacing height={24} />
-        <TitleText>
-          {exposureMatch.appBannerTitle ||
-            t("screens:dashboard:beenInContact:title")}
-        </TitleText>
+
+        <HeaderContainer>
+          <HeaderImage
+            source={require("@assets/images/alert-location.png")}
+            width={40}
+            height={40}
+          />
+          <TitleText>
+            {exposureMatch.appBannerTitle ||
+              t("screens:dashboard:beenInContact:title")}
+          </TitleText>
+        </HeaderContainer>
 
         <BodyText>
           {exposureMatch.appBannerBody ||
             t("screens:dashboard:beenInContact:description")}
         </BodyText>
-
-        <VerticalSpacing height={20} />
 
         <Buttons
           callbackEnabled={exposureMatch.appBannerRequestCallbackEnabled}
@@ -169,11 +205,12 @@ export function BeenInContact({ onRequestCallback }: BeenInContactProps) {
           appBannerLinkLabel={exposureMatch.appBannerLinkLabel}
           onPressRequestCallback={handleRequestCallback}
           onPressMore={handlePressMore}
+          secondaryButtonAccessibilityRole="link"
           secondaryButtonAccessibilityHint={t(
             "screens:dashboard:beenInContact:moreAccessibilityHint",
           )}
         />
-      </ContentContainer>
+      </>
     </Container>
   );
 }

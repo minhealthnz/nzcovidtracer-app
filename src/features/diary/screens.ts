@@ -6,10 +6,11 @@ export enum DiaryScreen {
   DiaryEntry = "Diary/DiaryEntry",
   EditEntry = "Diary/EditEntry",
   AddEntryManually = "Diary/AddEntryManually",
+  ShareDiary = "Profile/ShareDiary",
+  DiaryShared = "Profile/DiaryShared",
 }
 
 export type DiaryScreenParams = {
-  [DiaryScreen.Navigator]: any;
   [DiaryScreen.ViewDiary]: {
     userId: string;
     email: string;
@@ -20,4 +21,6 @@ export type DiaryScreenParams = {
   [DiaryScreen.DiaryEntry]: { id: string };
   [DiaryScreen.AddEntryManually]: undefined;
   [DiaryScreen.EditEntry]: { id: string };
+  [DiaryScreen.ShareDiary]: undefined;
+  [DiaryScreen.DiaryShared]: undefined;
 };

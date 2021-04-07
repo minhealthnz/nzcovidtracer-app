@@ -24,6 +24,19 @@
 	<string>$(APP_VERSION)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>nz.co.rush.unite-against-covid-19.enf.scheme</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>nzcovidtracer</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>dev$(APPCENTER_BUILD_ID)</string>
 	<key>ENAPIVersion</key>
@@ -66,6 +79,7 @@
 		<string>OpenSans-ExtraBold.ttf</string>
 		<string>OpenSans-Light.ttf</string>
 		<string>OpenSans-SemiBold.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

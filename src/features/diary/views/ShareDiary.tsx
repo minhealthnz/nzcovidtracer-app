@@ -2,8 +2,6 @@ import { InputGroup, TextInput } from "@components/atoms";
 import { presets } from "@components/atoms/TextInput";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
-import { ProfileScreen } from "@features/profile/screens";
-import { ProfileStackParamList } from "@features/profile/views/ProfileNavigator";
 import { navigationMaxDuration } from "@navigation/constants";
 import { debounce } from "@navigation/debounce";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -11,6 +9,7 @@ import { useBackButton } from "@navigation/hooks/useBackButton";
 import { StackScreenProps } from "@react-navigation/stack";
 import { nanoid } from "@reduxjs/toolkit";
 import { dataRequestCodeValidation } from "@validations/validations";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
@@ -19,13 +18,14 @@ import * as yup from "yup";
 
 import { useShareDiaryRequest } from "../hooks/useShareDiaryRequest";
 import { shareDiary } from "../reducer";
+import { DiaryScreen } from "../screens";
 
 const assets = {
   headerImage: require("@assets/images/Send.png"),
 };
 
 export interface ShareDiaryProps
-  extends StackScreenProps<ProfileStackParamList, ProfileScreen.ShareDiary> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.ShareDiary> {}
 
 const schema = yup.object().shape({
   dataRequestCode: dataRequestCodeValidation,
@@ -43,7 +43,7 @@ export function ShareDiary(props: ShareDiaryProps) {
       return;
     }
 
-    props.navigation.replace(ProfileScreen.DiaryShared);
+    props.navigation.replace(DiaryScreen.DiaryShared);
 
     const handle = setTimeout(() => {
       setIsLoading(false);

@@ -1,20 +1,19 @@
 import { FormV2 } from "@components/molecules/FormV2";
 import { colors } from "@constants";
-import { ProfileStackParamList } from "@features/profile/views/ProfileNavigator";
+import { DiaryScreen } from "@features/diary/screens";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import React from "react";
 import { useTranslation } from "react-i18next";
-
-import { ProfileScreen } from "../screens";
 
 const assets = {
   headerImage: require("@assets/images/Tick.png"),
 };
 
 export interface DiarySharedProps
-  extends StackScreenProps<ProfileStackParamList, ProfileScreen.DiaryShared> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.DiaryShared> {}
 
 export function DiaryShared(props: DiarySharedProps) {
   const { t } = useTranslation();

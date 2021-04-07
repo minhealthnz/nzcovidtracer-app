@@ -13,7 +13,7 @@ PODS:
   - AppCenterReactNativeShared (3.1.2):
     - AppCenter/Core (= 3.3.4)
   - boost-for-react-native (1.63.0)
-  - covidtracer-migration (1.0.5):
+  - covidtracer-migration (1.0.6):
     - React
   - DoubleConversion (1.1.6)
   - FBLazyVector (0.63.2)
@@ -88,6 +88,15 @@ PODS:
   - GoogleUtilities/UserDefaults (7.1.0):
     - GoogleUtilities/Logger
   - KeychainSwift (19.0.0)
+  - libwebp (1.1.0):
+    - libwebp/demux (= 1.1.0)
+    - libwebp/mux (= 1.1.0)
+    - libwebp/webp (= 1.1.0)
+  - libwebp/demux (1.1.0):
+    - libwebp/webp
+  - libwebp/mux (1.1.0):
+    - libwebp/demux
+  - libwebp/webp (1.1.0)
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
@@ -362,6 +371,10 @@ PODS:
     - React
   - RNDeviceInfo (6.2.1):
     - React-Core
+  - RNFastImage (8.3.4):
+    - React-Core
+    - SDWebImage (~> 5.8)
+    - SDWebImageWebPCoder (~> 0.6.1)
   - RNFBApp (9.0.0):
     - Firebase/CoreOnly (~> 7.0.0)
     - React-Core
@@ -387,6 +400,12 @@ PODS:
     - React
   - RNSecureRandom (1.0.0):
     - React
+  - SDWebImage (5.10.2):
+    - SDWebImage/Core (= 5.10.2)
+  - SDWebImage/Core (5.10.2)
+  - SDWebImageWebPCoder (0.6.1):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.7)
   - SSZipArchive (2.2.3)
   - Yoga (1.14.0)
 
@@ -436,6 +455,7 @@ DEPENDENCIES:
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -465,8 +485,11 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - KeychainSwift
+    - libwebp
     - nanopb
     - PromisesObjC
+    - SDWebImage
+    - SDWebImageWebPCoder
     - SSZipArchive
 
 EXTERNAL SOURCES:
@@ -556,6 +579,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/datetimepicker"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNFastImage:
+    :path: "../node_modules/react-native-fast-image"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -588,7 +613,7 @@ SPEC CHECKSUMS:
   appcenter-crashes: 5da5dca952c3d1a3eea2d596748d94ec0412fbd1
   AppCenterReactNativeShared: 66667cd2dfad295b84bbf0f462e0e139e2128284
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
-  covidtracer-migration: e0d59172cff65ef0d69aab5985cc223d82849a2b
+  covidtracer-migration: b185e4caa940d892ed5939f5bc733452f7a8f3db
   DoubleConversion: cde416483dac037923206447da6e1454df403714
   FBLazyVector: 3ef4a7f62e7db01092f9d517d2ebc0d0677c4a37
   FBReactNativeSpec: dc7fa9088f0f2a998503a352b0554d69a4391c5a
@@ -604,6 +629,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: e4085e6762f36a6141738f46b0153473ce57fb18
   GoogleUtilities: f734da554aade8cc7928a31c2f3311897933a1bd
   KeychainSwift: a06190cf933ad46b1e0abc3d77d29c06331715c7
+  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
   Permission-Camera: 9ff12884205fb282b4a22b9e8c358ba53cee7567
   Permission-Notifications: 572d4e94121e57dbecc71a0933abd8ed61108e92
@@ -641,6 +667,7 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: ef00b111c849a9bb5dbc86d40cf91acb8b262772
   RNDateTimePicker: a84d2b439666c9243d42a8396c588d4d1d36e3f3
   RNDeviceInfo: 9b6aba9ffaed69ecb72bd13c7bcb0debf277bc9f
+  RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: 2810471bdc092151f20f16a9f8915b1ad70325b2
   RNFBMessaging: 37ea050803005191f1c42ff02234353225429c07
   RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
@@ -652,6 +679,8 @@ SPEC CHECKSUMS:
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2
   RNSecureKeyStore: f1ad870e53806453039f650720d2845c678d89c8
   RNSecureRandom: 0dcee021fdb3d50cd5cee5db0ebf583c42f5af0e
+  SDWebImage: b969dcfc02c40a5da71eac0b03b8f1a0c794a86f
+  SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
 

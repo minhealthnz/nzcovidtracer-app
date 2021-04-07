@@ -1,4 +1,5 @@
 import { findByLocationNumberHash } from "@db/checkInItem";
+import { CheckInItem } from "@db/checkInItem";
 import {
   acknowledgeOutstandingMatches,
   CheckInItemMatch,
@@ -6,6 +7,10 @@ import {
   setCallbackRequested,
 } from "@db/checkInItemMatch";
 import { ReduxState } from "@domain/types";
+import {
+  setMatchedCheckInItem,
+  setMatches,
+} from "@features/diary/commonActions";
 import { isNetworkError } from "@lib/helpers";
 import AsyncStorage from "@react-native-community/async-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -90,6 +95,8 @@ const acknowledgeMatches = createAsyncThunk("exposure/dimiss", async () => {
 export interface ExposureState {
   match?: CheckInItemMatch;
   pollingDisabled: boolean;
+  checkInItem?: CheckInItem;
+  matches?: CheckInItemMatch[];
 }
 
 const initialState: ExposureState = {
@@ -126,6 +133,12 @@ const slice = createSlice({
       })
       .addCase(requestCallback.fulfilled, (state, { payload }) => {
         state.match = payload;
+      })
+      .addCase(setMatchedCheckInItem, (state, { payload }) => {
+        state.checkInItem = payload;
+      })
+      .addCase(setMatches, (state, { payload }) => {
+        state.matches = payload;
       })
       .addDefaultCase((_state, _payload) => {}),
 });

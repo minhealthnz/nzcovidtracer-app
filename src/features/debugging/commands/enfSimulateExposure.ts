@@ -5,9 +5,10 @@ import { ExposureContextValue } from "react-native-exposure-notification-service
 
 export const enfSimulateExposure = (
   exposure: ExposureContextValue,
+  exposureDay: number,
 ): TestCommand => ({
-  command: "enfSimulateExposure",
-  title: "Simulate exposure",
+  command: `enfSimulateExposureWith${exposureDay}Day`,
+  title: `Simulate exposure with ${exposureDay} day`,
   async run() {
     if (Platform.OS === "android") {
       const version = await DeviceInfo.getApiLevel();
@@ -18,6 +19,6 @@ export const enfSimulateExposure = (
         return;
       }
     }
-    exposure.simulateExposure(0, 0);
+    exposure.simulateExposure(0, exposureDay);
   },
 });

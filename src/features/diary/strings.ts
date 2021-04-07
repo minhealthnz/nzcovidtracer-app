@@ -8,6 +8,12 @@ export const strings = {
       diaryShared: "Share my diary",
     },
     screens: {
+      diary: {
+        addEntry: "Add entry",
+        addEntryAccessibilityLabel: "Add manual entry",
+        addEntryAccessibilityHint:
+          "Leaves the diary and navigates to Add manual entry form",
+      },
       viewDiary: {
         descriptionP1: "These entries were recorded for",
         submit: "Add to current diary",

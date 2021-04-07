@@ -11,9 +11,15 @@ const ImportantSectionItemSeparator = styled.View`
   margin-horizontal: ${grid2x}px;
 `;
 
-export function DashboardItemSeparator(props: { isImportant: boolean }) {
+export function DashboardItemSeparator(props: {
+  isImportant: boolean;
+  isGrouped: boolean;
+}) {
   if (props.isImportant) {
     return <ImportantSectionItemSeparator />;
+  }
+  if (props.isGrouped) {
+    return null;
   }
   return <VerticalSpacing height={grid} />;
 }

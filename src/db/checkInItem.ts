@@ -1,6 +1,7 @@
 import { createLogger } from "@logger/createLogger";
 import { nanoid } from "@reduxjs/toolkit";
 import _ from "lodash";
+import moment from "moment";
 import { Results, UpdateMode } from "realm";
 
 import { createPrivate, createPublic } from "./create";
@@ -192,6 +193,48 @@ export const count = async (userId?: string) => {
   }
   const result = queryable.length;
   privateDb.close();
+  return result;
+};
+
+const day = 60 * 60 * 24 * 1000;
+export const countActiveDays = async (userId?: string) => {
+  const privateDb = await createPrivate();
+  let queryable = privateDb.objects(CheckInItemEntity);
+  if (userId != null) {
+    // To track 14 days, query from start of today - 13
+    const minDateTime = new Date(moment().startOf("day").valueOf() - 13 * day);
+    queryable = queryable.filtered(
+      "userId = $0 && startDate >= $1",
+      userId,
+      minDateTime,
+    );
+  }
+
+  const days = new Set<number>();
+  for (const entry of queryable) {
+    const startDate = moment((entry as any).startDate).startOf("day");
+    days.add(startDate.valueOf());
+  }
+  privateDb.close();
+  return days.size;
+};
+
+export const findCheckInItem = async (
+  globalLocationNumberHash?: string,
+  startDate?: Date,
+  endDate?: Date,
+) => {
+  const privateDb = await createPrivate();
+  const result: CheckInItem | undefined = privateDb
+    .objects(CheckInItemEntity)
+    .filtered("globalLocationNumberHash = $0", globalLocationNumberHash)
+    .filtered("startDate => $0 && startDate =< $1", startDate, endDate) // within event time range
+    .sorted("startDate", true) // descending, lastest check in within time range
+    .slice(0, 1)
+    .map((x) => x.toJSON())[0];
+
+  privateDb.close();
+
   return result;
 };
 

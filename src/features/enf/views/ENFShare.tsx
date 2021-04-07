@@ -7,6 +7,7 @@ import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { SerializedError, unwrapResult } from "@reduxjs/toolkit";
 import { enfRequestCodeValidation } from "@validations/validations";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
@@ -16,7 +17,6 @@ import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { errors } from "../errors";
 import { shareDiagnosis } from "../reducer";
 import { ENFScreen } from "../screens";
-import { ENFStackParamList } from "./ENFNavigator";
 
 const assets = {
   headerImage: require("@assets/images/Send.png"),
@@ -26,7 +26,7 @@ const schema = yup.object().shape({
   code: enfRequestCodeValidation,
 });
 
-interface Props extends StackScreenProps<ENFStackParamList, ENFScreen.Share> {}
+interface Props extends StackScreenProps<MainStackParamList, ENFScreen.Share> {}
 
 export function ENFShare(props: Props) {
   const { t } = useTranslation();

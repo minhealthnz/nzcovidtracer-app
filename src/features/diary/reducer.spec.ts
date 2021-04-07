@@ -74,10 +74,12 @@ export default describe("Diary/reducer", () => {
         fulfilled: false,
       },
       count: {},
+      countActiveDays: 0,
       countedOldDiaries: false,
       debugging: {
         insertError: false,
       },
+      matches: {},
     };
   };
 

@@ -1,5 +1,12 @@
+import { requestCallback } from "@features/enf/api";
+import { isNetworkError } from "@lib/helpers";
 import AsyncStorage from "@react-native-community/async-storage";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import { CloseContact } from "react-native-exposure-notification-service";
 import { persistReducer } from "redux-persist";
 
@@ -24,12 +31,57 @@ export interface ENFExposureState {
   notificationConfig: ENFNotificationRiskBucketsConfig;
   enfAlert: ENFAlertData | undefined;
   lastEnfAlertDismissDate: number;
+  callbackEnabled: boolean;
+  lastCallbackRequestedDate?: number;
 }
+
+export interface RequestCallback {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  notes?: string;
+}
+
+export const errors = {
+  requestCallbackEnf: {
+    network: "errors:requestCallbackEnf:network",
+    disabled: "urn:errors:disabled",
+  },
+};
+
+const buildError = (message: string, code: string): SerializedError => {
+  return {
+    message,
+    code,
+  };
+};
+
+export const requestCallbackEnf = createAsyncThunk(
+  "enfExposure/requestCallbackEnf",
+  async (request: RequestCallback) => {
+    try {
+      await requestCallback({
+        ...request,
+        contactNotes: request.notes,
+        phone: request.phone.replace(/\s/g, ""),
+      });
+    } catch (err) {
+      if (isNetworkError(err)) {
+        throw buildError("Network error", errors.requestCallbackEnf.network);
+      }
+      if (err.response?.data?.type === "urn:errors:disabled") {
+        throw buildError("Disabled", errors.requestCallbackEnf.disabled);
+      }
+      throw err;
+    }
+  },
+);
 
 const initialState: ENFExposureState = {
   notificationConfig: [],
   enfAlert: undefined,
   lastEnfAlertDismissDate: 0,
+  callbackEnabled: false,
 };
 
 const slice = createSlice({
@@ -49,7 +101,14 @@ const slice = createSlice({
     dismissEnfAlert(state, { payload }: PayloadAction<number>) {
       state.lastEnfAlertDismissDate = payload;
     },
+    setCallbackEnabled(state, { payload }: PayloadAction<boolean>) {
+      state.callbackEnabled = payload;
+    },
   },
+  extraReducers: (builder) =>
+    builder.addCase(requestCallbackEnf.fulfilled, (state) => {
+      state.lastCallbackRequestedDate = new Date().getTime();
+    }),
 });
 
 const { reducer } = slice;
@@ -59,6 +118,7 @@ export const {
   processENFContacts,
   setEnfAlert,
   dismissEnfAlert,
+  setCallbackEnabled,
 } = slice.actions;
 
 export default persistReducer(persistConfig, reducer);
