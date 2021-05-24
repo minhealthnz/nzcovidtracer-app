@@ -24,9 +24,13 @@ import { enableScreens } from "react-native-screens";
 import { setupAnalytics } from "./src/analytics/setupAnalytics";
 import { configure as configurePush } from "./src/notifications";
 
-enableScreens();
-
 const { logError, logInfo } = createLogger("setup");
+
+if (config.HideLogs) {
+  LogBox.ignoreAllLogs();
+}
+
+enableScreens();
 
 logInfo("app launched with env variables:" + "\n" + formatEnv(true));
 

@@ -1,4 +1,4 @@
-import { Button, Text, VerticalSpacing } from "@components/atoms";
+import { Card } from "@components/molecules/Card";
 import { colors } from "@constants";
 import { selectUserId } from "@domain/user/selectors";
 import { requestCameraPermission } from "@features/device/reducer";
@@ -81,6 +81,7 @@ function isQRScanDataValid(qrScanData: QRScanData): boolean {
 const assets = {
   flashLightOn: require("@assets/icons/flashlight-on.png"),
   flashLightOff: require("@assets/icons/flashlight-off.png"),
+  manualEntry: require("@assets/icons/manual-entry.png"),
 };
 
 const Container = styled.View`
@@ -95,13 +96,8 @@ const Pending = styled.View`
 
 const FooterContainer = styled.View`
   background-color: ${colors.white};
-  padding: 20px;
   width: 100%;
   align-items: flex-start;
-`;
-
-const Instruction = styled(Text)`
-  padding-left: 1px;
 `;
 
 const FlashLightIconContainer = styled.TouchableOpacity`
@@ -450,13 +446,10 @@ export function Scan(props: Props) {
     <Container>
       {camera}
       <FooterContainer>
-        <Instruction fontFamily="baloo-semi-bold" maxFontSizeMultiplier={1.5}>
-          {t("screens:scan:instructions")}
-        </Instruction>
-        <VerticalSpacing />
-        <Button
-          testID="scan:addManualEntry"
-          text={t("screens:scan:addManualEntry")}
+        <Card
+          headerImage={assets.manualEntry}
+          title={t("screens:scan:manualEntryButtonTitle")}
+          description={t("screens:scan:manualEntryButtonDescription")}
           onPress={onManualPress}
         />
       </FooterContainer>

@@ -21,6 +21,7 @@ export const strings = {
           trace: "Trace your steps",
           help: "Help contact tracers",
           advice: "Advice",
+          whatsNew: "What's new",
           stats: {
             title: "Latest updates",
             refresh: "Refresh",
@@ -49,12 +50,17 @@ export const strings = {
             accessibilityHint:
               "Tap to learn more and change Bluetooth tracing status",
             disabled: {
-              title: "Bluetooth tracing is off",
+              title: "Bluetooth tracing is not active",
               description: "Turn on to anonymously log other nearby app users",
             },
             enabled: {
               title: "Bluetooth tracing is on",
-              description: "Anonymously log other nearby app users",
+              description:
+                "Your device is anonymously logging other nearby app users",
+            },
+            inactive: {
+              title: "Bluetooth tracing is not active",
+              description: "Turn on Bluetooth in your phone settings too.",
             },
             notSupported: {
               title: "Bluetooth Tracing could not be activated",
@@ -70,7 +76,7 @@ export const strings = {
           contactAlerts: {
             title: "Enable contact alerts",
             description:
-              "Get an alert if you may have been exposed to COVID-19",
+              "Get alerts when exposed to COVID-19 and receive public announcements.",
           },
           registerDetails: {
             title: "Update your details",
@@ -105,6 +111,13 @@ export const strings = {
           title: "Remember to wash your hands",
           detail:
             "Wash often. Use soap. 20 seconds. Then dry. This kills the virus by bursting its protective bubble.",
+        },
+        swipeInfo: {
+          title: "Swipe left for more",
+          description:
+            "Swipe or tap on the tabs at the top to find the latest information on New Zealand’s COVID-19 response.",
+          accessibilityLabel: "Dismiss the update",
+          accessibilityHint: "This card will be removed from dashboard",
         },
         beenInContact: {
           title: "You may have been in contact with COVID-19",
@@ -149,6 +162,15 @@ export const strings = {
           },
         },
       },
+    },
+    topTabs: {
+      today: "Today",
+      tabAccessibilityLabel: "Tab {0} of {1}",
+      resources: "More info",
+      todayAccessibilityLabel: "Selected Today",
+      todayAccessibilityHint: "Double tap to switch to more info tab",
+      resourcesAccessibilityLabel: "Selected More info",
+      resourcesAccessibilityHint: "Double tap to switch to today tab",
     },
   },
 };

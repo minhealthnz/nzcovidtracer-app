@@ -35,6 +35,9 @@ export interface AppConfigRaw {
   ENFCheckInterval?: string;
   CovidStatsUrl?: string;
   DevLogModules?: string;
+  AssetWhitelist?: string;
+  HideLogs?: string;
+  ResourcesUrl?: string;
 }
 
 export interface AppConfig {
@@ -71,6 +74,9 @@ export interface AppConfig {
   ENFCheckInterval: number;
   CovidStatsUrl: string;
   DevLogModules: boolean;
+  AssetWhitelist: "*" | string[];
+  HideLogs: boolean;
+  ResourcesUrl: string;
 }
 
 export let disableAnimations = false;
@@ -188,6 +194,16 @@ const config: AppConfig = {
   ENFCheckInterval: getENFCheckInterval(),
   CovidStatsUrl: raw.CovidStatsUrl || "",
   DevLogModules: raw.DevLogModules === "1",
+  AssetWhitelist: readHostWhitelist(raw.AssetWhitelist),
+  HideLogs: raw.HideLogs === "1",
+  ResourcesUrl: raw.ResourcesUrl || "",
 };
+
+export function readHostWhitelist(raw: string | undefined): "*" | string[] {
+  if (raw == null || raw.length === 0 || raw === "*") {
+    return "*";
+  }
+  return raw.split(",").map((x) => x.trim());
+}
 
 export default config;

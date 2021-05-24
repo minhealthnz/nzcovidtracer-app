@@ -14,6 +14,7 @@ export const strings = {
       enableENFModal: "Bluetooth tracing",
       privacyStatement: "Privacy statement",
       lockCode: "Protect your privacy",
+      enableBluetoothModal: "Bluetooth tracing inactive",
     },
     screens: {
       existingUser: {
@@ -131,7 +132,7 @@ export const strings = {
       enableAlerts: {
         heading: "Enable contact alerts",
         description:
-          "We use notifications to let you know if you may have been in contact with someone with COVID-19.",
+          "We use notifications to let you know if you may have been in contact with someone with COVID-19 and to send you public announcements",
         enableNotifications: "Enable notifications",
         done: "Done",
       },

@@ -24,6 +24,10 @@ jest.mock("./src/logger/createTransports");
 
 jest.mock("react-native-config");
 
+jest.mock("react-native-exposure-notification-service", () => {});
+
+jest.mock("react-native-bluetooth-state-manager", () => {});
+
 jest.mock('react-native-push-notification', () => ({
   configure: jest.fn(),
   onRegister: jest.fn(),

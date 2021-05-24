@@ -99,6 +99,7 @@ export default describe("Dashboard/reducer", () => {
     statsError: undefined,
     testLocationsLink: "",
     statsEmpty: false,
+    hasSeenSwipeInfo: false,
   };
 
   describe("getCovidStatistics.fulfilled", () => {

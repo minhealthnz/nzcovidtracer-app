@@ -1,37 +1,46 @@
+import { VerticalSpacing } from "@components/atoms";
+import { SectionList } from "@components/atoms/SectionList";
 import { Disclaimer } from "@components/molecules/Disclaimer";
 import { colors } from "@constants";
 import { DiaryEntry } from "@features/diary/types";
+import useCurrentDate from "@features/enfExposure/hooks/useCurrentDate";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
-import React, { useCallback, useLayoutEffect } from "react";
+import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, StyleSheet } from "react-native";
+import {
+  SectionListData,
+  SectionListRenderItemInfo,
+  StyleSheet,
+} from "react-native";
 import styled from "styled-components/native";
 
-import { AddEntryButton } from "../components/AddEntryButton";
-import { DiaryEntryListItem } from "../components/DiaryEntryListItem";
+import { DiarySectionHeader } from "../components/DiarySectionHeader";
+import { DiarySectionItem } from "../components/DiarySectionItem";
+import {
+  DiaryItem,
+  DiarySectionData,
+  useDiarySections,
+} from "../hooks/useDiarySections";
 import { usePaginationSession } from "../hooks/usePaginationSession";
 import { DiaryScreen } from "../screens";
 
-const keyExtractor = (diaryEntry: DiaryEntry) => diaryEntry.id;
+const keyExtractor = (item: DiaryItem, index: number) =>
+  typeof item === "object" ? item.id : index.toString();
 
 const Separator = styled.View`
-  background-color: ${colors.divider};
+  background-color: ${colors.platinum};
   height: 1px;
   width: 100%;
-`;
-
-const DiaryList = styled(FlatList as new () => FlatList<DiaryEntry>)`
-  background-color: ${colors.white};
 `;
 
 interface Props
   extends StackScreenProps<MainStackParamList, DiaryScreen.Diary> {}
 
 export function Diary(props: Props) {
-  const onEntryPress = useCallback(
-    (entry: DiaryEntry) => () => {
+  const handleEntryPress = useCallback(
+    (entry: DiaryEntry) => {
       props.navigation.navigate(DiaryScreen.DiaryEntry, { id: entry.id });
     },
     [props.navigation],
@@ -44,6 +53,28 @@ export function Diary(props: Props) {
     diaryEntries,
   } = usePaginationSession();
 
+  const currentDate = useCurrentDate();
+  const hour = 60 * 60 * 1000;
+  const minute = 60 * 1000;
+
+  const handleAddEntry = useCallback(
+    (startDate: number) => {
+      startDate =
+        startDate.valueOf() +
+        currentDate.getHours() * hour +
+        currentDate.getMinutes() * minute;
+
+      props.navigation.navigate(DiaryScreen.AddEntryManually, {
+        startDate,
+      });
+    },
+    [props.navigation, currentDate, hour, minute],
+  );
+
+  const { t } = useTranslation();
+
+  const { sections } = useDiarySections(diaryEntries, handleAddEntry, t);
+
   const handleLoadMore = () => {
     loadNextPage();
   };
@@ -52,50 +83,73 @@ export function Diary(props: Props) {
     refresh();
   };
 
-  const { t } = useTranslation();
-
   const renderItem = useCallback(
-    ({ item: entry }) => (
-      <DiaryEntryListItem entry={entry} onPress={onEntryPress(entry)} />
-    ),
-    [onEntryPress],
+    (itemInfo: SectionListRenderItemInfo<DiaryItem>) => {
+      const section = itemInfo.section as DiarySectionData;
+      const startOfDay = section.startOfDay;
+      const item = itemInfo.item;
+
+      return (
+        <DiarySectionItem
+          item={item}
+          startOfDay={startOfDay}
+          onEntryPress={handleEntryPress}
+          handleAddEntry={handleAddEntry}
+        />
+      );
+    },
+    [handleEntryPress, handleAddEntry],
   );
-
-  const handleAddEntry = useCallback(() => {
-    props.navigation.navigate(DiaryScreen.AddEntryManually);
-  }, [props.navigation]);
-
-  useLayoutEffect(() => {
-    props.navigation.setOptions({
-      headerRight() {
-        return <AddEntryButton handleAddEntry={handleAddEntry} />;
-      },
-    });
-  }, [props.navigation, handleAddEntry, t]);
-  const renderFooter = useCallback(() => {
-    return <Disclaimer text={t("components:diaryDisclaimer:disclaimer")} />;
-  }, [t]);
 
   useAccessibleTitle();
 
-  // TODO add a refresh control
+  const renderSectionHeader = useCallback(
+    (info: { section: SectionListData<DiaryItem> }) => {
+      const section = info.section as DiarySectionData;
+      return (
+        <DiarySectionHeader
+          title={section.title}
+          showOldDiaryTitle={section.showOldDiaryTitle}
+          ctaTitle={section.ctaTitle}
+          ctaCallback={section.ctaCallback}
+          accessibilityLabel={t(
+            "screens:diary:addNewManualEntryAccessibilityLabel",
+          )}
+        />
+      );
+    },
+    [t],
+  );
+
+  const renderSectionFooter = useCallback(
+    (info: { section: SectionListData<DiaryItem> }) => {
+      const section = info.section as DiarySectionData;
+      return section.isLastSection ? <VerticalSpacing height={30} /> : null;
+    },
+    [],
+  );
+
   return (
-    <DiaryList
-      contentContainerStyle={styles.scrollViewContent}
-      scrollEnabled={true}
-      data={diaryEntries}
-      keyExtractor={keyExtractor}
-      renderItem={renderItem}
-      ItemSeparatorComponent={Separator}
-      ListFooterComponent={renderFooter}
-      ListFooterComponentStyle={styles.listFooter}
-      onEndReachedThreshold={8}
-      onEndReached={handleLoadMore}
-      initialNumToRender={15}
-      windowSize={61}
-      onRefresh={handleRefresh}
-      refreshing={querying}
-    />
+    <>
+      <SectionList
+        contentContainerStyle={styles.scrollViewContent}
+        scrollEnabled={true}
+        sections={sections}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        renderSectionHeader={renderSectionHeader}
+        renderSectionFooter={renderSectionFooter}
+        ItemSeparatorComponent={Separator}
+        onEndReachedThreshold={8}
+        onEndReached={handleLoadMore}
+        initialNumToRender={15}
+        windowSize={61}
+        onRefresh={handleRefresh}
+        refreshing={querying}
+        style={styles.sectionListContainer}
+      />
+      <Disclaimer text={t("components:diaryDisclaimer:disclaimer")} />
+    </>
   );
 }
 
@@ -103,8 +157,8 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
   },
-  listFooter: {
-    flex: 1,
-    justifyContent: "flex-end",
+  sectionListContainer: {
+    paddingRight: 20,
+    paddingLeft: 20,
   },
 });

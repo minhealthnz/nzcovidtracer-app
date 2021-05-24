@@ -17,13 +17,14 @@ export interface ENFNotificationRiskBucket {
 
 export type ENFNotificationRiskBucketsConfig = ENFNotificationRiskBucket[];
 
-export interface Annoucement {
+export interface Announcement {
   title: string;
   message: string;
   linkText: string;
   link: string;
   createdAt: string;
   enabled: boolean;
+  deepLink?: string;
 }
 
 export interface ENFNotificationSettingsRaw {
@@ -35,18 +36,19 @@ export interface ENFNotificationSettingsRaw {
 
 export interface ENFNotificationSettings {
   testLocationsLink: string;
-  announcements: Annoucement[];
+  announcements: Announcement[];
   configurations: ENFNotificationRiskBucketsConfig;
   callbackEnabled?: boolean;
 }
 
-const announcementSchema = yup.object<Annoucement>().shape({
+const announcementSchema = yup.object<Announcement>().shape({
   title: yup.string().required(),
   message: yup.string().required(),
   linkText: yup.string().required(),
   link: yup.string().required(),
   date: yup.string().required(),
   enabled: yup.boolean().required(),
+  deepLink: yup.string().optional(),
 });
 
 const announcementsSchema = yup.array().of(announcementSchema);

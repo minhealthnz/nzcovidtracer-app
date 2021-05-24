@@ -3,7 +3,6 @@ import {
   DebugScreenParams,
   useDebugScreens,
 } from "@features/debugging/hooks/useDebugScreens";
-import { selectCurrentRouteName } from "@features/device/selectors";
 import { useDiaryScreens } from "@features/diary/hooks/useDiaryScreens";
 import { DiaryScreenParams } from "@features/diary/screens";
 import { useENFScreens } from "@features/enf/hooks/useENFScreens";
@@ -23,8 +22,7 @@ import { useScanScreens } from "@features/scan/hooks/useScanScreens";
 import { ScanScreenParams } from "@features/scan/screens";
 import { TutorialScreenParams } from "@features/scan/views/TutorialNavigator";
 import { createLogger } from "@logger/createLogger";
-import { getHeaderOptions } from "@navigation/getHeaderOptions";
-import { useInitialTab } from "@navigation/hooks/useInitialTab";
+import { useHeaderOptions } from "@navigation/hooks/useHeaderOptions";
 import { headerOptions } from "@navigation/options";
 import { useFocusEffect } from "@react-navigation/native";
 import {
@@ -33,7 +31,6 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import React, { useCallback, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
 import { disableAnimations } from "../config";
@@ -81,18 +78,7 @@ export function MainStack(props: MainStackProps) {
     }, [dispatch, props.navigation, shouldShowLockCode]),
   );
 
-  const { t } = useTranslation();
-
-  const initialTab = useInitialTab();
-
-  const route = useSelector(selectCurrentRouteName);
-
-  const tabHeaderOptions = getHeaderOptions(
-    initialTab,
-    props.navigation,
-    route,
-    t,
-  );
+  const tabHeaderOptions = useHeaderOptions();
 
   return (
     <Stack.Navigator

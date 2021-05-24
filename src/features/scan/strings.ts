@@ -14,9 +14,9 @@ export const strings = {
             "Scan the QR codes on official NZ COVID Tracer posters when you arrive at participating places.",
         },
         step2: {
-          title: "Record a visit manually",
+          title: "Add a diary entry manually",
           description:
-            "Manually record your visits to places that don't have a QR code on display.",
+            "Add entries to your digital diary manually if you visit somewhere without a QR code. You can also add a diary entry for a previous day.",
         },
         step3: {
           title: "Contact alerts",
@@ -32,7 +32,11 @@ export const strings = {
           "Your digital diary is kept securely on your phone. Whenever you open the app, entries older than 60 days will be automatically deleted.",
       },
       scan: {
-        addManualEntry: "Add manual entry",
+        guide: "Guide",
+        diary: "Diary",
+        addManualEntry: "Add diary entry",
+        manualEntryButtonTitle: "Or add a diary entry manually",
+        manualEntryButtonDescription: "If there is no QR poster to scan",
         instructions: "Scan NZ COVID Tracer QR code or:",
         noCameraPermission:
           "To scan QR codes, you'll need to allow camera access to the NZ COVID Tracer app.",
@@ -48,6 +52,8 @@ export const strings = {
           torchOnLabel: "Turn torch light off",
           torchOffLabel: "Turn torch light on",
           hint: "Turn torchlight on to help scan posters in low light",
+          diaryHistory: "diary history",
+          startTutorial: "start tutorial",
         },
       },
       visitRecorded: {

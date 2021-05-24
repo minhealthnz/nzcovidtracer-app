@@ -19,7 +19,6 @@ export function NHIAdded(props: Props) {
 
   const handleBackPress = useCallback(() => {
     props.navigation.popToTop();
-    props.navigation.goBack();
   }, [props.navigation]);
 
   useLayoutEffect(() => {

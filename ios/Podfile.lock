@@ -359,6 +359,8 @@ PODS:
   - RealmJS (6.1.2):
     - GCDWebServer
     - React
+  - RNBluetoothStateManager (1.3.1):
+    - React
   - RNCAsyncStorage (1.12.0):
     - React
   - RNCClipboard (1.4.0):
@@ -382,8 +384,8 @@ PODS:
     - Firebase/Messaging (~> 7.0.0)
     - React-Core
     - RNFBApp
-  - RNGestureHandler (1.8.0):
-    - React
+  - RNGestureHandler (1.10.3):
+    - React-Core
   - RNIOS11DeviceCheck (0.0.3):
     - React
   - RNKeychain (6.2.0):
@@ -449,6 +451,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RealmJS (from `../node_modules/realm`)
+  - RNBluetoothStateManager (from `../node_modules/react-native-bluetooth-state-manager`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCClipboard (from `../node_modules/@react-native-community/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
@@ -567,6 +570,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RealmJS:
     :path: "../node_modules/realm"
+  RNBluetoothStateManager:
+    :path: "../node_modules/react-native-bluetooth-state-manager"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-community/async-storage"
   RNCClipboard:
@@ -661,6 +666,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4d2e726957f4087449739b595f107c0d4b6c2d2d
   ReactCommon: a0a1edbebcac5e91338371b72ffc66aa822792ce
   RealmJS: 44cd1b81352bbd37f582b5061d5abc1f6c783393
+  RNBluetoothStateManager: afd3d90feffa2e02bb4f6abad588648840d0f727
   RNCAsyncStorage: 2a692bcb9b69b76a2f1a95f33db057129700af64
   RNCClipboard: a1dd5a278566666ac8f9c9b517b7922c801bcd98
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
@@ -670,7 +676,7 @@ SPEC CHECKSUMS:
   RNFastImage: d4870d58f5936111c56218dbd7fcfc18e65b58ff
   RNFBApp: 2810471bdc092151f20f16a9f8915b1ad70325b2
   RNFBMessaging: 37ea050803005191f1c42ff02234353225429c07
-  RNGestureHandler: 7a5833d0f788dbd107fbb913e09aa0c1ff333c39
+  RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNIOS11DeviceCheck: a4a545fdd08230a17a8ce7608e95038ee23a32aa
   RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
   RNPermissions: 477d88d0be7ecb0a7b344e4d5fbb0352de104626

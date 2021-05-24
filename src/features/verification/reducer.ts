@@ -40,6 +40,7 @@ export const persistConfig = {
     "refreshToken",
     "retriable",
     "enfEnableNotificationSent",
+    "enabled",
   ],
 };
 

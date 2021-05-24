@@ -31,6 +31,7 @@ module.exports = {
           "@utils": "./src/utils",
           "@logger": "./src/logger",
           "@navigation": "./src/navigation",
+          "@linking": "./src/linking",
         },
       },
     ],

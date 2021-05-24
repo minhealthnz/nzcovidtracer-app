@@ -5,6 +5,7 @@ import {
   ExposureEventPayloads,
   ExposureEvents,
 } from "@features/exposure/events";
+import { LinkingEventPayloads, LinkingEvents } from "@linking/events";
 
 /**
  * TODO Move to smaller files, divided by feature.
@@ -40,10 +41,12 @@ const AnalyticsEvent = {
   ...ExposureEvents,
   ...AnnouncementEvents,
   ...DeviceEvents,
+  ...LinkingEvents,
 } as const;
 
 export type EventPayloads = ENFEventPayloads &
   ExposureEventPayloads &
-  DeviceEventPayloads;
+  DeviceEventPayloads &
+  LinkingEventPayloads;
 
 export { AnalyticsEvent };

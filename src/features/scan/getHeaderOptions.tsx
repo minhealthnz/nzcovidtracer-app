@@ -1,55 +1,89 @@
-import ImageButton from "@components/atoms/ImageButton";
+import { HeaderButton } from "@components/atoms/HeaderButton";
+import { selectCurrentRouteName } from "@features/device/selectors";
 import { DiaryScreen } from "@features/diary/screens";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { MainStackParamList } from "@views/MainStack";
-import { TFunction } from "i18next";
-import React from "react";
-import styled from "styled-components/native";
+import { AccessibleHeaderTitle } from "@navigation/hooks/AccessibleHeaderTitle";
+import { useFocusView } from "@navigation/hooks/useFocusView";
+import { useNavigation } from "@react-navigation/core";
+import { StackHeaderTitleProps } from "@react-navigation/stack";
+import { TabScreen } from "@views/screens";
+import React, { useCallback, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 
 import { ScanScreen } from "./screens";
 
-const HistoryButton = styled(ImageButton)`
-  width: 60px;
-  height: 60px;
-`;
-
-const InfoButton = styled(ImageButton)`
-  width: 60px;
-  height: 60px;
-`;
-
-const assets = {
-  history: require("@assets/icons/diary.png"),
-  info: require("@assets/icons/info.png"),
-};
-
-export function getHeaderOptions(
-  navigation: StackNavigationProp<MainStackParamList>,
-  t: TFunction,
-) {
-  const handleGoToHistory = () => {
-    navigation.navigate(DiaryScreen.Diary);
-  };
-  const handleInfoPress = () => {
-    navigation.navigate(ScanScreen.TutorialNavigator);
-  };
-
+export function getHeaderOptions() {
   return {
-    headerLeft: () => (
-      <HistoryButton
-        image={assets.history}
-        onPress={handleGoToHistory}
-        testID="goToHistory"
-        accessibilityLabel={t("accessibility:button:diaryHistory")}
-      />
-    ),
-    headerRight: () => (
-      <InfoButton
-        image={assets.info}
-        onPress={handleInfoPress}
-        testID="goToTutorial"
-        accessibilityLabel={t("accessibility:button:startTutorial")}
-      />
-    ),
+    headerLeft: () => <HeaderLeft />,
+    headerRight: () => <HeaderRight />,
+    headerTitle: (props: StackHeaderTitleProps) => <HeaderTitle {...props} />,
   };
 }
+
+function HeaderLeft() {
+  const { t } = useTranslation();
+
+  const navigation = useNavigation();
+
+  const handlePress = useCallback(() => {
+    navigation.navigate(ScanScreen.TutorialNavigator);
+  }, [navigation]);
+
+  return (
+    <HeaderButton
+      text={t("screens:scan:guide")}
+      onPress={handlePress}
+      accessibilityLabel={t("screens:scan:accessibility:startTutorial")}
+      style={styles.infoButton}
+    />
+  );
+}
+
+function HeaderRight() {
+  const { t } = useTranslation();
+
+  const navigation = useNavigation();
+
+  const handlePress = useCallback(() => {
+    navigation.navigate(DiaryScreen.Diary);
+  }, [navigation]);
+
+  return (
+    <HeaderButton
+      text={t("screens:scan:diary")}
+      onPress={handlePress}
+      accessibilityLabel={t("screens:scan:accessibility:diaryHistory")}
+      style={styles.historyButton}
+    />
+  );
+}
+
+function HeaderTitle(props: StackHeaderTitleProps) {
+  const { t } = useTranslation();
+
+  const currentRouteName = useSelector(selectCurrentRouteName);
+
+  const { focusView, ref } = useFocusView();
+
+  useEffect(() => {
+    if (currentRouteName === TabScreen.RecordVisit) {
+      focusView();
+    }
+  }, [currentRouteName, focusView]);
+
+  return (
+    <AccessibleHeaderTitle {...props} ref={ref}>
+      {t("screenTitles:recordAVisit")}
+    </AccessibleHeaderTitle>
+  );
+}
+
+const styles = StyleSheet.create({
+  historyButton: {
+    paddingRight: 20,
+  },
+  infoButton: {
+    paddingLeft: 20,
+  },
+});

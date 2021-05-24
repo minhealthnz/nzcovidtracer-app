@@ -1,17 +1,24 @@
-import { isNetworkError } from "@lib/helpers";
+import { isIOS, isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
+import AsyncStorage from "@react-native-community/async-storage";
 import {
   createAsyncThunk,
   createSlice,
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
-import ExposureNotificationModule from "react-native-exposure-notification-service";
+import BluetoothStateManager from "react-native-bluetooth-state-manager";
+import ExposureNotificationModule, {
+  Status,
+} from "react-native-exposure-notification-service";
+import { persistReducer } from "redux-persist";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../analytics";
 import { uploadExposureKeys, validateCode } from "./api";
 import { setENFSupported } from "./commonActions";
 import { errors } from "./errors";
+
+const { logError } = createLogger("enf/reducer");
 
 export interface ShareDiagnosis {
   code: string;
@@ -57,25 +64,70 @@ export const shareDiagnosis = createAsyncThunk(
   },
 );
 
+export const enableBluetooth = createAsyncThunk<number>(
+  "enf/enableBluetooth",
+  async () => {
+    const enableBluetoothOnDevice = () =>
+      isIOS
+        ? BluetoothStateManager.openSettings()
+        : BluetoothStateManager.requestToEnable();
+    try {
+      await enableBluetoothOnDevice();
+    } catch (err) {
+      logError(err);
+    }
+    return Date.now();
+  },
+);
+
 export interface ENFState {
   isSupported?: boolean;
+  lastBluetoothNotificationSent?: number;
+  lastBluetoothNotificationPressed?: number;
+  enfStatus?: Status;
 }
 
 const initialState: ENFState = {};
 
+export const persistConfig = {
+  storage: AsyncStorage,
+  key: "enf",
+  whitelist: [
+    "lastBluetoothNotificationSent",
+    "lastBluetoothNotificationPressed",
+    "enfStatus",
+  ],
+};
+
 const slice = createSlice({
   name: "enf",
   initialState,
-  reducers: {},
+  reducers: {
+    bluetoothNotificationSent(state, { payload }: PayloadAction<number>) {
+      state.lastBluetoothNotificationSent = payload;
+    },
+    setEnfStatus(state, { payload }: PayloadAction<Status>) {
+      state.enfStatus = payload;
+    },
+  },
   extraReducers: (builder) =>
-    builder.addCase(
-      setENFSupported,
-      (state, { payload }: PayloadAction<boolean>) => {
-        state.isSupported = payload;
-      },
-    ),
+    builder
+      .addCase(
+        setENFSupported,
+        (state, { payload }: PayloadAction<boolean>) => {
+          state.isSupported = payload;
+        },
+      )
+      .addCase(
+        enableBluetooth.fulfilled,
+        (state, { payload }: PayloadAction<number>) => {
+          state.lastBluetoothNotificationPressed = payload;
+        },
+      ),
 });
 
-const { reducer } = slice;
+const { reducer, actions } = slice;
 
-export default reducer;
+export const { bluetoothNotificationSent, setEnfStatus } = actions;
+
+export default persistReducer(persistConfig, reducer);

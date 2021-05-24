@@ -10,6 +10,7 @@ import exposure from "@features/exposure/reducer";
 import migration from "@features/migration/reducer";
 import onboarding from "@features/onboarding/reducer";
 import otp from "@features/otp/reducer";
+import resources from "@features/resources/reducer";
 import verification from "@features/verification/reducer";
 import { combineReducers } from "redux";
 
@@ -27,4 +28,5 @@ export const rootReducer = combineReducers({
   verification,
   debugging,
   announcement,
+  resources,
 });

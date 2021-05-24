@@ -19,7 +19,7 @@ export type DiaryScreenParams = {
   [DiaryScreen.CopiedDiary]: { email: string; isOnboarding: boolean };
   [DiaryScreen.Diary]: undefined;
   [DiaryScreen.DiaryEntry]: { id: string };
-  [DiaryScreen.AddEntryManually]: undefined;
+  [DiaryScreen.AddEntryManually]: { startDate?: number } | undefined;
   [DiaryScreen.EditEntry]: { id: string };
   [DiaryScreen.ShareDiary]: undefined;
   [DiaryScreen.DiaryShared]: undefined;

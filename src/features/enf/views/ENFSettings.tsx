@@ -1,35 +1,48 @@
-import { Text } from "@components/atoms";
+import { Text, VerticalSpacing } from "@components/atoms";
+import { Tip, TipText } from "@components/atoms/Tip";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import {
   aboutBluetoothLink,
   colors,
   fontFamilies,
   fontSizes,
+  grid,
 } from "@constants";
+import { selectBluetoothEnfDisabled } from "@features/enf/selectors";
 import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
 import {
   AuthorisedStatus,
   useExposure,
 } from "react-native-exposure-notification-service";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
-import { Subtext } from "../components/Subtext";
+import { enableBluetooth } from "../reducer";
 
-const Subheading = styled(Text)`
-  font-family: ${fontFamilies["open-sans-bold"]};
+const Subtext = styled(Text)`
+  font-family: ${fontFamilies["open-sans"]};
+  margin-top: ${grid}px;
   font-size: ${fontSizes.normal}px;
   line-height: 24px;
+`;
+
+const BluetoothDialogLink = styled(Text)`
+  font-family: ${fontFamilies["open-sans-bold"]};
+  text-decoration: underline;
+  font-size: ${fontSizes.large}px;
+  margin-top: 10px;
 `;
 
 const assets = {
   enabled: require("../assets/icons/enabled.png"),
   disabled: require("../assets/icons/disabled.png"),
+  warning: require("../assets/icons/warning.png"),
 };
 
 const { logInfo, logError } = createLogger("EnableENFDashboard");
@@ -44,19 +57,50 @@ export function ENFSettings() {
     start,
     stop,
     readPermissions,
+    status,
   } = useExposure();
 
+  const dispatch = useDispatch();
+
+  const bluetoothDisabled = useSelector(selectBluetoothEnfDisabled);
+
   const blockedFromShowingPrompt =
-    isIOS && isAuthorised === AuthorisedStatus.blocked;
+    isIOS &&
+    (isAuthorised === AuthorisedStatus.blocked ||
+      //@ts-ignore
+      status.type?.includes("unauthorized"));
 
   const formRef = useRef<FormV2Handle | null>(null);
 
-  const bannerText = enabled
-    ? t("screens:enfSettings:bannerEnabled")
-    : t("screens:enfSettings:bannerDisabled");
-  const bannerTextColor = enabled ? colors.primaryBlack : colors.white;
-  const bannerColor = enabled ? colors.green : colors.red;
-  const bannerIcon = enabled ? assets.enabled : assets.disabled;
+  const {
+    bannerText,
+    bannerTextColor,
+    bannerColor,
+    bannerIcon,
+  } = useMemo(() => {
+    if (enabled && bluetoothDisabled) {
+      return {
+        bannerText: t("screens:enfSettings:bannerInactive"),
+        bannerTextColor: colors.primaryBlack,
+        bannerColor: colors.carrot,
+        bannerIcon: assets.warning,
+      };
+    } else if (enabled) {
+      return {
+        bannerText: t("screens:enfSettings:bannerEnabled"),
+        bannerTextColor: colors.primaryBlack,
+        bannerColor: colors.green,
+        bannerIcon: assets.enabled,
+      };
+    } else {
+      return {
+        bannerText: t("screens:enfSettings:bannerDisabled"),
+        bannerTextColor: colors.white,
+        bannerColor: colors.red,
+        bannerIcon: assets.disabled,
+      };
+    }
+  }, [enabled, bluetoothDisabled, t]);
 
   const isFirstRender = useRef<boolean>(true);
   useEffect(() => {
@@ -66,6 +110,10 @@ export function ENFSettings() {
     }
     formRef.current?.accessibilityFocusOnBanner();
   }, [enabled]);
+
+  const handleBluetoothOn = useCallback(() => {
+    dispatch(enableBluetooth());
+  }, [dispatch]);
 
   const onButtonPress = useCallback(async () => {
     if (blockedFromShowingPrompt) {
@@ -167,11 +215,43 @@ export function ENFSettings() {
       bannerIcon={bannerIcon}
       bannerAccessibilityLabel={
         enabled
-          ? t("screens:enfSettings:bannerEnabledAccessibilityLabel")
+          ? bluetoothDisabled
+            ? t("screens:enfSettings:bannerInactiveAccessibilityLabel")
+            : t("screens:enfSettings:bannerEnabledAccessibilityLabel")
           : t("screens:enfSettings:bannerDisabledAccessibilityLabel")
       }
     >
-      <Subheading>{t("screens:enfSettings:subheading")}</Subheading>
+      <Tip
+        backgroundColor={colors.lightYellow}
+        heading={t("screens:enfSettings:subheading")}
+      >
+        <TipText>{t("screens:enfSettings:bluetoothMessage")}</TipText>
+        {enabled && bluetoothDisabled && (
+          <>
+            <VerticalSpacing height={3} />
+            <BluetoothDialogLink
+              onPress={handleBluetoothOn}
+              accessibilityLabel={
+                isIOS
+                  ? t("screens:enfSettings:bluetoothMessageTurnOnIOS")
+                  : t("screens:enfSettings:bluetoothMessageTurnOn")
+              }
+              accessibilityHint={
+                isIOS
+                  ? t("screens:enfSettings:bluetoothMessageTurnOnIOSHint")
+                  : ""
+              }
+              accessibilityRole={"button"}
+            >
+              {isIOS
+                ? t("screens:enfSettings:bluetoothMessageTurnOnIOS")
+                : t("screens:enfSettings:bluetoothMessageTurnOn")}
+            </BluetoothDialogLink>
+            <VerticalSpacing height={5} />
+          </>
+        )}
+      </Tip>
+      <VerticalSpacing height={12} />
       <Subtext>{t("screens:enfSettings:subtext")}</Subtext>
       <Subtext>{t("screens:enfSettings:subtextP2")}</Subtext>
       <Subtext>{t("screens:enfSettings:subtextP3")}</Subtext>

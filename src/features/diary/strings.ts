@@ -9,10 +9,10 @@ export const strings = {
     },
     screens: {
       diary: {
-        addEntry: "Add entry",
-        addEntryAccessibilityLabel: "Add manual entry",
+        addEntry: "Add diary entry",
+        addEntryAccessibilityLabel: "Add diary entry",
         addEntryAccessibilityHint:
-          "Leaves the diary and navigates to Add manual entry form",
+          "Leaves the diary and navigates to Add diary entry form",
       },
       viewDiary: {
         descriptionP1: "These entries were recorded for",

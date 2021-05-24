@@ -8,6 +8,7 @@ import { strings as nhi } from "@features/nhi/strings";
 import { strings as onboarding } from "@features/onboarding/strings";
 import { strings as otp } from "@features/otp/strings";
 import { strings as profile } from "@features/profile/strings";
+import { strings as resources } from "@features/resources/strings";
 import { strings as scan } from "@features/scan/strings";
 import _ from "lodash";
 
@@ -17,9 +18,10 @@ const strings = {
       required: "required",
       optional: "optional",
       recommended: "recommended",
-      tab1of3: "1 of 3",
-      tab2of3: "2 of 3",
-      tab3of3: "3 of 3",
+      tab1of4: "1 of 4",
+      tab2of4: "2 of 4",
+      tab3of4: "3 of 4",
+      tab4of4: "4 of 4",
       ok: "OK",
     },
     accessibility: {
@@ -30,11 +32,10 @@ const strings = {
         selectDateAndTime: "double tap to select the entry date and time",
       },
       button: {
-        diaryHistory: "diary history",
-        startTutorial: "start tutorial",
         back: "Go back",
         close: "close",
       },
+      linkAccessibilityHint: "Leaves the app and navigates to a webpage",
     },
     screenTitles: {
       dashboard: "Dashboard",
@@ -42,7 +43,7 @@ const strings = {
       diaryEntry: "Diary entry",
       editDiary: "Edit entry",
       recorded: "Visit recorded",
-      addEntryManually: "Add manual entry",
+      addEntryManually: "Add diary entry",
       shareDiary: "Share my diary",
       addNHI: "Add your NHI number",
       nhiAdded: "NHI added",
@@ -68,10 +69,20 @@ const strings = {
           "Complete your diary. {0} of the last 14 days have recorded entries.",
         percentageAccessibilityHint: "Double tap to view your digital diary.",
         tip:
-          "You can add a manual entry to fill out any missed day even if you just stayed home.",
+          "It is useful to fill out past days in your diary, including days you stayed home.",
       },
     },
     screens: {
+      diary: {
+        noEntries: "No entries",
+        addManualEntry: "Add diary entry",
+        addManualEntryAccessibilityLabel: "Add a manual entry for this date.",
+        addNewManualEntryAccessibilityLabel:
+          "Add a new manual entry for this date.",
+        addEntry: "Add diary entry",
+        addAnother: "Add diary entry",
+        oldDiaryText: "Diary entries older than 14 days:",
+      },
       diaryEntry: {
         bannerTitle:
           "You may have been in contact with COVID-19 during this visit",
@@ -222,4 +233,5 @@ export default _.merge(
   scan,
   announcement,
   enfExposure,
+  resources,
 );

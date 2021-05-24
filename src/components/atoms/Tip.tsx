@@ -1,9 +1,10 @@
-import { colors, fontFamilies } from "@constants";
+import { colors, fontFamilies, fontSizes } from "@constants";
 import React from "react";
 import { View } from "react-native";
 import styled from "styled-components";
 
 import { Text } from "./Text";
+import { VerticalSpacing } from "./VerticalSpacing";
 
 const Container = styled(View)<{ backgroundColor: string }>`
   background-color: ${(props) => props.backgroundColor};
@@ -19,6 +20,12 @@ const Context = styled(Text)<{ fontSize?: number; lineHeight?: number }>`
   line-height: ${(props) => (props.lineHeight ? props.lineHeight : 24)}px;
 `;
 
+const Heading = styled(Text)`
+  font-family: ${fontFamilies["open-sans-bold"]};
+  font-size: ${fontSizes.normal}px;
+  line-height: 24px;
+`;
+
 interface TextProps {
   fontSize?: number;
   children: React.ReactNode;
@@ -28,10 +35,21 @@ interface TextProps {
 interface Props {
   children: Element;
   backgroundColor: string;
+  heading?: string;
 }
 
-export function Tip({ children, backgroundColor }: Props) {
-  return <Container backgroundColor={backgroundColor}>{children}</Container>;
+export function Tip({ children, backgroundColor, heading }: Props) {
+  return (
+    <>
+      {!!heading && (
+        <>
+          <Heading>{heading}</Heading>
+          <VerticalSpacing height={5} />
+        </>
+      )}
+      <Container backgroundColor={backgroundColor}>{children}</Container>
+    </>
+  );
 }
 
 export function TipText(props: TextProps) {

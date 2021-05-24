@@ -37,6 +37,7 @@
       "@utils/*": ["utils/*"],
       "@logger/*": ["logger/*"],
       "@navigation/*": ["navigation/*"],
+      "@linking/*": ["linking/*"],
     },
     "types": [
       "react",

@@ -42,3 +42,8 @@ export const selectCurrentDate = createSelector(
   selectDevice,
   (device) => device.currentDate,
 );
+
+export const selectInternetReachable = createSelector(
+  selectDevice,
+  (device) => device.internetReachable,
+);

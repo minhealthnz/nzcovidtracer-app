@@ -4,7 +4,7 @@ import { ViewStyle } from "react-native";
 import styled from "styled-components/native";
 
 const Line = styled.View`
-  background-color: ${colors.divider};
+  background-color: ${colors.platinum};
   width: 100%;
   height: 1px;
 `;

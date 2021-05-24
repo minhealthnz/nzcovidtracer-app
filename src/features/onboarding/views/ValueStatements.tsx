@@ -10,13 +10,14 @@ import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { DummyStatusBar } from "../../../components/atoms/DummyStatusBar";
+import heroMedium from "../assets/images/hero-small.png";
 import { IconText } from "../components/IconText";
 import { OnboardingScreen } from "../screens";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
 const assets = {
-  heroMedium: require("../assets/images/hero-small.png"),
+  heroMedium,
   iconScan: require("../assets/images/scan.png"),
   iconAlarm: require("../assets/icons/alarm.png"),
   iconBluetooth: require("../assets/icons/bluetooth.png"),

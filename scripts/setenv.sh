@@ -27,7 +27,9 @@ echo "ENFServerUrl=${ENFServerUrl}" >>.env
 echo "SafetynetKey=${SafetynetKey}" >>.env
 echo "ENFCheckInterval=${ENFCheckInterval}" >>.env
 echo "CovidStatsUrl=${CovidStatsUrl}" >>.env
-
+echo "ResourcesUrl=${ResourcesUrl}" >>.env
+echo "AssetWhitelist=${AssetWhitelist}" >>.env
+echo "ANDROID_VERSION_CODE_OFFSET=${ANDROID_VERSION_CODE_OFFSET}" >>.env
 
 printf "\n.env created with contents:\n"
 cat .env

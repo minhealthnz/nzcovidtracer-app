@@ -1,15 +1,18 @@
+import { setEnfEnabled } from "@features/verification/commonActions";
 import {
   selectIsReady,
   selectVerificationCredentials,
 } from "@features/verification/selectors";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import {
   ExposureProvider as BaseExposureProvider,
   KeyServerType,
+  useExposure,
 } from "react-native-exposure-notification-service";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import config from "../../../config";
+import { setEnfStatus } from "../reducer";
 
 export interface ExposureProviderProps {
   children: ReactNode;
@@ -41,7 +44,23 @@ export function ExposureProvider(props: ExposureProviderProps) {
 
   return (
     <BaseExposureProvider {...exposureConfig}>
-      {props.children}
+      <UpdateEnfState>{props.children}</UpdateEnfState>
     </BaseExposureProvider>
   );
+}
+
+export interface UpdateEnfStateProps {
+  children: ReactNode;
+}
+
+export function UpdateEnfState({ children }: UpdateEnfStateProps) {
+  const { enabled, status } = useExposure();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setEnfEnabled(enabled));
+    dispatch(setEnfStatus(status));
+  }, [dispatch, enabled, status]);
+
+  return <>{children}</>;
 }

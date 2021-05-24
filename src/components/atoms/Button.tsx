@@ -1,6 +1,6 @@
 import { colors, fontSizes } from "@constants";
 import React, { useMemo } from "react";
-import { TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 import styled from "styled-components/native";
 
 import { testable } from "../../testable";
@@ -105,3 +105,22 @@ function Button({
 }
 
 export default testable(Button);
+
+const styles = {
+  small: StyleSheet.create({
+    container: {
+      paddingHorizontal: 16,
+      paddingVertical: 20,
+    },
+    text: {
+      fontSize: fontSizes.small,
+    },
+  }),
+};
+
+export const presets: { [key: string]: Partial<ButtonProps> } = {
+  small: {
+    style: styles.small.container,
+    textStyle: styles.small.text,
+  },
+};

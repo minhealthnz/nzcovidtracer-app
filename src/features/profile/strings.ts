@@ -5,10 +5,17 @@ export const strings = {
     },
     screens: {
       profile: {
+        headingStorePrivate: "Information stored privately",
+        headingShareInfo: "Information shared with contact tracers",
+        headingSharePostive: "If you test positive",
         viewDiary: "My diary",
         recoverDiary: "Choose an old diary",
         shareDiary: "Share my diary",
+        shareDiaryDescription:
+          "Help contact tracers understand where you’ve been",
         shareBluetooth: "Share my Bluetooth tracing codes",
+        shareBluetoothDescription:
+          "Anonymously notify people you may have exposed to the virus.",
         contactDetails: "My contact details",
         contactDetailsDescription: "Help us contact you faster if we need to",
         address: "My address",

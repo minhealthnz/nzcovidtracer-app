@@ -1,12 +1,10 @@
 import { colors } from "@constants";
-import { setCurrentRouteName } from "@features/device/reducer";
+import { SwitchProvider } from "@features/dashboard/components/SwitchProvider";
 import { ExposureProvider } from "@features/enf/components/ExposureProvider";
 import { createPersistor, createStore } from "@lib/reduxStore";
-import { navigationRef } from "@navigation/navigation";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from "@navigation/NavigationContainer";
 import { ModalStack } from "@views/ModalStack";
-import { AnyScreen } from "@views/screens";
-import React, { useCallback, useLayoutEffect, useRef, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "react-redux";
@@ -28,16 +26,6 @@ export function App() {
   const storeRef = useRef<Store>();
   const persistorRef = useRef<Persistor>();
 
-  const handleNavigationStateChange = useCallback(() => {
-    const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
-
-    if (storeRef.current && currentRouteName) {
-      storeRef.current.dispatch(
-        setCurrentRouteName(currentRouteName as AnyScreen),
-      );
-    }
-  }, []);
-
   if (!hasStore || storeRef.current == null || persistorRef.current == null) {
     return null;
   }
@@ -49,13 +37,11 @@ export function App() {
         <PersistGate loading={null} persistor={persistorRef.current}>
           <ExposureProvider>
             <SafeAreaProvider>
-              <NavigationContainer
-                ref={navigationRef}
-                onReady={handleNavigationStateChange}
-                onStateChange={handleNavigationStateChange}
-              >
-                <ModalStack />
-              </NavigationContainer>
+              <SwitchProvider>
+                <NavigationContainer>
+                  <ModalStack />
+                </NavigationContainer>
+              </SwitchProvider>
             </SafeAreaProvider>
           </ExposureProvider>
         </PersistGate>

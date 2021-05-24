@@ -13,6 +13,7 @@ import { subscribeToTopics } from "./subscribeToTopics";
 import { updateAppState } from "./updateAppState";
 import { updateCurrentDate } from "./updateCurrentDate";
 import { updateEndpoint } from "./updateEndpoint";
+import { updateNetInfo } from "./updateNetInfo";
 
 export default function* sagaWatcher(): SagaIterator {
   yield all([
@@ -28,5 +29,6 @@ export default function* sagaWatcher(): SagaIterator {
     call(handleNotificationOpened),
     call(updateEndpoint),
     call(updateCurrentDate),
+    call(updateNetInfo),
   ]);
 }

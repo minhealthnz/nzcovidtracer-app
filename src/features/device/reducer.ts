@@ -25,6 +25,7 @@ export interface DeviceState {
   currentRouteName?: AnyScreen;
   isScreenReaderEnabled: boolean;
   currentDate: number;
+  internetReachable: boolean | null;
 }
 
 const initialState: DeviceState = {
@@ -35,12 +36,13 @@ const initialState: DeviceState = {
   subscriptions: {},
   isScreenReaderEnabled: false,
   currentDate: new Date().getTime(),
+  internetReachable: null,
 };
 
 const persistConfig = {
   storage: AsyncStorage,
   key: "device",
-  whitelist: ["subscriptions"],
+  whitelist: ["subscriptions", "notificationPermission"],
 };
 
 /**
@@ -106,6 +108,9 @@ const deviceSlice = createSlice({
     setHasRequestedCameraPermission(state) {
       state.hasRequestedCameraPermission = true;
     },
+    setInternetReachable(state, { payload }: PayloadAction<boolean | null>) {
+      state.internetReachable = payload;
+    },
   },
   extraReducers: {},
 });
@@ -122,6 +127,7 @@ export const {
   setIsScreenReaderEnabled,
   setHasRequestedCameraPermission,
   setCurrentDate,
+  setInternetReachable,
 } = actions;
 
 export default persistReducer(persistConfig, reducer);

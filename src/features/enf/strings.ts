@@ -27,6 +27,12 @@ export const strings = {
         secondaryButtonAccessibilityHint:
           "Leaves the app and navigates to a webpage",
         subheading: "How it works",
+        bluetoothMessage:
+          "Bluetooth needs to be enabled in your phone settings for Bluetooth tracing to work. You may also need to turn on Exposure Notifications in your phone settings.",
+        bluetoothMessageTurnOn: "Turn on Bluetooth",
+        bluetoothMessageTurnOnIOS: "Turn on Bluetooth in settings",
+        bluetoothMessageTurnOnIOSHint:
+          "Navigates to your device's system settings",
         subtext:
           "Your phone will use Bluetooth to exchange anonymous codes with other phones using the app with Bluetooth enabled.",
         subtextP2:
@@ -39,6 +45,9 @@ export const strings = {
         bannerDisabled: "Bluetooth tracing is off",
         bannerDisabledAccessibilityLabel:
           "Bluetooth tracing status: Bluetooth tracing is off",
+        bannerInactive: "Bluetooth tracing is not active",
+        bannerInactiveAccessibilityLabel:
+          "Bluetooth tracing status: Bluetooth tracing is not active",
         notSupported: {
           subtext: "We can't currently activate Bluetooth Tracing for you.",
           subtextP1: "Make sure you're connected to the internet.",

@@ -7,8 +7,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
+import { Alert, FlatList, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 

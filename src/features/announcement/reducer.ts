@@ -1,5 +1,5 @@
 import {
-  Annoucement as ApiAnnouncement,
+  Announcement as ApiAnnouncement,
   ENFNotificationSettings,
 } from "@features/enfExposure/api";
 import { retrievedSettings } from "@features/enfExposure/commonActions";
@@ -17,6 +17,7 @@ export interface Announcement {
   link: string;
   createdAt: number;
   enabled: boolean;
+  deepLink?: string;
 }
 
 export interface AnnouncementState {

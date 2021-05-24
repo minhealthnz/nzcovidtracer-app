@@ -15,6 +15,7 @@ import {
   grid2x,
   grid3x,
 } from "@constants";
+import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
 import { editEntry } from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectCountActiveDays } from "@features/diary/selectors";
@@ -37,7 +38,6 @@ import { useDebouncedCallback } from "use-debounce";
 import * as yup from "yup";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
-import { DiaryPercentage } from "../components/DiaryPercentage";
 import { ScanScreen } from "../screens";
 
 const DateTimeText = styled(Text)`

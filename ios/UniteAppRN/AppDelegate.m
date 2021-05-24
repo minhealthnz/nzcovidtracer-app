@@ -8,6 +8,7 @@
 #import <Firebase.h>
 #import "RNFBMessagingModule.h"
 #import <react_native_exposure_notification_service-Swift.h>
+#import <React/RCTLinkingManager.h>
 
 #import <AppCenterReactNative.h>
 #import <AppCenterReactNativeCrashes.h>
@@ -101,4 +102,11 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
 }
 
+// Required to enable deep linking for ios 9.x or newer
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
 @end

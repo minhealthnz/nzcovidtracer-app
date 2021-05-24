@@ -65,8 +65,10 @@ const assets = {
 };
 
 interface Props extends WithTranslation {
+  hideDay?: boolean;
+  hideDate?: boolean;
   entry: DiaryEntry;
-  onPress?: () => void;
+  onEntryPress?: () => void;
 }
 
 class _DiaryEntryListItem extends Component<Props> {
@@ -95,14 +97,14 @@ class _DiaryEntryListItem extends Component<Props> {
 
     return (
       <Container
-        onPress={this.props.onPress}
-        disabled={!this.props.onPress}
+        onPress={this.props.onEntryPress}
+        disabled={!this.props.onEntryPress}
         accessible={true}
         accessibilityLabel={accessibilityLabel}
         accessibilityHint={t(
           "components:diaryEntryListItem:locationAccessibilityHint",
         )}
-        accessibilityRole={this.props.onPress ? "button" : "text"}
+        accessibilityRole={this.props.onEntryPress ? "button" : "text"}
       >
         <TextContainer>
           <NameContainer>
@@ -110,12 +112,14 @@ class _DiaryEntryListItem extends Component<Props> {
             {isRisky && <Warning source={assets.warning} />}
           </NameContainer>
           <DateTextContainer>
-            <DateText>{dayText}</DateText>
-            <DateText>{dateText}</DateText>
+            {!this.props.hideDate && <DateText>{dateText}</DateText>}
+            {!this.props.hideDay && <DateText>{dayText}</DateText>}
             <DateText>{timeText}</DateText>
           </DateTextContainer>
         </TextContainer>
-        {this.props.onPress && <Chevron source={assets.chevronRight} />}
+        {this.props.onEntryPress && (
+          <Chevron resizeMode="contain" source={assets.chevronRight} />
+        )}
       </Container>
     );
   }

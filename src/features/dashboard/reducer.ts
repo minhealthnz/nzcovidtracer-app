@@ -11,7 +11,14 @@ import { Statistics } from "./types";
 const persistConfig = {
   storage: AsyncStorage,
   key: "dashboard",
-  whitelist: ["stats", "lastFetched", "expires", "statsError", "statsEmpty"],
+  whitelist: [
+    "stats",
+    "lastFetched",
+    "expires",
+    "statsError",
+    "statsEmpty",
+    "hasSeenSwipeInfo",
+  ],
 };
 
 export interface DashboardState {
@@ -22,6 +29,7 @@ export interface DashboardState {
   statsError?: string;
   testLocationsLink: string;
   statsEmpty: boolean;
+  hasSeenSwipeInfo: boolean;
 }
 
 const initialState: DashboardState = {
@@ -32,6 +40,7 @@ const initialState: DashboardState = {
   expires: 0,
   testLocationsLink: defaultTestLocationsLink,
   statsEmpty: false,
+  hasSeenSwipeInfo: false,
 };
 
 export const getCovidStatistics = createAsyncThunk(
@@ -45,7 +54,11 @@ export const getCovidStatistics = createAsyncThunk(
 const slice = createSlice({
   name: "dashboard",
   initialState,
-  reducers: {},
+  reducers: {
+    setHasSeenSwipeInfo(state) {
+      state.hasSeenSwipeInfo = true;
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(getCovidStatistics.pending, (state) => {
@@ -93,7 +106,9 @@ const slice = createSlice({
       }),
 });
 
-const { reducer } = slice;
+const { reducer, actions } = slice;
+
+export const { setHasSeenSwipeInfo } = actions;
 
 export { reducer as _reducer };
 

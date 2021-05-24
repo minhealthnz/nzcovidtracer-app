@@ -9,6 +9,7 @@ import { ExposureState } from "@features/exposure/reducer";
 import { MigrationState } from "@features/migration/reducer";
 import { OnboardingState } from "@features/onboarding/reducer";
 import { OTPState } from "@features/otp/reducer";
+import { ResourcesState } from "@features/resources/reducer";
 import { VerificationState } from "@features/verification/reducer";
 
 import { UserState } from "./user/types";
@@ -27,4 +28,5 @@ export interface ReduxState {
   verification: VerificationState;
   debugging: DebuggingState;
   announcement: AnnouncementState;
+  resources: ResourcesState;
 }

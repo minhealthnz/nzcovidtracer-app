@@ -1,14 +1,13 @@
 import { VerticalSpacing } from "@components/atoms";
-import { colors, grid, grid2x } from "@constants";
+import { colors, grid } from "@constants";
 import React from "react";
 import styled from "styled-components/native";
 
 const ImportantSectionItemSeparator = styled.View`
   height: 1px;
-  background-color: ${colors.divider};
+  background-color: ${colors.platinum};
   border-left-width: ${grid}px;
   border-color: ${colors.yellow};
-  margin-horizontal: ${grid2x}px;
 `;
 
 export function DashboardItemSeparator(props: {

@@ -52,6 +52,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need your camera to scan QR codes</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>NZ COVID Tracer uses Bluetooth Low Energy to exchange anonymous, random keys with other nearby phones that also have Bluetooth tracing enabled.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>NZ COVID Tracer uses Bluetooth Low Energy to exchange anonymous, random keys with other nearby phones that also have Bluetooth tracing enabled.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Baloo-Black.ttf</string>

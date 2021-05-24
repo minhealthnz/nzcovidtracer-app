@@ -18,7 +18,7 @@ export const colors = {
   backgroundGray: "#F5F5F3",
   lightGrey: "#F4F4F4",
   lightYellow: "#FFF1D0",
-  divider: "#DEE2E6",
+  platinum: "#DEE2E6",
   green: "#13E399",
   darkRed: "#BF351F",
   red: "#F04E30",

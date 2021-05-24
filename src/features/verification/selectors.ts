@@ -55,3 +55,8 @@ export const selectIsRetriable = createSelector(
   selectVerification,
   (verification) => verification.retriable,
 );
+
+export const selectIsEnfEnabled = createSelector(
+  selectVerification,
+  (verification) => verification.enabled,
+);

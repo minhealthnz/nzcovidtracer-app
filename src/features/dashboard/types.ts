@@ -41,5 +41,6 @@ export type DashboardItem =
   | "statsLoading"
   | "announcement"
   | "diaryPercentage"
+  | "swipeInfo"
   | undefined
   | false;

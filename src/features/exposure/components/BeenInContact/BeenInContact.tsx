@@ -1,9 +1,6 @@
 import { HiddenAccessibilityTitle, Text } from "@components/atoms";
-import {
-  CloseButton,
-  HeadingText,
-  styles as notificationCardStyles,
-} from "@components/molecules/NotificationCard";
+import { CloseButton } from "@components/atoms/CloseButton";
+import { HeadingText } from "@components/molecules/NotificationCard";
 import { colors, contactAlertslink, fontFamilies, fontSizes } from "@constants";
 import { DiaryScreen } from "@features/diary/screens";
 import { recordDismissLocationAlert } from "@features/exposure/analytics";
@@ -152,10 +149,8 @@ export function BeenInContact({ onRequestCallback }: BeenInContactProps) {
         label={t("accessibility:dashboard:beenInContact")}
       />
       <CloseButton
-        image={require("@assets/images/close.png")}
-        onPress={handleDismissPressed}
+        onDismiss={handleDismissPressed}
         accessibilityLabel={t("accessibility:button:close")}
-        imageStyle={notificationCardStyles.closeButtonImage}
       />
       <>
         {!!exposureMatch.checkInStartDate && (

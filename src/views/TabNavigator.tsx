@@ -1,21 +1,15 @@
-import { Text } from "@components/atoms/Text";
+import { TabBarButton } from "@components/atoms/TabBarButton";
+import { TabBarLabel } from "@components/atoms/TabBarLabel";
 import { colors } from "@constants";
 import { selectAnnouncement } from "@features/announcement/selectors";
-import { useDashboardTitleHint } from "@features/dashboard/hooks/useDashboardTitleHint";
 import { Dashboard } from "@features/dashboard/views/Dashboard";
-import { selectCurrentRouteName } from "@features/device/selectors";
 import Profile from "@features/profile/views/Profile";
 import { Scan } from "@features/scan/views/Scan";
-import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useInitialTab } from "@navigation/hooks/useInitialTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ImageSourcePropType,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { ImageSourcePropType } from "react-native";
 import { useSelector } from "react-redux";
 
 import { TabScreen } from "./screens";
@@ -42,15 +36,6 @@ export function TabNavigator() {
   const { t } = useTranslation();
 
   const announcement = useSelector(selectAnnouncement);
-
-  const dashboardTitleHint = useDashboardTitleHint();
-  const currentRouteName = useSelector(selectCurrentRouteName);
-  const titleHint =
-    currentRouteName === TabScreen.Home ? dashboardTitleHint : undefined;
-
-  useAccessibleTitle({
-    hint: titleHint,
-  });
 
   const initialTab = useInitialTab();
 
@@ -107,26 +92,14 @@ export function TabNavigator() {
         component={Dashboard}
         options={{
           tabBarButton: (props) => (
-            <TouchableWithoutFeedback
+            <TabBarButton
               {...props}
-              accessible={true}
-              accessibilityRole="button"
               accessibilityLabel={t("screenTitles:dashboard")}
-              accessibilityHint={t("common:tab1of3")}
-            >
-              <View style={props.style}>{props.children}</View>
-            </TouchableWithoutFeedback>
+              accessibilityHint={t("common:tab1of4")}
+            />
           ),
           tabBarLabel: (props) => (
-            <Text
-              fontFamily="open-sans-semi-bold"
-              color={props.color}
-              fontSize={10}
-              lineHeight={12}
-              maxFontSizeMultiplier={1.25}
-            >
-              {t("screenTitles:dashboard")}
-            </Text>
+            <TabBarLabel {...props}>{t("screenTitles:dashboard")}</TabBarLabel>
           ),
         }}
       />
@@ -135,26 +108,16 @@ export function TabNavigator() {
         component={Scan}
         options={{
           tabBarButton: (props) => (
-            <TouchableWithoutFeedback
+            <TabBarButton
               {...props}
-              accessible={true}
-              accessibilityRole="button"
               accessibilityLabel={t("screenTitles:recordVisit")}
-              accessibilityHint={t("common:tab2of3")}
-            >
-              <View style={props.style}>{props.children}</View>
-            </TouchableWithoutFeedback>
+              accessibilityHint={t("common:tab2of4")}
+            />
           ),
           tabBarLabel: (props) => (
-            <Text
-              fontFamily="open-sans-semi-bold"
-              color={props.color}
-              fontSize={10}
-              lineHeight={12}
-              maxFontSizeMultiplier={1.25}
-            >
+            <TabBarLabel {...props}>
               {t("screenTitles:recordVisit")}
-            </Text>
+            </TabBarLabel>
           ),
         }}
       />
@@ -163,26 +126,14 @@ export function TabNavigator() {
         component={Profile}
         options={{
           tabBarButton: (props) => (
-            <TouchableWithoutFeedback
+            <TabBarButton
               {...props}
-              accessible={true}
-              accessibilityRole="button"
               accessibilityLabel={t("screenTitles:myData")}
-              accessibilityHint={t("common:tab3of3")}
-            >
-              <View style={props.style}>{props.children}</View>
-            </TouchableWithoutFeedback>
+              accessibilityHint={t("common:tab4of4")}
+            />
           ),
           tabBarLabel: (props) => (
-            <Text
-              fontFamily="open-sans-semi-bold"
-              color={props.color}
-              fontSize={10}
-              lineHeight={12}
-              maxFontSizeMultiplier={1.25}
-            >
-              {t("screenTitles:myData")}
-            </Text>
+            <TabBarLabel {...props}>{t("screenTitles:myData")}</TabBarLabel>
           ),
         }}
       />

@@ -1,4 +1,4 @@
-import config, { _buildUrl, getBuildId } from "./config";
+import config, { _buildUrl, getBuildId, readHostWhitelist } from "./config";
 
 it("constructs url from subdomain", () => {
   expect(_buildUrl("", "example.com", "api")).toEqual(
@@ -27,5 +27,16 @@ describe("#getBuildId", () => {
   ];
   it.each(cases)("constructs build id %s %s", (offset, buildId, result) => {
     expect(getBuildId(offset, buildId)).toEqual(result);
+  });
+});
+
+describe("#readHostWhitelist", () => {
+  it.each([
+    ["*", "*"],
+    ["", "*"],
+    ["foo.com,bar.com", ["foo.com", "bar.com"]],
+    ["foo.com", ["foo.com"]],
+  ])("reads host white list %s %s", (config, hostWhitelist) => {
+    expect(readHostWhitelist(config)).toEqual(hostWhitelist);
   });
 });

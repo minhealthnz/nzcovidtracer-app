@@ -19,6 +19,13 @@ import { copyMessagingToken } from "../commands/copyMessagingToken";
 import { copySessionLog } from "../commands/copySessionLog";
 import { createCrash } from "../commands/createCrash";
 import { buildCreateExposureEvent } from "../commands/createExposureEvent";
+import {
+  linkDashboard,
+  linkDiary,
+  linkManualEntry,
+  linkNHI,
+  linkResources,
+} from "../commands/deeplinks";
 import { enfCheckExposure } from "../commands/enfCheckExposure";
 import { enfDeleteExposure } from "../commands/enfDeleteExposure";
 import { enfGetLogData } from "../commands/enfGetLogData";
@@ -118,6 +125,16 @@ export function DebugMenu() {
           enfCheckExposure(exposure),
           enfGetLogData(exposure),
           enfDeleteExposure(exposure),
+        ],
+      },
+      {
+        title: "DEEP LINKS",
+        commands: [
+          linkDashboard,
+          linkResources,
+          linkDiary,
+          linkNHI,
+          linkManualEntry,
         ],
       },
     ],

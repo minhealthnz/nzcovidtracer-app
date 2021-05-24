@@ -44,9 +44,13 @@ export function AddManualDiaryEntry(props: Props) {
 
   const dispatch = useAppDispatch();
 
+  const date = props.route.params?.startDate;
+
   const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
-  const [startDate, setStartDate] = useState<number>(new Date().getTime());
+  const [startDate, setStartDate] = useState<number>(
+    date || new Date().getTime(),
+  );
   const [dateError, setDateError] = useState<string>("");
   const [details, setDetails] = useState<string>("");
   const [detailsError, setDetailsError] = useState<string>("");

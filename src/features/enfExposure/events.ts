@@ -14,6 +14,8 @@ export const ENFEvent = {
   ENFDisableButtonPressed: "enfDisableButtonPressed",
   ENFDisableModalPressed: "enfDisableModalPressed",
   ENFOnboardingEnableSuccess: "enfOnboardingEnableSuccess",
+  ENFBluetoothInactiveNotificationOpened:
+    "enfBluetoothInactiveNotificationOpened",
 } as const;
 
 export type ENFEventPayloads = {

@@ -3,6 +3,7 @@ import React from "react";
 import {
   AccessibilityProps,
   AccessibilityRole,
+  StyleSheet,
   TextStyle,
   ViewStyle,
 } from "react-native";
@@ -50,3 +51,22 @@ export function SecondaryButton({
     </Container>
   );
 }
+
+const styles = {
+  small: StyleSheet.create({
+    container: {
+      paddingTop: 14,
+      paddingBottom: 20,
+    },
+    text: {
+      fontSize: fontSizes.small,
+    },
+  }),
+};
+
+export const presets: { [key: string]: Partial<SecondaryButtonProps> } = {
+  small: {
+    style: styles.small.container,
+    textStyle: styles.small.text,
+  },
+};

@@ -14,7 +14,7 @@ const DisclaimerText = styled(Text)`
 `;
 
 const DisclaimerView = styled.View`
-  background-color: ${colors.lightGrey};
+  background-color: ${colors.platinum};
   padding: ${grid}px ${grid3x}px 21px;
   align-items: center;
 `;

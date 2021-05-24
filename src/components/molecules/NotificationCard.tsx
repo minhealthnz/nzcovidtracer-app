@@ -1,12 +1,12 @@
 import { HiddenAccessibilityTitle } from "@components/atoms";
 import Button, { ButtonProps } from "@components/atoms/Button";
-import ImageButton from "@components/atoms/ImageButton";
+import { CloseButton } from "@components/atoms/CloseButton";
 import {
   SecondaryButton as BaseSecondaryButton,
   SecondaryButtonProps,
 } from "@components/atoms/SecondaryButton";
 import { Text } from "@components/atoms/Text";
-import { colors, fontFamilies, fontSizes, grid3x } from "@constants";
+import { colors, fontFamilies, fontSizes } from "@constants";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ImageSourcePropType, StyleSheet } from "react-native";
@@ -16,14 +16,6 @@ const Container = styled.View`
   width: 100%;
   padding: 14px 16px 0 16px;
   background-color: white;
-`;
-
-export const CloseButton = styled(ImageButton)`
-  padding: 13px 13px ${grid3x}px ${grid3x}px;
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  z-index: 1;
 `;
 
 export const HeadingText = styled(Text)`
@@ -113,10 +105,8 @@ export function NotificationCard({
         label={t("announcement:hiddenAccessibilityLabel")}
       />
       <CloseButton
-        image={require("@assets/images/close.png")}
-        onPress={onDimiss}
+        onDismiss={onDimiss}
         accessibilityLabel={t("accessibility:button:close")}
-        imageStyle={styles.closeButtonImage}
       />
       <>
         <HeadingText>{heading}</HeadingText>
@@ -142,10 +132,6 @@ export function NotificationCard({
 }
 
 export const styles = StyleSheet.create({
-  closeButtonImage: {
-    width: 14.4,
-    height: 14.4,
-  },
   primaryButton: {
     fontSize: fontSizes.small,
   },
