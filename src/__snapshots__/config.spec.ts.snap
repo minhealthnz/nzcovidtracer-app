@@ -23,6 +23,7 @@ Object {
   "DevLogModules": false,
   "ENFCheckInterval": 180,
   "ENFServerUrl": "",
+  "EasterEggPublicKey": "",
   "ExposureEventsBaseUrl": "https://exposure-events.",
   "Features": Set {},
   "FeedbackEmailLink": "mailto:help@covidtracer.min.health.nz?subject=NZ COVID Tracer App Feedback",

@@ -33,6 +33,7 @@ const Events = {
   ViewNHIFromMyProfile: "viewNHIFromMyProfile",
   ViewNHIFromDashboard: "viewNHIFromDashboard",
   ENFSupportRetrySuccess: "enfSupportRetrySuccess",
+  EasterEggTriggered: "easter_egg_triggered",
 } as const;
 
 const AnalyticsEvent = {

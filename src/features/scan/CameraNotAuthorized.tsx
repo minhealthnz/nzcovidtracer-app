@@ -38,13 +38,16 @@ export default function CameraNotAuthorized() {
         accessibilityRole="image"
       />
       <VerticalSpacing height={30} />
-      <Text fontFamily="open-sans">{t("screens:scan:noCameraPermission")}</Text>
+      <Text maxFontSizeMultiplier={1.5} fontFamily="open-sans">
+        {t("screens:scan:noCameraPermission")}
+      </Text>
       <VerticalSpacing height={30} />
       <OpenSettingsLink
         onPress={Linking.openSettings}
         accessible={true}
         accessibilityLabel={t("screens:scan:openSettings")}
         accessibilityRole="button"
+        maxFontSizeMultiplier={1.5}
       >
         {t("screens:scan:openSettings")}
       </OpenSettingsLink>

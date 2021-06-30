@@ -28,11 +28,14 @@ const CountryContainer = styled.View<{
 `;
 
 const TextInput = styled(TextInputInner)`
-  flex: 1;
+  flex: 0;
+  flex-grow: 1;
+  min-width: 50%;
 `;
 
 const Container = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const DropDownContainer = styled.View`

@@ -7,7 +7,7 @@
     "android": "react-native run-android --variant=envEnfDebug",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "yarn fix:test:realm && jest",
+    "test": "yarn fix:test:realm && jest --runInBand",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "clean": "react-native-clean-project",
     "e2e:dev": "npx cavy run-ios --skipbuild --dev",

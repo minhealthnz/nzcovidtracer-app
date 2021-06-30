@@ -10,6 +10,7 @@ import { addEntry, setHasSeenScanTutorial } from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectHasSeenScanTutorial } from "@features/diary/selectors";
 import { DiaryEntry } from "@features/diary/types";
+import { useEasterEggOverlay } from "@features/easterEgg/hooks/useEasterEggOverlay";
 import { isAndroid } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
@@ -21,7 +22,6 @@ import { nanoid, unwrapResult } from "@reduxjs/toolkit";
 import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import { useCavy } from "cavy";
-import { Base64 } from "js-base64";
 import React, {
   useCallback,
   useEffect,
@@ -38,7 +38,9 @@ import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import CameraNotAuthorized from "../CameraNotAuthorized";
+import { parseBarcode } from "../helpers";
 import { ScanScreen } from "../screens";
+import { ScanData, ScanDataSurprise } from "../types";
 import { createDiaryEntry } from "./helpers";
 
 const { logInfo, logWarning, logError } = createLogger("Scan.tsx");
@@ -60,22 +62,6 @@ export interface QRScanData {
   opn: string;
   adr: string;
   ver: string;
-}
-
-function isQRScanDataValid(qrScanData: QRScanData): boolean {
-  const isInvalid =
-    qrScanData.typ == null ||
-    typeof qrScanData.typ !== "string" ||
-    qrScanData.gln == null ||
-    typeof qrScanData.gln !== "string" ||
-    qrScanData.opn == null ||
-    typeof qrScanData.opn !== "string" ||
-    qrScanData.adr == null ||
-    typeof qrScanData.adr !== "string" ||
-    qrScanData.ver == null ||
-    typeof qrScanData.ver !== "string";
-
-  return !isInvalid;
 }
 
 const assets = {
@@ -130,6 +116,8 @@ export function Scan(props: Props) {
   const [flashLightMode, setFlashLightMode] = useState(
     RNCamera.Constants.FlashMode.off,
   );
+
+  const { showEasterEgg, renderEasterEgg } = useEasterEggOverlay();
 
   const handleFlashLightMode = useCallback(() => {
     if (flashLightMode === RNCamera.Constants.FlashMode.off) {
@@ -281,23 +269,24 @@ export function Scan(props: Props) {
   }, [props.navigation, canScanBarcode]);
 
   const handleBarCodeRead = useCallback(
-    (barcode: BarCodeReadEvent) => {
+    async (barcode: BarCodeReadEvent) => {
       if (!barcode) {
         return;
       }
-
       if (!isFocused) {
         logInfo("Camera screen is not focused but is running, aborting");
         return;
       }
-
       if (!canScanBarcode()) {
         return;
       }
-
       lastScannedAt.current = new Date();
-
-      if (!barcode.data || !barcode.data.startsWith("NZCOVIDTRACER")) {
+      if (currentUserId == null) {
+        showError(t("errors:generic"));
+        return;
+      }
+      const qrScanData = await parseBarcode(barcode.data);
+      if (qrScanData == null) {
         showError(
           t("screens:scan:errors:couldntScanCode"),
           t("screens:scan:errors:notOfficialMessage"),
@@ -305,41 +294,38 @@ export function Scan(props: Props) {
         return;
       }
 
-      if (currentUserId == null) {
-        showError(t("errors:generic"));
+      if ("data" in qrScanData) {
+        if (isAndroid) {
+          Vibration.vibrate([0, 600]);
+        } else {
+          ReactNativeHapticFeedback.trigger(
+            "notificationSuccess",
+            hapticFeedBackOptions,
+          );
+        }
+        showEasterEgg((qrScanData as ScanDataSurprise).data);
         return;
       }
 
-      try {
-        const base64String = barcode.data.substr(14);
-        const decodedString = Base64.decode(base64String);
-        const qrScanData: QRScanData = JSON.parse(decodedString);
+      const newId = nanoid();
+      const entry = createDiaryEntry(
+        qrScanData as ScanData,
+        "scan",
+        newId,
+        currentUserId,
+      );
 
-        if (!isQRScanDataValid(qrScanData)) {
-          showError(
-            t("screens:scan:errors:couldntScanCode"),
-            t("screens:scan:errors:notOfficialMessage"),
-          );
-          return;
-        }
-
-        const newId = nanoid();
-        const entry = createDiaryEntry(
-          qrScanData,
-          "scan",
-          newId,
-          currentUserId!,
-        );
-
-        saveEntryAsync(entry);
-      } catch (error) {
-        showError(
-          t("screens:scan:errors:couldntScanCode"),
-          t("screens:scan:errors:troubleReading"),
-        );
-      }
+      saveEntryAsync(entry);
     },
-    [canScanBarcode, currentUserId, isFocused, saveEntryAsync, showError, t],
+    [
+      canScanBarcode,
+      currentUserId,
+      isFocused,
+      saveEntryAsync,
+      showError,
+      t,
+      showEasterEgg,
+    ],
   );
 
   const appState = useAppState();
@@ -443,17 +429,21 @@ export function Scan(props: Props) {
   ]);
 
   return (
-    <Container>
-      {camera}
-      <FooterContainer>
-        <Card
-          headerImage={assets.manualEntry}
-          title={t("screens:scan:manualEntryButtonTitle")}
-          description={t("screens:scan:manualEntryButtonDescription")}
-          onPress={onManualPress}
-        />
-      </FooterContainer>
-    </Container>
+    <>
+      <Container>
+        {camera}
+        <FooterContainer>
+          <Card
+            headerImage={assets.manualEntry}
+            title={t("screens:scan:manualEntryButtonTitle")}
+            description={t("screens:scan:manualEntryButtonDescription")}
+            onPress={onManualPress}
+            maxFontSizeMultiplier={1.5}
+          />
+        </FooterContainer>
+      </Container>
+      {renderEasterEgg}
+    </>
   );
 }
 
