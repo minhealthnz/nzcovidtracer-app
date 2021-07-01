@@ -31,7 +31,7 @@ export function Disclaimer({ text }: DisclaimerProps) {
   return (
     <DisclaimerView>
       <Image source={assets.lock} />
-      <DisclaimerText>{text}</DisclaimerText>
+      <DisclaimerText maxFontSizeMultiplier={1.5}>{text}</DisclaimerText>
     </DisclaimerView>
   );
 }

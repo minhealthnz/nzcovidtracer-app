@@ -229,7 +229,11 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.facebook.fbjni:fbjni-java-only:0.0.4'
+    implementation('com.facebook.react:react-native:+') {
+        exclude group: 'com.facebook.fbjni', module: 'fbjni-java-only'
+        exclude group: 'com.facebook.yoga', module: 'proguard-annotations'
+    }
     implementation 'com.google.crypto.tink:tink-android:1.5.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 

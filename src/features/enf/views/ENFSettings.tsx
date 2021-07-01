@@ -58,6 +58,7 @@ export function ENFSettings() {
     stop,
     readPermissions,
     status,
+    permissions,
   } = useExposure();
 
   const dispatch = useDispatch();
@@ -68,7 +69,8 @@ export function ENFSettings() {
     isIOS &&
     (isAuthorised === AuthorisedStatus.blocked ||
       //@ts-ignore
-      status.type?.includes("unauthorized"));
+      (status.type?.includes("unauthorized") &&
+        permissions.exposure.status === "allowed"));
 
   const formRef = useRef<FormV2Handle | null>(null);
 

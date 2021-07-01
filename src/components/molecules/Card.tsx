@@ -91,6 +91,7 @@ export interface CardProps {
   isConnected?: boolean;
   titleAccessoryView?: React.ReactNode;
   titleStyle?: ViewStyle;
+  maxFontSizeMultiplier?: number;
 }
 
 export const Card = ({
@@ -107,6 +108,7 @@ export const Card = ({
   isConnected,
   titleAccessoryView,
   titleStyle,
+  maxFontSizeMultiplier,
 }: CardProps) => {
   return (
     <Container
@@ -132,12 +134,22 @@ export const Card = ({
       <TextContainer>
         <TitleView>
           {title ? (
-            <Title style={titleStyle}>{formatToLocaleString(title)}</Title>
+            <Title
+              maxFontSizeMultiplier={maxFontSizeMultiplier}
+              style={titleStyle}
+            >
+              {formatToLocaleString(title)}
+            </Title>
           ) : null}
           {titleAccessoryView}
         </TitleView>
         {!!description && (
-          <Description isError={isError}>{description}</Description>
+          <Description
+            maxFontSizeMultiplier={maxFontSizeMultiplier}
+            isError={isError}
+          >
+            {description}
+          </Description>
         )}
       </TextContainer>
 

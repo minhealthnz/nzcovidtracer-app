@@ -14,6 +14,7 @@ const Section = styled.View`
 
 const SectionTitleView = styled.View`
   flex-direction: column;
+  flex-shrink: 1;
 `;
 
 const SectionTitle = styled(Text)`
@@ -33,8 +34,8 @@ const SectionSubTitle = styled(Text)`
 const SectionCTA = styled.TouchableOpacity`
   align-self: flex-end;
   justify-content: center;
-  align-items: center;
-  height: 20px;
+  align-items: flex-end;
+  flex-shrink: 1;
 `;
 
 const SectionCTATitle = styled.Text`

@@ -38,6 +38,7 @@ export interface AppConfigRaw {
   AssetWhitelist?: string;
   HideLogs?: string;
   ResourcesUrl?: string;
+  EasterEggPublicKey?: string;
 }
 
 export interface AppConfig {
@@ -77,6 +78,7 @@ export interface AppConfig {
   AssetWhitelist: "*" | string[];
   HideLogs: boolean;
   ResourcesUrl: string;
+  EasterEggPublicKey: string;
 }
 
 export let disableAnimations = false;
@@ -197,6 +199,7 @@ const config: AppConfig = {
   AssetWhitelist: readHostWhitelist(raw.AssetWhitelist),
   HideLogs: raw.HideLogs === "1",
   ResourcesUrl: raw.ResourcesUrl || "",
+  EasterEggPublicKey: raw.EasterEggPublicKey || "",
 };
 
 export function readHostWhitelist(raw: string | undefined): "*" | string[] {
