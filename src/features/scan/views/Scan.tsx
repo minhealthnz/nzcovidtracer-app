@@ -6,15 +6,17 @@ import {
   selectCameraPermission,
   selectHasRequestedCameraPermission,
 } from "@features/device/selectors";
-import { addEntry, setHasSeenScanTutorial } from "@features/diary/reducer";
+import {
+  AddDiaryEntry,
+  addEntry,
+  setHasSeenScanTutorial,
+} from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectHasSeenScanTutorial } from "@features/diary/selectors";
-import { DiaryEntry } from "@features/diary/types";
 import { useEasterEggOverlay } from "@features/easterEgg/hooks/useEasterEggOverlay";
-import { isAndroid } from "@lib/helpers";
+import { isAndroid, isSmallScreen } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
-import { BarcodeMask } from "@nartc/react-native-barcode-mask";
 import { useAppState } from "@react-native-community/hooks";
 import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -30,18 +32,24 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, InteractionManager, StyleSheet, Vibration } from "react-native";
+import {
+  Alert,
+  Dimensions,
+  InteractionManager,
+  StyleSheet,
+  Vibration,
+} from "react-native";
 import { BarCodeReadEvent, RNCamera } from "react-native-camera";
 import ReactNativeHapticFeedback from "react-native-haptic-feedback";
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 
-import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
-import CameraNotAuthorized from "../CameraNotAuthorized";
+import CameraNotAuthorized from "../components/CameraNotAuthorized";
+import { ScannerBanner } from "../components/ScanBanner";
 import { parseBarcode } from "../helpers";
+import { createDiaryEntry } from "../helpers";
 import { ScanScreen } from "../screens";
 import { ScanData, ScanDataSurprise } from "../types";
-import { createDiaryEntry } from "./helpers";
 
 const { logInfo, logWarning, logError } = createLogger("Scan.tsx");
 
@@ -68,6 +76,7 @@ const assets = {
   flashLightOn: require("@assets/icons/flashlight-on.png"),
   flashLightOff: require("@assets/icons/flashlight-off.png"),
   manualEntry: require("@assets/icons/manual-entry.png"),
+  mask: require("@features/scan/assets/images/mask.png"),
 };
 
 const Container = styled.View`
@@ -81,22 +90,34 @@ const Pending = styled.View`
 `;
 
 const FooterContainer = styled.View`
-  background-color: ${colors.white};
   width: 100%;
   align-items: flex-start;
 `;
 
 const FlashLightIconContainer = styled.TouchableOpacity`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding-right: 20px;
-  padding-bottom: 20px;
+  padding-top: 15px;
+  align-items: flex-end;
 `;
 
 const FlashLightIcon = styled.Image`
   width: 40px;
   height: 40px;
+`;
+
+const MaskImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
+const ImageContainer = styled.View`
+  width: 82%;
+  height: 60%;
+`;
+
+const MaskView = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 
 interface Props
@@ -215,14 +236,8 @@ export function Scan(props: Props) {
     return () => clearTimeout(timeoutId);
   }, [isFocused]);
 
-  useFocusEffect(
-    useCallback(() => {
-      recordAnalyticEvent(AnalyticsEvent.Scan);
-    }, []),
-  );
-
   const saveEntryAsync = useCallback(
-    async (entry: DiaryEntry) => {
+    async (entry: AddDiaryEntry) => {
       try {
         // TODO Create a separate interface for inserts
         if (entry.id == null) {
@@ -230,11 +245,7 @@ export function Scan(props: Props) {
         }
 
         try {
-          await dispatch(
-            addEntry({
-              entry,
-            }),
-          ).then(unwrapResult);
+          await dispatch(addEntry(entry)).then(unwrapResult);
 
           if (isAndroid) {
             Vibration.vibrate([0, 600]);
@@ -366,6 +377,45 @@ export function Scan(props: Props) {
       ? t("screens:scan:accessibility:hint")
       : "";
 
+  const {
+    manualEntryButtonTitle,
+    manualEntryButtonDescription,
+  } = useMemo(() => {
+    if (isSmallScreen(Dimensions.get("window").width)) {
+      return {
+        manualEntryButtonTitle: t(
+          "screens:scan:smallScreenManualEntryButtonTitle",
+        ),
+        manualEntryButtonDescription: t(
+          "screens:scan:manualEntryButtonDescription",
+        ),
+      };
+    } else {
+      return {
+        manualEntryButtonTitle: t("screens:scan:manualEntryButtonTitle"),
+        manualEntryButtonDescription: t(
+          "screens:scan:manualEntryButtonDescription",
+        ),
+      };
+    }
+  }, [t]);
+
+  const displayFooter = useMemo(() => {
+    return (
+      <>
+        <FooterContainer>
+          <Card
+            headerImage={assets.manualEntry}
+            title={manualEntryButtonTitle}
+            description={manualEntryButtonDescription}
+            onPress={onManualPress}
+            maxFontSizeMultiplier={1.5}
+          />
+        </FooterContainer>
+      </>
+    );
+  }, [manualEntryButtonTitle, manualEntryButtonDescription, onManualPress]);
+
   const camera = useMemo(() => {
     switch (cameraPermission) {
       case "denied":
@@ -389,28 +439,25 @@ export function Scan(props: Props) {
             captureAudio={false}
             flashMode={flashLightMode}
           >
-            <BarcodeMask
-              width={250}
-              height={250}
-              edgeRadius={5}
-              maskOpacity={0}
-              edgeColor={colors.black}
-              showAnimatedLine={false}
-            />
-            <FlashLightIconContainer
-              accessibilityLabel={accessibilityLabel}
-              accessibilityRole="button"
-              accessibilityHint={accessibilityHint}
-              onPress={handleFlashLightMode}
-            >
-              <FlashLightIcon
-                source={
-                  flashLightMode === RNCamera.Constants.FlashMode.off
-                    ? assets.flashLightOff
-                    : assets.flashLightOn
-                }
-              />
-            </FlashLightIconContainer>
+            <MaskView>
+              <ImageContainer>
+                <MaskImage source={assets.mask} resizeMode="stretch" />
+                <FlashLightIconContainer
+                  accessibilityLabel={accessibilityLabel}
+                  accessibilityRole="button"
+                  accessibilityHint={accessibilityHint}
+                  onPress={handleFlashLightMode}
+                >
+                  <FlashLightIcon
+                    source={
+                      flashLightMode === RNCamera.Constants.FlashMode.off
+                        ? assets.flashLightOff
+                        : assets.flashLightOn
+                    }
+                  />
+                </FlashLightIconContainer>
+              </ImageContainer>
+            </MaskView>
           </RNCamera>
         ) : (
           <Pending />
@@ -422,25 +469,17 @@ export function Scan(props: Props) {
     handleBarCodeRead,
     showCamera,
     hasRequestedCameraPermission,
-    flashLightMode,
-    handleFlashLightMode,
     accessibilityLabel,
     accessibilityHint,
+    handleFlashLightMode,
+    flashLightMode,
   ]);
-
   return (
     <>
       <Container>
+        <ScannerBanner />
         {camera}
-        <FooterContainer>
-          <Card
-            headerImage={assets.manualEntry}
-            title={t("screens:scan:manualEntryButtonTitle")}
-            description={t("screens:scan:manualEntryButtonDescription")}
-            onPress={onManualPress}
-            maxFontSizeMultiplier={1.5}
-          />
-        </FooterContainer>
+        {displayFooter}
       </Container>
       {renderEasterEgg}
     </>

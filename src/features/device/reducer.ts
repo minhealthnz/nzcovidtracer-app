@@ -24,8 +24,10 @@ export interface DeviceState {
   subscriptions: { [name: string]: SubscriptionState };
   currentRouteName?: AnyScreen;
   isScreenReaderEnabled: boolean;
+  isReduceMotionEnabled: boolean;
   currentDate: number;
   internetReachable: boolean | null;
+  shouldSubscribeToAnnouncementsByDefault: boolean;
 }
 
 const initialState: DeviceState = {
@@ -37,12 +39,18 @@ const initialState: DeviceState = {
   isScreenReaderEnabled: false,
   currentDate: new Date().getTime(),
   internetReachable: null,
+  isReduceMotionEnabled: false,
+  shouldSubscribeToAnnouncementsByDefault: true,
 };
 
 const persistConfig = {
   storage: AsyncStorage,
   key: "device",
-  whitelist: ["subscriptions", "notificationPermission"],
+  whitelist: [
+    "subscriptions",
+    "notificationPermission",
+    "shouldSubscribeToAnnouncementsByDefault",
+  ],
 };
 
 /**
@@ -59,6 +67,10 @@ export const requestNotificationPermission = createAction(
 
 export const requestCameraPermission = createAction(
   "device/requestCameraPermission",
+);
+
+export const requestToggleAnnouncements = createAction<boolean>(
+  "device/requestToggleAnnouncements",
 );
 
 export interface SubscriptionRejected {
@@ -87,6 +99,9 @@ const deviceSlice = createSlice({
         fullfilled: true,
       };
     },
+    subscriptionRemoved(state, { payload }: PayloadAction<string>) {
+      delete state.subscriptions[payload];
+    },
     setCurrentDate(state, { payload }: PayloadAction<number>) {
       state.currentDate = payload;
     },
@@ -105,11 +120,20 @@ const deviceSlice = createSlice({
     setIsScreenReaderEnabled(state, { payload }: PayloadAction<boolean>) {
       state.isScreenReaderEnabled = payload;
     },
+    setIsReduceMotionEnabled(state, { payload }: PayloadAction<boolean>) {
+      state.isReduceMotionEnabled = payload;
+    },
     setHasRequestedCameraPermission(state) {
       state.hasRequestedCameraPermission = true;
     },
     setInternetReachable(state, { payload }: PayloadAction<boolean | null>) {
       state.internetReachable = payload;
+    },
+    setShouldSubscribeToAnnouncementsByDefault(
+      state,
+      { payload }: PayloadAction<boolean>,
+    ) {
+      state.shouldSubscribeToAnnouncementsByDefault = payload;
     },
   },
   extraReducers: {},
@@ -122,12 +146,15 @@ export const {
   setCameraPermision,
   setAppState,
   subscriptionFulfilled,
+  subscriptionRemoved,
   subscriptionRejected,
   setCurrentRouteName,
   setIsScreenReaderEnabled,
   setHasRequestedCameraPermission,
   setCurrentDate,
   setInternetReachable,
+  setIsReduceMotionEnabled,
+  setShouldSubscribeToAnnouncementsByDefault,
 } = actions;
 
 export default persistReducer(persistConfig, reducer);

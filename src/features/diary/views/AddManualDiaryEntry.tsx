@@ -1,15 +1,21 @@
-import { DatePicker, InputGroup, TextInput } from "@components/atoms";
+import {
+  DatePicker,
+  DummyInput,
+  InputGroup,
+  LocationIcon,
+  TextInput,
+} from "@components/atoms";
 import { FormV2 } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
 import { grid } from "@constants";
 import { selectUserId } from "@domain/user/selectors";
-import { addEntry } from "@features/diary/reducer";
-import { DiaryEntry } from "@features/diary/types";
+import { AddDiaryEntry, addEntry } from "@features/diary/reducer";
+import { useLocationAccessibility } from "@features/locations/hooks/useLocationAccessibility";
+import { LocationScreen } from "@features/locations/screens";
 import { ScanScreen } from "@features/scan/screens";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
-import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { nanoid, unwrapResult } from "@reduxjs/toolkit";
 import { calcCheckInMaxDate, calcCheckInMinDate } from "@utils/checkInDate";
@@ -19,13 +25,18 @@ import {
   startDateValidation,
 } from "@validations/validations";
 import { MainStackParamList } from "@views/MainStack";
-import React, { useCallback, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
 
-import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { DiaryScreen } from "../screens";
 
 const { logError } = createLogger("AddManualDiaryEntry.tsx");
@@ -45,8 +56,17 @@ export function AddManualDiaryEntry(props: Props) {
   const dispatch = useAppDispatch();
 
   const date = props.route.params?.startDate;
+  const location = props.route.params?.location || "";
+  const name = typeof location === "object" ? location.name : location;
+  const address = typeof location === "object" ? location.address : undefined;
+  const type = typeof location === "object" ? location.type : "manual";
+  const isFavourite =
+    typeof location === "object" ? location.isFavourite : false;
+  const globalLocationNumber =
+    typeof location === "object" && location.type === "scan"
+      ? location.id
+      : undefined;
 
-  const [name, setName] = useState<string>("");
   const [nameError, setNameError] = useState<string>("");
   const [startDate, setStartDate] = useState<number>(
     date || new Date().getTime(),
@@ -70,11 +90,11 @@ export function AddManualDiaryEntry(props: Props) {
 
   const userId = useSelector(selectUserId);
 
-  useFocusEffect(
-    useCallback(() => {
-      recordAnalyticEvent(AnalyticsEvent.Manual);
-    }, []),
-  );
+  useEffect(() => {
+    if (name != null) {
+      setNameError("");
+    }
+  }, [name]);
 
   const saved = useRef(false);
 
@@ -89,34 +109,38 @@ export function AddManualDiaryEntry(props: Props) {
       logError("Cannot find userId [screen=AddManualDiaryEntry]");
       return;
     }
-    const newEntry: DiaryEntry = {
-      name,
-      userId,
-      details,
-      id: nanoid(),
-      startDate: startDate,
-      type: "manual",
-    };
+
     cleanErrorMessages();
     schema
-      .validate(newEntry, { abortEarly: false })
+      .validate(
+        {
+          name,
+          startDate,
+          details,
+        },
+        { abortEarly: false },
+      )
       .then(() => {
-        return dispatch(
-          addEntry({
-            entry: newEntry,
-          }),
-        );
+        const request: AddDiaryEntry = {
+          name,
+          userId,
+          details: details ?? "",
+          id: nanoid(),
+          startDate: new Date(startDate),
+          address,
+          type: type,
+          globalLocationNumber: globalLocationNumber,
+        };
+
+        return dispatch(addEntry(request));
       })
       .then(unwrapResult)
-      .then(() => {
+      .then((entry) => {
         saved.current = true;
         props.navigation.replace(ScanScreen.Recorded, {
-          id: newEntry.id,
+          id: entry.id,
+          manualEntry: true,
         });
-
-        if (details.length > 0) {
-          recordAnalyticEvent(AnalyticsEvent.ManualNoteAdded);
-        }
       })
       .catch((error: yup.ValidationError | Error) => {
         if (error instanceof yup.ValidationError && error.inner) {
@@ -140,11 +164,45 @@ export function AddManualDiaryEntry(props: Props) {
           props.navigation.navigate(ScanScreen.ScanNotRecorded);
         }
       });
-  }, [props.navigation, t, dispatch, name, details, startDate, userId]);
+  }, [
+    props.navigation,
+    t,
+    dispatch,
+    details,
+    startDate,
+    userId,
+    name,
+    address,
+    type,
+    globalLocationNumber,
+  ]);
 
   useAccessibleTitle();
 
   const inputGroupRef = useRef<InputGroupRef | null>(null);
+
+  const onPlaceOrActivityPress = useCallback(() => {
+    props.navigation.navigate(LocationScreen.PlaceOrActivity, { name: name });
+  }, [name, props.navigation]);
+
+  const { locationIconAccessibilityLabel } = useLocationAccessibility({
+    isFavourite: isFavourite,
+    locationType: type,
+  });
+
+  const placeOrAcitivityAccessibilityLabel = useMemo(() => {
+    if (name) {
+      return t(
+        "screens:addManualDiaryEntry:placeOrActivityAccessibilityLabel",
+        {
+          locationType: locationIconAccessibilityLabel,
+          locationName: name,
+        },
+      );
+    } else {
+      return undefined;
+    }
+  }, [locationIconAccessibilityLabel, name, t]);
 
   return (
     <FormV2
@@ -154,16 +212,29 @@ export function AddManualDiaryEntry(props: Props) {
       keyboardAvoiding={true}
     >
       <InputGroup ref={inputGroupRef}>
-        <TextInput
+        <DummyInput
+          info={t("screens:addManualDiaryEntry:placeOrActivityDisclaimer")}
           identifier="name"
-          testID="addManualDiaryEntry:placeOrActivity"
+          onPress={onPlaceOrActivityPress}
           label={t("screens:addManualDiaryEntry:placeOrActivity")}
           value={name}
-          onChangeText={setName}
           required="required"
           errorMessage={nameError}
-          clearErrorMessage={() => setNameError("")}
+          accessibilityLabel={placeOrAcitivityAccessibilityLabel}
+          accessibilityHint={
+            !name
+              ? t(
+                  "screens:addManualDiaryEntry:PlaceOrActivityAccessibilityHint",
+                )
+              : undefined
+          }
+          renderIcon={
+            !!location && (
+              <LocationIcon locationType={type} isFavourite={isFavourite} />
+            )
+          }
         />
+
         <DatePicker
           dateTime={startDate}
           onDateChange={setStartDate}

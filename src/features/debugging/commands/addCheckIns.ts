@@ -1,9 +1,8 @@
 import {
+  AddCheckInItem,
+  addCheckIns as dbAddCheckIns,
   CheckInItemType,
-  UpsertCheckInItem,
-  upsertMany,
-} from "@db/checkInItem";
-import { hashLocationNumber } from "@db/hash";
+} from "@db/entities/checkInItem";
 import { _storeRef } from "@lib/storeRefs";
 import { nanoid } from "@reduxjs/toolkit";
 
@@ -32,7 +31,7 @@ export const createCheckIns = async (userId: string, num: number) => {
   for (let i = 0; i < num; i++) {
     items.push(buildUpsert(userId));
   }
-  await upsertMany(items);
+  await dbAddCheckIns(items);
 };
 
 const buildUpsert = (userId: string) => {
@@ -45,23 +44,31 @@ const buildUpsert = (userId: string) => {
   // 0 - 120 days
   const span = Math.random() * 60 * 60 * 24 * 120 * 1000;
 
-  let locationNumber = "";
-  const locationNumberLength = 13;
-  const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-  for (let i = 0; i < locationNumberLength; i++) {
-    locationNumber += digits[Math.floor(Math.random() * digits.length)];
-  }
+  const type =
+    Math.random() > 0.5 ? CheckInItemType.Scan : CheckInItemType.Manual;
+  const locationNumber =
+    type === CheckInItemType.Manual ? "" : buildLocationNumber();
 
-  const entry: UpsertCheckInItem = {
+  const entry: AddCheckInItem = {
     id,
     userId,
     startDate: new Date(new Date().getTime() - span),
     name: nanoid(),
     address: nanoid(),
     globalLocationNumber: locationNumber,
-    globalLocationNumberHash: hashLocationNumber(locationNumber),
-    type: Math.random() > 0.5 ? CheckInItemType.Scan : CheckInItemType.Manual,
+    type,
+    note: nanoid(),
   };
 
   return entry;
+};
+
+const buildLocationNumber = () => {
+  let locationNumber = "";
+  const locationNumberLength = 13;
+  const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  for (let i = 0; i < locationNumberLength; i++) {
+    locationNumber += digits[Math.floor(Math.random() * digits.length)];
+  }
+  return locationNumber;
 };

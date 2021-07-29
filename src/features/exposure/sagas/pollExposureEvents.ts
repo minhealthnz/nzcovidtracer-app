@@ -1,4 +1,4 @@
-import { CheckInItemMatch } from "@db/checkInItemMatch";
+import { CheckInItemMatch } from "@db/entities/checkInItemMatch";
 import { appDidBecomeAvailable } from "@features/device/reducer";
 import { createLogger } from "@logger/createLogger";
 import { SagaIterator } from "redux-saga";

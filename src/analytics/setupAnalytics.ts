@@ -18,7 +18,7 @@ export const setupAnalytics = () => {
       autoSessionRecord: true,
       AWSPinpoint: {
         appId: config.PinpointApplicationId,
-        region: config.PinpointRegion,
+        region: config.CognitoUserPoolRegion,
         mandatorySignIn: false,
         endpoint: {
           address: DeviceInfo.getUniqueId(),

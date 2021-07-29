@@ -1,9 +1,10 @@
 import { VerticalSpacing } from "@components/atoms";
 import { SectionList } from "@components/atoms/SectionList";
 import { Disclaimer } from "@components/molecules/Disclaimer";
-import { colors } from "@constants";
+import { colors, grid2x } from "@constants";
 import { DiaryEntry } from "@features/diary/types";
 import useCurrentDate from "@features/enfExposure/hooks/useCurrentDate";
+import { ReminderCard } from "@features/reminder/components/ReminderCard";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
@@ -26,13 +27,20 @@ import {
 import { usePaginationSession } from "../hooks/usePaginationSession";
 import { DiaryScreen } from "../screens";
 
-const keyExtractor = (item: DiaryItem, index: number) =>
-  typeof item === "object" ? item.id : index.toString();
+const keyExtractor = (item: DiaryItem, index: number) => {
+  return typeof item === "object"
+    ? item.locationId + item.id
+    : index.toString();
+};
 
 const Separator = styled.View`
   background-color: ${colors.platinum};
   height: 1px;
-  width: 100%;
+  margin-horizontal: ${grid2x}px;
+`;
+
+const ListItemView = styled.View`
+  padding-horizontal: ${grid2x}px;
 `;
 
 interface Props
@@ -90,12 +98,14 @@ export function Diary(props: Props) {
       const item = itemInfo.item;
 
       return (
-        <DiarySectionItem
-          item={item}
-          startOfDay={startOfDay}
-          onEntryPress={handleEntryPress}
-          handleAddEntry={handleAddEntry}
-        />
+        <ListItemView>
+          <DiarySectionItem
+            item={item}
+            startOfDay={startOfDay}
+            onEntryPress={handleEntryPress}
+            handleAddEntry={handleAddEntry}
+          />
+        </ListItemView>
       );
     },
     [handleEntryPress, handleAddEntry],
@@ -107,15 +117,17 @@ export function Diary(props: Props) {
     (info: { section: SectionListData<DiaryItem> }) => {
       const section = info.section as DiarySectionData;
       return (
-        <DiarySectionHeader
-          title={section.title}
-          showOldDiaryTitle={section.showOldDiaryTitle}
-          ctaTitle={section.ctaTitle}
-          ctaCallback={section.ctaCallback}
-          accessibilityLabel={t(
-            "screens:diary:addNewManualEntryAccessibilityLabel",
-          )}
-        />
+        <ListItemView>
+          <DiarySectionHeader
+            title={section.title}
+            showOldDiaryTitle={section.showOldDiaryTitle}
+            ctaTitle={section.ctaTitle}
+            ctaCallback={section.ctaCallback}
+            accessibilityLabel={t(
+              "screens:diary:addNewManualEntryAccessibilityLabel",
+            )}
+          />
+        </ListItemView>
       );
     },
     [t],
@@ -147,6 +159,7 @@ export function Diary(props: Props) {
         onRefresh={handleRefresh}
         refreshing={querying}
         style={styles.sectionListContainer}
+        ListHeaderComponent={ReminderCard}
       />
       <Disclaimer text={t("components:diaryDisclaimer:disclaimer")} />
     </>
@@ -158,7 +171,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   sectionListContainer: {
-    paddingRight: 20,
-    paddingLeft: 20,
+    paddingRight: 0,
+    paddingLeft: 0,
   },
 });

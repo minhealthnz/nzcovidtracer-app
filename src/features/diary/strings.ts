@@ -5,7 +5,7 @@ export const strings = {
       viewDiary: "Choose an old diary",
       copiedDiary: "Choose an old diary",
       chooseOldDiary: "Choose an old diary",
-      diaryShared: "Share my diary",
+      diaryShared: "Share my digital diary",
     },
     screens: {
       diary: {
@@ -37,6 +37,20 @@ export const strings = {
         description:
           "Your digital diary has been sent to the Contact Tracing team.",
         done: "Finish",
+      },
+      savingLocations: {
+        subtitle: "Save scanned posters",
+        description:
+          "If you forget to scan, add a saved poster into your diary manually. This will allow you",
+        boldDescription: "to get alerted if you contact COVID-19 there.",
+        secondSubtitle: "Save manual diary entries",
+        secondDescription:
+          "Make it easier to enter them again, for example if you stayed home.",
+        tip:
+          "Do not save buses or taxis, as it is unlikely that you will visit the same vehicle again.",
+        saveLocation: "Would you like to save this location?",
+        save: "save",
+        cancel: "cancel",
       },
     },
   },

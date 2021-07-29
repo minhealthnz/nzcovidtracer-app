@@ -1,5 +1,5 @@
-import { Text } from "@components/atoms";
-import { colors, fontFamilies, fontSizes, grid2x } from "@constants";
+import { LocationIcon, Text } from "@components/atoms";
+import { colors, fontFamilies, fontSizes, grid, grid2x } from "@constants";
 import { DiaryEntry } from "@features/diary/types";
 import moment from "moment";
 import React, { Component } from "react";
@@ -11,7 +11,8 @@ const Container = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-horizontal: ${grid2x}px;
+  padding-right: ${grid2x}px;
+  padding-left: ${grid}px;
   min-height: 64px;
 `;
 
@@ -20,7 +21,7 @@ const TextContainer = styled.View`
   justify-content: center;
   align-items: flex-start;
   flex: 1;
-  padding: 8px 0 8px 0;
+  padding: ${grid}px 0 ${grid}px ${grid}px;
 `;
 
 const NameContainer = styled.View`
@@ -61,7 +62,7 @@ const Warning = styled.Image`
 
 const assets = {
   chevronRight: require("@assets/icons/chevron-right.png"),
-  warning: require("@assets/icons/warning.png"),
+  warning: require("@assets/icons/attention.png"),
 };
 
 interface Props extends WithTranslation {
@@ -73,7 +74,11 @@ interface Props extends WithTranslation {
 
 class _DiaryEntryListItem extends Component<Props> {
   shouldComponentUpdate(nextProps: Props) {
-    return this.props.entry.updatedAt !== nextProps.entry.updatedAt;
+    return (
+      this.props.entry.updatedAt !== nextProps.entry.updatedAt ||
+      this.props.entry.isFavourite !== nextProps.entry.isFavourite ||
+      this.props.entry.startDate !== nextProps.entry.startDate
+    );
   }
   render() {
     const entryDate = moment(this.props.entry.startDate);
@@ -106,6 +111,10 @@ class _DiaryEntryListItem extends Component<Props> {
         )}
         accessibilityRole={this.props.onEntryPress ? "button" : "text"}
       >
+        <LocationIcon
+          locationType={this.props.entry.type}
+          isFavourite={this.props.entry.isFavourite}
+        />
         <TextContainer>
           <NameContainer>
             <NameText numberOfLines={1}>{this.props.entry.name}</NameText>

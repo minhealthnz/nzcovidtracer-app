@@ -1,6 +1,6 @@
-import { count as countCheckIns } from "@db/checkInItem";
 import { createPrivate } from "@db/create";
-import { User } from "@db/user";
+import { count as countCheckIns } from "@db/entities/checkInItem";
+import { User } from "@db/entities/user";
 import { setLegacyUsers } from "@domain/user/reducer";
 import { selectLegacyUsers } from "@domain/user/selectors";
 import { setCountedOldDiaries } from "@features/diary/commonActions";

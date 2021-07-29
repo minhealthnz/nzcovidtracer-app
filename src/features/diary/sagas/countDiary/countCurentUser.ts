@@ -1,4 +1,4 @@
-import { count } from "@db/checkInItem";
+import { count } from "@db/entities/checkInItem";
 import { setAnonymousUser } from "@domain/user/reducer";
 import { selectUserId } from "@domain/user/selectors";
 import { appDidBecomeAvailable } from "@features/device/reducer";

@@ -2,13 +2,14 @@ import {
   CheckInItemMatchSchema,
   CheckInItemPublicSchema,
   CheckInItemSchema,
+  LocationSchema,
   UserSchema,
-} from "@db/schemas";
+} from "@db/entities/schemas";
 import Realm from "realm";
 
 export const createPrivate = async () => {
   return await Realm.open({
-    schema: [CheckInItemSchema, UserSchema],
+    schema: [CheckInItemSchema, UserSchema, LocationSchema],
   });
 };
 

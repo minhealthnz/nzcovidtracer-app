@@ -1,7 +1,6 @@
 import { NotAccessible } from "@components/atoms/NotAccessible";
 import { SwitchContext } from "@features/dashboard/components/SwitchProvider";
 import { selectIsScreenReaderEnabled } from "@features/device/selectors";
-import MaskedView from "@react-native-community/masked-view";
 import React, {
   forwardRef,
   LegacyRef,
@@ -24,7 +23,8 @@ import {
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 
-import { itemHeight, itemWidth, maskMargin, topMargin } from "./constants";
+import { itemWidth, maskMargin } from "./constants";
+import { Mask } from "./Mask";
 import { SwitchLayer } from "./SwitchLayer";
 
 interface SwitchProps {
@@ -32,16 +32,6 @@ interface SwitchProps {
   accessibilityLabel: string;
   accessibilityHint?: string;
 }
-
-const MaskElement = styled(Animated.View)`
-  flex: 1;
-  background-color: white;
-  position: absolute;
-  top: ${topMargin + maskMargin}px;
-  width: ${itemWidth - 2 * maskMargin}px;
-  height: ${itemHeight - 2 * maskMargin}px;
-  border-radius: 4px;
-`;
 
 const Overlay = styled.View`
   position: absolute;
@@ -61,14 +51,6 @@ function _Switch(
       maskMargin,
     ),
   ).current;
-
-  const maskElement = (
-    <MaskElement
-      style={{
-        left,
-      }}
-    />
-  );
 
   const handleIndexChange = useCallback(
     (v: number) => {
@@ -123,9 +105,9 @@ function _Switch(
             <View pointerEvents={isScreenReaderEnabled ? "none" : undefined}>
               <SwitchLayer titles={titles} onPress={handleIndexChange} />
               <Overlay pointerEvents="none">
-                <MaskedView maskElement={maskElement}>
+                <Mask left={left}>
                   <SwitchLayer titles={titles} isOverlay={true} />
-                </MaskedView>
+                </Mask>
               </Overlay>
             </View>
           </FlingGestureHandler>

@@ -1,5 +1,4 @@
 export const ExposureEvents = {
-  ExposureNotificationReceived: "exposureNotificationReceived",
   ExposureNotificationMatchDetected: "exposureNotificationMatchDetected",
   ExposureNotificationDisplayed: "exposureNotificationDisplayed",
   ExposureNotificationOpened: "exposureNotificationOpened",

@@ -3,7 +3,6 @@ import moment from "moment";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { useInputGroup } from "../molecules/InputGroup";
 import { DatePickerMode, DatePickerProps } from "./DatePicker";
@@ -84,21 +83,19 @@ export function DatePickerAndroid(props: DatePickerProps) {
 
   return (
     <>
-      <TouchableOpacity
+      <DummyInput
         onPress={showDatePicker}
-        accessible
+        label={title}
+        value={moment(dateTime).format(
+          justDate ? formatDateOnly : formateDateTime,
+        )}
         accessibilityLabel={accessibilityLabel}
         accessibilityHint={t("accessibility:datePicker:selectDateAndTime")}
-      >
-        <DummyInput
-          label={title}
-          value={moment(dateTime).format(
-            justDate ? formatDateOnly : formateDateTime,
-          )}
-          required="required"
-          errorMessage={props.errorMessage}
-        />
-      </TouchableOpacity>
+        isAccessible={false}
+        required="required"
+        errorMessage={props.errorMessage}
+      />
+
       {isShown && (
         <DateTimePicker
           testID="dateTimePicker"

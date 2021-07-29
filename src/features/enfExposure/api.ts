@@ -1,3 +1,5 @@
+import { ReminderNotificationConfig } from "@features/reminder/reducer";
+import { validateReminderNotificationConfig } from "@features/reminder/util/validateReminderConfig";
 import { createLogger } from "@logger/createLogger";
 import Axios, { AxiosResponse } from "axios";
 import _ from "lodash";
@@ -32,6 +34,7 @@ export interface ENFNotificationSettingsRaw {
   announcements?: unknown;
   configurations: ENFNotificationRiskBucketsConfig;
   callbackEnabled?: boolean;
+  reminderNotificationConfig?: ReminderNotificationConfig;
 }
 
 export interface ENFNotificationSettings {
@@ -39,6 +42,7 @@ export interface ENFNotificationSettings {
   announcements: Announcement[];
   configurations: ENFNotificationRiskBucketsConfig;
   callbackEnabled?: boolean;
+  reminderNotificationConfig?: ReminderNotificationConfig;
 }
 
 const announcementSchema = yup.object<Announcement>().shape({
@@ -67,6 +71,9 @@ export async function getENFNotificationConfig(): Promise<
   const result: ENFNotificationSettings = {
     ...raw,
     announcements: parseAnnouncement(raw.announcements),
+    reminderNotificationConfig: validateReminderNotificationConfig(
+      raw.reminderNotificationConfig,
+    ),
   };
   return result;
 }

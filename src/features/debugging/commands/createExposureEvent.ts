@@ -1,4 +1,4 @@
-import { query } from "@db/checkInItem";
+import { query } from "@db/entities/checkInItem";
 import { addEvents } from "@features/exposure/reducer";
 import { ExposureEvent } from "@features/exposure/service/types";
 import { _storeRef } from "@lib/storeRefs";
@@ -29,7 +29,7 @@ export const buildCreateExposureEvent = (
       eventId: nanoid(),
       start: new Date(checkIn.startDate.getTime() - 1),
       end: new Date(checkIn.startDate.getTime() + 1),
-      glnHash: checkIn.globalLocationNumberHash,
+      glnHash: checkIn.location.globalLocationNumberHash,
       systemNotificationBody:
         "You may have been in contact with COVID-19. Tap for more information.",
       appBannerRequestCallbackEnabled: callbackRequested,

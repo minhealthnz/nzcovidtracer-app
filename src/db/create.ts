@@ -3,17 +3,18 @@ import { Platform } from "react-native";
 import Realm from "realm";
 
 import config from "../config";
+import {
+  CheckInItemMatchSchema,
+  CheckInItemPublicSchema,
+  CheckInItemSchema,
+  LocationSchema,
+  UserSchema,
+} from "./entities/schemas";
 import getPrivateDbKey from "./getPrivateDbKey";
 import getPublicDbKey from "./getPublicDbKey";
 import { get as getKeystore, set as setKeystore } from "./keystore";
 import { migratePrivate, migratePublic } from "./migrate";
 import { randomBytes } from "./randomBytes";
-import {
-  CheckInItemMatchSchema,
-  CheckInItemPublicSchema,
-  CheckInItemSchema,
-  UserSchema,
-} from "./schemas";
 
 const { logError } = createLogger("db/create");
 
@@ -47,8 +48,8 @@ export const createPrivate = async () => {
   return await Realm.open({
     // iOS realm is created under a folder to simplify applying file protection levels
     path: Platform.OS === "ios" ? "private/db.realm" : "private.realm",
-    schema: [CheckInItemSchema, UserSchema],
-    schemaVersion: 6,
+    schema: [CheckInItemSchema, UserSchema, LocationSchema],
+    schemaVersion: 8,
     encryptionKey: key,
     migration: migratePrivate,
   });
@@ -63,7 +64,7 @@ export const createPublic = async () => {
     // iOS realm is created under a folder to simplify applying file protection levels
     path: Platform.OS === "ios" ? "public/db.realm" : "public.realm",
     schema: [CheckInItemPublicSchema, CheckInItemMatchSchema],
-    schemaVersion: 7,
+    schemaVersion: 8,
     encryptionKey: key,
     migration: migratePublic,
   });

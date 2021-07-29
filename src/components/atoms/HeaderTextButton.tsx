@@ -12,7 +12,6 @@ const Title = styled.Text`
 const Container = styled.TouchableOpacity`
   padding-right: ${grid2x}px;
   padding-left: 24px;
-  height: 72px;
   justify-content: center;
   align-items: center;
 `;

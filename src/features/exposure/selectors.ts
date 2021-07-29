@@ -25,7 +25,7 @@ export const selectGlobalLocationHash = createSelector(
 
 export const selectRiskyLocationName = createSelector(
   selectExposure,
-  (exposure) => exposure.checkInItem?.name,
+  (exposure) => exposure.checkInItem?.location.name,
 );
 
 export const selectCheckInId = createSelector(

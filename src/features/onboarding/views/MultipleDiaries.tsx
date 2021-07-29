@@ -1,6 +1,7 @@
 import { FormV2 } from "@components/molecules/FormV2";
 import { createOTPSession } from "@features/otp/reducer";
 import { OTPScreen } from "@features/otp/screens";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { nanoid } from "@reduxjs/toolkit";
@@ -10,7 +11,6 @@ import { useDispatch } from "react-redux";
 
 import { setStartedCopyDiary } from "../reducer";
 import { OnboardingScreen } from "../screens";
-import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
@@ -58,7 +58,7 @@ export function MultipleDiaries(props: MultipleDiariesProps) {
     <FormV2
       headerImage={assets.diary}
       heading={t("screens:multipleDiaries:title")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
       description={t("screens:multipleDiaries:description")}
       buttonText={t("screens:multipleDiaries:okay")}
       onButtonPress={handlePress}

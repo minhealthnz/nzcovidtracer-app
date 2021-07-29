@@ -1,4 +1,4 @@
-import { upsertMany, UpsertUser } from "@db/user";
+import { upsertMany, UpsertUser } from "@db/entities/user";
 import { createLogger } from "@logger/createLogger";
 import { logPerformance } from "@logger/logPerformance";
 import { NativeModules, Platform } from "react-native";

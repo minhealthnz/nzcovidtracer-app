@@ -25,6 +25,7 @@ import {
   linkManualEntry,
   linkNHI,
   linkResources,
+  linkScan,
 } from "../commands/deeplinks";
 import { enfCheckExposure } from "../commands/enfCheckExposure";
 import { enfDeleteExposure } from "../commands/enfDeleteExposure";
@@ -35,6 +36,7 @@ import { injectInsertError } from "../commands/injectInsertError";
 import { injectMfaError } from "../commands/injectMfaError";
 import { notifyDeviceRegistered } from "../commands/notifyDeviceRegistered";
 import { resetENFAlert } from "../commands/resetENFAlert";
+import { showReminderInfo } from "../commands/showReminderInfo";
 import { showSubscription } from "../commands/showSubscription";
 import {
   disable as disablePolling,
@@ -108,6 +110,10 @@ export function DebugMenu() {
         ],
       },
       {
+        title: "REMINDER NOTIFICATIONS",
+        commands: [showReminderInfo],
+      },
+      {
         title: "MISC",
         commands: [createCrash, copyEnvVar, injectMfaError, copySessionLog],
       },
@@ -135,6 +141,7 @@ export function DebugMenu() {
           linkDiary,
           linkNHI,
           linkManualEntry,
+          linkScan,
         ],
       },
     ],

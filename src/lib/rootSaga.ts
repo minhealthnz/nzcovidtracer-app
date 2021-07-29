@@ -5,10 +5,12 @@ import diary from "@features/diary/sagas";
 import enf from "@features/enf/sagas";
 import enfExposure from "@features/enfExposure/sagas";
 import exposure from "@features/exposure/sagas";
+import locations from "@features/locations/sagas";
 import maintanence from "@features/maintanence/saga";
 import migration from "@features/migration/sagas";
 import onboarding from "@features/onboarding/saga";
 import otp from "@features/otp/sagas";
+import reminder from "@features/reminder/sagas";
 import verification from "@features/verification/sagas";
 import { SagaIterator } from "redux-saga";
 import { all, call } from "redux-saga/effects";
@@ -25,7 +27,9 @@ export default function* rootSaga(): SagaIterator {
     call(exposure),
     call(otp),
     call(diary),
+    call(reminder),
     call(enfExposure),
     call(verification),
+    call(locations),
   ]);
 }

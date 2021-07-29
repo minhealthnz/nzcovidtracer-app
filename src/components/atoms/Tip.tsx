@@ -6,11 +6,22 @@ import styled from "styled-components";
 import { Text } from "./Text";
 import { VerticalSpacing } from "./VerticalSpacing";
 
-const Container = styled(View)<{ backgroundColor: string }>`
+const Container = styled(View)<{
+  backgroundColor: string;
+  leftBorderColor?: string;
+}>`
   background-color: ${(props) => props.backgroundColor};
   border-left-width: 4px;
-  border-color: ${colors.yellow};
+  border-color: ${(props) =>
+    props.leftBorderColor ? props.leftBorderColor : colors.yellow};
   padding: 11px 15px 9px 16px;
+`;
+
+export const TipSubHeading = styled(Text)`
+  font-family: ${fontFamilies["open-sans-semi-bold"]};
+  line-height: 20px;
+  font-size: ${fontSizes.normal}px;
+  color: ${colors.primaryBlack};
 `;
 
 const Context = styled(Text)<{ fontSize?: number; lineHeight?: number }>`
@@ -36,9 +47,15 @@ interface Props {
   children: Element;
   backgroundColor: string;
   heading?: string;
+  leftBorderColor?: string;
 }
 
-export function Tip({ children, backgroundColor, heading }: Props) {
+export function Tip({
+  children,
+  backgroundColor,
+  heading,
+  leftBorderColor,
+}: Props) {
   return (
     <>
       {!!heading && (
@@ -47,7 +64,12 @@ export function Tip({ children, backgroundColor, heading }: Props) {
           <VerticalSpacing height={5} />
         </>
       )}
-      <Container backgroundColor={backgroundColor}>{children}</Container>
+      <Container
+        backgroundColor={backgroundColor}
+        leftBorderColor={leftBorderColor}
+      >
+        {children}
+      </Container>
     </>
   );
 }
@@ -59,3 +81,10 @@ export function TipText(props: TextProps) {
     </Context>
   );
 }
+
+export const presets = {
+  warning: {
+    leftBorderColor: colors.orange,
+    backgroundColor: colors.paleOrange,
+  },
+};

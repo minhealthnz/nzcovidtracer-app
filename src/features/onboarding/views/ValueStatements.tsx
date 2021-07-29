@@ -72,6 +72,7 @@ export function ValueStatements(
         headerBanner={assets.heroMedium}
         keyboardAvoiding
         buttonLoading={nextLoading}
+        snapButtonsToBottom={true}
       >
         <Title>{t("screens:valueStatements:title")}</Title>
         <SubTitle>{t("screens:valueStatements:subtitle")}</SubTitle>

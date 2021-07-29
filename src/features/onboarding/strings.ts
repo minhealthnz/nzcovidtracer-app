@@ -87,6 +87,8 @@ export const strings = {
       },
       enableENF: {
         heading: "Enable Bluetooth tracing",
+        headerImageAccessibilityLabel:
+          "Two phones anonymously exchanging Bluetooth Tracing keys at a cafe.",
         description1:
           "Anonymously log when other app users are nearby by enabling your phone’s Exposure Notification System.",
         description2:
@@ -95,8 +97,8 @@ export const strings = {
           "It cannot share your location, your name, or anything else about you.",
         description4:
           "It will allow you to receive an exposure notification if you may have been in close contact with another app user who has COVID-19.",
-        enableTracing: "Enable Bluetooth Tracing",
-        enableTracingAccessibility: "Enable Bluetooth Tracing",
+        enableTracing: "Enable Bluetooth tracing",
+        enableTracingAccessibility: "Enable Bluetooth tracing",
         done: "Done",
         doneAccessibility: "Done",
         more: "Find out more",
@@ -117,6 +119,7 @@ export const strings = {
       },
       contactDetails: {
         heading: "Tell us your contact details",
+        headerIamgeLabel: "A person with COVID-19 speaking to a Contact Tracer",
         description:
           "This information helps contact tracers reach you faster if we need to." +
           "\n\n" +
@@ -130,14 +133,17 @@ export const strings = {
         doThisLater: "Do this later",
       },
       enableAlerts: {
-        heading: "Enable contact alerts",
+        heading: "Enable notifications",
+        headerImageLabel: "Two phones receiving COVID-19 exposure alerts",
         description:
-          "We use notifications to let you know if you may have been in contact with someone with COVID-19 and to send you public announcements",
+          "We use notifications to let you know if you may have been in close contact with someone with COVID-19. \n\nFrom time to time we may also send announcements and reminders to keep your diary up to date. \n\nYou can always update your notification preferences in My Data tab.",
         enableNotifications: "Enable notifications",
         done: "Done",
       },
       thanks: {
         heading: "You've joined our team of 5 million",
+        headerImageLabel:
+          "A person with NZ COVID Tracer app surrounded by their friends and family",
         description: [
           "Thanks for downloading and using the NZ COVID Tracer app to protect yourself, your whānau, and your community.",
           "",
@@ -147,6 +153,7 @@ export const strings = {
       },
       lockCode: {
         heading: "A reminder about privacy",
+        headerImageLabel: "A key opening a lock",
         description:
           "Your diary is stored only on your phone. It isn’t uploaded anywhere unless a contact tracer asks you to share it and you say yes." +
           "\n" +

@@ -27,6 +27,7 @@ You can download the app for:
 2. XCode / Android Studio
 3. cocoapods
 4. `prettier` extension (latest version) installed on code editor (preferably VSCode)
+5. Javac version 1.8 (check by javac -version)
 
 ### Env variables
 This project uses [react-native-config](https://github.com/luggit/react-native-config)  
@@ -37,20 +38,36 @@ Generate 64 [random bytes](https://www.random.org/cgi-bin/randbyte?nbytes=64&for
 Go to [Binary to Base64](https://cryptii.com/pipes/binary-to-base64), choose Hexadecimal format and convert it to text
 Go to `.env` file, configure `DbEncryptionKey` with the key
 
+### Pre-build
+Keep the below changes in your local dev only. Do not push it in the branch.
+- Create a .env file in the root directory and insert the correct variables as shown in the example env file.
+- Insert the correct serects in the scripts/inject-secrets bash file.
+- `sh scripts/inject-secrets.sh .`
+- yarn install
+- cd ios
+- bundle exec pod install
+- cd ../
+
 ### Run the app
 ```
-yarn
-cd ios
-bundle exec pod install
-cd ../
-yarn ios
+yarn install
+yarn ios --scheme 'UniteAppRN-ENF'
 ```
 
-### E2E tests
+### Known issues
+- If you have linking issues for Xcode 12 and above, please fix them by the file reference workaround.
+- Ensure that the versions match.
+    * `javac -version` --> 1.8 (important).
+    * `node -v` --> currently @ 14.16.1.
+- Cannot find default.realm on running Jest
+    - Delete default.realm.lock file from root and try again.
+- Snapshot testing failing as it cannot match.
+    - Update the snapshot tests by running `yarn test -u`
 
+### E2E tests
 End to end tests are implemented with [cavy](https://github.com/pixielabs/cavy)  
 
-Start the app for e.g. `yarn ios`, and make sure both the app and the bundler are running  
-Start the test server `yarn e2e:dev`  
-Tests should now be running at every reload  
+Start the app for e.g. `yarn ios`, and make sure both the app and the bundler are running
+Start the test server `yarn e2e:dev`
+Tests should now be running at every reload
 See tests under `./specs`

@@ -2,31 +2,51 @@ export const strings = {
   en: {
     screenTitles: {
       tutorial: "How it works",
-      recordAVisit: "Record a visit",
       recordVisit: "Record visit",
+      recordAVisit: "Record a visit",
       scanNotRecorded: "Visit not recorded",
     },
     screens: {
       scanTutorial: {
+        next: "Next",
+        okay: "Okay",
         step1: {
-          title: "Scan to check in",
+          title: "Trace your steps by recording visits",
           description:
-            "Scan the QR codes on official NZ COVID Tracer posters when you arrive at participating places.",
+            "Scan the QR codes on official NZ COVID Tracer posters when you arrive at a place.\n \nYou can also add a manual diary entry if you go somewhere without a poster or if you forgot to scan.",
+          tipBold: "Your digital diary is stored privately on your phone. ",
+          tip:
+            "You can share it with contact tracers and will only be asked to do so if you test positive for COVID-19. \n \nWhenever you open the app, diary entries older than 60 days will be deleted.",
+          imageAccessibilityLabel:
+            "A person successfully scanning a QR code poster.",
         },
         step2: {
-          title: "Add a diary entry manually",
+          title: "Trace your encounters with Bluetooth tracing",
           description:
-            "Add entries to your digital diary manually if you visit somewhere without a QR code. You can also add a diary entry for a previous day.",
+            "Your phone will use low-energy Bluetooth to exchange anonymous keys with other phones that are using the app and have Bluetooth tracing enabled.",
+          tipBold:
+            "Your Bluetooth tracing codes are stored privately on your phone. ",
+          tip:
+            "You can choose to share them with contact tracers if you test positive for COVID-19.",
+          imageAccessibilityLabel:
+            "Two phones anonymously exchanging Bluetooth Tracing keys at a cafe.",
         },
         step3: {
-          title: "Contact alerts",
+          title: "Receive contact alerts",
           description:
-            "If you scanned in to a place at the same time as someone with COVID-19, we'll send you an alert.",
+            "If you scanned into a place at the same time as someone with COVID-19, we’ll send you an alert. \n \nYou will also get an alert if Bluetooth tracing identifies that you may have been in close contact with another app user who has COVID-19.",
+          tipBold: "Alerts are sent anonymously. ",
+          tip:
+            "Only you know if you’ve received a contact alert. You can choose to get in touch with contact tracers.",
+          imageAccessibilityLabel:
+            "Multiple phones receiving an exposure notification when their owner came into contact with COVID-19.",
         },
         step4: {
           title: "Retrace your steps",
           description:
-            "Use your digital diary to help remember where you've been when a contact tracer gives you a call.",
+            "Keeping your digital diary complete will help you quickly remember where you’ve been if a contact tracer gives you a call.",
+          imageAccessibilityLabel:
+            "A person sick with COVID-19 looking through their digital diary.",
         },
         footerText:
           "Your digital diary is kept securely on your phone. Whenever you open the app, entries older than 60 days will be automatically deleted.",
@@ -35,12 +55,15 @@ export const strings = {
         guide: "Guide",
         diary: "Diary",
         addManualEntry: "Add diary entry",
-        manualEntryButtonTitle: "Or add a diary entry manually",
-        manualEntryButtonDescription: "If there is no QR poster to scan",
+        manualEntryButtonTitle: "Add a diary entry manually",
+        manualEntryButtonDescription: "If you can't scan right now",
+        smallScreenManualEntryButtonTitle: "Add diary entry manually",
         instructions: "Scan NZ COVID Tracer QR code or:",
         noCameraPermission:
           "To scan QR codes, you'll need to allow camera access to the NZ COVID Tracer app.",
         openSettings: "Open settings",
+        keepScanning: "Keep scanning QR posters",
+        allowCamera: "Allow camera access",
         errors: {
           couldntScanCode: "We couldn't scan this QR code",
           notOfficialMessage:
@@ -54,9 +77,23 @@ export const strings = {
           hint: "Turn torchlight on to help scan posters in low light",
           diaryHistory: "diary history",
           startTutorial: "start tutorial",
+          topBannerHint:
+            "Tap to learn more and change Bluetooth tracing status",
         },
+        blueToothTracingStatus: {
+          inactive: "Bluetooth tracing is not active",
+          enabled: "Bluetooth tracing is running",
+          disabled: "Turn on Bluetooth tracing",
+          activating: "Activating Bluetooth tracing...",
+          unavailable: "Bluetooth tracing unavailable",
+        },
+        and: "AND",
+        then: "THEN",
       },
       visitRecorded: {
+        heading: "This entry won't be added to your diary",
+        description:
+          "You’ve already added this location into your diary by scanning a poster or tapping an NFC sticker.",
         addDetails: "Add details",
         doneButton: "Okay",
         doneHint: "Closes the page and navigates back",

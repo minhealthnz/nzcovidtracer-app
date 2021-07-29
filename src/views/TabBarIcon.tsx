@@ -6,28 +6,32 @@ const Container = styled.View`
   padding: 0px 4px;
 `;
 
-const RedDot = styled.Image`
+const Badge = styled.Image`
   position: absolute;
   right: 0;
-  top: 2px;
+  top: 4px;
 `;
 
 interface TabBarIconProps {
   source: ImageSourcePropType;
   routeName: string;
-  showBadge?: boolean;
+  badgeType?: "important" | "normal";
 }
 
-export function TabBarIcon({ source, showBadge: hasAlert }: TabBarIconProps) {
+const assets = {
+  redBadge: require("@assets/icons/red-dot.png"),
+  yellowBadge: require("@assets/icons/yellow-dot.png"),
+};
+
+export function TabBarIcon({ source, badgeType }: TabBarIconProps) {
   return (
     <Container>
       <Image accessible={false} source={source} />
-      {hasAlert && (
-        <RedDot
-          accessible={false}
-          source={require("@assets/icons/red-dot.png")}
-        />
-      )}
+      {badgeType === "important" ? (
+        <Badge accessible={false} source={assets.redBadge} />
+      ) : badgeType === "normal" ? (
+        <Badge accessible={false} source={assets.yellowBadge} />
+      ) : null}
     </Container>
   );
 }

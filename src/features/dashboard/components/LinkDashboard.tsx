@@ -1,5 +1,6 @@
 import { SwitchContext } from "@features/dashboard/components/SwitchProvider";
-import { useHandleLink } from "@navigation/hooks/useHandleLink";
+import { matchDeeplink } from "@linking/matchers";
+import { useHandleLink } from "@linking/useHandleLink";
 import { TabScreen } from "@views/screens";
 import { useCallback, useContext } from "react";
 
@@ -9,7 +10,9 @@ export function LinkDashboard() {
   const { setIndex } = useContext(SwitchContext);
 
   useHandleLink(
-    "dashboard/today",
+    {
+      matcher: matchDeeplink("dashboard/today"),
+    },
     useCallback(() => {
       setIndex(0);
       navigationRef.current?.navigate(TabScreen.Home);
@@ -17,7 +20,9 @@ export function LinkDashboard() {
   );
 
   useHandleLink(
-    "dashboard/resources",
+    {
+      matcher: matchDeeplink("dashboard/resources"),
+    },
     useCallback(() => {
       setIndex(1);
       navigationRef.current?.navigate(TabScreen.Home);

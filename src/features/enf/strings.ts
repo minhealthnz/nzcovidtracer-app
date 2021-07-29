@@ -12,7 +12,7 @@ export const strings = {
     },
     screens: {
       enfSettings: {
-        title: "Bluetooth tracing",
+        title: "Trace your encounters with Bluetooth tracing",
         description:
           "Anonymously log when you are near other app users by enabling your phone’s Exposure Notification System.",
         buttonEnabled: "Turn it off",
@@ -20,25 +20,37 @@ export const strings = {
         buttonDisabled: "Turn it on",
         buttonDisabledAccessibility: "Turn bluetooth tracing on",
         buttonBlocked: "Authorise in settings",
+        enableBluetooth: "Enable Bluetooth tracing",
         buttonBlockedAccessibility: "Authorise bluetooth tracing in settings",
+        headerImageAccessibilityLabel:
+          "Two phones anonymously exchanging Bluetooth tracing keys at a cafe.",
         secondaryButton: "Find out more",
         secondaryButtonAccessibilityLabel:
           "Read more info about Bluetooth tracing",
         secondaryButtonAccessibilityHint:
           "Leaves the app and navigates to a webpage",
-        subheading: "How it works",
-        bluetoothMessage:
-          "Bluetooth needs to be enabled in your phone settings for Bluetooth tracing to work. You may also need to turn on Exposure Notifications in your phone settings.",
+        tipSubHeading: "Keep scanning",
+        tipDescription:
+          "You need to keep scanning in even if you have Bluetooth tracing on. These work together to help contact tracing.",
+        bluetoothMessageTip:
+          "Bluetooth needs to be enabled in your phone settings for Bluetooth tracing to work.",
         bluetoothMessageTurnOn: "Turn on Bluetooth",
         bluetoothMessageTurnOnIOS: "Turn on Bluetooth in settings",
         bluetoothMessageTurnOnIOSHint:
           "Navigates to your device's system settings",
-        subtext:
-          "Your phone will use Bluetooth to exchange anonymous codes with other phones using the app with Bluetooth enabled.",
-        subtextP2:
-          "It cannot share your location, your name, or anything else about you.",
-        subtextP3:
-          "You will receive an exposure notification through the app if you may have been in close contact with another app user who has COVID-19.",
+        yourPrivacy: "Your privacy",
+        yourPrivacySubtitle:
+          "Bluetooth tracing cannot share your location, name, or anything else about you.",
+        howItWorks: "How it works",
+        order1: "1.",
+        order2: "2.",
+        order3: "3.",
+        howItWorks1:
+          "Bluetooth tracing only works when you enable Exposure Notifications in your system settings and have Bluetooth on.",
+        howItWorks2:
+          "Your phone will use low-energy Bluetooth to exchange keys with other app users who have Bluetooth tracing on.",
+        howItWorks3:
+          "You will receive an exposure notification if you were in close contact with another app user who has COVID-19.",
         bannerEnabled: "Bluetooth tracing is on",
         bannerEnabledAccessibilityLabel:
           "Bluetooth tracing status: Bluetooth tracing is on",
@@ -49,13 +61,16 @@ export const strings = {
         bannerInactiveAccessibilityLabel:
           "Bluetooth tracing status: Bluetooth tracing is not active",
         notSupported: {
-          subtext: "We can't currently activate Bluetooth Tracing for you.",
+          title: "Bluetooth tracing",
+          subtext: "We can't currently activate Bluetooth tracing for you.",
           subtextP1: "Make sure you're connected to the internet.",
           subtextP2: "Make sure your operating system is up to date.",
           subtextP3:
             "If you're not sure why you're seeing this message, get in touch with us at ",
           link: "help@covidtracer.min.health.nz",
           subtextP4:
+            "You can still help contact tracing efforts by scanning the QR code posters and creating manual entries in your diary.",
+          tip:
             "You can still help contact tracing efforts by scanning the QR code posters and creating manual entries in your diary.",
         },
         disableModal: {

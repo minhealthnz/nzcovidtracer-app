@@ -39,6 +39,22 @@ export const selectCopyDiary = createSelector(
 
 export const selectCount = createSelector(selectDiary, (diary) => diary.count);
 
+export const selectHasDiaryEntries = createSelector(
+  selectDiary,
+  selectUser,
+  (diary, user) => {
+    if (user.anonymousUserId === null) {
+      return false;
+    }
+    for (const userId in diary.count) {
+      if (userId === user.anonymousUserId) {
+        return diary.count[userId] > 0;
+      }
+    }
+    return false;
+  },
+);
+
 export const selectCountActiveDays = createSelector(
   selectDiary,
   (diary) => diary.countActiveDays,

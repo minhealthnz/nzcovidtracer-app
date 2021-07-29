@@ -1,6 +1,9 @@
 import { LinkDashboard } from "@features/dashboard/components/LinkDashboard";
+import { LinkScan } from "@features/nfc/LinkScan";
 import { LinkNHI } from "@features/nhi/components.ts/LinkNHI";
 import React from "react";
+
+import config, { Feature } from "../config";
 
 /**
  * Component to host manual links,
@@ -13,6 +16,7 @@ export function ManualLinks() {
     <>
       <LinkDashboard />
       <LinkNHI />
+      {config.Features.has(Feature.NFC) && <LinkScan />}
     </>
   );
 }

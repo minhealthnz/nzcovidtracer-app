@@ -3,6 +3,7 @@ import { presets } from "@components/atoms/TextInput";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroup, InputGroupRef } from "@components/molecules/InputGroup";
 import { colors, fontFamilies, fontSizes, grid2x, loginLink } from "@constants";
+import { commonStyles } from "@lib/commonStyles";
 import { isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -36,7 +37,6 @@ import {
 import { useOtpSession } from "../hooks/useOtpSession";
 import { otpFulfilled, updateSession } from "../reducer";
 import { OTPScreen, OTPScreenParams } from "../screens";
-import { styles } from "../styles";
 
 const Description = styled(Text)`
   font-size: ${fontSizes.normal}px;
@@ -286,7 +286,7 @@ export function VerifyEmail(props: Props) {
     <FormV2
       ref={formRef}
       heading={t("screens:verifyEmail:title")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
       buttonText={t("screens:verifyEmail:submit")}
       onButtonPress={onSubmitPress}
       buttonLoading={isLoading}

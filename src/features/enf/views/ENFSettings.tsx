@@ -1,17 +1,28 @@
 import { Text, VerticalSpacing } from "@components/atoms";
-import { Tip, TipText } from "@components/atoms/Tip";
-import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
+import { OrderedListItem } from "@components/atoms/OrderedListItem";
+import { SecondaryButton } from "@components/atoms/SecondaryButton";
+import { presets, Tip, TipSubHeading, TipText } from "@components/atoms/Tip";
+import {
+  Description,
+  FormV2,
+  FormV2Handle,
+  Heading,
+} from "@components/molecules/FormV2";
 import {
   aboutBluetoothLink,
   colors,
   fontFamilies,
   fontSizes,
   grid,
+  grid2x,
 } from "@constants";
 import { selectBluetoothEnfDisabled } from "@features/enf/selectors";
+import { commonStyles } from "@lib/commonStyles";
 import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
+import { StackScreenProps } from "@react-navigation/stack";
+import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
@@ -24,6 +35,14 @@ import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { enableBluetooth } from "../reducer";
+import { ENFScreen } from "../screens";
+
+const SubHeading = styled(Text)`
+  font-family: ${fontFamilies["open-sans-bold"]};
+  padding-top: ${grid2x}px;
+  font-size: ${fontSizes.normal}px;
+  line-height: 24px;
+`;
 
 const Subtext = styled(Text)`
   font-family: ${fontFamilies["open-sans"]};
@@ -39,16 +58,36 @@ const BluetoothDialogLink = styled(Text)`
   margin-top: 10px;
 `;
 
+const CovidSafe = styled.Image`
+  width: 165px;
+  height: 42px;
+`;
+
+const ImageContainer = styled.View`
+  padding: 5px 0 5px 0;
+`;
+
+const BluetoothTipContainer = styled.View`
+  margin: -24px -24px 0 -24px;
+  padding-bottom: 19px;
+`;
+
 const assets = {
   enabled: require("../assets/icons/enabled.png"),
   disabled: require("../assets/icons/disabled.png"),
   warning: require("../assets/icons/warning.png"),
+  covidSafe: require("../assets/images/covid-safe.png"),
 };
 
 const { logInfo, logError } = createLogger("EnableENFDashboard");
 
-export function ENFSettings() {
+interface Props
+  extends StackScreenProps<MainStackParamList, ENFScreen.Settings> {}
+
+export function ENFSettings(props: Props) {
   const { t } = useTranslation();
+
+  const retryPassed = props.route.params?.retryPassed;
 
   const {
     enabled,
@@ -84,7 +123,7 @@ export function ENFSettings() {
       return {
         bannerText: t("screens:enfSettings:bannerInactive"),
         bannerTextColor: colors.primaryBlack,
-        bannerColor: colors.carrot,
+        bannerColor: colors.orange,
         bannerIcon: assets.warning,
       };
     } else if (enabled) {
@@ -98,7 +137,7 @@ export function ENFSettings() {
       return {
         bannerText: t("screens:enfSettings:bannerDisabled"),
         bannerTextColor: colors.white,
-        bannerColor: colors.red,
+        bannerColor: colors.failure,
         bannerIcon: assets.disabled,
       };
     }
@@ -168,14 +207,14 @@ export function ENFSettings() {
     readPermissions,
   ]);
 
-  const onFindOutMorePress = () => {
+  const onFindOutMorePress = useCallback(() => {
     Linking.openURL(aboutBluetoothLink);
-  };
+  }, []);
 
   let buttonText: string;
   let buttonAccessibilityLabel: string;
 
-  if (blockedFromShowingPrompt) {
+  if (!retryPassed && blockedFromShowingPrompt) {
     buttonText = t("screens:enfSettings:buttonBlocked");
     buttonAccessibilityLabel = t(
       "screens:enfSettings:buttonBlockedAccessibility",
@@ -186,51 +225,25 @@ export function ENFSettings() {
       "screens:enfSettings:buttonEnabledAccessibility",
     );
   } else {
-    buttonText = t("screens:enfSettings:buttonDisabled");
+    buttonText = retryPassed
+      ? t("screens:enfSettings:enableBluetooth")
+      : t("screens:enfSettings:buttonDisabled");
     buttonAccessibilityLabel = t(
       "screens:enfSettings:buttonDisabledAccessibility",
     );
   }
 
-  useAccessibleTitle();
+  const renderBluetoothTip = useMemo(() => {
+    if (!enabled || !bluetoothDisabled) {
+      return null;
+    }
 
-  return (
-    <FormV2
-      ref={formRef}
-      headerImage={require("../assets/images/information.png")}
-      heading={t("screens:enfSettings:title")}
-      description={t("screens:enfSettings:description")}
-      buttonText={buttonText}
-      onButtonPress={onButtonPress}
-      buttonAccessibilityLabel={buttonAccessibilityLabel}
-      secondaryButtonText={t("screens:enfSettings:secondaryButton")}
-      accessibilitySecondaryLabel={t(
-        "screens:enfSettings:secondaryButtonAccessibilityLabel",
-      )}
-      accessibilitySecondaryHint={t(
-        "screens:enfSettings:secondaryButtonAccessibilityHint",
-      )}
-      onSecondaryButtonPress={onFindOutMorePress}
-      bannerText={bannerText}
-      bannerColor={bannerColor}
-      bannerTextColor={bannerTextColor}
-      bannerIcon={bannerIcon}
-      bannerAccessibilityLabel={
-        enabled
-          ? bluetoothDisabled
-            ? t("screens:enfSettings:bannerInactiveAccessibilityLabel")
-            : t("screens:enfSettings:bannerEnabledAccessibilityLabel")
-          : t("screens:enfSettings:bannerDisabledAccessibilityLabel")
-      }
-    >
-      <Tip
-        backgroundColor={colors.lightYellow}
-        heading={t("screens:enfSettings:subheading")}
-      >
-        <TipText>{t("screens:enfSettings:bluetoothMessage")}</TipText>
-        {enabled && bluetoothDisabled && (
+    return (
+      <BluetoothTipContainer>
+        <Tip {...presets.warning}>
+          <TipText>{t("screens:enfSettings:bluetoothMessageTip")}</TipText>
+          <VerticalSpacing height={10} />
           <>
-            <VerticalSpacing height={3} />
             <BluetoothDialogLink
               onPress={handleBluetoothOn}
               accessibilityLabel={
@@ -249,14 +262,99 @@ export function ENFSettings() {
                 ? t("screens:enfSettings:bluetoothMessageTurnOnIOS")
                 : t("screens:enfSettings:bluetoothMessageTurnOn")}
             </BluetoothDialogLink>
-            <VerticalSpacing height={5} />
+            <VerticalSpacing height={3} />
           </>
+        </Tip>
+      </BluetoothTipContainer>
+    );
+  }, [enabled, bluetoothDisabled, handleBluetoothOn, t]);
+
+  const findOutMoreLink = useMemo(() => {
+    return (
+      <SecondaryButton
+        text={t("screens:enfSettings:secondaryButton")}
+        onPress={onFindOutMorePress}
+        accessibilityLabel={t(
+          "screens:enfSettings:secondaryButtonAccessibilityLabel",
         )}
-      </Tip>
-      <VerticalSpacing height={12} />
-      <Subtext>{t("screens:enfSettings:subtext")}</Subtext>
-      <Subtext>{t("screens:enfSettings:subtextP2")}</Subtext>
-      <Subtext>{t("screens:enfSettings:subtextP3")}</Subtext>
+        accessibilityHint={t(
+          "screens:enfSettings:secondaryButtonAccessibilityHint",
+        )}
+        accessibilityRole="link"
+        align={"left"}
+      />
+    );
+  }, [t, onFindOutMorePress]);
+
+  const renderScanningTips = useMemo(() => {
+    if (!retryPassed) {
+      return (
+        <>
+          <Tip backgroundColor={colors.lightYellow}>
+            <ImageContainer>
+              <CovidSafe source={assets.covidSafe} />
+            </ImageContainer>
+
+            <TipSubHeading>
+              {t("screens:enfSettings:tipSubHeading")}
+            </TipSubHeading>
+            <TipText>{t("screens:enfSettings:tipDescription")}</TipText>
+          </Tip>
+          <VerticalSpacing height={12} />
+        </>
+      );
+    } else {
+      return;
+    }
+  }, [retryPassed, t]);
+
+  useAccessibleTitle();
+
+  return (
+    <FormV2
+      ref={formRef}
+      headerImage={require("../assets/images/information.png")}
+      headerImageAccessibilityLabel={t(
+        "screens:enfSettings:headerImageAccessibilityLabel",
+      )}
+      bannerText={bannerText}
+      bannerColor={bannerColor}
+      bannerTextColor={bannerTextColor}
+      bannerIcon={!retryPassed && bannerIcon}
+      headerBackgroundColor={colors.lightGrey}
+      headerImageStyle={commonStyles.headerImage}
+      snapButtonsToBottom={true}
+      buttonText={buttonText}
+      onButtonPress={onButtonPress}
+      buttonAccessibilityLabel={buttonAccessibilityLabel}
+      bannerAccessibilityLabel={
+        enabled
+          ? bluetoothDisabled
+            ? t("screens:enfSettings:bannerInactiveAccessibilityLabel")
+            : t("screens:enfSettings:bannerEnabledAccessibilityLabel")
+          : t("screens:enfSettings:bannerDisabledAccessibilityLabel")
+      }
+    >
+      {renderBluetoothTip}
+      <Heading>{t("screens:enfSettings:title")}</Heading>
+      <Description>{t("screens:enfSettings:description")}</Description>
+      {renderScanningTips}
+      <SubHeading>{t("screens:enfSettings:yourPrivacy")}</SubHeading>
+      <Subtext>{t("screens:enfSettings:yourPrivacySubtitle")}</Subtext>
+      <SubHeading>{t("screens:enfSettings:howItWorks")}</SubHeading>
+      <OrderedListItem
+        item={t("screens:enfSettings:howItWorks1")}
+        order={t("screens:enfSettings:order1")}
+      />
+      <OrderedListItem
+        item={t("screens:enfSettings:howItWorks2")}
+        order={t("screens:enfSettings:order2")}
+      />
+      <OrderedListItem
+        item={t("screens:enfSettings:howItWorks3")}
+        order={t("screens:enfSettings:order3")}
+      />
+      {findOutMoreLink}
     </FormV2>
   );
 }

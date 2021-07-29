@@ -1,5 +1,6 @@
-import { CheckInItem, CheckInItemType } from "@db/checkInItem";
-import { hashLocationNumber } from "@db/hash";
+import { CheckInItem, CheckInItemType } from "@db/entities/checkInItem";
+import { getLocationType } from "@db/getLocationType";
+import { hashLocationNumber } from "@db/hashLocationNumber";
 import { nanoid } from "@reduxjs/toolkit";
 import { expectSaga } from "redux-saga-test-plan";
 import { select } from "redux-saga-test-plan/matchers";
@@ -78,10 +79,16 @@ function setupSaga(options?: { queryError?: Error; updateError?: Error }) {
       id: nanoid(),
       userId: userId,
       startDate: new Date(),
-      name: "foo",
-      address: "bar",
-      globalLocationNumber,
-      globalLocationNumberHash: hashLocationNumber(globalLocationNumber),
+      location: {
+        id: globalLocationNumber,
+        name: "foo",
+        address: "bar",
+        globalLocationNumber,
+        globalLocationNumberHash: hashLocationNumber(globalLocationNumber),
+        isFavourite: false,
+        hasDiaryEntry: true,
+        type: getLocationType(CheckInItemType.Scan),
+      },
       type: CheckInItemType.Scan,
     },
   ];

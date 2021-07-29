@@ -12,6 +12,7 @@ import {
 } from "../reducer";
 import {
   selectNotificationPermission,
+  selectShouldSubscribeToAnnouncementsByDefault,
   selectSubscriptions,
 } from "../selectors";
 
@@ -26,13 +27,19 @@ export function* subscribeToTopics(): SagaIterator {
 
 export function* onSubcribeToTopics(): SagaIterator {
   const status: PermissionStatus = yield select(selectNotificationPermission);
+  const shouldSubscribeToAnnouncementsByDefault: boolean = yield select(
+    selectShouldSubscribeToAnnouncementsByDefault,
+  );
 
   if (status !== "granted") {
     return;
   }
 
   yield call(subscribeToTopic, "all");
-  yield call(subscribeToTopic, "announcements");
+
+  if (shouldSubscribeToAnnouncementsByDefault) {
+    yield call(subscribeToTopic, "announcements");
+  }
 }
 
 export function* subscribeToTopic(topicName: string): SagaIterator {

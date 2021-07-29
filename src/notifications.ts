@@ -1,6 +1,8 @@
+import { DiaryScreen } from "@features/diary/screens";
+import { ENFScreen } from "@features/enf/screens";
 import { NotificationUserInfo } from "@features/exposure/reducer";
 import { NotificationTypeMatchFound } from "@features/exposure/service/types";
-import { OnboardingScreen } from "@features/onboarding/screens";
+import { ReminderNotificationType } from "@features/reminder/service/scheduleReminders";
 import { ENFSupportRetrySuccess } from "@features/verification/types";
 import { navigate } from "@navigation/navigation";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
@@ -18,6 +20,10 @@ export function configure() {
     onNotification: function (notification) {
       const data: NotificationUserInfo = notification.data;
       if (data.isLocal) {
+        if (data.type === ReminderNotificationType) {
+          recordAnalyticEvent(AnalyticsEvent.ReminderNotificationOpened);
+          navigate(DiaryScreen.Diary);
+        }
         if (data.type === NotificationTypeMatchFound) {
           // TODO confirm it works from launch
           recordAnalyticEvent(AnalyticsEvent.ExposureNotificationOpened);
@@ -26,7 +32,9 @@ export function configure() {
         if (data.type === ENFSupportRetrySuccess) {
           recordAnalyticEvent(AnalyticsEvent.ENFSupportRetrySuccess);
           navigate(TabScreen.Home);
-          navigate(OnboardingScreen.EnableENFNavigator);
+          navigate(ENFScreen.Settings, {
+            retryPassed: true,
+          });
         }
       }
 

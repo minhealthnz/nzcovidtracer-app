@@ -17,7 +17,7 @@ const persistConfig = {
     "expires",
     "statsError",
     "statsEmpty",
-    "hasSeenSwipeInfo",
+    "hasSeenSaveLocations",
   ],
 };
 
@@ -29,7 +29,7 @@ export interface DashboardState {
   statsError?: string;
   testLocationsLink: string;
   statsEmpty: boolean;
-  hasSeenSwipeInfo: boolean;
+  hasSeenSaveLocations: boolean;
 }
 
 const initialState: DashboardState = {
@@ -40,7 +40,7 @@ const initialState: DashboardState = {
   expires: 0,
   testLocationsLink: defaultTestLocationsLink,
   statsEmpty: false,
-  hasSeenSwipeInfo: false,
+  hasSeenSaveLocations: false,
 };
 
 export const getCovidStatistics = createAsyncThunk(
@@ -55,8 +55,8 @@ const slice = createSlice({
   name: "dashboard",
   initialState,
   reducers: {
-    setHasSeenSwipeInfo(state) {
-      state.hasSeenSwipeInfo = true;
+    setHasSeenSaveLocations(state) {
+      state.hasSeenSaveLocations = true;
     },
   },
   extraReducers: (builder) =>
@@ -108,7 +108,7 @@ const slice = createSlice({
 
 const { reducer, actions } = slice;
 
-export const { setHasSeenSwipeInfo } = actions;
+export const { setHasSeenSaveLocations } = actions;
 
 export { reducer as _reducer };
 

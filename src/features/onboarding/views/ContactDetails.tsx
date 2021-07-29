@@ -3,6 +3,7 @@ import { PhoneInput } from "@components/atoms/PhoneInput";
 import { presets, TextInput } from "@components/atoms/TextInput";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
+import { colors } from "@constants";
 import { updateDetails } from "@domain/user/reducer";
 import { selectUserId } from "@domain/user/selectors";
 import { initiateOTP } from "@features/otp/api";
@@ -12,6 +13,7 @@ import {
 } from "@features/otp/errors";
 import { createOTPSession } from "@features/otp/reducer";
 import { OTPScreen } from "@features/otp/screens";
+import { commonStyles } from "@lib/commonStyles";
 import { isNetworkError } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
@@ -35,7 +37,6 @@ import * as yup from "yup";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { OnboardingScreen } from "../screens";
-import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
@@ -203,7 +204,12 @@ export function ContactDetails(
     <FormV2
       ref={formRef}
       heading={t("screens:contactDetails:heading")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
+      headerBackgroundColor={colors.lightGrey}
+      headerImageStyle={commonStyles.headerImage}
+      headerImageAccessibilityLabel={t(
+        "screens:contactDetails:headerIamgeLabel",
+      )}
       description={t("screens:contactDetails:description")}
       headerImage={require("../assets/images/phone-call.png")}
       buttonText={t("screens:contactDetails:submit")}

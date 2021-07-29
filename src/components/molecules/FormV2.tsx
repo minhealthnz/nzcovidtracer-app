@@ -1,12 +1,15 @@
+import { Banner, BannerText } from "@components/atoms/Banner";
 import Divider from "@components/atoms/Divider";
 import {
   colors,
   fontFamilies,
   fontSizes,
   grid,
+  grid2x,
   grid3x,
   grid4x,
 } from "@constants";
+import { selectIsReduceMotionEnabled } from "@features/device/selectors";
 import { useToast } from "@hooks/useToast";
 import { useHeaderHeight } from "@react-navigation/stack";
 import React, {
@@ -22,17 +25,20 @@ import React, {
 } from "react";
 import {
   AccessibilityInfo,
+  Dimensions,
   findNodeHandle,
   Image,
   ImageSourcePropType,
+  ImageStyle,
   Keyboard,
+  KeyboardEvent,
   LayoutChangeEvent,
   Platform,
   ScrollView,
   TextStyle,
   View,
 } from "react-native";
-import { Dimensions } from "react-native";
+import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 import Button from "../atoms/Button";
@@ -48,23 +54,7 @@ const Container = styled.ScrollView<{ backgroundColor?: string }>`
   flex: 1;
 `;
 
-const Banner = styled.View<{ color?: string }>`
-  width: 100%;
-  background-color: ${(props) => props.color};
-  padding-horizontal: ${grid3x}px;
-  padding-vertical: ${grid}px;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const BannerText = styled(Text)<{ color?: string }>`
-  font-family: ${fontFamilies["baloo-semi-bold"]};
-  font-size: ${fontSizes.normal}px;
-  margin-left: ${grid}px;
-  color: ${(props) => props.color};
-`;
-
-const Heading = styled(Text)`
+export const Heading = styled(Text)`
   font-family: ${fontFamilies["baloo-semi-bold"]};
   font-size: ${fontSizes.xxLarge}px;
   line-height: 26px;
@@ -73,16 +63,20 @@ const Heading = styled(Text)`
   text-align: left;
 `;
 
-const Description = styled(Text)`
+export const Description = styled(Text)`
   font-family: ${fontFamilies["open-sans"]};
   font-size: ${fontSizes.normal}px;
   margin-bottom: ${grid4x}px;
   text-align: left;
 `;
 
-const ContentContainer = styled.View<{ padding?: number }>`
+const ContentContainer = styled.View<{
+  padding?: number;
+  paddingBottom?: number;
+}>`
   padding: ${(props) => props.padding ?? grid3x}px;
-  padding-bottom: 0;
+  padding-bottom: ${(props) =>
+    props.paddingBottom ? props.paddingBottom : 0}px;
   flex: 1;
 `;
 
@@ -103,9 +97,9 @@ export const ButtonContainer = styled.View<{
   padding?: number;
   backgroundColor?: string;
 }>`
-  padding: ${(props) => props.padding ?? grid3x}px;
+  padding: ${(props) => props.padding ?? grid2x}px;
   padding-bottom: ${(props) =>
-    props.bottomPadding ?? props.padding ?? grid3x}px;
+    props.bottomPadding ?? props.padding ?? grid2x}px;
   background-color: ${(props) =>
     props.backgroundColor ? props.backgroundColor : colors.white};
 `;
@@ -113,6 +107,8 @@ export const ButtonContainer = styled.View<{
 export interface FormV2Props extends FormHeaderProps {
   children?: React.ReactNode;
   heading?: string;
+  headerImageAccessibilityLabel?: string;
+  headerImageStyle?: ImageStyle;
   headingStyle?: TextStyle;
   description?: string;
   descriptionStyle?: TextStyle;
@@ -131,16 +127,26 @@ export interface FormV2Props extends FormHeaderProps {
   removePaddingWhenKeyboardShown?: boolean;
   backgroundColor?: string;
   padding?: number;
-  /**
-   * If true, form will respond to keyboard events. Should be true for forms with text inputs
-   */
-  keyboardAvoiding?: boolean;
   bannerText?: string;
   bannerColor?: string;
   bannerTextColor?: string;
   bannerIcon?: ImageSourcePropType;
   bannerAccessibilityLabel?: string;
-  buttonSnapToBottom?: boolean;
+  /**
+   * If true, form will resize to avoid the keyboard.
+   * Only applicable to iOS as Android already clips the app view port automatically.
+   * This is to avoid unwanted transitions when navigating away from a view that has keyboard shown.
+   * Should be true for forms with text inputs.
+   */
+  keyboardAvoiding?: boolean;
+  /**
+   * If true, snap buttons to the bottom of the form
+   */
+  snapButtonsToBottom?: boolean;
+  /**
+   * If true, when keyboard is shown, show buttons above the keyboard
+   */
+  showButtonsAboveKeyboard?: boolean;
 }
 
 export interface FormV2Handle {
@@ -170,6 +176,8 @@ export const FormV2Context = createContext<FormV2ContextValue>({
 function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
   const {
     children,
+    headerImageAccessibilityLabel,
+    headerImageStyle,
     heading,
     headingStyle,
     description,
@@ -201,6 +209,8 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollViewHeight = useRef(0);
   const headerHeight = useRef(0);
+  const isReduceMotionEnabled = useSelector(selectIsReduceMotionEnabled);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const scrollTo = useCallback(
     (options: { x?: number; y?: number; animated?: boolean }) => {
@@ -279,19 +289,17 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
   ]);
 
   const [keyboardShown, setKeyboardShown] = useState(false);
-
-  const handleKeyboardWillShow = useCallback(() => {
+  const handleKeyboardWillShow = useCallback((e: KeyboardEvent) => {
     setKeyboardShown(true);
+    setKeyboardHeight(e.endCoordinates.height);
   }, []);
-
   const handleKeyboardWillHide = useCallback(() => {
     setKeyboardShown(false);
   }, []);
-
-  const handleKeyboardDidShow = useCallback(() => {
+  const handleKeyboardDidShow = useCallback((e: KeyboardEvent) => {
     setKeyboardShown(true);
+    setKeyboardHeight(e.endCoordinates.height);
   }, []);
-
   const handleKeyboardDidHide = useCallback(() => {
     setKeyboardShown(false);
   }, []);
@@ -364,7 +372,9 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
       8,
   );
 
-  const shouldSnapToBottom = props.buttonSnapToBottom && !keyboardShown;
+  const shouldSnapToBottom =
+    props.snapButtonsToBottom &&
+    (props.showButtonsAboveKeyboard || !keyboardShown);
 
   const buttonContainer = useMemo(
     () => (
@@ -398,7 +408,11 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
   return (
     <KeyboardAvoidingView
       behavior="padding"
-      enabled={Platform.OS === "ios" && (keyboardAvoiding ?? false)}
+      enabled={
+        Platform.OS === "ios" &&
+        !isReduceMotionEnabled &&
+        (keyboardAvoiding ?? false)
+      }
       keyboardVerticalOffset={navHeaderHeight}
       backgroundColor={props.backgroundColor}
     >
@@ -412,10 +426,12 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
       >
         <MinHeight minHeight={minHeight}>
           <FormHeader
+            headerImageStyle={headerImageStyle}
             headerBanner={headerBanner}
             headerImage={headerImage}
             headerBackgroundColor={headerBackgroundColor}
             onHeightChanged={handleHeightChanged}
+            accessibilityLabel={headerImageAccessibilityLabel}
           />
           {
             // TODO: This might break height calculation
@@ -434,7 +450,10 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
               </Banner>
             ) : null
           }
-          <ContentContainer padding={props.padding}>
+          <ContentContainer
+            padding={props.padding}
+            paddingBottom={isReduceMotionEnabled ? keyboardHeight : undefined}
+          >
             {!!heading && <Heading style={headingStyle}>{heading}</Heading>}
             {!!description && (
               <Description style={descriptionStyle}>{description}</Description>

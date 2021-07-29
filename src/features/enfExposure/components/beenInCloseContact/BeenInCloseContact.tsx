@@ -119,7 +119,7 @@ export function BeenInCloseContact({
 
   return (
     <Container
-      backgroundColor={callbackRequested ? colors.lightPink : colors.carrot}
+      backgroundColor={callbackRequested ? colors.lightPink : colors.orange}
     >
       <HiddenAccessibilityTitle
         label={t("accessibility:dashboard:beenInCloseContact")}

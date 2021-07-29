@@ -28,8 +28,14 @@ echo "SafetynetKey=${SafetynetKey}" >>.env
 echo "ENFCheckInterval=${ENFCheckInterval}" >>.env
 echo "CovidStatsUrl=${CovidStatsUrl}" >>.env
 echo "ResourcesUrl=${ResourcesUrl}" >>.env
+echo "MaxCheckInDays=${MaxCheckInDays}" >>.env
+echo "SupportPhoneLink=${SupportPhoneLink}" >>.env
+echo "DevLogModules=${DevLogModules}" >>.env
+echo "HideLogs=${HideLogs}" >>.env
 echo "AssetWhitelist=${AssetWhitelist}" >>.env
 echo "ANDROID_VERSION_CODE_OFFSET=${ANDROID_VERSION_CODE_OFFSET}" >>.env
+echo "SuccessBannerDuration=${SuccessBannerDuration}" >>.env
+echo "EasterEggPublicKey=${EasterEggPublicKey}" >>.env
 
 printf "\n.env created with contents:\n"
 cat .env

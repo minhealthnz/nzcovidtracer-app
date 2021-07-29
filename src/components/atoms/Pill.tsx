@@ -22,8 +22,12 @@ const PillIcon = styled.Image`
 const PillText = styled(Text)<{
   fontColor: string;
   hasMargin: boolean;
+  fontFamily?: FontFamily;
 }>`
-  font-family: ${fontFamilies["open-sans-semi-bold"]};
+  font-family: ${(props) =>
+    props.fontFamily
+      ? fontFamilies[props.fontFamily]
+      : fontFamilies["open-sans-semi-bold"]};
   color: ${(props) => props.fontColor};
   margin-right: ${(props) => (props.hasMargin ? 6 : 0)}px;
   margin-left: ${(props) => (props.hasMargin ? 5 : 0)}px;
@@ -36,12 +40,15 @@ const assets = {
   trendDownRed: require("@assets/icons/trend-down-red.png"),
 };
 
+type FontFamily = keyof typeof fontFamilies;
+
 interface Props {
   backgroundColor: string;
   icon?: ImageSourcePropType;
   text: string;
   fontSize: number;
   fontColor: string;
+  fontFamily?: FontFamily;
 }
 
 export function Pill({
@@ -50,6 +57,7 @@ export function Pill({
   text,
   fontSize,
   fontColor,
+  fontFamily,
 }: Props) {
   const hasBackground = backgroundColor !== "transparent";
   return (
@@ -59,6 +67,7 @@ export function Pill({
         fontColor={fontColor}
         fontSize={fontSize}
         hasMargin={hasBackground || !!icon}
+        fontFamily={fontFamily}
       >
         {text}
       </PillText>

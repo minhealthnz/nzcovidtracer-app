@@ -1,13 +1,19 @@
 import { colors, grid3x } from "@constants";
 import React from "react";
-import { ImageSourcePropType, LayoutChangeEvent } from "react-native";
+import {
+  ImageSourcePropType,
+  ImageStyle,
+  LayoutChangeEvent,
+} from "react-native";
 import styled from "styled-components/native";
 
 export interface FormHeaderProps {
+  headerImageStyle?: ImageStyle;
   headerBanner?: ImageSourcePropType;
   headerImage?: ImageSourcePropType;
   headerBackgroundColor?: string;
   onHeightChanged?(height: number): void;
+  accessibilityLabel?: string;
 }
 
 const HeaderImageContainer = styled.View<{ backgroundColor: string }>`
@@ -39,6 +45,8 @@ export function FormHeader({
   headerImage,
   headerBackgroundColor,
   onHeightChanged,
+  headerImageStyle,
+  accessibilityLabel,
 }: FormHeaderProps) {
   if (headerBanner != null) {
     return (
@@ -55,12 +63,14 @@ export function FormHeader({
   return (
     <HeaderImageContainer
       backgroundColor={headerBackgroundColor ?? defaultHeaderBackgroundColor}
-      accessible={false}
+      accessible={!!accessibilityLabel || false}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="image"
       onLayout={(event: LayoutChangeEvent) => {
         onHeightChanged?.(event.nativeEvent.layout.height);
       }}
     >
-      <HeaderImage source={headerImage} />
+      <HeaderImage style={headerImageStyle} source={headerImage} />
     </HeaderImageContainer>
   );
 }

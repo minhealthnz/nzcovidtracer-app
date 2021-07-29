@@ -1,7 +1,9 @@
-import { InputGroup, TextInput } from "@components/atoms";
+import { InputGroup, TextInput, VerticalSpacing } from "@components/atoms";
 import { presets } from "@components/atoms/TextInput";
+import { Tip, TipText } from "@components/atoms/Tip";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
+import { colors } from "@constants";
 import { navigationMaxDuration } from "@navigation/constants";
 import { debounce } from "@navigation/debounce";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -117,6 +119,10 @@ export function ShareDiary(props: ShareDiaryProps) {
       buttonLoading={isLoading}
       keyboardAvoiding={true}
     >
+      <Tip backgroundColor={colors.lightYellow}>
+        <TipText>{t("screens:shareDiary:tip")}</TipText>
+      </Tip>
+      <VerticalSpacing height={30} />
       <InputGroup ref={inputGroupRef}>
         <TextInput
           {...presets.alphaNumericCode}

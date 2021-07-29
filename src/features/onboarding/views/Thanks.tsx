@@ -1,5 +1,6 @@
 import { FormV2 } from "@components/molecules/FormV2";
 import { colors } from "@constants";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -8,7 +9,6 @@ import { useTranslation } from "react-i18next";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { OnboardingScreen } from "../screens";
-import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
@@ -40,12 +40,15 @@ export function Thanks(props: ThanksProps) {
   return (
     <FormV2
       heading={t("screens:thanks:heading")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
       description={t("screens:thanks:description")}
       headerImage={require("../assets/images/be-kind.png")}
-      headerBackgroundColor={colors.lightBlue}
+      headerImageAccessibilityLabel={t("screens:thanks:headerImageLabel")}
+      headerImageStyle={commonStyles.headerImage}
+      headerBackgroundColor={colors.yellow}
       buttonText={t("screens:thanks:finish")}
       onButtonPress={handleButtonPress}
+      snapButtonsToBottom={true}
     />
   );
 }

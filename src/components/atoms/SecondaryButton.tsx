@@ -1,4 +1,4 @@
-import { fontFamilies, fontSizes, grid3x, grid4x } from "@constants";
+import { fontFamilies, fontSizes, grid2x, grid3x, grid4x } from "@constants";
 import React from "react";
 import {
   AccessibilityProps,
@@ -12,7 +12,7 @@ import styled from "styled-components/native";
 import { Text } from "./Text";
 
 export const Container = styled.TouchableOpacity<{ align?: "center" | "left" }>`
-  padding: ${grid3x}px ${grid4x}px ${grid4x}px
+  padding: ${grid2x}px ${grid4x}px ${grid3x}px
     ${(props) => (props.align === "left" ? 0 : grid4x)}px;
   align-items: ${(props) => (props.align === "left" ? "flex-start" : "center")};
 `;

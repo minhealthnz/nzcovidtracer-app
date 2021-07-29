@@ -18,10 +18,11 @@ export const strings = {
         heading: "Protect yourself, your whānau, and\nyour community",
         linkAccessiblityHint: "Leaves the app and navigates to a webpage",
         sections: {
-          trace: "Trace your steps",
+          status: "Tracing",
           help: "Help contact tracers",
           advice: "Advice",
           whatsNew: "What's new",
+          reminder: "Reminder",
           stats: {
             title: "Latest updates",
             refresh: "Refresh",
@@ -42,41 +43,51 @@ export const strings = {
             increase: "increased by {0} since yesterday",
             decrease: "decreased by {0} since yesterday",
           },
+          reminder: {
+            viewDiary: "View diary",
+            manageNotifications: "Manage notifications",
+            hiddenAccessibilityLabel: "Diary reminder",
+          },
           places: {
             title: "Record a visit",
             description: "Scan or add entries to your digital diary",
           },
           bluetoothTracing: {
+            title: "TRACE YOUR ENCOUNTERS",
             accessibilityHint:
               "Tap to learn more and change Bluetooth tracing status",
             disabled: {
-              title: "Bluetooth tracing is not active",
-              description: "Turn on to anonymously log other nearby app users",
+              status: "Bluetooth tracing is off",
+              description:
+                "Turn it on here to anonymously log other nearby app users",
             },
             enabled: {
-              title: "Bluetooth tracing is on",
+              status: "Bluetooth tracing is on",
               description:
                 "Your device is anonymously logging other nearby app users",
             },
             inactive: {
-              title: "Bluetooth tracing is not active",
-              description: "Turn on Bluetooth in your phone settings too.",
+              status: "Bluetooth tracing is not active",
+              description:
+                "Turn on Bluetooth in your phone settings for it to work.",
             },
             notSupported: {
-              title: "Bluetooth Tracing could not be activated",
+              status: "Bluetooth Tracing is unavailable",
               description: "Your device may not be supported",
               accessibilityHint: "Tap to learn more",
             },
             notVerified: {
-              title: "Activating Bluetooth tracing...",
+              status: "Activating Bluetooth tracing...",
               description:
                 "We are checking whether your device supports Bluetooth tracing",
             },
           },
           contactAlerts: {
-            title: "Enable contact alerts",
+            title: "Enable notifications",
             description:
-              "Get alerts when exposed to COVID-19 and receive public announcements.",
+              "Get an early warning of exposure to COVID-19. You can also manage which notifications you receive under My Data.",
+            descriptionSettings:
+              "Ensure you can receive the notifications you’ve chosen to allow.",
           },
           registerDetails: {
             title: "Update your details",
@@ -112,10 +123,10 @@ export const strings = {
           detail:
             "Wash often. Use soap. 20 seconds. Then dry. This kills the virus by bursting its protective bubble.",
         },
-        swipeInfo: {
-          title: "Swipe left for more",
+        saveLocationsInfo: {
+          title: "Save visited locations and manage notifications",
           description:
-            "Swipe or tap on the tabs at the top to find the latest information on New Zealand’s COVID-19 response.",
+            "It’s now easier to keep your diary complete if you missed scanning in, or simply stayed home. Pick a location you’ve been to previously when adding an entry manually, and save locations you go to frequently.\n\nYou can also now manage your notification preferences under My Data.",
           accessibilityLabel: "Dismiss the update",
           accessibilityHint: "This card will be removed from dashboard",
         },

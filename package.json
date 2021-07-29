@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "node scripts/add-certs.js",
+    "postinstall": "node scripts/add-certs.js && node scripts/remove-jcenter.js",
     "android": "react-native run-android --variant=envEnfDebug",
     "ios": "react-native run-ios",
+    "reset": "npm run start --reset-cache",
     "start": "react-native start",
     "test": "yarn fix:test:realm && jest --runInBand",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -18,6 +19,7 @@
     "fix:test:realm": "rm -f default.realm && ./scripts/fixRealmTests/script.sh",
     "adb:reverse": "adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090",
     "inject:secrets": "./scripts/inject-secrets.sh",
+    "remove:nfc": "./scripts/remove-nfc.sh",
     "min:images": "npx ts-node ./scripts/min-images.ts",
     "license": "./scripts/extract-direct-dependencies.sh"
   },
@@ -32,7 +34,7 @@
     "@react-native-community/push-notification-ios": "^1.5.0",
     "@react-native-firebase/app": "^9.0.0",
     "@react-native-firebase/messaging": "^8.0.1",
-    "@react-navigation/bottom-tabs": "^5.8.0",
+    "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
     "@reduxjs/toolkit": "^1.4.0",
@@ -46,7 +48,7 @@
     "i18next": "^19.7.0",
     "js-base64": "^3.5.2",
     "libphonenumber-js": "^1.8.4",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.28.0",
     "path": "^0.12.7",
     "pupa": "^2.0.1",
@@ -133,6 +135,7 @@
     "reactotron-react-native": "^5.0.0",
     "reactotron-redux": "^3.1.3",
     "redux-saga-test-plan": "^4.0.0-rc.3",
+    "replace-in-file": "^6.2.0",
     "typescript": "^3.8.3"
   },
   "jest": {

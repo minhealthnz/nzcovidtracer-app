@@ -7,7 +7,11 @@ import { useDispatch } from "react-redux";
 
 import { linking } from "./linking";
 import { ManualLinks } from "./ManualLinks";
-import { navigationRef } from "./navigation";
+import {
+  getWaitForNavigation,
+  navigationRef,
+  setWaitForNavigation,
+} from "./navigation";
 
 export interface NavigationContainerProps {
   children: ReactNode;
@@ -17,10 +21,16 @@ export function NavigationContainer({ children }: NavigationContainerProps) {
   const dispatch = useDispatch();
 
   const handleNavigationStateChange = useCallback(() => {
-    const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
-
-    if (currentRouteName) {
-      dispatch(setCurrentRouteName(currentRouteName as AnyScreen));
+    const waitingRoute = getWaitForNavigation();
+    if (waitingRoute && waitingRoute.name) {
+      setWaitForNavigation(null);
+      dispatch(setCurrentRouteName(waitingRoute.name as AnyScreen));
+      navigationRef.current?.navigate(waitingRoute.name, waitingRoute.params);
+    } else {
+      const currentRouteName = navigationRef.current?.getCurrentRoute()?.name;
+      if (currentRouteName) {
+        dispatch(setCurrentRouteName(currentRouteName as AnyScreen));
+      }
     }
   }, [dispatch]);
 

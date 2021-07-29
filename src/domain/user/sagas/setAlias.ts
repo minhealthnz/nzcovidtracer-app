@@ -1,4 +1,4 @@
-import { update } from "@db/user";
+import { update } from "@db/entities/user";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { SagaIterator } from "redux-saga";
 import { call, put, takeLatest } from "redux-saga/effects";

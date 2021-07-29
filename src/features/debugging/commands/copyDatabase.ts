@@ -3,8 +3,9 @@ import {
   CheckInItemEntity,
   CheckInItemMatchEntity,
   CheckInItemPublicEntity,
+  LocationEntity,
   UserEntity,
-} from "@db/entities";
+} from "@db/entities/entities";
 import Clipboard from "@react-native-community/clipboard";
 import _ from "lodash";
 import { Alert } from "react-native";
@@ -24,6 +25,7 @@ export const copyDatabase: TestCommand = {
       [CheckInItemPublicEntity]: publicDb.objects(CheckInItemPublicEntity),
       [CheckInItemEntity]: privateDb.objects(CheckInItemEntity),
       [UserEntity]: privateDb.objects(UserEntity),
+      [LocationEntity]: privateDb.objects(LocationEntity),
     };
 
     const result = _.mapValues(entities, (results) =>

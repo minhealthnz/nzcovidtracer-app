@@ -48,9 +48,7 @@ export function DiarySectionItem({
           text={t("screens:diary:addManualEntry")}
           textStyle={styles.text}
           onPress={() => handleAddEntry(startOfDay)}
-          accessibilityLabel={t(
-            "screens:diary:addManualEntryAccessibilityLabel",
-          )}
+          accessibilityLabel={t("screens:diary:addManualEntry")}
         />
       );
     case "noEntry":

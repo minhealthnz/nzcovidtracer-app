@@ -1,48 +1,37 @@
-import { Button, Text } from "@components/atoms";
+import { Text, VerticalSpacing } from "@components/atoms";
 import { HeaderBackButton } from "@components/atoms/HeaderBackButton";
 import { HeaderCloseButton } from "@components/atoms/HeaderCloseButton";
-import { Disclaimer } from "@components/molecules/Disclaimer";
-import { colors, fontFamilies, fontSizes, grid2x, grid4x } from "@constants";
+import { Tip, TipText } from "@components/atoms/Tip";
+import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
+import { colors, fontFamilies, fontSizes } from "@constants";
 import { setHasSeenScanTutorial } from "@features/diary/reducer";
-import { isAndroid, isX } from "@lib/helpers";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import { TFunction } from "i18next";
-import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 import styled from "styled-components/native";
 
 import { ScanScreen } from "../screens";
 
 const makeStepImages = () => {
-  if (isAndroid) {
-    return {
-      step1: require("../assets/images/scan-tutorial-1-android.png"),
-      step2: require("../assets/images/scan-tutorial-2-android.png"),
-      step3: require("../assets/images/scan-tutorial-3-android.png"),
-      step4: require("../assets/images/scan-tutorial-4-android.png"),
-    };
-  }
-
-  if (isX) {
-    return {
-      step1: require("../assets/images/scan-tutorial-1-iphonex.png"),
-      step2: require("../assets/images/scan-tutorial-2-iphonex.png"),
-      step3: require("../assets/images/scan-tutorial-3-iphonex.png"),
-      step4: require("../assets/images/scan-tutorial-4-iphonex.png"),
-    };
-  }
-
   return {
-    step1: require("../assets/images/scan-tutorial-1-iphone.png"),
-    step2: require("../assets/images/scan-tutorial-2-iphone.png"),
-    step3: require("../assets/images/scan-tutorial-3-iphone.png"),
-    step4: require("../assets/images/scan-tutorial-4-iphone.png"),
+    step1: require("../assets/images/scan-tutorial-1.png"),
+    step2: require("../assets/images/scan-tutorial-2.png"),
+    step3: require("../assets/images/scan-tutorial-3.png"),
+    step4: require("../assets/images/scan-tutorial-4.png"),
   };
 };
 
@@ -56,61 +45,46 @@ const makeTutorialSteps = (t: TFunction) => [
     image: assets.step1,
     title: t("screens:scanTutorial:step1:title"),
     description: t("screens:scanTutorial:step1:description"),
+    tipBold: t("screens:scanTutorial:step1:tipBold"),
+    tip: t("screens:scanTutorial:step1:tip"),
+    imageAccessibilityLabel: t(
+      "screens:scanTutorial:step1:imageAccessibilityLabel",
+    ),
   },
   {
     image: assets.step2,
     title: t("screens:scanTutorial:step2:title"),
     description: t("screens:scanTutorial:step2:description"),
+    tipBold: t("screens:scanTutorial:step2:tipBold"),
+    tip: t("screens:scanTutorial:step2:tip"),
+    imageAccessibilityLabel: t(
+      "screens:scanTutorial:step2:imageAccessibilityLabel",
+    ),
   },
   {
     image: assets.step3,
     title: t("screens:scanTutorial:step3:title"),
     description: t("screens:scanTutorial:step3:description"),
+    tipBold: t("screens:scanTutorial:step3:tipBold"),
+    tip: t("screens:scanTutorial:step3:tip"),
+    imageAccessibilityLabel: t(
+      "screens:scanTutorial:step3:imageAccessibilityLabel",
+    ),
   },
   {
     image: assets.step4,
     title: t("screens:scanTutorial:step4:title"),
     description: t("screens:scanTutorial:step4:description"),
+    imageAccessibilityLabel: t(
+      "screens:scanTutorial:step4:imageAccessibilityLabel",
+    ),
   },
 ];
 
-const Container = styled.ScrollView`
-  flex: 1;
-`;
-
-const ContentContainer = styled.View`
-  flex: 1;
-  padding: ${grid4x}px;
-  padding-top: ${grid2x}px;
-  background-color: ${colors.white};
-`;
-
-const HeaderText = styled(Text)`
-  font-size: ${fontSizes.xxLarge}px;
-  font-family: ${fontFamilies["baloo-semi-bold"]};
-  line-height: 26px;
-  padding-top: 12px;
-`;
-
-const DescriptionContainer = styled.View`
-  flex: 1;
-  margin-bottom: ${grid2x}px;
-`;
-
-const Description = styled(Text)`
-  font-family: ${fontFamilies["open-sans"]};
-  font-size: ${fontSizes.normal}px;
-`;
-
-const ImageContainer = styled.View`
-  padding-top: ${grid4x}px;
-  background-color: ${colors.lightYellow};
-  width: 100%;
-  align-items: center;
-`;
-
-const BodyContainer = styled.View`
-  flex: 1;
+const BoldTip = styled(Text)`
+font-size: ${fontSizes.normal}px
+font-family: ${fontFamilies["open-sans-bold"]};
+color: ${colors.primaryBlack};
 `;
 
 interface Props
@@ -119,6 +93,8 @@ interface Props
 }
 export function TutorialScreen(props: Props) {
   const { t } = useTranslation();
+
+  const formRef = useRef<FormV2Handle | null>(null);
 
   const TUTORIAL_STEPS = useMemo(() => makeTutorialSteps(t), [t]);
 
@@ -135,7 +111,7 @@ export function TutorialScreen(props: Props) {
     }
   }, [currentTutorialStep, focusTitle]);
 
-  const handleNextPress = () => {
+  const handleButtonPress = () => {
     if (currentTutorialStep < TUTORIAL_STEPS.length - 1) {
       setTutorialStep((currentStep) => currentStep + 1);
       focusTitle();
@@ -143,6 +119,20 @@ export function TutorialScreen(props: Props) {
       handleFinishTutorial();
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      formRef.current?.scrollTo({ x: 0, y: 0 });
+    }, 0);
+  }, [currentTutorialStep]);
+
+  const buttonText = useMemo(() => {
+    if (currentTutorialStep < TUTORIAL_STEPS.length - 1) {
+      return t("screens:scanTutorial:next");
+    } else {
+      return t("screens:scanTutorial:okay");
+    }
+  }, [t, currentTutorialStep, TUTORIAL_STEPS.length]);
 
   useFocusEffect(
     useCallback(() => {
@@ -177,33 +167,38 @@ export function TutorialScreen(props: Props) {
     handleFinishTutorial,
   ]);
 
+  const hasBoldTip = !!TUTORIAL_STEPS[currentTutorialStep].tipBold;
+  const hasTip = !!TUTORIAL_STEPS[currentTutorialStep].tip;
+
   return (
-    <Container contentContainerStyle={styles.scrollViewContainer}>
-      <BodyContainer>
-        <ImageContainer accessible={false}>
-          <Image source={TUTORIAL_STEPS[currentTutorialStep].image} />
-        </ImageContainer>
-        <ContentContainer>
-          <HeaderText maxFontSizeMultiplier={1.5}>
-            {TUTORIAL_STEPS[currentTutorialStep].title}
-          </HeaderText>
-          <DescriptionContainer>
-            <Description maxFontSizeMultiplier={1.5}>
-              {TUTORIAL_STEPS[currentTutorialStep].description}
-            </Description>
-          </DescriptionContainer>
+    <FormV2
+      ref={formRef}
+      headerImage={TUTORIAL_STEPS[currentTutorialStep].image}
+      headerBackgroundColor={colors.lightGrey}
+      headerImageAccessibilityLabel={
+        TUTORIAL_STEPS[currentTutorialStep].imageAccessibilityLabel
+      }
+      headerImageStyle={commonStyles.headerImage}
+      buttonText={buttonText}
+      onButtonPress={handleButtonPress}
+      snapButtonsToBottom={true}
+      heading={TUTORIAL_STEPS[currentTutorialStep].title}
+      description={TUTORIAL_STEPS[currentTutorialStep].description}
+    >
+      {hasTip && (
+        <>
+          <Tip backgroundColor={colors.lightYellow}>
+            <TipText>
+              {hasBoldTip && (
+                <BoldTip>{TUTORIAL_STEPS[currentTutorialStep].tipBold}</BoldTip>
+              )}
+              {TUTORIAL_STEPS[currentTutorialStep].tip}
+            </TipText>
+          </Tip>
 
-          <Button text="Next" onPress={handleNextPress} />
-        </ContentContainer>
-      </BodyContainer>
-
-      <Disclaimer text={t("components:diaryDisclaimer:disclaimer")} />
-    </Container>
+          <VerticalSpacing height={20} />
+        </>
+      )}
+    </FormV2>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollViewContainer: {
-    flexGrow: 1,
-  },
-});

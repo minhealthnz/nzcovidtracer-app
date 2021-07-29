@@ -28,6 +28,7 @@ export const TextInputInner = styled.TextInput<{
   hasError?: boolean;
   hasFocus?: boolean;
   multiline?: boolean;
+  hasIcon?: boolean;
 }>`
   border: 1px solid
     ${(props) =>
@@ -39,6 +40,7 @@ export const TextInputInner = styled.TextInput<{
   font-size: ${fontSizes.normal}px;
   font-family: ${fontFamilies["open-sans"]};
   padding: ${grid}px;
+  padding-left: ${(props) => (props.hasIcon ? 45 : grid)}px;
   color: ${colors.black};
   width: 100%;
   min-height: ${(props) =>
@@ -51,11 +53,19 @@ export const TextInputInner = styled.TextInput<{
   text-align-vertical: ${(props) => (props.multiline ? "top" : "center")};
 `;
 
+const IconView = styled.View`
+  position: absolute;
+  top: 35px;
+  z-index: 1;
+`;
+
 type TextInputProps = Omit<
   TextInputBaseProps & InputWrapperProps,
   "children"
 > & {
   identifier?: string;
+  onNext?: () => void;
+  renderIcon?: React.ReactNode;
 };
 
 export interface TextInputRef {
@@ -78,6 +88,8 @@ function _TextInput(props: TextInputProps, ref: Ref<TextInputRef>) {
     onChangeText,
     onSubmitEditing,
     clearErrorMessage,
+    onNext,
+    renderIcon,
   } = props;
 
   const onChange = (text: string) => {
@@ -126,6 +138,7 @@ function _TextInput(props: TextInputProps, ref: Ref<TextInputRef>) {
 
   return (
     <InputWrapper ref={inputWrapperRef} {...props}>
+      <IconView>{renderIcon}</IconView>
       <TextInputInner
         {...textInputProps}
         accessible
@@ -137,9 +150,10 @@ function _TextInput(props: TextInputProps, ref: Ref<TextInputRef>) {
         ref={inputRef}
         returnKeyType={props.returnKeyType ?? (isLast ? "done" : "next")}
         blurOnSubmit={false}
-        onSubmitEditing={handleSubmit}
+        onSubmitEditing={onNext ?? handleSubmit}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        hasIcon={!!renderIcon}
       />
     </InputWrapper>
   );

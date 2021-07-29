@@ -5,7 +5,7 @@ import {
   VerticalSpacing,
 } from "@components/atoms";
 import { FocusAwareStatusBar } from "@components/atoms/FocusAwareStatusBar";
-import { FormV2 } from "@components/molecules/FormV2";
+import { Description, FormV2, Heading } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
 import {
   colors,
@@ -16,11 +16,17 @@ import {
   grid3x,
 } from "@constants";
 import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
-import { editEntry } from "@features/diary/reducer";
+import { EditDiaryEntry, editEntry } from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectCountActiveDays } from "@features/diary/selectors";
-import { DiaryEntry } from "@features/diary/types";
+import { addFavourite } from "@features/locations/actions/addFavourite";
+import { removeFavourite } from "@features/locations/actions/removeFavourite";
+import { SaveLocationButton } from "@features/locations/components/SaveLocationButton";
+import { LocationScreen } from "@features/locations/screens";
+import { selectHasSeenLocationOnboarding } from "@features/locations/selectors";
+import { selectLastScannedEntry } from "@features/nfc/selectors";
 import useEntry from "@hooks/diary/useEntry";
+import { useAppDispatch } from "@lib/useAppDispatch";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -28,11 +34,17 @@ import { detailsValidation } from "@validations/validations";
 import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
 import moment from "moment";
-import React, { useCallback, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Keyboard, StyleSheet, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 import { useDebouncedCallback } from "use-debounce";
 import * as yup from "yup";
@@ -83,9 +95,15 @@ const ManualDetailsText = styled(Text)`
   padding-bottom: 30px;
 `;
 
-const HeaderContainer = styled.View`
-  padding: ${grid}px ${grid3x}px 0 ${grid3x}px;
-  background-color: ${colors.green};
+const HeaderContainer = styled.View<{
+  backgroundColor: string;
+  hasPaddingBottom?: boolean;
+}>`
+  padding-top: ${grid}px;
+  padding-left: ${grid3x}px;
+  padding-bottom: ${(props) => (props.hasPaddingBottom ? grid3x : 0)}px;
+  padding-right: ${grid3x}px;
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 const schema = yup.object().shape({
@@ -94,26 +112,57 @@ const schema = yup.object().shape({
 
 const assets = {
   successTick: require("@assets/icons/success-tick.png"),
+  warning: require("@assets/icons/warning.png"),
 };
 
 interface Props
   extends StackScreenProps<MainStackParamList, ScanScreen.Recorded> {}
 
 export function VisitRecordedScreen(props: Props) {
-  const dispatch = useDispatch();
+  type eventAnalyticEntryType = "manual" | "scan" | "nfc" | "manualWithoutGln";
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [details, setDetails] = useState<string>();
   const [detailsError, setDetailsError] = useState<string>("");
 
   const entryId = props.route.params.id;
+  const nfcDebounce = props.route.params.nfcDebounce;
+  const manualEntry = props.route.params.manualEntry;
+
   const diaryEntry = useEntry(entryId);
   const manualDetails =
     diaryEntry.details || t("screens:visitRecorded:notProvided");
 
-  const canEditDetails = diaryEntry.type === "scan";
+  const canEditDetails =
+    (diaryEntry.type === "scan" || diaryEntry.type === "nfc") &&
+    !nfcDebounce &&
+    !manualEntry;
 
   const numberOfDiaryEntries = useSelector(selectCountActiveDays);
   const totalEntryDay = 14;
+  const lastScannedEntry = useSelector(selectLastScannedEntry);
+
+  const hasSeenLocationOnboarding = useSelector(
+    selectHasSeenLocationOnboarding,
+  );
+
+  const detailsCharLimit = 255;
+
+  useEffect(() => {
+    if (details) {
+      const validatedDetails =
+        details.length > detailsCharLimit
+          ? details.slice(0, detailsCharLimit)
+          : details;
+      const editRequest: EditDiaryEntry = {
+        id: diaryEntry.id,
+        details: validatedDetails,
+      };
+      dispatch(editEntry(editRequest));
+      setDetails("");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastScannedEntry.id, diaryEntry.id, diaryEntry.type, dispatch]);
 
   const handleEditSubmit = useCallback(() => {
     Keyboard.dismiss();
@@ -121,12 +170,11 @@ export function VisitRecordedScreen(props: Props) {
       .validate({ details })
       .then(() => {
         if (details) {
-          const entryToSave: DiaryEntry = {
-            ...diaryEntry,
+          const editRequest: EditDiaryEntry = {
+            id: diaryEntry.id,
             details,
           };
-          recordAnalyticEvent(AnalyticsEvent.ScanNoteAdded);
-          dispatch(editEntry(entryToSave));
+          dispatch(editEntry(editRequest));
         }
         props.navigation.navigate(TabScreen.RecordVisit);
       })
@@ -157,12 +205,12 @@ export function VisitRecordedScreen(props: Props) {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerStyle: {
-        backgroundColor: colors.green,
+        backgroundColor: nfcDebounce ? colors.platinum : colors.green,
         elevation: 0,
         shadowOpacity: 0,
       },
     });
-  }, [props.navigation]);
+  }, [nfcDebounce, props.navigation]);
 
   useFocusEffect(
     useCallback(() => {
@@ -172,17 +220,41 @@ export function VisitRecordedScreen(props: Props) {
     }, [numberOfDiaryEntries]),
   );
 
+  const eventAnalyticEntryType: eventAnalyticEntryType = useMemo(() => {
+    if (!!diaryEntry.globalLocationNumber && manualEntry) {
+      return "manual";
+    }
+    if (
+      !!diaryEntry.globalLocationNumber &&
+      !manualEntry &&
+      diaryEntry.type === "scan"
+    ) {
+      return "scan";
+    }
+    if (diaryEntry.type === "nfc") {
+      return "nfc";
+    } else {
+      return "manualWithoutGln";
+    }
+  }, [diaryEntry.globalLocationNumber, manualEntry, diaryEntry.type]);
+
   useFocusEffect(
     useCallback(() => {
-      switch (diaryEntry.type) {
+      switch (eventAnalyticEntryType) {
         case "scan":
-          recordAnalyticEvent(AnalyticsEvent.EntryPass);
-          break;
+        case "nfc":
         case "manual":
+          recordAnalyticEvent(AnalyticsEvent.EntryPass, {
+            attributes: {
+              entryType: eventAnalyticEntryType,
+            },
+          });
+          break;
+        case "manualWithoutGln":
           recordAnalyticEvent(AnalyticsEvent.EntryPassManual);
           break;
       }
-    }, [diaryEntry.type]),
+    }, [eventAnalyticEntryType]),
   );
 
   useAccessibleTitle();
@@ -200,11 +272,51 @@ export function VisitRecordedScreen(props: Props) {
     },
   );
 
+  const { tick, backgroundColor, statusBarColor } = useMemo(() => {
+    if (nfcDebounce) {
+      return {
+        tick: assets.warning,
+        backgroundColor: colors.platinum,
+        statusBarColor: colors.platinum,
+      };
+    } else {
+      return {
+        tick: assets.successTick,
+        backgroundColor: colors.green,
+        statusBarColor: colors.green,
+      };
+    }
+  }, [nfcDebounce]);
+
+  const currentMoment = moment(diaryEntry.startDate);
+
+  const handleSavePress = useCallback(() => {
+    if (!hasSeenLocationOnboarding) {
+      props.navigation.navigate(LocationScreen.SaveLocationOnboarding, {
+        diaryEntry: diaryEntry,
+        hasSeenLocationOnboarding: hasSeenLocationOnboarding,
+      });
+      return;
+    } else {
+      if (diaryEntry.isFavourite) {
+        dispatch(
+          removeFavourite({
+            locationId: diaryEntry.locationId,
+          }),
+        );
+      } else {
+        dispatch(
+          addFavourite({
+            locationId: diaryEntry.locationId,
+          }),
+        );
+      }
+    }
+  }, [dispatch, diaryEntry, hasSeenLocationOnboarding, props.navigation]);
+
   if (diaryEntry == null) {
     return null;
   }
-
-  const currentMoment = moment(diaryEntry.startDate);
 
   return (
     <FormV2
@@ -215,23 +327,34 @@ export function VisitRecordedScreen(props: Props) {
       keyboardAvoiding={true}
       backgroundColor={colors.lightGrey}
       padding={0}
-      buttonSnapToBottom={true}
+      snapButtonsToBottom={true}
     >
       <FocusAwareStatusBar
         barStyle="dark-content"
-        backgroundColor={colors.green}
+        backgroundColor={statusBarColor}
       />
-      <HeaderContainer>
+      <HeaderContainer
+        backgroundColor={backgroundColor}
+        hasPaddingBottom={nfcDebounce}
+      >
         <TitleContainer>
-          <Image source={assets.successTick} />
+          <Image source={tick} />
           <TitleBox>
             <DateTimeText>
               {`${currentMoment.format(
                 "D MMMM YYYY",
               )} at ${currentMoment.format("h:mm A")}`}
             </DateTimeText>
-            <EntryName testID="visitRecorded:name">{diaryEntry.name}</EntryName>
+            <EntryName testID="visitRecorded:name">
+              {!nfcDebounce ? diaryEntry.name : lastScannedEntry.name}
+            </EntryName>
           </TitleBox>
+          {!nfcDebounce && (
+            <SaveLocationButton
+              saved={diaryEntry.isFavourite}
+              onPress={handleSavePress}
+            />
+          )}
         </TitleContainer>
         {canEditDetails && (
           <>
@@ -250,11 +373,12 @@ export function VisitRecordedScreen(props: Props) {
                 onChangeText={setDetails}
                 errorMessage={detailsError}
                 clearErrorMessage={() => setDetailsError("")}
+                returnKeyType="default"
               />
             </InputGroup>
           </>
         )}
-        {diaryEntry.type === "manual" && (
+        {manualEntry && (
           <>
             <Divider />
             <ManualDetailsTitle>Details</ManualDetailsTitle>
@@ -266,8 +390,16 @@ export function VisitRecordedScreen(props: Props) {
           </>
         )}
       </HeaderContainer>
+
       <View style={{ padding: grid3x, backgroundColor: colors.lightGrey }}>
-        <DiaryPercentage onPress={handleDiaryPercentagePress} />
+        {nfcDebounce ? (
+          <>
+            <Heading>{t("screens:visitRecorded:heading")}</Heading>
+            <Description>{t("screens:visitRecorded:description")}</Description>
+          </>
+        ) : (
+          <DiaryPercentage onPress={handleDiaryPercentagePress} />
+        )}
       </View>
     </FormV2>
   );

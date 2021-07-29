@@ -1,7 +1,7 @@
 import {
   createMatchesFromEvents,
   getMostRecentUnacknowledgedMatch,
-} from "@db/checkInItemMatch";
+} from "@db/entities/checkInItemMatch";
 import { createLogger } from "@logger/createLogger";
 import PushNotification from "react-native-push-notification";
 

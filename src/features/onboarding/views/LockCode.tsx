@@ -1,12 +1,12 @@
 import { HeaderCloseButton } from "@components/atoms/HeaderCloseButton";
 import { FormV2 } from "@components/molecules/FormV2";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { OnboardingScreen } from "../screens";
-import { styles } from "../styles";
 import { LockCodeNavigatorParamList } from "./LockCodeNavigator";
 
 export interface LockCodeProps
@@ -35,9 +35,12 @@ export function LockCode(props: LockCodeProps) {
 
   return (
     <FormV2
+      snapButtonsToBottom={true}
       headerImage={require("../assets/images/lock-code.png")}
+      headerImageStyle={commonStyles.headerImage}
+      headerImageAccessibilityLabel={t("screens:lockCode:headerImageLabel")}
       heading={t("screens:lockCode:heading")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
       description={t("screens:lockCode:description")}
       buttonText={t("screens:lockCode:okay")}
       onButtonPress={handleDonePress}

@@ -1,17 +1,19 @@
+import { colors } from "@constants";
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import React from "react";
-import { TouchableWithoutFeedback, View } from "react-native";
+import { TouchableNativeFeedback, View } from "react-native";
 
 export function TabBarButton(props: BottomTabBarButtonProps) {
   return (
-    <TouchableWithoutFeedback
+    <TouchableNativeFeedback
       {...props}
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={props.accessibilityLabel}
       accessibilityHint={props.accessibilityHint}
+      background={TouchableNativeFeedback.Ripple(colors.platinum, true)}
     >
       <View style={props.style}>{props.children}</View>
-    </TouchableWithoutFeedback>
+    </TouchableNativeFeedback>
   );
 }

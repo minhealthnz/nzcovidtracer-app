@@ -1,4 +1,4 @@
-import { update as updateUser } from "@db/user";
+import { update as updateUser } from "@db/entities/user";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { User, UserState } from "./types";

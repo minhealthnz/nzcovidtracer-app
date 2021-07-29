@@ -10,6 +10,8 @@ export enum ScanScreen {
 export type ScanScreenParams = {
   [ScanScreen.Recorded]: {
     id: string;
+    nfcDebounce?: boolean;
+    manualEntry?: boolean;
   };
   [ScanScreen.ScanNotRecorded]: undefined;
 };

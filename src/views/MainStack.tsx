@@ -11,6 +11,8 @@ import {
   RequestCallbackScreenParams,
   useRequestCallbackScreens,
 } from "@features/exposure/hooks/useRequestCallbackScreens";
+import { useLocationScreens } from "@features/locations/hooks/useLocationScreens";
+import { LocationScreenParams } from "@features/locations/screens";
 import { useNHIScreens } from "@features/nhi/hooks/useNHIScreens";
 import { NHIScreenParams } from "@features/nhi/screens";
 import { setHasSeenLockCode } from "@features/onboarding/reducer";
@@ -18,6 +20,8 @@ import { OnboardingScreen } from "@features/onboarding/screens";
 import { selectHasSeenLockCode } from "@features/onboarding/selectors";
 import { OTPScreenParams } from "@features/otp/screens";
 import { useOtpScreens } from "@features/otp/useOtpScreens";
+import { useProfileScreens } from "@features/profile/hooks/useProfileScreens";
+import { ProfileScreenParams } from "@features/profile/screens";
 import { useScanScreens } from "@features/scan/hooks/useScanScreens";
 import { ScanScreenParams } from "@features/scan/screens";
 import { TutorialScreenParams } from "@features/scan/views/TutorialNavigator";
@@ -44,8 +48,10 @@ export type MainStackParamList = ScanScreenParams &
   TutorialScreenParams &
   OTPScreenParams &
   NHIScreenParams &
+  ProfileScreenParams &
   ENFScreenParams &
   DebugScreenParams &
+  LocationScreenParams &
   RequestCallbackScreenParams & {
     [TabScreen.Navigator]: any;
   } & ModalStackParamList;
@@ -101,6 +107,8 @@ export function MainStack(props: MainStackProps) {
       {useENFScreens()}
       {useRequestCallbackScreens()}
       {useDebugScreens()}
+      {useLocationScreens()}
+      {useProfileScreens()}
     </Stack.Navigator>
   );
 }

@@ -1,4 +1,4 @@
-import { CheckInItemMatch } from "@db/checkInItemMatch";
+import { CheckInItemMatch } from "@db/entities/checkInItemMatch";
 
 import { recordAnalyticEvent } from "../../analytics";
 import { ExposureEvents } from "./events";

@@ -9,3 +9,5 @@ export const isAndroid = Platform.OS === "android";
 export const isIOS = Platform.OS === "ios";
 
 export const isNetworkError = (err: any) => !!err.isAxiosError && !err.response;
+
+export const isSmallScreen = (width: number) => width <= 360 || false;

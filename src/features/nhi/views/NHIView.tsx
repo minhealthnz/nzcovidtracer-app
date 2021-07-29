@@ -1,8 +1,8 @@
-import { ImageButton, Text, VerticalSpacing } from "@components/atoms";
+import { Text, VerticalSpacing } from "@components/atoms";
 import Divider from "@components/atoms/Divider";
 import { Disclaimer } from "@components/molecules/Disclaimer";
 import { FormV2 } from "@components/molecules/FormV2";
-import { fontFamilies, fontSizes, grid3x } from "@constants";
+import { fontFamilies, fontSizes, grid2x, grid3x } from "@constants";
 import { selectUser } from "@domain/user/selectors";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -13,12 +13,6 @@ import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 import { NHIScreen } from "../screens";
-
-const assets = {
-  lock: require("@assets/icons/lock.png"),
-  add: require("@assets/icons/add.png"),
-  edit: require("@assets/icons/edit.png"),
-};
 
 const Section = styled.View`
   padding-bottom: ${grid3x}px;
@@ -47,7 +41,12 @@ export function NHIView(props: Props) {
   };
 
   const renderFooter = useCallback(
-    () => <Disclaimer text={t("screens:viewNHI:disclaimer")} />,
+    () => (
+      <>
+        <VerticalSpacing height={grid2x} />
+        <Disclaimer text={t("screens:viewNHI:disclaimer")} />
+      </>
+    ),
     [t],
   );
 
@@ -58,7 +57,11 @@ export function NHIView(props: Props) {
   }
 
   return (
-    <FormV2 renderFooter={renderFooter}>
+    <FormV2
+      renderFooter={renderFooter}
+      buttonText={t("screens:viewNHI:edit")}
+      onButtonPress={handleEditNHI}
+    >
       <Section>
         <OpenSansText>{t("screens:viewNHI:title")}</OpenSansText>
       </Section>
@@ -69,11 +72,6 @@ export function NHIView(props: Props) {
           <OpenSansText>{t("screens:viewNHI:nhiNumber")}</OpenSansText>
           <BoldText>{nhi}</BoldText>
         </SectionLeft>
-        <ImageButton
-          image={assets.edit}
-          onPress={handleEditNHI}
-          text={t("screens:viewNHI:edit")}
-        />
       </Section>
     </FormV2>
   );

@@ -1,11 +1,11 @@
-import { findByLocationNumberHash } from "@db/checkInItem";
-import { CheckInItem } from "@db/checkInItem";
+import { findByLocationNumberHash } from "@db/entities/checkInItem";
+import { CheckInItem } from "@db/entities/checkInItem";
 import {
   acknowledgeOutstandingMatches,
   CheckInItemMatch,
   getMostRecentUnacknowledgedMatch,
   setCallbackRequested,
-} from "@db/checkInItemMatch";
+} from "@db/entities/checkInItemMatch";
 import { ReduxState } from "@domain/types";
 import {
   setMatchedCheckInItem,
@@ -64,7 +64,7 @@ export const requestCallback = createAsyncThunk(
       await apiRequestCallback({
         eventId: exposure.match.eventId,
         notificationId: exposure.match.notificationId,
-        gln: checkIn.globalLocationNumber,
+        gln: checkIn.location.globalLocationNumber,
         firstName: request.firstName,
         lastName: request.lastName,
         phone: request.phone.replace(/\s/g, ""),

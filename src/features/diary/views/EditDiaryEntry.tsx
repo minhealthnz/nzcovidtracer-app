@@ -1,4 +1,9 @@
-import { DatePicker, InputGroup, TextInput } from "@components/atoms";
+import {
+  DatePicker,
+  InputGroup,
+  LocationIcon,
+  TextInput,
+} from "@components/atoms";
 import { TextInputRef } from "@components/atoms/TextInput";
 import { FormV2 } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
@@ -18,7 +23,6 @@ import {
   startDateValidation,
 } from "@validations/validations";
 import { MainStackParamList } from "@views/MainStack";
-import moment from "moment";
 import React, {
   useCallback,
   useEffect,
@@ -30,7 +34,6 @@ import { useTranslation } from "react-i18next";
 import { Alert, Keyboard } from "react-native";
 import * as yup from "yup";
 
-import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { DiaryScreen } from "../screens";
 
 interface Props
@@ -117,26 +120,31 @@ export function EditDiaryEntryScreen(props: Props) {
     setDetails(text);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      if (entry.type === "scan") {
-        recordAnalyticEvent(AnalyticsEvent.ScanEdit);
-      } else {
-        recordAnalyticEvent(AnalyticsEvent.ManualEdit);
-      }
-    }, [entry.type]),
-  );
-
   const onSavePress = () => {
     savePressed.current = true;
     Keyboard.dismiss();
 
-    const newEntry = { ...entry, details, name, startDate };
     cleanErrorMessages();
     schema
-      .validate(newEntry, { abortEarly: false })
+      .validate(
+        {
+          details,
+          name,
+          startDate,
+        },
+        { abortEarly: false },
+      )
       .then(() => {
-        return dispatch(editEntry(newEntry));
+        const request = {
+          id: entry.id,
+          details,
+          name,
+          userId: entry.userId,
+          startDate: new Date(startDate),
+          type: entry.type,
+        };
+
+        return dispatch(editEntry(request));
       })
       .then(unwrapResult)
       .then(() => {
@@ -173,10 +181,11 @@ export function EditDiaryEntryScreen(props: Props) {
   // Delay focus to fix timing issue with InputGroup scrolling
   const placeInputRef = useRef<TextInputRef | null>(null);
   const detailsInputRef = useRef<TextInputRef | null>(null);
+
   useFocusEffect(
     useCallback(() => {
       const timeoutId = setTimeout(() => {
-        if (entry.type === "scan") {
+        if (entry.type === "scan" || entry.type === "nfc") {
           detailsInputRef.current?.focus();
         } else {
           placeInputRef.current?.focus();
@@ -198,32 +207,30 @@ export function EditDiaryEntryScreen(props: Props) {
         <TextInput
           identifier="name"
           label={t("screens:editDiaryEntry:placeOrActivity")}
-          disabled={entry.type === "scan"}
+          disabled={entry.type === "scan" || entry.type === "nfc"}
           ref={placeInputRef}
           value={name}
           onChangeText={setName}
           errorMessage={nameError}
           clearErrorMessage={() => setNameError("")}
+          renderIcon={
+            <LocationIcon
+              locationType={entry.type}
+              isFavourite={entry.isFavourite}
+            />
+          }
         />
-        {entry.type === "scan" ? (
-          <TextInput
-            label={t("screens:editDiaryEntry:dateTime")}
-            disabled={true}
-            value={moment(entry.startDate).format("dddd D MMMM YYYY h:mma")}
-          />
-        ) : (
-          <DatePicker
-            dateTime={startDate}
-            onDateChange={setStartDate}
-            errorMessage={dateError}
-            clearErrorMessage={() => setDateError("")}
-            label={t("screens:addManualDiaryEntry:datePicker")}
-            maximumDate={maximumDate.current}
-            minimumDate={minimumDate.current}
-            minuteInterval={5}
-          />
-        )}
-        {entry.type === "scan" && (
+        <DatePicker
+          dateTime={startDate}
+          onDateChange={setStartDate}
+          errorMessage={dateError}
+          clearErrorMessage={() => setDateError("")}
+          label={t("screens:addManualDiaryEntry:datePicker")}
+          maximumDate={maximumDate.current}
+          minimumDate={minimumDate.current}
+          minuteInterval={5}
+        />
+        {(entry.type === "scan" || entry.type === "nfc") && (
           <TextInput
             label={t("screens:editDiaryEntry:address")}
             disabled={true}

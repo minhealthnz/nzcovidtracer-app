@@ -1,17 +1,22 @@
-import { CheckInItem, CheckInItemType } from "../../db/checkInItem";
+import {
+  AddCheckInItem,
+  CheckInItem,
+  CheckInItemType,
+} from "../../db/entities/checkInItem";
+import { AddDiaryEntry } from "./reducer";
 import { DiaryEntry, DiaryEntryType } from "./types";
 
-export const mapCheckInItem = (entry: DiaryEntry): CheckInItem => ({
-  ...entry,
-  userId: entry.userId,
-  startDate: new Date(entry.startDate),
-  endDate: entry.endDate == null ? undefined : new Date(entry.endDate),
-  address: entry.address ?? "",
-  globalLocationNumber: entry.globalLocationNumber ?? "",
-  globalLocationNumberHash: entry.globalLocationNumberHash ?? "",
-  type: mapCheckInType(entry.type),
-  note: entry.details,
-});
+export const mapUpsertCheckInItem = (
+  addEntry: AddDiaryEntry,
+): AddCheckInItem => {
+  return {
+    ...addEntry,
+    type: mapCheckInType(addEntry.type),
+    globalLocationNumber: addEntry.globalLocationNumber ?? "",
+    address: addEntry.address ?? "",
+    note: addEntry.details,
+  };
+};
 
 export const mapCheckInType = (type: DiaryEntryType) => {
   switch (type) {
@@ -19,6 +24,8 @@ export const mapCheckInType = (type: DiaryEntryType) => {
       return CheckInItemType.Scan;
     case "manual":
       return CheckInItemType.Manual;
+    case "nfc":
+      return CheckInItemType.NFC;
   }
 };
 
@@ -28,6 +35,8 @@ export const mapDiaryEntryType = (type: CheckInItemType): DiaryEntryType => {
       return "scan";
     case 1:
       return "manual";
+    case 2:
+      return "nfc";
     default:
       return "scan";
   }
@@ -39,4 +48,10 @@ export const mapDiaryEntry = (checkInItem: CheckInItem): DiaryEntry => ({
   startDate: checkInItem.startDate.getTime(),
   endDate: checkInItem.endDate?.getTime(),
   details: checkInItem.note,
+  name: checkInItem.location.name,
+  address: checkInItem.location.address,
+  globalLocationNumber: checkInItem.location.globalLocationNumber,
+  globalLocationNumberHash: checkInItem.location.globalLocationNumberHash,
+  isFavourite: checkInItem.location.isFavourite,
+  locationId: checkInItem.location.id,
 });

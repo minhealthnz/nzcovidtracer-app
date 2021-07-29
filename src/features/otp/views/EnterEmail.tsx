@@ -2,6 +2,7 @@ import { InputGroup, TextInput } from "@components/atoms";
 import { presets } from "@components/atoms/TextInput";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
+import { commonStyles } from "@lib/commonStyles";
 import { isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -25,7 +26,6 @@ import { ERROR_EMAIL_VALIDATION, ERROR_TOO_MANY_ATTEMPTS } from "../errors";
 import { useOtpSession } from "../hooks/useOtpSession";
 import { updateSession } from "../reducer";
 import { OTPScreen } from "../screens";
-import { styles } from "../styles";
 
 const schema = yup.object().shape({
   email: emailValidation,
@@ -136,7 +136,7 @@ export function EnterEmail(props: Props) {
     <FormV2
       ref={formRef}
       heading={t("screens:enterEmail:title")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
       description={t("screens:enterEmail:description")}
       buttonText={t("screens:enterEmail:submit")}
       onButtonPress={onSubmitPress}

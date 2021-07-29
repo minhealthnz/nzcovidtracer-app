@@ -1,4 +1,6 @@
 import { Text, VerticalSpacing } from "@components/atoms";
+import Divider from "@components/atoms/Divider";
+import { Card } from "@components/molecules/Card";
 import {
   contactLink,
   copyrightLink,
@@ -8,10 +10,10 @@ import {
   privacyLink,
   termsOfUseLink,
 } from "@constants";
-import { Link } from "@features/profile/components/Link";
-import React from "react";
+import _ from "lodash";
+import React, { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking } from "react-native";
+import { Linking, View } from "react-native";
 import styled from "styled-components/native";
 
 import config from "../../../config";
@@ -29,57 +31,82 @@ const Version = styled(Text)`
 export function ProfileFooter({ onPressDebugMenu }: Props) {
   const { t } = useTranslation();
 
+  const footerList = useMemo(() => {
+    return _.compact([
+      {
+        title: t("screens:profile:feeback"),
+        isLink: true,
+        onPress: () => {
+          Linking.openURL(feedbackLink);
+        },
+        accessibilityLabel: t("screens:profile:feeback"),
+        isConnected: true,
+      },
+      {
+        title: t("screens:profile:privacyNSecurity"),
+        isLink: true,
+        onPress: () => {
+          Linking.openURL(privacyLink);
+        },
+        accessibilityLabel: t("screens:profile:privacyNSecurity"),
+        isConnected: true,
+      },
+      {
+        title: t("screens:profile:termsOfUse"),
+        isLink: true,
+        onPress: () => {
+          Linking.openURL(termsOfUseLink);
+        },
+        accessibilityLabel: t("screens:profile:termsOfUse"),
+        isConnected: true,
+      },
+      {
+        title: t("screens:profile:copyrightNAttribution"),
+        isLink: true,
+        onPress: () => {
+          Linking.openURL(copyrightLink);
+        },
+        accessibilityLabel: t("screens:profile:copyrightNAttribution"),
+        isConnected: true,
+      },
+      {
+        title: t("screens:profile:help"),
+        isLink: true,
+        onPress: () => {
+          Linking.openURL(helpLink);
+        },
+        accessibilityLabel: t("screens:profile:help"),
+        isConnected: true,
+      },
+      {
+        title: t("screens:profile:contactUs"),
+        isLink: true,
+        onPress: () => {
+          Linking.openURL(contactLink);
+        },
+        accessibilityLabel: t("screens:profile:contactUs"),
+        isConnected: true,
+      },
+      config.IsDev && {
+        title: "Dev Menu",
+        isLink: true,
+        onPress: () => {
+          onPressDebugMenu();
+        },
+        accessibilityLabel: "Dev Menu",
+        isConnected: true,
+      },
+    ]);
+  }, [t, onPressDebugMenu]);
+
   return (
     <>
-      <Link
-        text={t("screens:profile:feeback")}
-        onPress={() => {
-          Linking.openURL(feedbackLink);
-        }}
-        accessibilityLabel={t("screens:profile:feeback")}
-      />
-      <Link
-        text={t("screens:profile:privacyNSecurity")}
-        onPress={() => {
-          Linking.openURL(privacyLink);
-        }}
-        accessibilityLabel={t("screens:profile:privacyNSecurity")}
-      />
-      <Link
-        text={t("screens:profile:termsOfUse")}
-        onPress={() => {
-          Linking.openURL(termsOfUseLink);
-        }}
-        accessibilityLabel={t("screens:profile:termsOfUse")}
-      />
-      <Link
-        text={t("screens:profile:copyrightNAttribution")}
-        onPress={() => {
-          Linking.openURL(copyrightLink);
-        }}
-        accessibilityLabel={t("screens:profile:copyrightNAttribution")}
-      />
-      <Link
-        text={t("screens:profile:help")}
-        onPress={() => {
-          Linking.openURL(helpLink);
-        }}
-        accessibilityLabel={t("screens:profile:help")}
-      />
-      <Link
-        text={t("screens:profile:contactUs")}
-        onPress={() => {
-          Linking.openURL(contactLink);
-        }}
-        accessibilityLabel={t("screens:profile:contactUs")}
-      />
-      {config.IsDev && (
-        <Link
-          text={"Dev Menu"}
-          onPress={onPressDebugMenu}
-          accessibilityLabel="Dev Menu"
-        />
-      )}
+      {footerList.map((footer, index) => (
+        <View key={index}>
+          <Card {...footer} />
+          {index < footerList.length - 1 && <Divider />}
+        </View>
+      ))}
       <VerticalSpacing height={20} />
       <Version fontSize={fontSizes.small} fontFamily="open-sans">
         V{config.APP_VERSION}

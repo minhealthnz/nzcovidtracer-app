@@ -1,8 +1,17 @@
+import { LocationIcon } from "@components/atoms";
 import { Text } from "@components/atoms/Text";
 import { Disclaimer } from "@components/molecules/Disclaimer";
 import { FormV2 } from "@components/molecules/FormV2";
 import { colors, fontFamilies, fontSizes, grid2x, grid4x } from "@constants";
 import { deleteEntry } from "@features/diary/reducer";
+import { addFavourite } from "@features/locations/actions/addFavourite";
+import { removeFavourite } from "@features/locations/actions/removeFavourite";
+import {
+  SaveLocationButton,
+  SaveLocationContainer,
+} from "@features/locations/components/SaveLocationButton";
+import { LocationScreen } from "@features/locations/screens";
+import { selectHasSeenLocationOnboarding } from "@features/locations/selectors";
 import useEntry from "@hooks/diary/useEntry";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -11,7 +20,7 @@ import moment from "moment";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Image, View } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 import { DiaryScreen } from "../screens";
@@ -22,11 +31,21 @@ const KeyText = styled(Text)`
   color: ${colors.primaryGray};
 `;
 
+const ValueTextView = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: ${grid2x}px;
+`;
+
+const LocationIconView = styled.View`
+  margin-left: -10px;
+`;
+
 const ValueText = styled(Text)`
   font-family: ${fontFamilies["open-sans-semi-bold"]};
   font-size: ${fontSizes.normal}px;
   color: ${colors.primaryBlack};
-  margin-bottom: ${grid2x}px;
+  justify-content: center;
 `;
 
 const BannerView = styled(View)`
@@ -67,6 +86,16 @@ const BannerImage = styled(Image)`
   height: 40px;
 `;
 
+const PlaceOrActivityContainer = styled.View`
+  flex-direction: row;
+`;
+
+const PlaceOrActivity = styled.View`
+  flex-direction: column;
+  flex: 1;
+  padding-right: 50px;
+`;
+
 interface Props
   extends StackScreenProps<MainStackParamList, DiaryScreen.DiaryEntry> {}
 
@@ -74,6 +103,10 @@ export function DiaryEntryScreen(props: Props) {
   const { t } = useTranslation();
   const { id } = props.route.params;
   const entry = useEntry(id);
+
+  const hasSeenLocationOnboarding = useSelector(
+    selectHasSeenLocationOnboarding,
+  );
 
   const assets = {
     locationAlert: require("@assets/images/error-small.png"),
@@ -84,6 +117,30 @@ export function DiaryEntryScreen(props: Props) {
   const onEditPress = () => {
     props.navigation.navigate(DiaryScreen.EditEntry, { id });
   };
+
+  const handleSavePress = useCallback(() => {
+    if (!hasSeenLocationOnboarding) {
+      props.navigation.navigate(LocationScreen.SaveLocationOnboarding, {
+        diaryEntry: entry,
+        hasSeenLocationOnboarding: hasSeenLocationOnboarding,
+      });
+      return;
+    } else {
+      if (entry.isFavourite) {
+        dispatch(
+          removeFavourite({
+            locationId: entry.locationId,
+          }),
+        );
+      } else {
+        dispatch(
+          addFavourite({
+            locationId: entry.locationId,
+          }),
+        );
+      }
+    }
+  }, [dispatch, entry, hasSeenLocationOnboarding, props.navigation]);
 
   const onDeletePress = () => {
     Alert.alert(
@@ -138,32 +195,55 @@ export function DiaryEntryScreen(props: Props) {
         </BannerView>
       )}
 
-      <KeyText>{t("screens:diaryEntry:placeOrActivity")}</KeyText>
-      <ValueText selectable>{entry.name}</ValueText>
+      <PlaceOrActivityContainer>
+        <PlaceOrActivity>
+          <KeyText>{t("screens:diaryEntry:placeOrActivity")}</KeyText>
+          <ValueTextView>
+            <LocationIconView>
+              <LocationIcon locationType={entry.type} isFavourite={false} />
+            </LocationIconView>
+            <ValueText selectable>{entry.name}</ValueText>
+          </ValueTextView>
+        </PlaceOrActivity>
+        <SaveLocationContainer>
+          <SaveLocationButton
+            saved={entry.isFavourite}
+            onPress={handleSavePress}
+          />
+        </SaveLocationContainer>
+      </PlaceOrActivityContainer>
 
       <KeyText>{t("screens:diaryEntry:dateTime")}</KeyText>
-      <ValueText selectable>
-        {moment(entry.startDate).format("dddd D MMMM YYYY h:mma")}
-      </ValueText>
+      <ValueTextView>
+        <ValueText selectable>
+          {moment(entry.startDate).format("dddd D MMMM YYYY h:mma")}
+        </ValueText>
+      </ValueTextView>
 
       {!!entry.address && (
         <>
           <KeyText>{t("screens:diaryEntry:address")}</KeyText>
-          <ValueText selectable>{entry.address}</ValueText>
+          <ValueTextView>
+            <ValueText selectable>{entry.address}</ValueText>
+          </ValueTextView>
         </>
       )}
 
       {!!entry.globalLocationNumber && (
         <>
           <KeyText>{t("screens:diaryEntry:gln")}</KeyText>
-          <ValueText selectable>{entry.globalLocationNumber}</ValueText>
+          <ValueTextView>
+            <ValueText selectable>{entry.globalLocationNumber}</ValueText>
+          </ValueTextView>
         </>
       )}
 
       <KeyText>{t("screens:diaryEntry:details")}</KeyText>
-      <ValueText selectable testID="diaryEntry:details">
-        {entry.details || ""}
-      </ValueText>
+      <ValueTextView>
+        <ValueText selectable testID="diaryEntry:details">
+          {entry.details || ""}
+        </ValueText>
+      </ValueTextView>
     </FormV2>
   );
 }

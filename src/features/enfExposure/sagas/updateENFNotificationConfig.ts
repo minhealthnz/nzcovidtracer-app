@@ -1,3 +1,4 @@
+import { updateReminderNotificationConfig } from "@features/reminder/commonActions";
 import { createLogger } from "@logger/createLogger";
 import { SagaIterator } from "redux-saga";
 import { call, put } from "redux-saga/effects";
@@ -16,6 +17,9 @@ export default function* updateENFNotificationConfig(): SagaIterator {
     yield put(setENFNotificationConfig(response.configurations));
     yield put(setTestLocationsLink(response.testLocationsLink));
     yield put(setCallbackEnabled(response.callbackEnabled || false));
+    yield put(
+      updateReminderNotificationConfig(response.reminderNotificationConfig),
+    );
     yield put(retrievedSettings(response));
   } catch (error) {
     logInfo(error);

@@ -1,5 +1,5 @@
-import { removeMany as dbRemoveCheckInItems } from "@db/checkInItem";
-import { removeMany as dbRemoveMatches } from "@db/checkInItemMatch";
+import { removeMany as dbRemoveCheckInItems } from "@db/entities/checkInItem";
+import { removeMany as dbRemoveMatches } from "@db/entities/checkInItemMatch";
 import { appDidBecomeAvailable } from "@features/device/reducer";
 import { createLogger } from "@logger/createLogger";
 import { calcCheckInMinDate } from "@utils/checkInDate";

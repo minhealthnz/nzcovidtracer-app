@@ -1,4 +1,4 @@
-import { getAll as dbGetAll } from "@db/user";
+import { getAll as dbGetAll } from "@db/entities/user";
 import { setUsersCopied } from "@features/migration/reducer";
 import { logPerformance } from "@logger/logPerformance";
 import { SagaIterator } from "redux-saga";

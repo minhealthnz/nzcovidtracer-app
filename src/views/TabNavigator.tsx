@@ -2,8 +2,12 @@ import { TabBarButton } from "@components/atoms/TabBarButton";
 import { TabBarLabel } from "@components/atoms/TabBarLabel";
 import { colors } from "@constants";
 import { selectAnnouncement } from "@features/announcement/selectors";
+import { selectHasSeenSaveLocationsInfo } from "@features/dashboard/selectors";
 import { Dashboard } from "@features/dashboard/views/Dashboard";
+import { selectENFAlert } from "@features/enfExposure/selectors";
+import { selectMatch } from "@features/exposure/selectors";
 import Profile from "@features/profile/views/Profile";
+import { selectHasInAppReminder } from "@features/reminder/selectors";
 import { Scan } from "@features/scan/views/Scan";
 import { useInitialTab } from "@navigation/hooks/useInitialTab";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -36,6 +40,10 @@ export function TabNavigator() {
   const { t } = useTranslation();
 
   const announcement = useSelector(selectAnnouncement);
+  const hasSeenDashboardNews = useSelector(selectHasSeenSaveLocationsInfo);
+  const enfAlert = useSelector(selectENFAlert);
+  const exposureMatch = useSelector(selectMatch);
+  const hasInAppReminder = useSelector(selectHasInAppReminder);
 
   const initialTab = useInitialTab();
 
@@ -43,9 +51,14 @@ export function TabNavigator() {
     <Tab.Navigator
       initialRouteName={initialTab}
       tabBarOptions={{
-        style: { backgroundColor: colors.primaryBlack },
-        activeTintColor: colors.yellow,
-        inactiveTintColor: colors.white,
+        style: {
+          backgroundColor: colors.white,
+          elevation: 0,
+          borderTopColor: colors.platinum,
+          borderTopWidth: 1,
+        },
+        activeTintColor: colors.primaryBlack,
+        inactiveTintColor: colors.primaryGray,
         keyboardHidesTabBar: true,
       }}
       screenOptions={({ route }) => ({
@@ -72,12 +85,21 @@ export function TabNavigator() {
 
           if (imageSource) {
             const routeName = route.name;
+
             return (
               <TabBarIcon
                 source={imageSource}
                 routeName={routeName}
-                showBadge={
-                  route.name === TabScreen.Home && announcement != null
+                badgeType={
+                  route.name === TabScreen.Home &&
+                  (!!enfAlert || !!exposureMatch)
+                    ? "important"
+                    : route.name === TabScreen.Home &&
+                      (hasInAppReminder ||
+                        !hasSeenDashboardNews ||
+                        announcement != null)
+                    ? "normal"
+                    : undefined
                 }
               />
             );

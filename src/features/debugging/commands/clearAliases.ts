@@ -1,4 +1,4 @@
-import { getAll, update } from "@db/user";
+import { getAll, update } from "@db/entities/user";
 import { Alert } from "react-native";
 
 import { TestCommand } from "../testCommand";

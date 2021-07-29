@@ -1,6 +1,5 @@
 export const ENFEvent = {
   ENFBannerDisplayed: "enfBannerDisplayed",
-  ENFBannerDismissed: "enfBannerDismissed",
   ENFBannerFindOutMore: "enfBannerFindOutMore",
   ENFShareCodesMenuItemPressed: "shareBluetoothTracingCodesMenuItemPressed",
   ENFShareUploadCodeEntered: "shareBluetoothTracingCodesUploadCodeEntered",
@@ -26,9 +25,6 @@ export type ENFEventPayloads = {
       daysSinceLastExposure: number;
       matchedKeyCount: number;
     };
-  };
-  [ENFEvent.ENFBannerDismissed]: {
-    metrics: { daysSinceReceived: number };
   };
   [ENFEvent.ENFShareUploadCodeFailure]: {
     error: string;

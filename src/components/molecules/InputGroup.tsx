@@ -1,3 +1,4 @@
+import { selectIsReduceMotionEnabled } from "@features/device/selectors";
 import { createLogger } from "@logger/createLogger";
 import _ from "lodash";
 import React, {
@@ -18,6 +19,7 @@ import {
   View,
   ViewStyle,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 import { FormV2Context } from "./FormV2";
 
@@ -88,6 +90,7 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
   const isInput = useRef<(boolean | undefined)[]>([]);
   const layouts = useRef<(Layout | undefined)[]>([]);
   const accessibilityFocusFunctions = useRef<(() => void)[]>([]);
+  const isReduceMotionOn = useSelector(selectIsReduceMotionEnabled);
 
   useImperativeHandle(ref, () => ({
     focus(identifier: string) {
@@ -146,12 +149,13 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
       logInfo(`scroll to ${index} ${layout.y}`);
       const height = formV2.getHeight();
       const headerHeight = formV2.getHeaderHeight();
-      formV2.scrollTo({
-        y: layout.y - height + layout.height + headerHeight,
-        animated: Platform.OS === "ios",
-      });
+      !isReduceMotionOn &&
+        formV2.scrollTo({
+          y: layout.y - height + layout.height + headerHeight,
+          animated: Platform.OS === "ios",
+        });
     },
-    [formV2],
+    [formV2, isReduceMotionOn],
   );
 
   const scrollTo = useCallback(
@@ -246,25 +250,6 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
     identifiers.current[index] = undefined;
   }, []);
 
-  const logLayouts = useCallback(
-    _.throttle(
-      () => {
-        logInfo(
-          "layout:\n" +
-            layouts.current
-              .filter((x): x is Layout => x != null)
-              .map((x) => `${x.y} ${x.height}`)
-              .join("\n"),
-        );
-      },
-      200,
-      {
-        leading: false,
-      },
-    ),
-    [],
-  );
-
   const renderChildren = useMemo(() => {
     const children = Array.isArray(props.children)
       ? props.children
@@ -295,7 +280,6 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
                 "height",
               );
               layouts.current[index] = layout;
-              logLayouts();
             }}
           >
             {child}
@@ -310,7 +294,6 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
     register,
     deregister,
     handleFocus,
-    logLayouts,
     props.style,
   ]);
 

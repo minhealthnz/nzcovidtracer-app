@@ -1,7 +1,7 @@
 import {
   CheckInItemMatch,
   getMostRecentUnacknowledgedMatch,
-} from "@db/checkInItemMatch";
+} from "@db/entities/checkInItemMatch";
 import { appDidBecomeAvailable } from "@features/device/reducer";
 import { setMatchesCopied } from "@features/migration/reducer";
 import { createLogger } from "@logger/createLogger";

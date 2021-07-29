@@ -1,5 +1,10 @@
 import { setMatch } from "@features/exposure/reducer";
 import { processPushNotification } from "@features/exposure/service/processPushNotification";
+import { setNfcDebounce } from "@features/nfc/reducer";
+import {
+  selectLastScannedEntry,
+  selectNfcDebounce,
+} from "@features/nfc/selectors";
 import { OnboardingScreen } from "@features/onboarding/screens";
 import {
   selectDeviceRegistered,
@@ -24,6 +29,7 @@ import messaging, {
 import { createStackNavigator } from "@react-navigation/stack";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { Alert } from "react-native";
 import { useExposure } from "react-native-exposure-notification-service";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,11 +55,34 @@ const { logInfo, logWarning, logError } = createLogger("ModalStack");
 export function ModalStack() {
   const sessionType = useSelector(selectSessionType);
   const hasOnboarded = useSelector(selectHasOnboarded);
+  const lastScannedEntry = useSelector(selectLastScannedEntry);
 
   const shouldHideSplashScreen = sessionType !== "unknown";
+  const nfcDebounce = useSelector(selectNfcDebounce);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (nfcDebounce) {
+      Alert.alert(
+        t("nfcNotification:defaultSystemNotificationTitle"),
+        t("nfcNotification:defaultSystemNotificationBody", {
+          locationName: lastScannedEntry.name,
+        }),
+        [
+          {
+            text: t("nfcNotification:okay"),
+            onPress: () => {
+              dispatch(setNfcDebounce(false));
+            },
+          },
+        ],
+        { cancelable: false },
+      );
+    }
+    return;
+  }, [nfcDebounce, dispatch, lastScannedEntry, t]);
 
   useEffect(() => {
     if (shouldHideSplashScreen) {

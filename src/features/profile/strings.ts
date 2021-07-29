@@ -2,6 +2,7 @@ export const strings = {
   en: {
     screenTitles: {
       myProfile: "My data",
+      settings: "Settings",
     },
     screens: {
       profile: {
@@ -9,13 +10,14 @@ export const strings = {
         headingShareInfo: "Information shared with contact tracers",
         headingSharePostive: "If you test positive",
         viewDiary: "My diary",
+        savedLocations: "Saved locations",
         recoverDiary: "Choose an old diary",
-        shareDiary: "Share my diary",
+        shareDiary: "Share my digital diary",
         shareDiaryDescription:
           "Help contact tracers understand where you’ve been",
         shareBluetooth: "Share my Bluetooth tracing codes",
         shareBluetoothDescription:
-          "Anonymously notify people you may have exposed to the virus.",
+          "Anonymously notify people you may have exposed to the virus",
         contactDetails: "My contact details",
         contactDetailsDescription: "Help us contact you faster if we need to",
         address: "My address",
@@ -32,6 +34,22 @@ export const strings = {
         help: "Help",
         contactUs: "Contact us",
         disclaimer: "© Ministry of Health – Manatū Hauora",
+        notificationPreferences: "Notification preferences",
+        headingSettings: "Settings and support",
+      },
+      settings: {
+        notifications: "NOTIFICATIONS",
+        usageReminders: "Diary reminders",
+        usageRemindersDescription:
+          "You can choose whether to receive reminders to help you keep your digital diary complete.",
+        announcements: "Announcements",
+        announcementsDescription:
+          "You can choose whether to receive public health announcements from the Ministry of Health.",
+        announcementsError:
+          "Error updating announcement preferences. Please try again later.",
+        contactAlerts: "Contact alerts",
+        contactAlertsDescription:
+          "If you've scanned in to the same place or exchanged Bluetooth keys with someone who tests positive for COVID-19, we will send you a contact alert.",
       },
     },
   },

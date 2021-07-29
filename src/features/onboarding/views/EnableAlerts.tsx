@@ -1,7 +1,10 @@
 import { Button } from "@components/atoms";
 import { FormV2 } from "@components/molecules/FormV2";
+import { colors } from "@constants";
 import { requestNotificationPermission } from "@features/device/reducer";
 import { selectNotificationPermission } from "@features/device/selectors";
+import { rescheduleReminders } from "@features/reminder/commonActions";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback, useEffect, useRef } from "react";
@@ -9,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 
 import { OnboardingScreen } from "../screens";
-import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
@@ -33,6 +35,7 @@ export function EnableAlerts(props: Props) {
 
   const handlePress = useCallback(() => {
     if (notificationPermission === "granted") {
+      dispatch(rescheduleReminders());
       navigateNext();
     } else {
       enableTrigger.current = true;
@@ -60,6 +63,7 @@ export function EnableAlerts(props: Props) {
       return;
     }
     enableTrigger.current = false;
+    dispatch(rescheduleReminders());
     navigateNext();
   }, [notificationPermission, navigateNext, dispatch]);
 
@@ -69,9 +73,13 @@ export function EnableAlerts(props: Props) {
     <FormV2
       headerImage={require("../assets/images/alarm.png")}
       heading={t("screens:enableAlerts:heading")}
-      headingStyle={styles.headingBig}
+      headerImageStyle={commonStyles.headerImage}
+      headerImageAccessibilityLabel={t("screens:enableAlerts:headerImageLabel")}
+      headerBackgroundColor={colors.lightGrey}
+      headingStyle={commonStyles.headingBig}
       description={t("screens:enableAlerts:description")}
       renderButton={renderButton}
+      snapButtonsToBottom={true}
     />
   );
 }

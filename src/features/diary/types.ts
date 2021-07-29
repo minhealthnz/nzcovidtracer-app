@@ -1,7 +1,7 @@
-import { CheckInItemMatch } from "@db/checkInItemMatch";
+import { CheckInItemMatch } from "@db/entities/checkInItemMatch";
 import { SerializedError } from "@reduxjs/toolkit";
 
-export type DiaryEntryType = "scan" | "manual";
+export type DiaryEntryType = "scan" | "manual" | "nfc";
 
 export interface DiaryEntry {
   id: string;
@@ -18,6 +18,8 @@ export interface DiaryEntry {
   isRisky?: boolean;
   bannerTitle?: string;
   bannerBody?: string;
+  isFavourite: boolean;
+  locationId: string;
 }
 
 export interface DiaryPaginationSession {
@@ -33,6 +35,7 @@ export interface ErrorState {
 
 export interface DiaryState {
   byId: { [id: string]: DiaryEntry };
+  byLocationId: { [loccationId: string]: string[] };
   hasSeenScanTutorial: boolean;
   userIds: string[];
   sessions: { [id: string]: DiaryPaginationSession };

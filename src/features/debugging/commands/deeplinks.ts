@@ -1,13 +1,10 @@
+import { customScheme } from "@linking/matchers";
 import { Linking } from "react-native";
 
+import config from "../../../config";
 import { TestCommand } from "../testCommand";
 
-export const buildDeeplink = (
-  prefix: string,
-  path: string,
-  name: string,
-): TestCommand => {
-  const url = prefix + path;
+export const buildDeeplink = (url: string, name: string): TestCommand => {
   return {
     command: `link-${url}`,
     title: `Deep link to: ${name}`,
@@ -17,26 +14,29 @@ export const buildDeeplink = (
   };
 };
 
-const appPrefix = "nzcovidtracer://";
-
 export const linkDashboard = buildDeeplink(
-  appPrefix,
-  "dashboard/today",
+  `${customScheme}//dashboard/today`,
   "Dashboard",
 );
 
 export const linkResources = buildDeeplink(
-  appPrefix,
-  "dashboard/resources",
+  `${customScheme}//dashboard/resources`,
   "Resources",
 );
 
-export const linkDiary = buildDeeplink(appPrefix, "diary", "Diary");
+export const linkDiary = buildDeeplink(`${customScheme}//diary`, "Diary");
 
-export const linkNHI = buildDeeplink(appPrefix, "nhi", "NHI");
+export const linkNHI = buildDeeplink(`${customScheme}//nhi`, "NHI");
 
 export const linkManualEntry = buildDeeplink(
-  appPrefix,
-  "manualEntry",
+  `${customScheme}//manualEntry`,
   "Manual entry",
+);
+
+const path =
+  "scan?data=NZCOVIDTRACER:eyJnbG4iOiI3MDAwMDAwMjQzOTUwIiwidmVyIjoiYzE5OjEiLCJ0eXAiOiJlbnRyeSIsIm9wbiI6IkJsdWUgU3RvbmUgVGFibGUgMSIsImFkciI6IlVuaXQgMSwgNTQ3IFdhaWtpbWloaWEgUm9hZFxuUkQgMi9EdW5zYW5kZWxcbkxlZXN0b24ifQ==";
+
+export const linkScan = buildDeeplink(
+  `${config.WebAppBaseUrl}/${path}`,
+  "Scan",
 );

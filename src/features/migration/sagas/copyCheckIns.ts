@@ -1,8 +1,8 @@
 import {
+  AddCheckInItem,
+  addCheckIns,
   CheckInItemType,
-  UpsertCheckInItem,
-  upsertMany,
-} from "@db/checkInItem";
+} from "@db/entities/checkInItem";
 import { setSessionType } from "@features/onboarding/reducer";
 import { createLogger } from "@logger/createLogger";
 import moment from "moment";
@@ -57,14 +57,14 @@ function* _copyCheckIns(): SagaIterator {
     .filter((x) => x != null)
     .map((x) => x!);
 
-  yield call(upsertMany, entries);
+  yield call(addCheckIns, entries);
 
   logInfo("Check-ins copied");
 }
 
 export function mapCheckInItem(
   item: DiaryEntryData,
-): UpsertCheckInItem | undefined {
+): AddCheckInItem | undefined {
   const {
     id,
     userId,
@@ -73,7 +73,6 @@ export function mapCheckInItem(
     name,
     address,
     gln,
-    hashedGln,
     note,
     type,
   } = item;
@@ -119,7 +118,6 @@ export function mapCheckInItem(
     name: name ?? "",
     address: address ?? "",
     globalLocationNumber: gln ?? "",
-    globalLocationNumberHash: hashedGln ?? "",
     note,
     type: mappedType,
   };
@@ -131,6 +129,8 @@ export function mapType(type: number): CheckInItemType | undefined {
       return CheckInItemType.Scan;
     case 1:
       return CheckInItemType.Manual;
+    case 2:
+      return CheckInItemType.NFC;
     default:
       return undefined;
   }

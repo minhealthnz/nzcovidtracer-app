@@ -6,9 +6,9 @@ import React from "react";
 import { ImageSourcePropType } from "react-native";
 import styled from "styled-components/native";
 
-const Container = styled.View<{ backgroundColor?: string }>`
+const Container = styled.View<{ backgroundColor?: string; hasIcon: boolean }>`
   background-color: ${(props) => props.backgroundColor || colors.lightYellow};
-  padding: ${grid2x}px;
+  padding: ${grid2x}px ${(props) => (props.hasIcon ? grid2x : grid)}px;
   align-items: center;
   flex-direction: row;
   justify-content: flex-start;
@@ -25,6 +25,7 @@ const TextView = styled.View`
 
 const Title = styled(Text)`
   line-height: 20px;
+  margin-right: ${grid2x}px;
 `;
 
 const Description = styled(Text)`
@@ -36,7 +37,7 @@ const ImageContainer = styled.View`
 `;
 
 interface Props {
-  icon: ImageSourcePropType | string;
+  icon?: ImageSourcePropType | string;
   heading: string;
   body: string;
   backgroundColor?: string;
@@ -51,11 +52,13 @@ export default function InfoBlock({
   onDismiss,
 }: Props) {
   return (
-    <Container backgroundColor={backgroundColor}>
+    <Container backgroundColor={backgroundColor} hasIcon={!!icon}>
       {onDismiss && <CloseButton onDismiss={onDismiss} />}
-      <ImageContainer>
-        <Image source={icon} width={40} height={40} />
-      </ImageContainer>
+      {!!icon && (
+        <ImageContainer>
+          <Image source={icon} width={40} height={40} />
+        </ImageContainer>
+      )}
       <TextView>
         <Title
           textAlign="left"

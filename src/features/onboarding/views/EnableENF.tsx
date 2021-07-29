@@ -3,11 +3,13 @@ import { HeaderCloseButton } from "@components/atoms/HeaderCloseButton";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import {
   aboutBluetoothLink,
+  colors,
   fontFamilies,
   fontSizes,
   grid2x,
 } from "@constants";
 import { ENFEvent } from "@features/enfExposure/events";
+import { commonStyles } from "@lib/commonStyles";
 import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -23,7 +25,6 @@ import styled from "styled-components";
 
 import { recordAnalyticEvent } from "../../../analytics";
 import { OnboardingScreen } from "../screens";
-import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
@@ -160,9 +161,15 @@ export function EnableENF(props: Props) {
     <FormV2
       headerImage={require("../assets/images/bluetooth.png")}
       heading={t("screens:enableENF:heading")}
-      headingStyle={styles.headingBig}
+      headerImageAccessibilityLabel={t(
+        "screens:enableENF:headerImageAccessibilityLabel",
+      )}
+      headerBackgroundColor={colors.lightGrey}
+      headerImageStyle={commonStyles.headerImage}
+      headingStyle={commonStyles.headingBig}
       renderButton={renderButton}
       ref={formRef}
+      snapButtonsToBottom={true}
     >
       <Paragraph>{t("screens:enableENF:description1")}</Paragraph>
       <VerticalSpacing height={grid2x} />

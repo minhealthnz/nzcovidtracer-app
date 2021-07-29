@@ -1,4 +1,4 @@
-import { findCheckInItem } from "@db/checkInItem";
+import { findCheckInItem } from "@db/entities/checkInItem";
 import { appDidBecomeAvailable } from "@features/device/reducer";
 import { setMatchedCheckInItem } from "@features/diary/commonActions";
 import { deleteEntry } from "@features/diary/reducer";

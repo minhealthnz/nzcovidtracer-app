@@ -29,6 +29,7 @@ export default function Privacy(props: Props) {
       description={t("screens:privacyNHI:description")}
       buttonText={t("screens:buttonNHI:continue")}
       onButtonPress={handleNextPress}
+      snapButtonsToBottom={true}
     />
   );
 }

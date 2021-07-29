@@ -2,7 +2,6 @@ import { createLogger } from "@logger/createLogger";
 import { FirebaseMessagingTypes } from "@react-native-firebase/messaging";
 import _ from "lodash";
 
-import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { mapEvent } from "./mapEvent";
 import { processEvents } from "./processEvents";
 
@@ -28,8 +27,6 @@ export async function processPushNotification(
     .map(mapEvent)
     .filter((x) => x != null)
     .map((x) => x!);
-
-  recordAnalyticEvent(AnalyticsEvent.ExposureNotificationReceived);
 
   return await processEvents(events, defaultSystemNotificationBody);
 }

@@ -2,3 +2,4 @@
 
 yarn inject:secrets
 yarn setenv
+yarn remove:nfc

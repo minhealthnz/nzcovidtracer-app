@@ -4,6 +4,8 @@ import { strings as oldDiary } from "@features/diary/strings";
 import { strings as enf } from "@features/enf/strings";
 import { strings as enfExposure } from "@features/enfExposure/strings";
 import { strings as exposure } from "@features/exposure/strings";
+import { strings as location } from "@features/locations/strings";
+import { strings as nfc } from "@features/nfc/strings";
 import { strings as nhi } from "@features/nhi/strings";
 import { strings as onboarding } from "@features/onboarding/strings";
 import { strings as otp } from "@features/otp/strings";
@@ -36,6 +38,9 @@ const strings = {
         close: "close",
       },
       linkAccessibilityHint: "Leaves the app and navigates to a webpage",
+      searchBarLabel: "Edit Box and Search ",
+      searchBarHint: "Double tab to edit text. Predictions available below.",
+      clearInput: "Clear Input",
     },
     screenTitles: {
       dashboard: "Dashboard",
@@ -44,18 +49,19 @@ const strings = {
       editDiary: "Edit entry",
       recorded: "Visit recorded",
       addEntryManually: "Add diary entry",
-      shareDiary: "Share my diary",
+      shareDiary: "Share my digital diary",
       addNHI: "Add your NHI number",
       nhiAdded: "NHI added",
       nhiView: "My NHI details",
       requestCallback: "Send your details",
       requestCallbackConfirm: "Send your details",
       myData: "My data",
+      savingLocation: "Saving locations",
     },
     components: {
       diaryDisclaimer: {
         disclaimer:
-          "Your digital diary is kept securely on your phone. Whenever you open the app, entries older than 60 days will be automatically deleted.",
+          "Your digital diary is kept only on your phone. Entries older than 60 days are automatically deleted.",
       },
       diaryEntryListItem: {
         locationAccessibilityLabel: "Location alert from diary entry match",
@@ -119,10 +125,16 @@ const strings = {
       },
       addManualDiaryEntry: {
         placeOrActivity: "Place or activity",
+        placeOrActivityAccessibilityLabel:
+          "‘{{locationType}} Edit box ‘{{locationName}}’. Double tap to edit, editing options available.",
+        PlaceOrActivityAccessibilityHint:
+          "Navigates to a new page to edit and to search location options",
         address: "Address",
         gln: "Global location number",
         details: "Details",
         save: "Add entry",
+        placeOrActivityDisclaimer:
+          "Select a previous location or type a new one.",
         disclaimer:
           "Describing who you were with and what you were doing can help Contact Tracers.",
         datePicker: "Arrival date & time",
@@ -130,10 +142,12 @@ const strings = {
       shareDiary: {
         title: "Share my digital diary",
         description:
-          "This will share your digital diary from the past 60 days with Contact Tracers.",
+          "This will share your digital diary for the past 60 days with Contact Tracers.",
         dataRequestCode: "Data request code",
         dataRequestCodeInfo: "Enter the code given to you by a Contact Tracer",
         share: "Share",
+        tip:
+          "If you’ve been talking to a contact tracer, you can choose to share your digital diary to help make contact tracing easier. It is not compulsory. \n\nThis will upload the locations, times and notes in your diary to the National Contact Tracing Solution. The information will be treated as part of your medical record. \n\nYou can only share your diary if you are a confirmed or probable case of COVID-19.",
       },
     },
     validations: {
@@ -234,4 +248,6 @@ export default _.merge(
   announcement,
   enfExposure,
   resources,
+  location,
+  nfc,
 );

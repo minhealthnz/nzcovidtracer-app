@@ -1,4 +1,9 @@
-import { ALL, CheckInItem, CheckInItemType, query } from "@db/checkInItem";
+import {
+  ALL,
+  CheckInItem,
+  CheckInItemType,
+  query,
+} from "@db/entities/checkInItem";
 import { isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -77,8 +82,8 @@ async function _updateLocationHistory(
   checkIns: CheckInItem[],
 ): Promise<void> {
   const payload = checkIns.map((x) => ({
-    gln: x.globalLocationNumber || undefined,
-    locationName: x.name,
+    gln: x.location.globalLocationNumber || undefined,
+    locationName: x.location.name,
     note: x.note || "",
     entryType: mapType(x.type),
     time: moment(x.startDate).toISOString(),
@@ -92,5 +97,7 @@ function mapType(type: CheckInItemType): LocationItemType {
       return LocationItemType.Scanned;
     case CheckInItemType.Manual:
       return LocationItemType.Manual;
+    case CheckInItemType.NFC:
+      return LocationItemType.Scanned;
   }
 }

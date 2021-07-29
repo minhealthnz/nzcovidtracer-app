@@ -35,7 +35,7 @@ export const selectTestLocationsLink = createSelector(
   (state) => state.testLocationsLink,
 );
 
-export const selectHasSeenSwipeInfo = createSelector(
+export const selectHasSeenSaveLocationsInfo = createSelector(
   selectState,
-  (state) => state.hasSeenSwipeInfo,
+  (state) => state.hasSeenSaveLocations,
 );

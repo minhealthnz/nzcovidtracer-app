@@ -1,4 +1,12 @@
+import {
+  addCheckIn,
+  editCheckIn,
+  findCheckInItemById,
+  remove,
+} from "@db/entities/checkInItem";
 import { ReduxState } from "@domain/types";
+import { addFavourite } from "@features/locations/actions/addFavourite";
+import { removeFavourite } from "@features/locations/actions/removeFavourite";
 import { setSessionType } from "@features/onboarding/reducer";
 import { createLogger } from "@logger/createLogger";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -12,16 +20,17 @@ import {
 import _ from "lodash";
 import { persistReducer } from "redux-persist";
 
+import { AnalyticsEvent, recordAnalyticEvent } from "../../analytics";
 import config from "../../config";
-import { remove, upsert } from "../../db/checkInItem";
 import {
   setCountedOldDiaries,
   setMatchedCheckInItem,
   setMatches,
 } from "./commonActions";
-import { mapCheckInItem, mapDiaryEntry } from "./mappers";
+import { mapDiaryEntry, mapUpsertCheckInItem } from "./mappers";
 import {
   DiaryEntry,
+  DiaryEntryType,
   DiaryPaginationSession,
   DiaryState,
   ErrorState,
@@ -56,17 +65,34 @@ const INITIAL_STATE: DiaryState = {
     insertError: false,
   },
   matches: {},
+  byLocationId: {},
 };
 
 const { logInfo, logError } = createLogger("diary/reducer");
 
-export interface AddEntry {
-  entry: DiaryEntry;
+export interface AddDiaryEntry {
+  id: string;
+  userId: string;
+  startDate: Date;
+  name: string;
+  address?: string;
+  globalLocationNumber?: string;
+  details?: string;
+  type: DiaryEntryType;
+}
+
+export interface EditDiaryEntry {
+  id: string;
+  details?: string;
+  name?: string;
+  startDate?: Date;
+  userId?: string;
+  type?: DiaryEntryType;
 }
 
 export const addEntry = createAsyncThunk(
   "diary/addEntry",
-  async (request: AddEntry, { getState }) => {
+  async (request: AddDiaryEntry, { getState }) => {
     if (config.IsDev) {
       const state = getState() as ReduxState;
       if (state.diary.debugging.insertError) {
@@ -74,16 +100,41 @@ export const addEntry = createAsyncThunk(
       }
     }
 
-    await upsert(mapCheckInItem(request.entry));
-    return request;
+    await addCheckIn(mapUpsertCheckInItem(request));
+
+    const checkIn = await findCheckInItemById(request.id);
+    return mapDiaryEntry(checkIn);
   },
 );
 
 export const editEntry = createAsyncThunk(
   "diary/editEntry",
-  async (entry: DiaryEntry) => {
-    await upsert(mapCheckInItem(entry));
-    return entry;
+  async (request: EditDiaryEntry) => {
+    if (
+      request.userId &&
+      request.name &&
+      request.type === "manual" &&
+      request.startDate
+    ) {
+      await remove(request.id);
+      await addCheckIn(
+        mapUpsertCheckInItem({
+          id: request.id,
+          userId: request.userId,
+          startDate: request.startDate,
+          name: request.name,
+          address: undefined,
+          globalLocationNumber: undefined,
+          details: request.details,
+          type: "manual",
+        }),
+      );
+    } else {
+      await editCheckIn(request);
+    }
+
+    const checkIn = await findCheckInItemById(request.id);
+    return mapDiaryEntry(checkIn);
   },
 );
 
@@ -143,6 +194,26 @@ export interface SetCount {
   count: number;
 }
 
+const upsertEntryToStore = (state: DiaryState, entry: DiaryEntry) => {
+  state.byId[entry.id] = entry;
+  if (state.byLocationId[entry.locationId] == null) {
+    state.byLocationId[entry.locationId] = [];
+  }
+  if (state.byLocationId[entry.locationId].includes(entry.id)) {
+    return;
+  }
+  state.byLocationId[entry.locationId].push(entry.id);
+};
+
+const deleteEntryFromStore = (state: DiaryState, entry: DiaryEntry) => {
+  const entryIds = state.byLocationId[entry.locationId];
+  const index = entryIds.findIndex((id) => id === entry.id);
+  if (index !== -1) {
+    entryIds.splice(index, 1);
+  }
+  delete state.byId[entry.id];
+};
+
 const diarySlice = createSlice({
   name: "diary",
   initialState: INITIAL_STATE,
@@ -155,7 +226,7 @@ const diarySlice = createSlice({
     },
     addLoadedEntries(state, { payload }: PayloadAction<AddLoadedEntries>) {
       for (const entry of payload.entries) {
-        state.byId[entry.id] = entry;
+        upsertEntryToStore(state, entry);
         mergeMatch(state, entry);
         state.sessions[payload.sessionId].allIds.push(entry.id);
       }
@@ -168,7 +239,8 @@ const diarySlice = createSlice({
     },
     refresh(state, { payload }: PayloadAction<string>) {
       for (const id of state.sessions[payload].allIds) {
-        delete state.byId[id];
+        const entry = state.byId[id];
+        deleteEntryFromStore(state, entry);
       }
       state.sessions[payload].allIds = [];
     },
@@ -259,20 +331,22 @@ const diarySlice = createSlice({
   },
   extraReducers: (builder) =>
     builder
-      .addCase(addEntry.fulfilled, (state, { payload }) => {
-        const entry = payload.entry;
+      .addCase(addEntry.fulfilled, (state, { payload: entry }) => {
         if (state.byId[entry.id] != null) {
           return;
         }
 
         const userId = entry.userId;
-        state.byId[entry.id] = entry;
+        upsertEntryToStore(state, entry);
         Object.values(state.sessions).forEach((session) => {
           if (!session.userIds.includes(userId)) {
             return;
           }
           session.allIds.push(entry.id);
           reorderSession(state, session);
+        });
+        recordAnalyticEvent(AnalyticsEvent.DiaryEntryAdded, {
+          attributes: { source: entry.type },
         });
       })
       .addCase(addEntry.rejected, (_state, action) => {
@@ -282,17 +356,39 @@ const diarySlice = createSlice({
         if (state.byId[payload.id] == null) {
           return;
         }
-        state.byId[payload.id] = payload;
-        mergeMatch(state, payload);
-        state.byId[payload.id].updatedAt = new Date().getTime();
+        const entry = state.byId[payload.id];
+        // handle multiple diaryEntries with the same location
+        const isNameChanged = entry.name !== payload.name;
 
-        // Reorder lists in case if startDate was modified
-        Object.values(state.sessions).forEach((session) => {
-          if (!session.userIds.includes(payload.userId)) {
-            return;
-          }
-          reorderSession(state, session);
-        });
+        if (state.byLocationId[entry.locationId].length > 1 && isNameChanged) {
+          deleteEntryFromStore(state, entry);
+
+          Object.values(state.sessions).forEach((session) => {
+            _.pull(session.allIds, payload.id);
+          });
+          upsertEntryToStore(state, payload);
+          mergeMatch(state, payload);
+
+          Object.values(state.sessions).forEach((session) => {
+            if (!session.userIds.includes(payload.userId)) {
+              return;
+            }
+            session.allIds.push(payload.id);
+            reorderSession(state, session);
+          });
+        } else {
+          upsertEntryToStore(state, payload);
+          mergeMatch(state, payload);
+          entry.updatedAt = new Date().getTime();
+
+          // Reorder lists in case if startDate was modified
+          Object.values(state.sessions).forEach((session) => {
+            if (!session.userIds.includes(payload.userId)) {
+              return;
+            }
+            reorderSession(state, session);
+          });
+        }
       })
       .addCase(editEntry.rejected, (_state, action) => {
         logError(action.error);
@@ -302,7 +398,8 @@ const diarySlice = createSlice({
           return;
         }
 
-        delete state.byId[payload];
+        const entry = state.byId[payload];
+        deleteEntryFromStore(state, entry);
 
         Object.values(state.sessions).forEach((session) => {
           _.pull(session.allIds, payload);
@@ -336,6 +433,28 @@ const diarySlice = createSlice({
         for (const id in state.byId) {
           const entry = state.byId[id];
           mergeMatch(state, entry);
+        }
+      })
+      .addCase(addFavourite.fulfilled, (state, { payload: locationId }) => {
+        const entryIds = state.byLocationId[locationId];
+        if (entryIds == null) {
+          return;
+        }
+        for (const entryId of entryIds) {
+          if (state.byId[entryId] != null) {
+            state.byId[entryId].isFavourite = true;
+          }
+        }
+      })
+      .addCase(removeFavourite.fulfilled, (state, { payload: locationId }) => {
+        const entryIds = state.byLocationId[locationId];
+        if (entryIds == null) {
+          return;
+        }
+        for (const entryId of entryIds) {
+          if (state.byId[entryId] != null) {
+            state.byId[entryId].isFavourite = false;
+          }
         }
       })
       .addDefaultCase((_state, _action) => {}),

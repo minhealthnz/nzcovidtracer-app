@@ -1,5 +1,5 @@
-import { CheckInItem } from "@db/checkInItem";
-import { CheckInItemMatch } from "@db/checkInItemMatch";
+import { CheckInItem } from "@db/entities/checkInItem";
+import { CheckInItemMatch } from "@db/entities/checkInItemMatch";
 import { createAction } from "@reduxjs/toolkit";
 
 /**

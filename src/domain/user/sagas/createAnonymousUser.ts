@@ -1,4 +1,4 @@
-import { createAnonymousUser as dbCreateAnonymousUser } from "@db/user";
+import { createAnonymousUser as dbCreateAnonymousUser } from "@db/entities/user";
 import { SagaIterator } from "redux-saga";
 import { call, put } from "redux-saga/effects";
 

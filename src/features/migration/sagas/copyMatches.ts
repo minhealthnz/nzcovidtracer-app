@@ -1,4 +1,7 @@
-import { UpsertCheckInItemMatch, upsertMany } from "@db/checkInItemMatch";
+import {
+  UpsertCheckInItemMatch,
+  upsertMany,
+} from "@db/entities/checkInItemMatch";
 import { setSessionType } from "@features/onboarding/reducer";
 import { createLogger } from "@logger/createLogger";
 import moment from "moment";

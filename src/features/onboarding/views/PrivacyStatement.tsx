@@ -74,6 +74,7 @@ export function PrivacyStatement(
     <FormV2
       buttonText={t("screens:privacyStatement:buttonPrimary")}
       onButtonPress={handleButtonPrimaryPress}
+      snapButtonsToBottom={true}
     >
       <Heading1>{t("screens:privacyStatement:title")}</Heading1>
       <Heading2>{t("screens:privacyStatement:section1:title")}</Heading2>

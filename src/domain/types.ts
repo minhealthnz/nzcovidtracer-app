@@ -6,9 +6,12 @@ import { DiaryState } from "@features/diary/types";
 import { ENFState } from "@features/enf/reducer";
 import { ENFExposureState } from "@features/enfExposure/reducer";
 import { ExposureState } from "@features/exposure/reducer";
+import { LocationsState } from "@features/locations/reducer";
 import { MigrationState } from "@features/migration/reducer";
+import { NfcState } from "@features/nfc/reducer";
 import { OnboardingState } from "@features/onboarding/reducer";
 import { OTPState } from "@features/otp/reducer";
+import { ReminderNotificationState } from "@features/reminder/reducer";
 import { ResourcesState } from "@features/resources/reducer";
 import { VerificationState } from "@features/verification/reducer";
 
@@ -25,8 +28,11 @@ export interface ReduxState {
   migration: MigrationState;
   onboarding: OnboardingState;
   otp: OTPState;
+  reminder: ReminderNotificationState;
   verification: VerificationState;
   debugging: DebuggingState;
   announcement: AnnouncementState;
   resources: ResourcesState;
+  locations: LocationsState;
+  nfc: NfcState;
 }

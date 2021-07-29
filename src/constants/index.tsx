@@ -1,4 +1,5 @@
 export const fontSizes = {
+  xSmall: 12,
   small: 14,
   normal: 16,
   large: 18,
@@ -20,15 +21,21 @@ export const colors = {
   lightYellow: "#FFF1D0",
   platinum: "#DEE2E6",
   green: "#13E399",
+  fadedGreen: "#c7f8e7",
+  fadedGrey: "#cccccc",
   darkRed: "#BF351F",
+  lightRed: "#FBCAC1",
   red: "#F04E30",
   toastRed: "#FF3C19",
   yellowConfirm: "#FFF1CC",
   lightBlue: "#DCEAF8",
-  paleOrange: "#FFA700",
+  lightOrange: "#FFA700",
   paleYellow: "#FFEB9A",
-  carrot: "#FF6D00",
+  orange: "#FF6D00",
   lightPink: "#FFC8BF",
+  paleOrange: "#FFCFAA",
+  failure: "#E32704",
+  paleBlue: "#DEEAF7",
 };
 
 export const grid = 8;

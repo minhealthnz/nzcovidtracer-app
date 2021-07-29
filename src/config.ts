@@ -1,19 +1,13 @@
 import Config from "react-native-config";
 
 export interface AppConfigRaw {
-  APIServiceAddress?: string;
-  AppAddress?: string;
   CognitoIdentityPoolId?: string;
-  CognitoUserPoolPoolId?: string;
-  CognitoUserPoolAppClientId?: string;
   CognitoUserPoolRegion?: string;
   PinpointApplicationId?: string;
-  PinpointRegion?: string;
   DbEncryptionKey?: string;
   GeneratePrivateDbEncryptionKey?: string;
   PrivateDbEncryptionKeyService?: string;
   WebAppBaseUrl?: string;
-  ApiDomain?: string;
   ApiBaseUrl?: string;
   ApiClientIdAndroid?: string;
   ApiClientIdIOS?: string;
@@ -38,23 +32,18 @@ export interface AppConfigRaw {
   AssetWhitelist?: string;
   HideLogs?: string;
   ResourcesUrl?: string;
+  SuccessBannerDuration?: string;
   EasterEggPublicKey?: string;
 }
 
 export interface AppConfig {
-  APIServiceAddress: string;
-  AppAddress: string;
   CognitoIdentityPoolId: string;
-  CognitoUserPoolPoolId: string;
-  CognitoUserPoolAppClientId: string;
   CognitoUserPoolRegion: string;
   PinpointApplicationId: string;
-  PinpointRegion: string;
   DbEncryptionKey?: string;
   GeneratePrivateDbEncryptionKey: boolean;
   PrivateDbEncryptionKeyService: string;
   WebAppBaseUrl: string;
-  ApiDomain: string;
   ApiBaseUrl: string;
   ApiClientIdAndroid: string;
   ApiClientIdIOS: string;
@@ -78,6 +67,7 @@ export interface AppConfig {
   AssetWhitelist: "*" | string[];
   HideLogs: boolean;
   ResourcesUrl: string;
+  SuccessBannerDuration: number;
   EasterEggPublicKey: string;
 }
 
@@ -104,9 +94,25 @@ function getMaxCheckInDays() {
   return days;
 }
 
+const defaultBannerDuration = 5000;
+
+function getSuccessBannerDuration() {
+  if (raw.SuccessBannerDuration == null) {
+    return defaultBannerDuration;
+  }
+
+  const duration = parseInt(raw.SuccessBannerDuration, 10);
+  if (isNaN(duration)) {
+    return defaultBannerDuration;
+  }
+  return duration;
+}
+
 export enum Feature {
   OnboardingNew = "OnboardingNew",
   PollEvents = "PollEvents",
+  NFC = "NFC",
+  ReminderNotifications = "ReminderNotifications",
 }
 
 const features = (raw.Features ?? "").split(",").filter((a) =>
@@ -114,13 +120,6 @@ const features = (raw.Features ?? "").split(",").filter((a) =>
     .map((b) => b as string)
     .includes(a),
 ) as Feature[];
-
-const buildUrl = (override: string, domain: string, subdomain: string) => {
-  if (override) {
-    return override;
-  }
-  return `https://${subdomain}.${domain}`;
-};
 
 export const getBuildId = (offset?: string, buildId?: string) => {
   const defaultBuildNumber = 1;
@@ -130,8 +129,6 @@ export const getBuildId = (offset?: string, buildId?: string) => {
 
   return (buildIdNumber + offsetNumber).toString();
 };
-
-export { buildUrl as _buildUrl };
 
 const getENFCheckInterval = () => {
   if (raw.ENFCheckInterval) {
@@ -144,27 +141,17 @@ const getENFCheckInterval = () => {
 };
 
 const config: AppConfig = {
-  APIServiceAddress: raw.APIServiceAddress || "",
-  AppAddress: raw.AppAddress || "",
   CognitoIdentityPoolId: raw.CognitoIdentityPoolId || "",
-  CognitoUserPoolPoolId: raw.CognitoUserPoolPoolId || "",
-  CognitoUserPoolAppClientId: raw.CognitoUserPoolAppClientId || "",
   CognitoUserPoolRegion: raw.CognitoUserPoolRegion || "",
   PinpointApplicationId: raw.PinpointApplicationId || "",
-  PinpointRegion: raw.PinpointRegion || raw.CognitoUserPoolRegion || "",
   DbEncryptionKey: raw.DbEncryptionKey || "",
   GeneratePrivateDbEncryptionKey: raw.GeneratePrivateDbEncryptionKey === "1",
   PrivateDbEncryptionKeyService:
     raw.PrivateDbEncryptionKeyService ||
     "unite-app-react-native-private-db-key",
   WebAppBaseUrl: raw.WebAppBaseUrl || "",
-  ApiDomain: raw.ApiDomain || "",
-  ApiBaseUrl: buildUrl(raw.ApiBaseUrl || "", raw.ApiDomain || "", "api"),
-  ExposureEventsBaseUrl: buildUrl(
-    raw.ExposureEventsBaseUrl || "",
-    raw.ApiDomain || "",
-    "exposure-events",
-  ),
+  ApiBaseUrl: raw.ApiBaseUrl || "",
+  ExposureEventsBaseUrl: raw.ExposureEventsBaseUrl || "",
   ApiClientIdAndroid: raw.ApiClientIdAndroid || "",
   ApiClientIdIOS: raw.ApiClientIdIOS || "",
   AboutBluetoothLink:
@@ -199,6 +186,7 @@ const config: AppConfig = {
   AssetWhitelist: readHostWhitelist(raw.AssetWhitelist),
   HideLogs: raw.HideLogs === "1",
   ResourcesUrl: raw.ResourcesUrl || "",
+  SuccessBannerDuration: getSuccessBannerDuration(),
   EasterEggPublicKey: raw.EasterEggPublicKey || "",
 };
 

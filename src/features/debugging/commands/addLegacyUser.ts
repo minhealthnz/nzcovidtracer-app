@@ -1,5 +1,5 @@
 import { createPrivate } from "@db/create";
-import { UserEntity } from "@db/entities";
+import { UserEntity } from "@db/entities/entities";
 import { User } from "@domain/user/types";
 import { nanoid } from "@reduxjs/toolkit";
 import { Alert } from "react-native";

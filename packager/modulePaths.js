@@ -1467,7 +1467,7 @@ module.exports = [
     "src/features/scan/views/TutorialNavigator.tsx",
     "src/features/scan/views/TutorialScreen.tsx",
     "src/features/scan/views/VisitRecordedScreen.tsx",
-    "src/features/scan/views/helpers.ts",
+    "src/features/scan/helpers.ts",
     "src/features/verification/api/ReduxTokenStore.ts",
     "src/features/verification/api/api.ts",
     "src/features/verification/api/authClient.ts",

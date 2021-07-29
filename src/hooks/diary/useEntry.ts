@@ -17,6 +17,6 @@ export default function useEntry(id: string) {
 
   return {
     ...lastEntry,
-    details: lastEntry.details?.trim(),
+    details: lastEntry != null ? lastEntry.details?.trim() : "",
   };
 }

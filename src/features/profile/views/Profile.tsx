@@ -2,7 +2,6 @@ import { VerticalSpacing } from "@components/atoms";
 import Divider from "@components/atoms/Divider";
 import { SectionHeader } from "@components/atoms/SectionHeader";
 import { SectionList } from "@components/atoms/SectionList";
-import { ThickDivider } from "@components/atoms/ThickDivider";
 import { Card } from "@components/molecules/Card";
 import { grid3x } from "@constants";
 import { DebugScreen } from "@features/debugging/screens";
@@ -27,12 +26,7 @@ export default function Profile(props: ProfileProps) {
   const renderItem = useCallback(
     ({ item }: ListRenderItemInfo<ProfileItem>) => {
       if (item === "footer") {
-        return (
-          <>
-            <ThickDivider />
-            <ProfileFooter onPressDebugMenu={handlePressDebugMenu} />
-          </>
-        );
+        return <ProfileFooter onPressDebugMenu={handlePressDebugMenu} />;
       }
 
       return <Card {...item} />;

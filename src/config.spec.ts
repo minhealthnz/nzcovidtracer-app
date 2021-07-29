@@ -1,16 +1,4 @@
-import config, { _buildUrl, getBuildId, readHostWhitelist } from "./config";
-
-it("constructs url from subdomain", () => {
-  expect(_buildUrl("", "example.com", "api")).toEqual(
-    "https://api.example.com",
-  );
-});
-
-it("uses overrides if available", () => {
-  expect(_buildUrl("http://custom.example.com", "example.com", "api")).toEqual(
-    "http://custom.example.com",
-  );
-});
+import config, { getBuildId, readHostWhitelist } from "./config";
 
 it("still have the same content", () => {
   expect(config).toMatchSnapshot();

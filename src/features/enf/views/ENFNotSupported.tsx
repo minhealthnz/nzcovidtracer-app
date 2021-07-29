@@ -1,14 +1,17 @@
 import { BulletItem } from "@components/atoms/BulletItem";
 import { SecondaryButton } from "@components/atoms/SecondaryButton";
+import { Tip, TipText } from "@components/atoms/Tip";
 import { FormV2 } from "@components/molecules/FormV2";
 import {
   aboutBluetoothLink,
+  colors,
   feedbackLink,
   fontFamilies,
   fontSizes,
   grid2x,
   grid3x,
 } from "@constants";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,10 +35,15 @@ export const Subtext = styled(Text)`
 const LinkWrap = styled(Subtext)`
   margin: 0;
 `;
+
 const Link = styled(Subtext)`
   font-family: ${fontFamilies["open-sans-bold"]};
   text-decoration: underline;
   font-size: ${fontSizes.small}px;
+`;
+
+const TipContainer = styled.View`
+  padding-top: 15px;
 `;
 
 export function ENFNotSupported() {
@@ -53,7 +61,12 @@ export function ENFNotSupported() {
   return (
     <FormV2
       headerImage={require("../assets/images/information.png")}
-      heading={t("screens:enfSettings:title")}
+      heading={t("screens:enfSettings:notSupported:title")}
+      headerImageStyle={commonStyles.headerImage}
+      headerBackgroundColor={colors.lightGrey}
+      headerImageAccessibilityLabel={t(
+        "screens:enfSettings:headerImageAccessibilityLabel",
+      )}
     >
       <Subtext>{t("screens:enfSettings:notSupported:subtext")}</Subtext>
       <MoreInfo
@@ -80,7 +93,11 @@ export function ENFNotSupported() {
           </LinkWrap>
         </TouchableOpacity>
       </BulletItem>
-      <Subtext>{t("screens:enfSettings:notSupported:subtextP4")}</Subtext>
+      <TipContainer>
+        <Tip backgroundColor={colors.lightYellow}>
+          <TipText>{t("screens:enfSettings:notSupported:subtextP4")}</TipText>
+        </Tip>
+      </TipContainer>
     </FormV2>
   );
 }

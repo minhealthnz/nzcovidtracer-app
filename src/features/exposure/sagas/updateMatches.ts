@@ -1,4 +1,4 @@
-import { CheckInItemMatch, getAllMatches } from "@db/checkInItemMatch";
+import { CheckInItemMatch, getAllMatches } from "@db/entities/checkInItemMatch";
 import { appDidBecomeAvailable } from "@features/device/reducer";
 import { setMatches } from "@features/diary/commonActions";
 import { createLogger } from "@logger/createLogger";

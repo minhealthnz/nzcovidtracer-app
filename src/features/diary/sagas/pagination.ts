@@ -1,5 +1,5 @@
-import { CheckInItem, queryResults } from "@db/checkInItem";
 import { createPrivate } from "@db/create";
+import { CheckInItem, queryResults } from "@db/entities/checkInItem";
 import { createLogger } from "@logger/createLogger";
 import { Action, PayloadAction } from "@reduxjs/toolkit";
 import { SagaIterator, Task } from "redux-saga";

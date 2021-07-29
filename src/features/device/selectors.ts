@@ -28,6 +28,11 @@ export const selectIsScreenReaderEnabled = createSelector(
   (device) => device.isScreenReaderEnabled,
 );
 
+export const selectIsReduceMotionEnabled = createSelector(
+  selectDevice,
+  (device) => device.isReduceMotionEnabled,
+);
+
 export const selectHasRequestedCameraPermission = createSelector(
   selectDevice,
   (device) => device.hasRequestedCameraPermission,
@@ -46,4 +51,9 @@ export const selectCurrentDate = createSelector(
 export const selectInternetReachable = createSelector(
   selectDevice,
   (device) => device.internetReachable,
+);
+
+export const selectShouldSubscribeToAnnouncementsByDefault = createSelector(
+  selectDevice,
+  (device) => device.shouldSubscribeToAnnouncementsByDefault,
 );

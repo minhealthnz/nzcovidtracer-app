@@ -1,5 +1,6 @@
 import { FormV2 } from "@components/molecules/FormV2";
 import { colors } from "@constants";
+import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import React, { useCallback } from "react";
@@ -9,7 +10,6 @@ import { useSelector } from "react-redux";
 import { IconText } from "../components/IconText";
 import { OnboardingScreen } from "../screens";
 import { selectHasOnboardedPreEnf } from "../selectors";
-import { styles } from "../styles";
 import { useOnboardingFlow } from "../useOnboardingFlow";
 import { OnboardingStackParamList } from "./OnboardingStack";
 
@@ -47,10 +47,11 @@ export function ExistingUser(props: ExistingUserProps) {
       headerImage={assets.info}
       headerBackgroundColor={colors.lightBlue}
       heading={t("screens:existingUser:title")}
-      headingStyle={styles.headingBig}
+      headingStyle={commonStyles.headingBig}
       buttonText={t("screens:existingUser:okay")}
       onButtonPress={handlePress}
       buttonLoading={nextLoading}
+      snapButtonsToBottom={true}
     >
       <IconText
         text={t("screens:existingUser:infoEnf")}

@@ -24,8 +24,8 @@ const TextContainer = styled.View`
   padding: 12px 8px 12px 14px;
 `;
 
-const Chevron = styled.Image`
-  margin-right: 21px;
+const Chevron = styled.Image<{ isFullWidth?: boolean }>`
+  margin-right: ${(props) => (props.isFullWidth ? 0 : 21)}px;
 `;
 
 const ExternalLink = styled.Image`
@@ -63,8 +63,8 @@ const Description = styled(Text)<{ isError?: boolean }>`
     props.isError ? colors.primaryBlack : colors.primaryGray};
 `;
 
-const ImageContainer = styled.View`
-  margin-left: ${grid2x}px;
+const ImageContainer = styled.View<{ isFullWidth?: boolean }>`
+  margin-left: ${(props) => (props.isFullWidth ? 0 : grid2x)}px;
   margin-vertical: ${grid}px;
 `;
 
@@ -84,6 +84,7 @@ export interface CardProps {
   accessibilityLabel?: string;
   backgroundColor?: string;
   isStatistic?: boolean;
+  isFullWidth?: boolean;
   dailyChange?: number | string;
   dailyChangeIsGood?: boolean;
   isError?: boolean;
@@ -108,6 +109,7 @@ export const Card = ({
   isConnected,
   titleAccessoryView,
   titleStyle,
+  isFullWidth,
   maxFontSizeMultiplier,
 }: CardProps) => {
   return (
@@ -126,7 +128,7 @@ export const Card = ({
       {isImportant && <ImportantStripe />}
 
       {!!headerImage && (
-        <ImageContainer>
+        <ImageContainer isFullWidth={isFullWidth}>
           <Image source={headerImage} width={40} height={40} />
         </ImageContainer>
       )}
@@ -157,7 +159,11 @@ export const Card = ({
         (isLink ? (
           <ExternalLink source={assets.launch} />
         ) : (
-          <Chevron resizeMode="contain" source={assets.chevron} />
+          <Chevron
+            resizeMode="contain"
+            source={assets.chevron}
+            isFullWidth={isFullWidth}
+          />
         ))}
     </Container>
   );

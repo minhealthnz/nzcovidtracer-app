@@ -8,3 +8,5 @@ export { VerticalSpacing } from "./VerticalSpacing";
 export { default as ImageButton } from "./ImageButton";
 export { LoadingSpinner } from "./LoadingSpinner";
 export { HiddenAccessibilityTitle } from "./HiddenAccessibilityTitle";
+export { LocationIcon } from "./LocationIcon";
+export { Toggle } from "./Toggle";

@@ -33,6 +33,11 @@ export interface DashboardCard {
   isConnected?: boolean;
 }
 
+export interface ReminderCard {
+  title: string;
+  body: string;
+}
+
 export type DashboardItem =
   | DashboardCard
   | "footer"
@@ -41,6 +46,8 @@ export type DashboardItem =
   | "statsLoading"
   | "announcement"
   | "diaryPercentage"
-  | "swipeInfo"
+  | "bluetoothStatus"
+  | "saveLocationInfo"
+  | "reminder"
   | undefined
   | false;

@@ -4,11 +4,12 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
-	<key>com.apple.developer.exposure-notification</key>
-	<true/>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>webcredentials:tracing.covid19.govt.nz</string>
+		<string>applinks:tracing.covid19.govt.nz</string>
 	</array>
+	<key>com.apple.developer.exposure-notification</key>
+	<true/>
 </dict>
 </plist>

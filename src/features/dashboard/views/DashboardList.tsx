@@ -10,7 +10,6 @@ import { selectAnnouncement } from "@features/announcement/selectors";
 import { requestNotificationPermission } from "@features/device/reducer";
 import { selectNotificationPermission } from "@features/device/selectors";
 import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
-import { useENFDashboardCard } from "@features/enf/hooks/useENFDashboardCard";
 import { BeenInCloseContact } from "@features/enfExposure/components/beenInCloseContact/BeenInCloseContact";
 import { useProcessEnfContacts } from "@features/enfExposure/hooks/useProcessEnfContacts";
 import { selectENFAlert } from "@features/enfExposure/selectors";
@@ -20,7 +19,8 @@ import { getMatch as getExposureMatch } from "@features/exposure/reducer";
 import { RequestCallbackScreen } from "@features/exposure/screens";
 import { selectMatch } from "@features/exposure/selectors";
 import { setHasSeenDashboard } from "@features/onboarding/reducer";
-import { useRecordVisitDashboardCard } from "@features/scan/hooks/useRecordVisitDashboardCard";
+import { ReminderCard } from "@features/reminder/components/ReminderCard";
+import { selectHasInAppReminder } from "@features/reminder/selectors";
 import { StatsCard } from "@features/stats/components/StatsCard";
 import { useStatsSection } from "@features/stats/hooks/useStatsSection";
 import { useFocusEffect } from "@react-navigation/native";
@@ -32,11 +32,12 @@ import { Linking, ListRenderItemInfo, SectionListData } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 
-import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
+import { recordAnalyticEvent } from "../../../analytics";
+import { DashboardBluetoothStatus } from "../components/DashboardBlueToothStatus";
 import { DashboardFooter } from "../components/DashboardFooter";
 import { DashboardItemSeparator } from "../components/DashboardItemSeparator";
-import { DashboardSwipeInfo } from "../components/DashboardSwipeInfo";
-import { selectHasSeenSwipeInfo } from "../selectors";
+import { DashboardSaveLocationsInfo } from "../components/DashboardSaveLocationsInfo";
+import { selectHasSeenSaveLocationsInfo } from "../selectors";
 import { DashboardItem } from "../types";
 
 const SectionFooter = styled(Text)`
@@ -77,12 +78,6 @@ const _DashboardList = (props: Props) => {
     }, [dispatch]),
   );
 
-  useFocusEffect(
-    useCallback(() => {
-      recordAnalyticEvent(AnalyticsEvent.Dashboard);
-    }, []),
-  );
-
   const beenInContact = exposureMatch == null ? undefined : "beenInContact";
   const beenInCloseContact = enfAlert ? "beenInCloseContact" : null;
   const doubleExposure = !!beenInContact && !!beenInCloseContact;
@@ -90,10 +85,10 @@ const _DashboardList = (props: Props) => {
   const announcement = useSelector(selectAnnouncement);
 
   const statsSection = useStatsSection();
-  const enfDashboardCard = useENFDashboardCard(props.navigation);
-  const recordVisitCard = useRecordVisitDashboardCard(props.navigation);
 
-  const hasSeenSwipeInfo = useSelector(selectHasSeenSwipeInfo);
+  const hasInAppReminder = useSelector(selectHasInAppReminder);
+
+  const hasSeenSaveLocationInfo = useSelector(selectHasSeenSaveLocationsInfo);
 
   const sections = useMemo(() => {
     const notificationsCard: DashboardItem | undefined =
@@ -118,11 +113,23 @@ const _DashboardList = (props: Props) => {
         ]
       : [];
 
-    const infoItems = !hasSeenSwipeInfo
+    const reminders = hasInAppReminder
+      ? [
+          {
+            title: t("screens:dashboard:sections:reminder"),
+            data: ["reminder" as const],
+          },
+        ]
+      : [];
+
+    const infoItems = !hasSeenSaveLocationInfo
       ? [
           {
             title: t("screens:dashboard:sections:whatsNew"),
-            data: hasSeenSwipeInfo == null ? [] : ["swipeInfo" as const],
+            data:
+              hasSeenSaveLocationInfo == null
+                ? []
+                : ["saveLocationInfo" as const],
           },
         ]
       : [];
@@ -146,9 +153,10 @@ const _DashboardList = (props: Props) => {
         data: notificationsCard == null ? [] : [notificationsCard],
       },
       ...infoItems,
+      ...reminders,
       {
-        title: t("screens:dashboard:sections:trace"),
-        data: [recordVisitCard, enfDashboardCard, "diaryPercentage"],
+        title: t("screens:dashboard:sections:status"),
+        data: ["bluetoothStatus", "diaryPercentage"],
       },
       statsSection,
     ];
@@ -173,11 +181,10 @@ const _DashboardList = (props: Props) => {
     beenInContact,
     beenInCloseContact,
     doubleExposure,
-    recordVisitCard,
-    enfDashboardCard,
     statsSection,
     announcement,
-    hasSeenSwipeInfo,
+    hasSeenSaveLocationInfo,
+    hasInAppReminder,
   ]);
 
   useEffect(() => {
@@ -236,8 +243,16 @@ const _DashboardList = (props: Props) => {
       return <DiaryPercentage />;
     }
 
-    if (item === "swipeInfo") {
-      return <DashboardSwipeInfo />;
+    if (item === "bluetoothStatus") {
+      return <DashboardBluetoothStatus />;
+    }
+
+    if (item === "saveLocationInfo") {
+      return <DashboardSaveLocationsInfo />;
+    }
+
+    if (item === "reminder") {
+      return <ReminderCard isDashboard={true} />;
     }
 
     if (item.isStatistic) {

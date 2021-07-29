@@ -1,12 +1,16 @@
 import { nanoid } from "@reduxjs/toolkit";
-import Realm, { UpdateMode } from "realm";
+import Realm, { Results, UpdateMode } from "realm";
 
+import { CheckInItem, CheckInItemV6 } from "./entities/checkInItem";
 import {
   CheckInItemEntity,
   CheckInItemPublicEntity,
+  LocationEntity,
   UserEntity,
-} from "./entities";
-import { hashLocationNumber } from "./hash";
+} from "./entities/entities";
+import { Location, LocationType } from "./entities/location";
+import { getLocationType } from "./getLocationType";
+import { hashLocationNumber } from "./hashLocationNumber";
 import { hexToBase64 } from "./hex";
 
 export const migratePrivate = (oldRealm: Realm, newRealm: Realm) => {
@@ -46,6 +50,46 @@ export const migratePrivate = (oldRealm: Realm, newRealm: Realm) => {
       }
     });
   }
+
+  if (oldRealm.schemaVersion < 7) {
+    const locationsById = new Map<string, Location>();
+    const checkInLocationIds = new Map<string, string>();
+    // Sort by start date so only the latest location details are saved
+    const oldDbSortedByStartDate = oldRealm
+      .objects(CheckInItemEntity)
+      .sorted("startDate", true);
+
+    mapLocationFromOldRealm(
+      oldDbSortedByStartDate,
+      locationsById,
+      checkInLocationIds,
+    );
+
+    for (const location of locationsById.values()) {
+      newRealm.create<Location>(LocationEntity, location, UpdateMode.Never);
+    }
+
+    newRealm.objects(CheckInItemEntity).forEach((entry: any) => {
+      const checkIn = entry as CheckInItem;
+      const locationId = checkInLocationIds.get(checkIn.id);
+      if (locationId == null) {
+        throw new Error("Unexpected empty location id!");
+      }
+      const location = locationsById.get(locationId);
+      if (location == null) {
+        throw new Error("Cannot find location");
+      }
+      checkIn.location = location;
+    });
+  }
+
+  if (oldRealm.schemaVersion < 8) {
+    newRealm.objects(LocationEntity).forEach((location: any) => {
+      if (location.hasDiaryEntry === undefined) {
+        location.hasDiaryEntry = true;
+      }
+    });
+  }
 };
 
 export const migratePublic = (oldRealm: Realm, newRealm: Realm) => {
@@ -62,4 +106,54 @@ export const migratePublic = (oldRealm: Realm, newRealm: Realm) => {
       );
     }
   }
+};
+
+export const mapLocationFromOldRealm = (
+  oldRealm: Results<Realm.Object>,
+  locationsById: Map<string, Location>,
+  checkInLocationIds: Map<string, string>,
+) => {
+  oldRealm.forEach((entry: any) => {
+    const checkIn = entry as CheckInItemV6;
+    const {
+      name,
+      address,
+      globalLocationNumber,
+      globalLocationNumberHash,
+      type,
+      startDate,
+    } = checkIn;
+
+    const id = globalLocationNumber || nanoid();
+
+    const location: Location = {
+      id,
+      name,
+      address,
+      globalLocationNumber,
+      globalLocationNumberHash,
+      isFavourite: false,
+      hasDiaryEntry: true,
+      lastVisited: new Date(startDate),
+      type: getLocationType(type),
+    };
+    // Find a location that already exists
+    const matchingExistingLocation = Array.from(locationsById.values()).find(
+      (e) =>
+        // If they have the same id, then they both have the same GLN and are therefore the same location
+        e.id === location.id ||
+        // Or, if they’re both manual and have the same name, they are the same location
+        (e.name === location.name &&
+          location.type === LocationType.Manual &&
+          e.type === LocationType.Manual),
+    );
+    if (matchingExistingLocation) {
+      // Add new check in for the existing location
+      checkInLocationIds.set(checkIn.id, matchingExistingLocation.id);
+    } else {
+      // Create new location and new check in for that location
+      locationsById.set(id, location);
+      checkInLocationIds.set(checkIn.id, location.id);
+    }
+  });
 };

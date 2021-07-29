@@ -6,7 +6,7 @@ export enum ENFScreen {
 }
 
 export type ENFScreenParams = {
-  [ENFScreen.Settings]: undefined;
+  [ENFScreen.Settings]: { retryPassed?: string } | undefined;
   [ENFScreen.Share]: undefined;
   [ENFScreen.ShareSuccess]: undefined;
   [ENFScreen.NotSupported]: undefined;
