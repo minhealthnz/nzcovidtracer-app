@@ -1,17 +1,19 @@
 import { useEffect, useState } from "react";
 
-export function useToast(duration: number = 5000) {
-  const [toastError, setToastError] = useState<string | undefined>();
+export function useToast(duration: number = 5000, callBack?: () => void) {
+  const [toastMessage, setToastMessage] = useState<string | undefined>();
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (toastError) {
-        setToastError(undefined);
+      if (toastMessage) {
+        setToastMessage(undefined);
+        !!callBack && callBack();
       }
     }, duration);
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [toastError, setToastError, duration]);
+  }, [toastMessage, setToastMessage, duration, callBack]);
 
-  return [toastError, setToastError] as const;
+  return [toastMessage, setToastMessage] as const;
 }

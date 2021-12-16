@@ -1,5 +1,6 @@
 import {
   addCheckIn,
+  addCheckIns,
   editCheckIn,
   findCheckInItemById,
   remove,
@@ -17,6 +18,7 @@ import {
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
+import { calcCheckInMinDate } from "@utils/checkInDate";
 import _ from "lodash";
 import { persistReducer } from "redux-persist";
 
@@ -27,6 +29,7 @@ import {
   setMatchedCheckInItem,
   setMatches,
 } from "./commonActions";
+import { DiaryEvent } from "./events";
 import { mapDiaryEntry, mapUpsertCheckInItem } from "./mappers";
 import {
   DiaryEntry,
@@ -34,6 +37,7 @@ import {
   DiaryPaginationSession,
   DiaryState,
   ErrorState,
+  MergeEntryStatus,
 } from "./types";
 
 export const persistConfig = {
@@ -66,6 +70,7 @@ const INITIAL_STATE: DiaryState = {
   },
   matches: {},
   byLocationId: {},
+  mergeEntryStatus: { status: "idle" },
 };
 
 const { logInfo, logError } = createLogger("diary/reducer");
@@ -79,6 +84,7 @@ export interface AddDiaryEntry {
   globalLocationNumber?: string;
   details?: string;
   type: DiaryEntryType;
+  isFavourite?: boolean;
 }
 
 export interface EditDiaryEntry {
@@ -104,6 +110,25 @@ export const addEntry = createAsyncThunk(
 
     const checkIn = await findCheckInItemById(request.id);
     return mapDiaryEntry(checkIn);
+  },
+);
+
+export const mergeEntries = createAsyncThunk(
+  "diary/mergeEntries",
+  async (request: AddDiaryEntry[]) => {
+    await recordAnalyticEvent(DiaryEvent.DiaryImportInitiated);
+    const minDate = calcCheckInMinDate();
+
+    const recentEntries = request.filter(
+      (checkIn) => checkIn.startDate > minDate,
+    );
+
+    await addCheckIns(recentEntries.map(mapUpsertCheckInItem));
+
+    const checkIns = await Promise.all(
+      recentEntries.map(async (diary) => await findCheckInItemById(diary.id)),
+    );
+    return checkIns.map((i) => mapDiaryEntry(i));
   },
 );
 
@@ -174,6 +199,7 @@ export interface StartPaginationSession {
 export interface ShareDiary {
   requestId: string;
   code: string;
+  items: DiaryEntry[];
 }
 
 export interface UpdatePreviewDiary {
@@ -328,28 +354,41 @@ const diarySlice = createSlice({
     injectInsertError(state) {
       state.debugging.insertError = true;
     },
+    setMergeEntryStatus(state, { payload }: PayloadAction<MergeEntryStatus>) {
+      state.mergeEntryStatus = payload;
+    },
   },
   extraReducers: (builder) =>
     builder
       .addCase(addEntry.fulfilled, (state, { payload: entry }) => {
-        if (state.byId[entry.id] != null) {
-          return;
-        }
-
-        const userId = entry.userId;
-        upsertEntryToStore(state, entry);
-        Object.values(state.sessions).forEach((session) => {
-          if (!session.userIds.includes(userId)) {
-            return;
-          }
-          session.allIds.push(entry.id);
-          reorderSession(state, session);
-        });
+        updateSession(state, entry);
         recordAnalyticEvent(AnalyticsEvent.DiaryEntryAdded, {
           attributes: { source: entry.type },
         });
       })
       .addCase(addEntry.rejected, (_state, action) => {
+        logError(action.error);
+      })
+      .addCase(mergeEntries.pending, (state, _action) => {
+        state.mergeEntryStatus = { status: "loading" };
+      })
+      .addCase(mergeEntries.fulfilled, (state, { payload: entries }) => {
+        for (const entry of entries) {
+          updateSession(state, entry);
+        }
+        state.mergeEntryStatus = {
+          status: "succeeded",
+          message: "Your diary was successfully imported and merged",
+        };
+        recordAnalyticEvent(DiaryEvent.DiaryImportSucceed);
+      })
+      .addCase(mergeEntries.rejected, (state, action) => {
+        state.mergeEntryStatus = {
+          status: "failed",
+          message:
+            "Could not import this file. Make sure you’ve selected a valid file",
+        };
+        recordAnalyticEvent(DiaryEvent.DiaryImportFailed);
         logError(action.error);
       })
       .addCase(editEntry.fulfilled, (state, { payload }) => {
@@ -493,6 +532,7 @@ export const {
   setCount,
   setCountActiveDays,
   injectInsertError,
+  setMergeEntryStatus,
 } = actions;
 
 export { reducer as _reducer };
@@ -517,4 +557,20 @@ const mergeMatch = (state: DiaryState, entry: DiaryEntry) => {
       }
     });
   }
+};
+
+const updateSession = (state: DiaryState, entry: DiaryEntry) => {
+  if (state.byId[entry.id] != null) {
+    return;
+  }
+
+  const userId = entry.userId;
+  upsertEntryToStore(state, entry);
+  Object.values(state.sessions).forEach((session) => {
+    if (!session.userIds.includes(userId)) {
+      return;
+    }
+    session.allIds.push(entry.id);
+    reorderSession(state, session);
+  });
 };

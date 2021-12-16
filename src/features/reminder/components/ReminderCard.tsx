@@ -10,7 +10,7 @@ import { ProfileScreen } from "@features/profile/screens";
 import { isSmallScreen } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dimensions } from "react-native";

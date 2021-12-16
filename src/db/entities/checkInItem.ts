@@ -2,7 +2,7 @@ import { hashLocationNumber } from "@db/hashLocationNumber";
 import { createLogger } from "@logger/createLogger";
 import { nanoid } from "@reduxjs/toolkit";
 import _ from "lodash";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Results, UpdateMode } from "realm";
 
 import { createPrivate, createPublic } from "../create";
@@ -24,6 +24,7 @@ export interface AddCheckInItem {
   globalLocationNumber: string;
   note?: string;
   type: CheckInItemType;
+  isFavourite?: boolean;
 }
 
 export interface CheckInItemV6 {
@@ -60,6 +61,7 @@ export enum CheckInItemType {
   Scan = 0,
   Manual = 1,
   NFC = 2,
+  Link = 3,
 }
 
 const { logError } = createLogger("db/checkInItem.ts");
@@ -73,6 +75,7 @@ export const addCheckIn = async (item: AddCheckInItem) => {
     address: item.address,
     lastVisited: item.startDate,
     type: item.type,
+    isFavourite: item.isFavourite,
   });
 
   const privateDb = await createPrivate();
@@ -124,15 +127,16 @@ export const addCheckIns = async (items: AddCheckInItem[]) => {
       address: item.address,
       lastVisited: item.startDate,
       type: item.type,
+      isFavourite: item.isFavourite,
     });
-    locationMap.set(location.globalLocationNumber, location);
+    locationMap.set(location.globalLocationNumber || location.name, location);
   }
 
   const privateDb = await createPrivate();
   privateDb.write(() => {
     for (let i = 0; i < items.length; i++) {
       const item = items[i];
-      const location = locationMap.get(item.globalLocationNumber)!;
+      const location = locationMap.get(item.globalLocationNumber || item.name)!;
       const checkIn = privateDb.create<CheckInItem>(
         CheckInItemEntity,
         {

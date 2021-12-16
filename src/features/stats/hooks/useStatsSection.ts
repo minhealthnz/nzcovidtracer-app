@@ -12,7 +12,7 @@ import { DashboardItem, StatItem } from "@features/dashboard/types";
 import { useAppState } from "@react-native-community/hooks";
 import { useFocusEffect } from "@react-navigation/native";
 import { formatToLocaleString } from "@utils/formatToLocaleString";
-import moment from "moment";
+import moment from "moment-timezone";
 import pupa from "pupa";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";

@@ -10,6 +10,7 @@ import { InputGroupRef } from "@components/molecules/InputGroup";
 import { grid } from "@constants";
 import { editEntry } from "@features/diary/reducer";
 import useEntry from "@hooks/diary/useEntry";
+import { isOutsideNZ } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -23,6 +24,7 @@ import {
   startDateValidation,
 } from "@validations/validations";
 import { MainStackParamList } from "@views/MainStack";
+import moment from "moment-timezone";
 import React, {
   useCallback,
   useEffect,
@@ -34,10 +36,11 @@ import { useTranslation } from "react-i18next";
 import { Alert, Keyboard } from "react-native";
 import * as yup from "yup";
 
+import { useStartDate } from "../hooks/useStartDate";
 import { DiaryScreen } from "../screens";
 
 interface Props
-  extends StackScreenProps<MainStackParamList, DiaryScreen.DiaryEntry> {}
+  extends StackScreenProps<MainStackParamList, DiaryScreen.EditEntry> {}
 
 const schema = yup.object().shape({
   name: placeOrActivityValidation,
@@ -50,14 +53,13 @@ const { logWarning } = createLogger("EditDiaryEntryScreen.tsx");
 export function EditDiaryEntryScreen(props: Props) {
   const { id } = props.route.params;
   const entry = useEntry(id);
-
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
 
   const [name, setName] = useState<string>(entry.name);
   const [nameError, setNameError] = useState<string>("");
-  const [startDate, setStartDate] = useState<number>(entry.startDate);
+  const [startDate, setDate] = useStartDate(entry.startDate, true);
   const [dateError, setDateError] = useState<string>("");
   const [details, setDetails] = useState<string>(entry.details || "");
   const [detailsError, setDetailsError] = useState<string>("");
@@ -92,7 +94,9 @@ export function EditDiaryEntryScreen(props: Props) {
             text: t("screens:editDiaryEntry:areYouSure:ok"),
             onPress: () => {
               discardConfirmed.current = true;
-              props.navigation.goBack();
+              props.navigation.navigate(DiaryScreen.DiaryEntry, {
+                id,
+              });
             },
           },
         ],
@@ -100,7 +104,7 @@ export function EditDiaryEntryScreen(props: Props) {
       );
       return true;
     }
-  }, [hasNoChanges, props.navigation, t]);
+  }, [hasNoChanges, props.navigation, t, id]);
 
   useEffect(() => {
     const unsubsribe = props.navigation.addListener("beforeRemove", (e) => {
@@ -140,7 +144,7 @@ export function EditDiaryEntryScreen(props: Props) {
           details,
           name,
           userId: entry.userId,
-          startDate: new Date(startDate),
+          startDate: moment(startDate).toDate(),
           type: entry.type,
         };
 
@@ -148,9 +152,7 @@ export function EditDiaryEntryScreen(props: Props) {
       })
       .then(unwrapResult)
       .then(() => {
-        props.navigation.navigate(DiaryScreen.DiaryEntry, {
-          id,
-        });
+        props.navigation.goBack();
       })
       .catch((error: yup.ValidationError | Error) => {
         if (error instanceof yup.ValidationError && error.inner) {
@@ -185,7 +187,11 @@ export function EditDiaryEntryScreen(props: Props) {
   useFocusEffect(
     useCallback(() => {
       const timeoutId = setTimeout(() => {
-        if (entry.type === "scan" || entry.type === "nfc") {
+        if (
+          entry.type === "scan" ||
+          entry.type === "nfc" ||
+          entry.type === "link"
+        ) {
           detailsInputRef.current?.focus();
         } else {
           placeInputRef.current?.focus();
@@ -207,12 +213,15 @@ export function EditDiaryEntryScreen(props: Props) {
         <TextInput
           identifier="name"
           label={t("screens:editDiaryEntry:placeOrActivity")}
-          disabled={entry.type === "scan" || entry.type === "nfc"}
+          disabled={
+            entry.type === "scan" ||
+            entry.type === "nfc" ||
+            entry.type === "link"
+          }
           ref={placeInputRef}
-          value={name}
           onChangeText={setName}
+          value={name}
           errorMessage={nameError}
-          clearErrorMessage={() => setNameError("")}
           renderIcon={
             <LocationIcon
               locationType={entry.type}
@@ -221,8 +230,13 @@ export function EditDiaryEntryScreen(props: Props) {
           }
         />
         <DatePicker
+          info={
+            isOutsideNZ()
+              ? t("screens:addManualDiaryEntry:timeInNZT")
+              : undefined
+          }
           dateTime={startDate}
-          onDateChange={setStartDate}
+          onDateChange={setDate}
           errorMessage={dateError}
           clearErrorMessage={() => setDateError("")}
           label={t("screens:addManualDiaryEntry:datePicker")}
@@ -230,7 +244,9 @@ export function EditDiaryEntryScreen(props: Props) {
           minimumDate={minimumDate.current}
           minuteInterval={5}
         />
-        {(entry.type === "scan" || entry.type === "nfc") && (
+        {(entry.type === "scan" ||
+          entry.type === "nfc" ||
+          entry.type === "link") && (
           <TextInput
             label={t("screens:editDiaryEntry:address")}
             disabled={true}
@@ -238,6 +254,7 @@ export function EditDiaryEntryScreen(props: Props) {
             multiline={true}
           />
         )}
+
         <TextInput
           identifier="details"
           ref={detailsInputRef}

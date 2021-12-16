@@ -1,5 +1,5 @@
 import { createLogger } from "@logger/createLogger";
-import moment from "moment";
+import moment from "moment-timezone";
 import PushNotification from "react-native-push-notification";
 
 import config, { Feature } from "../../../config";

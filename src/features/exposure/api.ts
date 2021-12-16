@@ -22,7 +22,11 @@ export interface ExposureEventsResponse {
 export async function getExposureEvents() {
   const url = `${config.ExposureEventsBaseUrl}/current-exposure-events.json`;
 
-  const response = await Axios.get(url);
+  const response = await Axios.get(url, {
+    headers: {
+      "Accept-Encoding": "gzip",
+    },
+  });
   return response.data;
 }
 

@@ -72,6 +72,7 @@ export function LocationList(props: LocationListProps) {
     sortBy: sortBy,
     hasDiaryEntry: isPlaceOrActivity,
   });
+
   const { setLocationId } = useContext(LocationSuccessContext);
 
   const deleteItem = useCallback(
@@ -207,6 +208,7 @@ export function LocationList(props: LocationListProps) {
         refreshing={refreshing}
         onEndReachedThreshold={8}
         onEndReached={() => loadMore()}
+        keyExtractor={(_, index) => index.toString()}
         ListFooterComponent={renderFooter}
         keyboardShouldPersistTaps="handled"
         ItemSeparatorComponent={Separator}

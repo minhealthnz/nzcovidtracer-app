@@ -1,6 +1,6 @@
 import { NotificationCard } from "@components/molecules/NotificationCard";
 import { useLinking } from "@linking/useLinking";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";

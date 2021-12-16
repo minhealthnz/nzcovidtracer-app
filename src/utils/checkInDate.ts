@@ -1,4 +1,5 @@
-import moment from "moment";
+import { getOffsetInMins } from "@lib/helpers";
+import moment from "moment-timezone";
 
 import config from "../config";
 
@@ -13,5 +14,5 @@ export function calcCheckInMinDate() {
 }
 
 export function calcCheckInMaxDate() {
-  return moment().endOf("day").toDate();
+  return moment().endOf("day").subtract(getOffsetInMins(), "minutes").toDate();
 }

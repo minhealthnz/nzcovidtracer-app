@@ -1,6 +1,6 @@
 import { ReduxState } from "@domain/types";
 import { selectDevice } from "@features/device/selectors";
-import moment from "moment";
+import moment from "moment-timezone";
 import { createSelector } from "reselect";
 
 export const selectENFExposure = (state: ReduxState) => state.enfExposure;

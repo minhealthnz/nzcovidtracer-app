@@ -5,7 +5,7 @@ import { colors, contactAlertslink, fontFamilies, fontSizes } from "@constants";
 import { DiaryScreen } from "@features/diary/screens";
 import { recordDismissLocationAlert } from "@features/exposure/analytics";
 import { navigationRef } from "@navigation/navigation";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";

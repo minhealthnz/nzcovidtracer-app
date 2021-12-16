@@ -5,6 +5,7 @@ buildscript {
   repositories {
     google()
     mavenCentral()
+    jcenter()
   }
 
   dependencies {
@@ -123,6 +124,8 @@ repositories {
                     "Ensure you have you installed React Native as a dependency in your project and try again."
     )
   }
+
+  jcenter()
 }
 
 def kotlin_version = getExtOrDefault('kotlinVersion')

@@ -65,6 +65,11 @@ export const selectCountedOldDiaries = createSelector(
   (diary) => diary.countedOldDiaries,
 );
 
+export const selectMergeEntryStatus = createSelector(
+  selectDiary,
+  (diary) => diary.mergeEntryStatus,
+);
+
 export const selectHasOldDiary = createSelector(
   selectUser,
   selectDiary,

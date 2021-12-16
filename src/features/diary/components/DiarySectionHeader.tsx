@@ -10,7 +10,7 @@ interface DiarySectionHeaderProps {
   title?: string;
   showOldDiaryTitle?: boolean;
   ctaTitle?: string;
-  ctaCallback?(): void;
+  ctaCallback?: () => void;
   accessibilityLabel?: string;
 }
 

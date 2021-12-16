@@ -16,6 +16,7 @@ export interface DatePickerProps {
   maximumDate?: Date;
   minimumDate?: Date;
   minuteInterval?: 5;
+  info?: string | undefined;
 }
 
 export function DatePicker(props: DatePickerProps) {

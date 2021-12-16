@@ -3,11 +3,14 @@ import { addFavourite } from "@features/locations/actions/addFavourite";
 import { removeFavourite } from "@features/locations/actions/removeFavourite";
 import { nanoid } from "@reduxjs/toolkit";
 
+import { mapAddDiaryEntry } from "./mappers";
 import {
   _reducer as reducer,
+  AddDiaryEntry,
   addEntry,
   deleteEntry,
   editEntry,
+  mergeEntries,
 } from "./reducer";
 import { DiaryEntry, DiaryState } from "./types";
 
@@ -26,6 +29,42 @@ const buildEntry = (partial?: Partial<DiaryEntry>): DiaryEntry => {
     locationId: nanoid(),
     ...partial,
   };
+};
+
+export const buildRandomEntries = (): DiaryEntry[] => {
+  // numberOfEntries from 1 to 11
+  const numberOfentries = Math.floor(Math.random() * 11) + 1;
+
+  const diaryEntries: DiaryEntry[] = [];
+
+  for (let i = 0; i < numberOfentries; i++) {
+    const isFavourite = i % 2 === 0 ? true : false;
+
+    const gln = nanoid();
+
+    diaryEntries.push({
+      userId: nanoid(),
+      type: "scan",
+      address: nanoid(),
+      globalLocationNumber: gln,
+      globalLocationNumberHash: hashLocationNumber(gln),
+      id: nanoid(),
+      name: nanoid(),
+      startDate: new Date(Math.random()).getTime(),
+      isFavourite: isFavourite,
+      locationId: nanoid(),
+    });
+  }
+
+  return diaryEntries;
+};
+
+const buildCases = (entries: AddDiaryEntry[]) => {
+  const cases: any[] = [];
+  entries.map((entry) => {
+    cases.push([entry.id, entry]);
+  });
+  return cases;
 };
 
 const buildInitialState = (
@@ -65,6 +104,7 @@ const buildInitialState = (
       insertError: false,
     },
     matches: {},
+    mergeEntryStatus: { status: "idle" },
     byLocationId: entries.reduce((map, item) => {
       if (map[item.locationId] == null) {
         map[item.locationId] = [];
@@ -106,6 +146,28 @@ export default describe("Diary/reducer", () => {
     it("adds entry to byLocationId", () => {
       expect(newState.byLocationId[entry.locationId]).toContain(entry.id);
     });
+  });
+
+  describe("mergeEntries.fullfilled", () => {
+    const entries = buildRandomEntries();
+    const userId = nanoid();
+    const sessionId = nanoid();
+    const initState = buildInitialState([], userId, sessionId);
+
+    const diaryEntries = entries.map(mapAddDiaryEntry(userId));
+
+    const newState = reducer(
+      initState! as DiaryState,
+      mergeEntries.fulfilled(entries, nanoid(), diaryEntries),
+    );
+
+    it.each(buildCases(diaryEntries))(
+      "should match the location name",
+      (id, entry) => {
+        expect(newState.byId[id].name).toEqual(entry.name);
+        expect(newState.byId[id].isFavourite).toEqual(entry.isFavourite);
+      },
+    );
   });
 
   describe("editEntry.fullfilled", () => {

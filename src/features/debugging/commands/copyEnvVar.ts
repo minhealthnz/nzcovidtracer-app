@@ -15,6 +15,7 @@ const envMaskTokenList = [
 
 const envMaskURLList = [
   "WebAppBaseUrl",
+  "WebAppBaseUrlNoScheme",
   "ApiBaseUrl",
   "ExposureEventsBaseUrl",
   "ENFServerUrl",

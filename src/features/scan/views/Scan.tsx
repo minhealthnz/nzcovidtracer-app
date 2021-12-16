@@ -11,9 +11,9 @@ import {
   addEntry,
   setHasSeenScanTutorial,
 } from "@features/diary/reducer";
-import { DiaryScreen } from "@features/diary/screens";
 import { selectHasSeenScanTutorial } from "@features/diary/selectors";
 import { useEasterEggOverlay } from "@features/easterEgg/hooks/useEasterEggOverlay";
+import { LocationScreen } from "@features/locations/screens";
 import { isAndroid, isSmallScreen } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
@@ -276,7 +276,9 @@ export function Scan(props: Props) {
       return;
     }
 
-    props.navigation.navigate(DiaryScreen.AddEntryManually);
+    props.navigation.navigate(LocationScreen.PlaceOrActivity, {
+      startDate: new Date().getTime(),
+    });
   }, [props.navigation, canScanBarcode]);
 
   const handleBarCodeRead = useCallback(

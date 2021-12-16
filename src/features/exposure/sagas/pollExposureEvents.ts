@@ -1,5 +1,6 @@
 import { CheckInItemMatch } from "@db/entities/checkInItemMatch";
 import { appDidBecomeAvailable } from "@features/device/reducer";
+import { mergeEntries } from "@features/diary/reducer";
 import { createLogger } from "@logger/createLogger";
 import { SagaIterator } from "redux-saga";
 import { call, put, select, takeLatest } from "redux-saga/effects";
@@ -13,7 +14,10 @@ import { processEvents } from "../service/processEvents";
 const { logError } = createLogger("saga/pollExposureEvents");
 
 export function* pollExposureEvents(): SagaIterator {
-  yield takeLatest(appDidBecomeAvailable, onPollExposureEvents);
+  yield takeLatest(
+    [appDidBecomeAvailable, mergeEntries.fulfilled],
+    onPollExposureEvents,
+  );
 }
 
 function* onPollExposureEvents(): SagaIterator {

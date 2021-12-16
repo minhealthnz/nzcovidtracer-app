@@ -1,7 +1,10 @@
 import { expectSaga } from "redux-saga-test-plan";
 import { select } from "redux-saga-test-plan/matchers";
 
-import { updateReminderNotificationConfig } from "../commonActions";
+import {
+  cancelReminders,
+  updateReminderNotificationConfig,
+} from "../commonActions";
 import {
   ReminderNotificationConfig,
   setReminderNotificationConfig,
@@ -76,6 +79,7 @@ describe("#updateReminderConfig", () => {
   it("adds empty config, if api returns empty", async () => {
     await expectSaga(updateReminderConfig)
       .put(setReminderNotificationConfig(emptyConfig))
+      .put(cancelReminders())
       .provide([[select(selectReminderNotificationConfig), currentConfig]])
       .dispatch(updateReminderNotificationConfig(emptyConfig))
       .silentRun();
@@ -84,6 +88,7 @@ describe("#updateReminderConfig", () => {
   it("adds empty config, if api returns nothing", async () => {
     await expectSaga(updateReminderConfig)
       .put(setReminderNotificationConfig(emptyConfig))
+      .put(cancelReminders())
       .provide([[select(selectReminderNotificationConfig), currentConfig]])
       .dispatch(updateReminderNotificationConfig(undefined))
       .silentRun();

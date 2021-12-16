@@ -19,7 +19,7 @@ export interface ButtonProps {
   accessibilityRole?: "button" | "none";
 }
 
-export type ButtonColor = "black" | "green";
+export type ButtonColor = "black" | "green" | "white" | "yellow";
 
 interface ContainerProps {
   color: string;
@@ -57,6 +57,10 @@ function Button({
     switch (buttonColor) {
       case "green":
         return colors.green;
+      case "white":
+        return colors.white;
+      case "yellow":
+        return colors.yellow;
       default:
         return colors.black;
     }
@@ -67,6 +71,8 @@ function Button({
       case "black":
         return colors.white;
       case "green":
+      case "white":
+      case "yellow":
         return colors.black;
       default:
         return colors.white;

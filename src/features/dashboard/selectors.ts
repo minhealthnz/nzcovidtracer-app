@@ -35,7 +35,7 @@ export const selectTestLocationsLink = createSelector(
   (state) => state.testLocationsLink,
 );
 
-export const selectHasSeenSaveLocationsInfo = createSelector(
+export const selectHasSeenVaccinePassInfo = createSelector(
   selectState,
-  (state) => state.hasSeenSaveLocations,
+  (state) => state.hasSeenVaccinePassInfo,
 );

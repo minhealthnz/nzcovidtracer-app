@@ -17,6 +17,7 @@ import {
   TextContainer,
 } from "../components/LocationFormStyles";
 import { LocationList } from "../components/LocationList";
+import { getLocationName } from "../helper";
 import { useLocations } from "../hooks/useLocations";
 import { LocationScreen } from "../screens";
 import { Location } from "../types";
@@ -24,7 +25,7 @@ import { Location } from "../types";
 interface Props
   extends StackScreenProps<
     MainStackParamList,
-    LocationScreen.PlaceOrActivity
+    LocationScreen.PickSavedLocation
   > {}
 
 const assets = {
@@ -37,7 +38,7 @@ export function PickSavedLocation(props: Props) {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerStyle: {
-        backgroundColor: colors.white,
+        backgroundColor: colors.yellow,
         elevation: 0,
         shadowOpacity: 0,
       },
@@ -45,23 +46,28 @@ export function PickSavedLocation(props: Props) {
   }, [props.navigation]);
 
   const { t } = useTranslation();
+  const startDate = props.route.params?.startDate;
+  const setSearchValue = props.route.params?.callBack;
 
   const { locations } = useLocations({ isFavourite: true });
 
   const onPress = useCallback(
     (location: Location | string) => {
+      props.navigation.pop();
+      setSearchValue(getLocationName(location));
       props.navigation.navigate(DiaryScreen.AddEntryManually, {
         location: location,
+        startDate: startDate,
       });
     },
-    [props.navigation],
+    [props.navigation, setSearchValue, startDate],
   );
 
   return (
     <>
       <FocusAwareStatusBar
         barStyle="dark-content"
-        backgroundColor={colors.white}
+        backgroundColor={colors.yellow}
         divider={true}
       />
       {locations.length === 0 ? (

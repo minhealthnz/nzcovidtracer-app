@@ -4,14 +4,15 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 
+export interface LastScannedEntry {
+  gln?: string;
+  lastScanned?: Date;
+  id?: string;
+  type?: DiaryEntryType;
+  name?: string;
+}
 export interface NfcState {
-  lastScannedEntry: {
-    gln?: string;
-    lastScanned?: Date;
-    id?: string;
-    type?: DiaryEntryType;
-    name?: string;
-  };
+  lastScannedEntry: LastScannedEntry;
   nfcDebounce: boolean;
 }
 

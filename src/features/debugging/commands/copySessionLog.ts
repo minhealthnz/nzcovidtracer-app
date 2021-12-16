@@ -1,6 +1,6 @@
 import { getInstance } from "@logger/transports/session";
 import Clipboard from "@react-native-community/clipboard";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Alert } from "react-native";
 
 import { TestCommand } from "../testCommand";

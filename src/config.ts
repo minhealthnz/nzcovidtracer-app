@@ -8,6 +8,7 @@ export interface AppConfigRaw {
   GeneratePrivateDbEncryptionKey?: string;
   PrivateDbEncryptionKeyService?: string;
   WebAppBaseUrl?: string;
+  WebAppBaseUrlNoScheme?: string;
   ApiBaseUrl?: string;
   ApiClientIdAndroid?: string;
   ApiClientIdIOS?: string;
@@ -44,6 +45,7 @@ export interface AppConfig {
   GeneratePrivateDbEncryptionKey: boolean;
   PrivateDbEncryptionKeyService: string;
   WebAppBaseUrl: string;
+  WebAppBaseUrlNoScheme: string;
   ApiBaseUrl: string;
   ApiClientIdAndroid: string;
   ApiClientIdIOS: string;
@@ -150,6 +152,7 @@ const config: AppConfig = {
     raw.PrivateDbEncryptionKeyService ||
     "unite-app-react-native-private-db-key",
   WebAppBaseUrl: raw.WebAppBaseUrl || "",
+  WebAppBaseUrlNoScheme: raw.WebAppBaseUrlNoScheme || "",
   ApiBaseUrl: raw.ApiBaseUrl || "",
   ExposureEventsBaseUrl: raw.ExposureEventsBaseUrl || "",
   ApiClientIdAndroid: raw.ApiClientIdAndroid || "",

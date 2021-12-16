@@ -60,6 +60,9 @@ const slice = createSlice({
     ) {
       state.config = payload;
     },
+    clearScheduledInAppReminders(state) {
+      state.scheduledInAppReminders = [];
+    },
     setScheduledInAppReminders(
       state,
       { payload }: PayloadAction<InAppReminder[]>,
@@ -88,6 +91,7 @@ const { reducer, actions } = slice;
 
 export const {
   setReminderNotificationConfig,
+  clearScheduledInAppReminders,
   setScheduledInAppReminders,
   setCurrentlyDisplayedInAppReminder,
   dismissInAppReminder,

@@ -1,6 +1,8 @@
 import { fontFamilies } from "@constants";
+import { selectAppState } from "@features/device/selectors";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, useWindowDimensions } from "react-native";
+import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 const AnimationDuration = 10000;
@@ -35,6 +37,7 @@ export function EasterEggOverlay(props: EasterEggOverlayProps) {
   const { width, height } = useWindowDimensions();
   const wasVisible = useRef(false);
   const { visible, onFinish, emojis } = props;
+  const appState = useSelector(selectAppState);
 
   const emojiAnimations = useMemo(() => {
     const animations: Animated.Value[] = [];
@@ -120,6 +123,9 @@ export function EasterEggOverlay(props: EasterEggOverlayProps) {
     }
     return undefined;
   }, [visible, startAnimation]);
+  if (appState !== "active") {
+    return null;
+  }
   return (
     <FullscreenView pointerEvents="none">
       {renderEmojis(emojis.length > 0 ? emojis : fallbackEmojis)}

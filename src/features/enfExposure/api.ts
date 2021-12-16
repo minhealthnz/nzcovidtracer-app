@@ -1,5 +1,6 @@
 import { ReminderNotificationConfig } from "@features/reminder/reducer";
 import { validateReminderNotificationConfig } from "@features/reminder/util/validateReminderConfig";
+import { isIOS } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
 import Axios, { AxiosResponse } from "axios";
 import _ from "lodash";
@@ -29,12 +30,17 @@ export interface Announcement {
   deepLink?: string;
 }
 
+interface VaccinePassDisabledSettingType {
+  android?: boolean;
+  ios?: boolean;
+}
 export interface ENFNotificationSettingsRaw {
   testLocationsLink: string;
   announcements?: unknown;
   configurations: ENFNotificationRiskBucketsConfig;
   callbackEnabled?: boolean;
   reminderNotificationConfig?: ReminderNotificationConfig;
+  vaccinePassLinkDisabled: VaccinePassDisabledSettingType;
 }
 
 export interface ENFNotificationSettings {
@@ -43,6 +49,7 @@ export interface ENFNotificationSettings {
   configurations: ENFNotificationRiskBucketsConfig;
   callbackEnabled?: boolean;
   reminderNotificationConfig?: ReminderNotificationConfig;
+  vaccinePassDisabled: boolean;
 }
 
 const announcementSchema = yup.object<Announcement>().shape({
@@ -74,6 +81,7 @@ export async function getENFNotificationConfig(): Promise<
     reminderNotificationConfig: validateReminderNotificationConfig(
       raw.reminderNotificationConfig,
     ),
+    vaccinePassDisabled: parseVaccinePassDisabled(raw?.vaccinePassLinkDisabled),
   };
   return result;
 }
@@ -84,5 +92,15 @@ export const parseAnnouncement = (payload: unknown) => {
   } catch (err) {
     logError("Failed to parse announcements");
     return [];
+  }
+};
+
+const parseVaccinePassDisabled = (
+  payload: VaccinePassDisabledSettingType,
+): boolean => {
+  try {
+    return !!(payload && payload[isIOS ? "ios" : "android"]);
+  } catch (err) {
+    return false;
   }
 };

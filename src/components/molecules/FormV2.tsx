@@ -12,6 +12,7 @@ import {
 import { selectIsReduceMotionEnabled } from "@features/device/selectors";
 import { useToast } from "@hooks/useToast";
 import { useHeaderHeight } from "@react-navigation/stack";
+import { isNil } from "lodash";
 import React, {
   createContext,
   forwardRef,
@@ -54,6 +55,12 @@ const Container = styled.ScrollView<{ backgroundColor?: string }>`
   flex: 1;
 `;
 
+export const Step = styled(Text)`
+  font-family: ${fontFamilies["open-sans-semi-bold"]};
+  color: ${colors.primaryGray};
+  font-size: ${fontSizes.small}px;
+`;
+
 export const Heading = styled(Text)`
   font-family: ${fontFamilies["baloo-semi-bold"]};
   font-size: ${fontSizes.xxLarge}px;
@@ -73,10 +80,17 @@ export const Description = styled(Text)`
 const ContentContainer = styled.View<{
   padding?: number;
   paddingBottom?: number;
+  paddingTop?: number;
 }>`
   padding: ${(props) => props.padding ?? grid3x}px;
   padding-bottom: ${(props) =>
     props.paddingBottom ? props.paddingBottom : 0}px;
+  padding-top: ${(props) =>
+    !isNil(props.paddingTop)
+      ? props.paddingTop
+      : !isNil(props.padding)
+      ? props.padding
+      : grid3x}px;
   flex: 1;
 `;
 
@@ -107,6 +121,7 @@ export const ButtonContainer = styled.View<{
 export interface FormV2Props extends FormHeaderProps {
   children?: React.ReactNode;
   heading?: string;
+  step?: string;
   headerImageAccessibilityLabel?: string;
   headerImageStyle?: ImageStyle;
   headingStyle?: TextStyle;
@@ -127,6 +142,7 @@ export interface FormV2Props extends FormHeaderProps {
   removePaddingWhenKeyboardShown?: boolean;
   backgroundColor?: string;
   padding?: number;
+  paddingTop?: number;
   bannerText?: string;
   bannerColor?: string;
   bannerTextColor?: string;
@@ -179,6 +195,7 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
     headerImageAccessibilityLabel,
     headerImageStyle,
     heading,
+    step,
     headingStyle,
     description,
     descriptionStyle,
@@ -231,7 +248,7 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
     setKeyboardShown(true);
   }, []);
 
-  const [toastError, setToastError] = useToast();
+  const [toastMessage, setToastMessage] = useToast();
 
   const bannerRef = useRef<View | null>(null);
 
@@ -242,10 +259,10 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
     scrollTo,
     getHeight,
     showToast: (message) => {
-      setToastError(message);
+      setToastMessage(message);
     },
     hideToast() {
-      setToastError(undefined);
+      setToastMessage(undefined);
     },
     accessibilityFocusOnBanner() {
       const handle = findNodeHandle(bannerRef.current);
@@ -416,7 +433,7 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
       keyboardVerticalOffset={navHeaderHeight}
       backgroundColor={props.backgroundColor}
     >
-      {!!toastError && <Toast text={toastError} />}
+      {!!toastMessage && <Toast text={toastMessage} />}
       <Container
         keyboardShouldPersistTaps="handled"
         ref={scrollViewRef}
@@ -453,7 +470,9 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
           <ContentContainer
             padding={props.padding}
             paddingBottom={isReduceMotionEnabled ? keyboardHeight : undefined}
+            paddingTop={props.paddingTop}
           >
+            {!!step && <Step>{step}</Step>}
             {!!heading && <Heading style={headingStyle}>{heading}</Heading>}
             {!!description && (
               <Description style={descriptionStyle}>{description}</Description>

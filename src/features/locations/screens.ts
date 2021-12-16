@@ -17,8 +17,11 @@ export type LocationScreenParams = {
   [LocationScreen.SavedLocations]: undefined;
   [LocationScreen.SaveNewLocation]: undefined;
   [LocationScreen.SaveNewLocationEmpty]: undefined;
-  [LocationScreen.PlaceOrActivity]: {
-    name?: string;
+  [LocationScreen.PlaceOrActivity]:
+    | { name?: string; startDate?: number }
+    | undefined;
+  [LocationScreen.PickSavedLocation]: {
+    startDate?: number;
+    callBack: (name: string) => void;
   };
-  [LocationScreen.PickSavedLocation]: undefined;
 };

@@ -5,7 +5,7 @@ import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 const assets = {
@@ -17,6 +17,13 @@ export interface DiarySharedProps
 
 export function DiaryShared(props: DiarySharedProps) {
   const { t } = useTranslation();
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      gestureEnabled: false,
+      headerLeft: () => null,
+    });
+  }, [props.navigation]);
 
   const onDonePress = () => {
     props.navigation.popToTop();

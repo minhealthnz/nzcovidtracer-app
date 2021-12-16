@@ -88,7 +88,9 @@ export const strings = {
         button: "Share",
         buttonAccessibilityLabel: "Share my Bluetooth tracing codes",
         inputLabel: "Data request code",
-        inputInfo: "Enter the code texted to you by a Contact Tracer",
+        inputInfo: "Enter the code given to you by a Contact Tracer",
+        tip:
+          "You can only share your Bluetooth tracing codes if you were contacted by a Contact Tracer.",
         errors: {
           code: {
             invalid: "Incorrect code. Check your code and try again",

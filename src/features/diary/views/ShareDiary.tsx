@@ -1,25 +1,13 @@
-import { InputGroup, TextInput, VerticalSpacing } from "@components/atoms";
-import { presets } from "@components/atoms/TextInput";
+import { VerticalSpacing } from "@components/atoms";
 import { Tip, TipText } from "@components/atoms/Tip";
-import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
-import { InputGroupRef } from "@components/molecules/InputGroup";
+import { Description, FormV2 } from "@components/molecules/FormV2";
 import { colors } from "@constants";
-import { navigationMaxDuration } from "@navigation/constants";
-import { debounce } from "@navigation/debounce";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
-import { useBackButton } from "@navigation/hooks/useBackButton";
 import { StackScreenProps } from "@react-navigation/stack";
-import { nanoid } from "@reduxjs/toolkit";
-import { dataRequestCodeValidation } from "@validations/validations";
 import { MainStackParamList } from "@views/MainStack";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
-import { Keyboard } from "react-native";
-import { useDispatch } from "react-redux";
-import * as yup from "yup";
 
-import { useShareDiaryRequest } from "../hooks/useShareDiaryRequest";
-import { shareDiary } from "../reducer";
 import { DiaryScreen } from "../screens";
 
 const assets = {
@@ -29,115 +17,29 @@ const assets = {
 export interface ShareDiaryProps
   extends StackScreenProps<MainStackParamList, DiaryScreen.ShareDiary> {}
 
-const schema = yup.object().shape({
-  dataRequestCode: dataRequestCodeValidation,
-});
-
 export function ShareDiary(props: ShareDiaryProps) {
   const { t } = useTranslation();
-
-  const dispatch = useDispatch();
-  const [requestId] = useState<string>(nanoid());
-  const shareDiaryRequest = useShareDiaryRequest(requestId);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    if (!shareDiaryRequest?.fulfilled) {
-      return;
-    }
-
-    props.navigation.replace(DiaryScreen.DiaryShared);
-
-    const handle = setTimeout(() => {
-      setIsLoading(false);
-    }, navigationMaxDuration);
-
-    return () => clearTimeout(handle);
-  }, [shareDiaryRequest, props.navigation]);
-
-  const formRef = useRef<FormV2Handle | null>(null);
-
-  useEffect(() => {
-    if (shareDiaryRequest?.error) {
-      if (shareDiaryRequest.error.isToast) {
-        formRef.current?.showToast(t(shareDiaryRequest.error.message));
-      } else {
-        setCodeError(t(shareDiaryRequest.error.message));
-      }
-      setIsLoading(false);
-    }
-  }, [shareDiaryRequest, t]);
-
-  const handleBackPressed = () => {
-    return isLoading;
-  };
-
-  useBackButton(props.navigation, { handleBackPressed });
-
-  const onSharePress = debounce(() => {
-    Keyboard.dismiss();
-
-    cleanErrors();
-    schema
-      .validate({ dataRequestCode })
-      .then(() => {
-        setIsLoading(true);
-        dispatch(
-          shareDiary({
-            requestId,
-            code: dataRequestCode,
-          }),
-        );
-      })
-      .catch((error: yup.ValidationError) => {
-        if (error.message) {
-          setCodeError(t(error.message));
-          inputGroupRef.current?.focusError("dataRequestCode");
-        }
-      });
-  });
-
-  const [dataRequestCode, setDataRequestCode] = useState("");
-  const [codeError, setCodeError] = useState("");
-
-  const cleanErrors = () => {
-    setCodeError("");
-    formRef.current?.hideToast();
-  };
-
   useAccessibleTitle();
 
-  const inputGroupRef = useRef<InputGroupRef | null>(null);
+  const onContinue = () => {
+    props.navigation.navigate(DiaryScreen.ShareDiaryList);
+  };
 
   return (
     <FormV2
-      ref={formRef}
       headerImage={assets.headerImage}
       heading={t("screens:shareDiary:title")}
       description={t("screens:shareDiary:description")}
-      onButtonPress={onSharePress}
-      buttonText={t("screens:shareDiary:share")}
-      buttonLoading={isLoading}
-      keyboardAvoiding={true}
+      buttonTestID="shareDiary:continue"
+      onButtonPress={onContinue}
+      buttonText={t("screens:shareDiary:continue")}
+      snapButtonsToBottom
     >
       <Tip backgroundColor={colors.lightYellow}>
         <TipText>{t("screens:shareDiary:tip")}</TipText>
       </Tip>
       <VerticalSpacing height={30} />
-      <InputGroup ref={inputGroupRef}>
-        <TextInput
-          {...presets.alphaNumericCode}
-          identifier="dataRequestCode"
-          testID="shareDiary:dataRequestCode"
-          label={t("screens:shareDiary:dataRequestCode")}
-          value={dataRequestCode}
-          onChangeText={(value: string) => setDataRequestCode(value.trim())}
-          required="required"
-          errorMessage={codeError}
-          clearErrorMessage={() => setCodeError("")}
-          info={t("screens:shareDiary:dataRequestCodeInfo")}
-          onSubmitEditing={onSharePress}
-        />
-      </InputGroup>
+      <Description>{t("screens:shareDiary:subText")}</Description>
     </FormV2>
   );
 }

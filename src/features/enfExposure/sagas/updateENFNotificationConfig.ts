@@ -1,3 +1,4 @@
+import { setPassDisabled } from "@features/device/reducer";
 import { updateReminderNotificationConfig } from "@features/reminder/commonActions";
 import { createLogger } from "@logger/createLogger";
 import { SagaIterator } from "redux-saga";
@@ -21,6 +22,7 @@ export default function* updateENFNotificationConfig(): SagaIterator {
       updateReminderNotificationConfig(response.reminderNotificationConfig),
     );
     yield put(retrievedSettings(response));
+    yield put(setPassDisabled(response.vaccinePassDisabled || false));
   } catch (error) {
     logInfo(error);
   }

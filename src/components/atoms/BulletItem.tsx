@@ -16,6 +16,7 @@ const BulletText = styled(View)`
 
 const Bullet = styled(Text)`
   padding-right: 8px;
+  padding-top: 3px;
   font-size: ${fontSizes.normal}px;
 `;
 

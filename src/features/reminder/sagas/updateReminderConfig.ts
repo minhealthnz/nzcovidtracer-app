@@ -32,7 +32,7 @@ function* onUpdateReminderConfig({
         notifications: [],
       }),
     );
-    yield put(cancelReminders);
+    yield put(cancelReminders());
     return;
   }
 

@@ -28,6 +28,8 @@ export interface DeviceState {
   currentDate: number;
   internetReachable: boolean | null;
   shouldSubscribeToAnnouncementsByDefault: boolean;
+  passUrl: string | null;
+  passDisabled: boolean;
 }
 
 const initialState: DeviceState = {
@@ -41,6 +43,8 @@ const initialState: DeviceState = {
   internetReachable: null,
   isReduceMotionEnabled: false,
   shouldSubscribeToAnnouncementsByDefault: true,
+  passUrl: null,
+  passDisabled: false,
 };
 
 const persistConfig = {
@@ -135,6 +139,12 @@ const deviceSlice = createSlice({
     ) {
       state.shouldSubscribeToAnnouncementsByDefault = payload;
     },
+    setPassUrl(state, { payload }: PayloadAction<string | null>) {
+      state.passUrl = payload;
+    },
+    setPassDisabled(state, { payload }: PayloadAction<boolean>) {
+      state.passDisabled = payload;
+    },
   },
   extraReducers: {},
 });
@@ -145,6 +155,8 @@ export const {
   setNotificationPermission,
   setCameraPermision,
   setAppState,
+  setPassUrl,
+  setPassDisabled,
   subscriptionFulfilled,
   subscriptionRemoved,
   subscriptionRejected,

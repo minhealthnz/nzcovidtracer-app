@@ -73,6 +73,20 @@ target 'UniteAppRN' do
         }
       end
     end
+
+    #Workaround for Xcode 12 and Auto-Linking
+    installer.pods_project.targets.each do |target|
+      if ['RNSecureKeyStore', 'react-native-splash-screen', 'RNSecureRandom', 'react-native-safe-area-context', 'RNScreens', 'react-native-exposure-notification-service', 'RNKeychain', 'RNIOS11DeviceCheck', 'RNReanimated', 'covidtracer-migration', 'RNDateTimePicker', 'RNBluetoothStateManager', 'RNCMaskedView', 'RNCPushNotificationIOS', 'RealmJS', 'RNGestureHandler', 'RNCAsyncStorage', 'react-native-config', 'React-RCTText'].include?(target.name) #list all affected target in the array
+        target.build_phases.each do |build_phases|
+          if build_phases.display_name == 'Frameworks'
+            file_ref = installer.pods_project.new(Xcodeproj::Project::Object::PBXFileReference)
+            file_ref.path = 'React.framework'
+            file_ref.source_tree = 'BUILT_PRODUCTS_DIR'
+            build_phases.add_file_reference(file_ref)
+          end
+        end
+      end
+    end
   end
 
   permissions_path = '../node_modules/react-native-permissions/ios'

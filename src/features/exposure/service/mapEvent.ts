@@ -1,5 +1,5 @@
 import { createLogger } from "@logger/createLogger";
-import moment from "moment";
+import moment from "moment-timezone";
 
 import { ensureString } from "./ensureString";
 import { ExposureEvent } from "./types";

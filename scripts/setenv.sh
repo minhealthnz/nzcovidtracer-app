@@ -7,6 +7,7 @@ echo "DbEncryptionKey=${DbEncryptionKey}" >>.env
 echo "GeneratePrivateDbEncryptionKey=${GeneratePrivateDbEncryptionKey}" >>.env
 echo "PrivateDbEncryptionKeyService=${PrivateDbEncryptionKeyService}" >>.env
 echo "WebAppBaseUrl=${WebAppBaseUrl}" >>.env
+echo "WebAppBaseUrlNoScheme=${WebAppBaseUrlNoScheme}" >>.env
 echo "HelpPageUrl=${HelpPageUrl}" >>.env
 echo "AboutBluetoothLink=${AboutBluetoothLink}" >>.env
 echo "ContactUsPageUrl=${ContactUsPageUrl}" >>.env

@@ -6,7 +6,7 @@ import { retrievedSettings } from "@features/enfExposure/commonActions";
 import { createLogger } from "@logger/createLogger";
 import AsyncStorage from "@react-native-community/async-storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import moment from "moment";
+import moment from "moment-timezone";
 import { persistReducer } from "redux-persist";
 
 export interface Announcement {

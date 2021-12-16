@@ -4,6 +4,7 @@ import { ExposureProvider } from "@features/enf/components/ExposureProvider";
 import { createPersistor, createStore } from "@lib/reduxStore";
 import { NavigationContainer } from "@navigation/NavigationContainer";
 import { ModalStack } from "@views/ModalStack";
+import moment from "moment-timezone";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -11,6 +12,8 @@ import { Provider } from "react-redux";
 import { Store } from "redux";
 import { Persistor } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+
+moment.tz.setDefault("Pacific/Auckland");
 
 export function App() {
   const [hasStore, setHasStore] = useState(false);

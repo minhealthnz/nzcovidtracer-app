@@ -36,8 +36,8 @@ import { recordAnalyticEvent } from "../../../analytics";
 import { DashboardBluetoothStatus } from "../components/DashboardBlueToothStatus";
 import { DashboardFooter } from "../components/DashboardFooter";
 import { DashboardItemSeparator } from "../components/DashboardItemSeparator";
-import { DashboardSaveLocationsInfo } from "../components/DashboardSaveLocationsInfo";
-import { selectHasSeenSaveLocationsInfo } from "../selectors";
+import { DashboardVaccinePassInfo } from "../components/DashboardVaccinePassInfo";
+import { selectHasSeenVaccinePassInfo } from "../selectors";
 import { DashboardItem } from "../types";
 
 const SectionFooter = styled(Text)`
@@ -88,7 +88,7 @@ const _DashboardList = (props: Props) => {
 
   const hasInAppReminder = useSelector(selectHasInAppReminder);
 
-  const hasSeenSaveLocationInfo = useSelector(selectHasSeenSaveLocationsInfo);
+  const hasSeenVaccinePassInfo = useSelector(selectHasSeenVaccinePassInfo);
 
   const sections = useMemo(() => {
     const notificationsCard: DashboardItem | undefined =
@@ -122,14 +122,14 @@ const _DashboardList = (props: Props) => {
         ]
       : [];
 
-    const infoItems = !hasSeenSaveLocationInfo
+    const infoItems = !hasSeenVaccinePassInfo
       ? [
           {
             title: t("screens:dashboard:sections:whatsNew"),
             data:
-              hasSeenSaveLocationInfo == null
+              hasSeenVaccinePassInfo == null
                 ? []
-                : ["saveLocationInfo" as const],
+                : ["vaccinePassInfo" as const],
           },
         ]
       : [];
@@ -183,7 +183,7 @@ const _DashboardList = (props: Props) => {
     doubleExposure,
     statsSection,
     announcement,
-    hasSeenSaveLocationInfo,
+    hasSeenVaccinePassInfo,
     hasInAppReminder,
   ]);
 
@@ -247,8 +247,8 @@ const _DashboardList = (props: Props) => {
       return <DashboardBluetoothStatus />;
     }
 
-    if (item === "saveLocationInfo") {
-      return <DashboardSaveLocationsInfo />;
+    if (item === "vaccinePassInfo") {
+      return <DashboardVaccinePassInfo />;
     }
 
     if (item === "reminder") {

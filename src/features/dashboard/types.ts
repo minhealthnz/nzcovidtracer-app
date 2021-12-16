@@ -47,7 +47,7 @@ export type DashboardItem =
   | "announcement"
   | "diaryPercentage"
   | "bluetoothStatus"
-  | "saveLocationInfo"
+  | "vaccinePassInfo"
   | "reminder"
   | undefined
   | false;

@@ -1,10 +1,12 @@
 import {
+  Button,
   InputGroup,
   Text,
   TextInput,
   VerticalSpacing,
 } from "@components/atoms";
 import { FocusAwareStatusBar } from "@components/atoms/FocusAwareStatusBar";
+import { Card } from "@components/molecules/Card";
 import { Description, FormV2, Heading } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
 import {
@@ -15,10 +17,12 @@ import {
   grid2x,
   grid3x,
 } from "@constants";
+import { selectPassDisabled, selectPassUrl } from "@features/device/selectors";
 import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
 import { EditDiaryEntry, editEntry } from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectCountActiveDays } from "@features/diary/selectors";
+import { EntryPassAnalyticsType } from "@features/diary/types";
 import { addFavourite } from "@features/locations/actions/addFavourite";
 import { removeFavourite } from "@features/locations/actions/removeFavourite";
 import { SaveLocationButton } from "@features/locations/components/SaveLocationButton";
@@ -26,6 +30,7 @@ import { LocationScreen } from "@features/locations/screens";
 import { selectHasSeenLocationOnboarding } from "@features/locations/selectors";
 import { selectLastScannedEntry } from "@features/nfc/selectors";
 import useEntry from "@hooks/diary/useEntry";
+import { isAndroid, isIOS } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
@@ -33,7 +38,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { detailsValidation } from "@validations/validations";
 import { MainStackParamList } from "@views/MainStack";
 import { TabScreen } from "@views/screens";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, {
   useCallback,
   useEffect,
@@ -43,7 +48,7 @@ import React, {
 } from "react";
 import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Keyboard, StyleSheet, View } from "react-native";
+import { Image, Keyboard, Linking, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 import { useDebouncedCallback } from "use-debounce";
@@ -113,13 +118,13 @@ const schema = yup.object().shape({
 const assets = {
   successTick: require("@assets/icons/success-tick.png"),
   warning: require("@assets/icons/warning.png"),
+  pass: require("@assets/icons/vaccine-pass.png"),
 };
 
 interface Props
   extends StackScreenProps<MainStackParamList, ScanScreen.Recorded> {}
 
 export function VisitRecordedScreen(props: Props) {
-  type eventAnalyticEntryType = "manual" | "scan" | "nfc" | "manualWithoutGln";
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [details, setDetails] = useState<string>();
@@ -134,13 +139,17 @@ export function VisitRecordedScreen(props: Props) {
     diaryEntry.details || t("screens:visitRecorded:notProvided");
 
   const canEditDetails =
-    (diaryEntry.type === "scan" || diaryEntry.type === "nfc") &&
+    (diaryEntry.type === "scan" ||
+      diaryEntry.type === "nfc" ||
+      diaryEntry.type === "link") &&
     !nfcDebounce &&
     !manualEntry;
 
   const numberOfDiaryEntries = useSelector(selectCountActiveDays);
   const totalEntryDay = 14;
   const lastScannedEntry = useSelector(selectLastScannedEntry);
+  const passUrl = useSelector(selectPassUrl);
+  const passDisabled = useSelector(selectPassDisabled);
 
   const hasSeenLocationOnboarding = useSelector(
     selectHasSeenLocationOnboarding,
@@ -220,19 +229,19 @@ export function VisitRecordedScreen(props: Props) {
     }, [numberOfDiaryEntries]),
   );
 
-  const eventAnalyticEntryType: eventAnalyticEntryType = useMemo(() => {
+  const eventAnalyticEntry: EntryPassAnalyticsType = useMemo(() => {
     if (!!diaryEntry.globalLocationNumber && manualEntry) {
       return "manual";
-    }
-    if (
+    } else if (
       !!diaryEntry.globalLocationNumber &&
       !manualEntry &&
       diaryEntry.type === "scan"
     ) {
       return "scan";
-    }
-    if (diaryEntry.type === "nfc") {
+    } else if (diaryEntry.type === "nfc") {
       return "nfc";
+    } else if (diaryEntry.type === "link") {
+      return "link";
     } else {
       return "manualWithoutGln";
     }
@@ -240,13 +249,14 @@ export function VisitRecordedScreen(props: Props) {
 
   useFocusEffect(
     useCallback(() => {
-      switch (eventAnalyticEntryType) {
+      switch (eventAnalyticEntry) {
         case "scan":
         case "nfc":
         case "manual":
+        case "link":
           recordAnalyticEvent(AnalyticsEvent.EntryPass, {
             attributes: {
-              entryType: eventAnalyticEntryType,
+              entryType: eventAnalyticEntry,
             },
           });
           break;
@@ -254,7 +264,7 @@ export function VisitRecordedScreen(props: Props) {
           recordAnalyticEvent(AnalyticsEvent.EntryPassManual);
           break;
       }
-    }, [eventAnalyticEntryType]),
+    }, [eventAnalyticEntry]),
   );
 
   useAccessibleTitle();
@@ -296,7 +306,6 @@ export function VisitRecordedScreen(props: Props) {
         diaryEntry: diaryEntry,
         hasSeenLocationOnboarding: hasSeenLocationOnboarding,
       });
-      return;
     } else {
       if (diaryEntry.isFavourite) {
         dispatch(
@@ -314,16 +323,60 @@ export function VisitRecordedScreen(props: Props) {
     }
   }, [dispatch, diaryEntry, hasSeenLocationOnboarding, props.navigation]);
 
+  const renderButtonHeader = useMemo(() => {
+    if (!passDisabled && (isAndroid || passUrl)) {
+      const description = t(
+        `screens:visitRecorded:${isIOS ? "openInAppleWallet" : "openGPay"}`,
+      );
+      return (
+        <Card
+          maxFontSizeMultiplier={1.5}
+          isLink={true}
+          title={t("screens:visitRecorded:viewPass")}
+          description={description}
+          headerImage={assets.pass}
+          onPress={() => {
+            recordAnalyticEvent(AnalyticsEvent.WalletOpen);
+            Linking.openURL(
+              isIOS
+                ? passUrl
+                  ? passUrl
+                  : "shoebox://"
+                : "https://pay.app.goo.gl/gettheapp-au",
+            );
+          }}
+          accessibilityLabel={`${description} ${t(
+            "screens:visitRecorded:viewPass",
+          )}`}
+          accessibilityHint={t("screens:visitRecorded:viewPassHint")}
+        />
+      );
+    }
+
+    return null;
+  }, [passDisabled, passUrl, t]);
+
+  const renderButton = useCallback(() => {
+    return (
+      <>
+        {renderButtonHeader}
+        <Button
+          testID="visitRecorded:done"
+          text={t("screens:visitRecorded:doneButton")}
+          onPress={handleDonePress}
+          accessibilityHint={t("screens:visitRecorded:doneHint")}
+        />
+      </>
+    );
+  }, [handleDonePress, renderButtonHeader, t]);
+
   if (diaryEntry == null) {
     return null;
   }
 
   return (
     <FormV2
-      buttonText={t("screens:visitRecorded:doneButton")}
-      buttonAccessibilityHint={t("screens:visitRecorded:doneHint")}
-      buttonTestID="visitRecorded:done"
-      onButtonPress={handleDonePress}
+      renderButton={renderButton}
       keyboardAvoiding={true}
       backgroundColor={colors.lightGrey}
       padding={0}
@@ -381,7 +434,7 @@ export function VisitRecordedScreen(props: Props) {
         {manualEntry && (
           <>
             <Divider />
-            <ManualDetailsTitle>Details</ManualDetailsTitle>
+            <ManualDetailsTitle>Note</ManualDetailsTitle>
             <ManualDetailsText
               fontFamily={diaryEntry.details ? "open-sans" : "open-sans-italic"}
             >
@@ -408,5 +461,9 @@ export function VisitRecordedScreen(props: Props) {
 const styles = StyleSheet.create({
   infoText: {
     color: colors.primaryBlack,
+  },
+  modalView: {
+    margin: 0,
+    justifyContent: "flex-end",
   },
 });

@@ -64,8 +64,14 @@ const strings = {
           "Your digital diary is kept only on your phone. Entries older than 60 days are automatically deleted.",
       },
       diaryEntryListItem: {
-        locationAccessibilityLabel: "Location alert from diary entry match",
+        locationAccessibilityLabel: "Location alert from diary entry match.",
         locationAccessibilityHint: "Tap to view entry",
+        doubleTapSelect: "Double tap to select",
+        doubleTapUnselect: "Double tap to unselect",
+        selected: "Selected ",
+        diaryEntry: "{selected}{type} diary entry",
+        scan: "Scanned Location",
+        manual: "Manual",
       },
       diaryPercentage: {
         topText: "COMPLETE YOUR DIARY",
@@ -77,9 +83,21 @@ const strings = {
         tip:
           "It is useful to fill out past days in your diary, including days you stayed home.",
       },
+      actionSheet: {
+        cardAccessibilityHint: "{0} of {1} in list.",
+        titleAccessibilityHint:
+          "Please swipe right to see the available options",
+      },
+      linkScan: {
+        invalidCommonTitle: "We couldn't add a diary entry",
+        invalidNFCMessage: "This is not an official NZ COVID Tracer NFC tag",
+        invalidLinkMessage:
+          "This link you've tapped is not an official NZ COVID Tracer location link",
+      },
     },
     screens: {
       diary: {
+        importingDiary: "Importing diary...",
         noEntries: "No entries",
         addManualEntry: "Add diary entry",
         addManualEntryAccessibilityLabel: "Add a manual entry for this date.",
@@ -88,6 +106,28 @@ const strings = {
         addEntry: "Add diary entry",
         addAnother: "Add diary entry",
         oldDiaryText: "Diary entries older than 14 days:",
+        options: "Options",
+        optionsAccessibilityHint: "Double tap to open an action sheet",
+        exportAlertTitle: "Export your digital diary",
+        exportAlertBody:
+          "This will save your diary into a file so that you can back it up or transfer it to a new phone. Make sure that you save it somewhere safe and secure.",
+        export: "Export",
+        cancel: "Cancel",
+        exportDiary: "Export this diary",
+        importDiary: "Import another diary",
+        diaryOptions: "Diary options",
+        transferDiary: "Transfer diary",
+        saveYourDiary:
+          "Save your diary as a file that you can share, so that you can transfer your entries to a different device",
+        transferEntries:
+          "Transfer entries from another device from an exported diary file and merge them into your current diary",
+        tracerCalls: "If a Contact Tracer calls",
+        shareDiary: "Share my diary",
+        helpTracers: "Help contact tracers understand where you've been",
+        invalidFileType:
+          "Could not import this file type. Make sure you’ve selected a diary file (.diary)",
+        invalidFileContent:
+          "Could not import this file. Make sure you’ve selected a valid file",
       },
       diaryEntry: {
         bannerTitle:
@@ -98,7 +138,7 @@ const strings = {
         dateTime: "Date & time",
         address: "Address",
         gln: "Global location number",
-        details: "Details",
+        details: "Note",
         edit: "Edit",
         delete: "Delete entry",
         deleteModal: {
@@ -113,7 +153,7 @@ const strings = {
         dateTime: "Date & time",
         address: "Address",
         gln: "Global location number",
-        details: "Details",
+        details: "Note",
         save: "Save changes",
         disclaimer:
           "Describing who you were with and what you were doing can help Contact Tracers.",
@@ -125,29 +165,22 @@ const strings = {
       },
       addManualDiaryEntry: {
         placeOrActivity: "Place or activity",
-        placeOrActivityAccessibilityLabel:
-          "‘{{locationType}} Edit box ‘{{locationName}}’. Double tap to edit, editing options available.",
-        PlaceOrActivityAccessibilityHint:
-          "Navigates to a new page to edit and to search location options",
+        change: "Change",
+        locationConfirmationAccessibilityLabel:
+          "‘{{locationType}} ‘{{locationName}}’",
         address: "Address",
         gln: "Global location number",
+        addANote: "Note",
         details: "Details",
         save: "Add entry",
         placeOrActivityDisclaimer:
           "Select a previous location or type a new one.",
+        timeInNZT: "New Zealand Standard Time (NZST)",
         disclaimer:
           "Describing who you were with and what you were doing can help Contact Tracers.",
         datePicker: "Arrival date & time",
-      },
-      shareDiary: {
-        title: "Share my digital diary",
-        description:
-          "This will share your digital diary for the past 60 days with Contact Tracers.",
-        dataRequestCode: "Data request code",
-        dataRequestCodeInfo: "Enter the code given to you by a Contact Tracer",
-        share: "Share",
-        tip:
-          "If you’ve been talking to a contact tracer, you can choose to share your digital diary to help make contact tracing easier. It is not compulsory. \n\nThis will upload the locations, times and notes in your diary to the National Contact Tracing Solution. The information will be treated as part of your medical record. \n\nYou can only share your diary if you are a confirmed or probable case of COVID-19.",
+        stepTwoOfTwo: "Step 2 of 2",
+        whenAndHowHappened: "When and how did it happen?",
       },
     },
     validations: {
@@ -202,7 +235,7 @@ const strings = {
           "Last name must only include letters a to z, hyphens, spaces and apostrophes",
       },
       dataRequestCode: {
-        required: "Enter the data request code",
+        required: "Enter the diary upload code",
         invalidFormat: "The code should contain 6 characters",
       },
       enfRequestCode: {
@@ -227,6 +260,7 @@ const strings = {
         "A network error occured. Check your internet connection and try again.",
       dataRequestCode: {
         incorrectCode: "Incorrect code. Check your code and try again",
+        atleast1Item: "You must select at least one item to share",
         network:
           "Something went wrong. Check your code and network connection and try again.",
       },

@@ -1,7 +1,13 @@
 import { CheckInItemMatch } from "@db/entities/checkInItemMatch";
 import { SerializedError } from "@reduxjs/toolkit";
 
-export type DiaryEntryType = "scan" | "manual" | "nfc";
+export type DiaryEntryType = "scan" | "manual" | "nfc" | "link";
+export type EntryPassAnalyticsType =
+  | "scan"
+  | "manual"
+  | "nfc"
+  | "link"
+  | "manualWithoutGln";
 
 export interface DiaryEntry {
   id: string;
@@ -16,10 +22,22 @@ export interface DiaryEntry {
   type: DiaryEntryType;
   updatedAt?: number;
   isRisky?: boolean;
+  isChecked?: boolean;
   bannerTitle?: string;
   bannerBody?: string;
   isFavourite: boolean;
   locationId: string;
+}
+
+export interface ExportDiaryEntry {
+  id: string;
+  startDate: number;
+  name: string;
+  address?: string;
+  globalLocationNumber?: string;
+  details?: string;
+  type: DiaryEntryType;
+  isFavourite: boolean;
 }
 
 export interface DiaryPaginationSession {
@@ -32,6 +50,13 @@ export interface ErrorState {
   message: string;
   isToast?: boolean;
 }
+
+export interface MergeEntryStatus {
+  status: "idle" | "loading" | "succeeded" | "failed";
+  message?: string;
+}
+
+export type MergeEntryError = "InvalidFileType" | "InvalidFileContent";
 
 export interface DiaryState {
   byId: { [id: string]: DiaryEntry };
@@ -68,6 +93,7 @@ export interface DiaryState {
     insertError: boolean;
   };
   matches: { [gln: string]: CheckInItemMatch[] };
+  mergeEntryStatus: MergeEntryStatus;
 }
 
 export const errors = {

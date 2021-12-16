@@ -1,47 +1,32 @@
-import { CheckInItem, CheckInItemType } from "@db/entities/checkInItem";
-import { getLocationType } from "@db/getLocationType";
-import { hashLocationNumber } from "@db/hashLocationNumber";
 import { nanoid } from "@reduxjs/toolkit";
 import { expectSaga } from "redux-saga-test-plan";
-import { select } from "redux-saga-test-plan/matchers";
 
 import {
   shareDiary as shareDiaryAction,
   shareDiaryFulfilled,
   shareDiaryRejected,
 } from "../reducer";
-import { selectUserIds } from "../selectors";
+import { buildRandomEntries } from "../reducer.spec";
 import { shareDiary } from "./shareDiary";
 
 it("#shareDiary handles success", async () => {
-  const {
-    saga,
-    userIds,
-    queryAll,
-    updateLocationItems,
-    code,
-    checkIns,
-    requestId,
-  } = setupSaga();
+  const { saga, updateLocationItems, code, items, requestId } = setupSaga();
 
   await saga
-    .call(queryAll, userIds)
-    .call(updateLocationItems, code, checkIns)
+    .call(updateLocationItems, code, items)
     .put(shareDiaryFulfilled())
     .dispatch(
       shareDiaryAction({
         requestId,
         code,
+        items,
       }),
     )
     .silentRun();
 });
 
-it("#shareDiary handles query failure", async () => {
-  const queryError = new Error("query error");
-  const { saga, code, requestId } = setupSaga({
-    queryError,
-  });
+it("#shareDiary handles no items error", async () => {
+  const { saga, code, requestId } = setupSaga();
 
   await saga.put
     .actionType(shareDiaryRejected.type)
@@ -49,6 +34,7 @@ it("#shareDiary handles query failure", async () => {
       shareDiaryAction({
         requestId,
         code,
+        items: [],
       }),
     )
     .silentRun();
@@ -56,7 +42,7 @@ it("#shareDiary handles query failure", async () => {
 
 it("#shareDiary handles api failure", async () => {
   const updateError = new Error("api error");
-  const { saga, code, requestId } = setupSaga({
+  const { saga, code, requestId, items } = setupSaga({
     updateError,
   });
 
@@ -66,38 +52,15 @@ it("#shareDiary handles api failure", async () => {
       shareDiaryAction({
         requestId,
         code,
+        items,
       }),
     )
     .silentRun();
 });
 
-function setupSaga(options?: { queryError?: Error; updateError?: Error }) {
-  const userId = nanoid();
-  const globalLocationNumber = nanoid();
-  const checkIns: CheckInItem[] = [
-    {
-      id: nanoid(),
-      userId: userId,
-      startDate: new Date(),
-      location: {
-        id: globalLocationNumber,
-        name: "foo",
-        address: "bar",
-        globalLocationNumber,
-        globalLocationNumberHash: hashLocationNumber(globalLocationNumber),
-        isFavourite: false,
-        hasDiaryEntry: true,
-        type: getLocationType(CheckInItemType.Scan),
-      },
-      type: CheckInItemType.Scan,
-    },
-  ];
-  const queryAll = async () => {
-    if (options?.queryError) {
-      throw options.queryError;
-    }
-    return checkIns;
-  };
+function setupSaga(options?: { updateError?: Error }) {
+  const items = buildRandomEntries();
+
   const updateLocationItems = async () => {
     if (options?.updateError) {
       throw options.updateError;
@@ -105,19 +68,14 @@ function setupSaga(options?: { queryError?: Error; updateError?: Error }) {
   };
   const requestId = nanoid();
   const code = nanoid();
-  const userIds = [userId];
 
-  const saga = expectSaga(shareDiary, queryAll, updateLocationItems).provide([
-    [select(selectUserIds), userIds],
-  ]);
+  const saga = expectSaga(shareDiary, updateLocationItems);
 
   return {
     requestId,
-    queryAll,
     updateLocationItems,
     code,
-    userIds,
     saga,
-    checkIns,
+    items,
   };
 }

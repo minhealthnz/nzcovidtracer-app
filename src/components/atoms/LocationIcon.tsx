@@ -1,3 +1,4 @@
+import { DiaryEntryType } from "@features/diary/types";
 import React from "react";
 import styled from "styled-components/native";
 
@@ -29,7 +30,7 @@ const SavedIcon = styled.Image<{ alignLeft?: boolean }>`
 `;
 
 export interface LocationIconProps {
-  locationType: "manual" | "scan" | "nfc";
+  locationType: DiaryEntryType;
   isFavourite: boolean;
   alignLeft?: boolean;
 }

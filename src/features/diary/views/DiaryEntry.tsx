@@ -16,7 +16,7 @@ import useEntry from "@hooks/diary/useEntry";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
-import moment from "moment";
+import moment from "moment-timezone";
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Image, View } from "react-native";
@@ -124,7 +124,6 @@ export function DiaryEntryScreen(props: Props) {
         diaryEntry: entry,
         hasSeenLocationOnboarding: hasSeenLocationOnboarding,
       });
-      return;
     } else {
       if (entry.isFavourite) {
         dispatch(

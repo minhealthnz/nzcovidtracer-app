@@ -63,6 +63,7 @@ function* loadNextPages(sessionId: string): SagaIterator {
     const results = queryResults(db!, userIds, endOfToday);
     let pointer = 0;
     const pageSize = 12;
+
     while (true) {
       yield put(
         setQuerying({
@@ -77,7 +78,7 @@ function* loadNextPages(sessionId: string): SagaIterator {
       yield put(
         addLoadedEntries({
           sessionId,
-          entries: entries.map(mapDiaryEntry),
+          entries: entries.map((i) => mapDiaryEntry(i)),
         }),
       );
       pointer += pageSize;
@@ -89,6 +90,7 @@ function* loadNextPages(sessionId: string): SagaIterator {
       );
       const action: Action = yield take([loadNextPage, refresh]);
       logInfo("Start loading next page");
+
       if (action.type === refresh.type) {
         pointer = 0;
       }

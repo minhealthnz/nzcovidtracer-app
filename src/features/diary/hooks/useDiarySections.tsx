@@ -1,6 +1,7 @@
 import useCurrentDate from "@features/enfExposure/hooks/useCurrentDate";
 import { TFunction } from "i18next";
-import moment from "moment";
+import { isNull } from "lodash";
+import moment from "moment-timezone";
 import { useMemo } from "react";
 
 import { DiaryEntry } from "../types";
@@ -11,7 +12,7 @@ export interface DiarySectionData {
   title: string;
   data: DiaryItem[];
   ctaTitle?: string;
-  ctaCallback?(): void;
+  ctaCallback?: () => void;
   showOldDiaryTitle: boolean;
   startOfDay: number;
   isLastSection: boolean;
@@ -19,7 +20,7 @@ export interface DiarySectionData {
 
 export function useDiarySections(
   diaryEntries: DiaryEntry[],
-  handleAddEntry: (startOfDay: number) => void,
+  handleAddEntry: ((startOfDay: number) => void) | null,
   t: TFunction,
 ) {
   const currentStartOfDay = new Date(
@@ -34,7 +35,7 @@ export function useDiarySections(
 
 function _useDiarySections(
   diaryEntries: DiaryEntry[],
-  handleAddEntry: (startOfDay: number) => void,
+  handleAddEntry: ((startOfDay: number) => void) | null,
   t: TFunction,
   currentStartOfDay: Date,
 ) {
@@ -56,25 +57,35 @@ function _useDiarySections(
       const isOldDiary = section.isOldDiary;
       const showOldDiaryTitle = section.showOldDiaryTitle;
 
-      return {
+      const obj: DiarySectionData = {
         title: title,
-        data:
-          isEmptySection && !isOldDiary
-            ? ["button"]
-            : isEmptySection && isOldDiary
-            ? ["noEntry"]
-            : section.entries,
-        ctaTitle:
-          isEmptySection && isOldDiary
-            ? t("screens:diary:addEntry")
-            : !isEmptySection
-            ? t("screens:diary:addAnother")
-            : "",
-        ctaCallback: () => handleAddEntry(startOfDay),
+        data: section.entries,
         showOldDiaryTitle,
         startOfDay,
         isLastSection: index === mappedSectionList.length - 1,
       };
+
+      if (isNull(handleAddEntry)) {
+        return obj;
+      }
+
+      obj.data =
+        isEmptySection && !isOldDiary
+          ? ["button"]
+          : isEmptySection && isOldDiary
+          ? ["noEntry"]
+          : section.entries;
+
+      obj.ctaTitle =
+        isEmptySection && isOldDiary
+          ? t("screens:diary:addEntry")
+          : !isEmptySection
+          ? t("screens:diary:addAnother")
+          : "";
+
+      obj.ctaCallback = () => handleAddEntry(startOfDay);
+
+      return obj;
     },
   );
 

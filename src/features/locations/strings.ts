@@ -4,7 +4,7 @@ export const strings = {
       savingLocations: "Saving locations",
       savedLocations: "Saved locations",
       saveNewLocation: "Save a location",
-      placeOrActivity: "Place or activity",
+      placeOrActivity: "Add diary entry",
       pickSavedLocation: "Choose saved location",
     },
     screens: {
@@ -82,6 +82,8 @@ export const strings = {
         viewSavedAccessibilityLabel: "View saved Locations",
         searchBarAccessibility: "Editting {0} Edit box, Search Here.",
         searchBarAccessibilityHint: "predictions available below.",
+        stepOneOfTwo: "Step 1 of 2",
+        placeOrActivity: "Place or activity",
       },
     },
     components: {

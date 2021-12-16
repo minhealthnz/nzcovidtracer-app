@@ -1,18 +1,19 @@
 import {
   DatePicker,
-  DummyInput,
   InputGroup,
   LocationIcon,
   TextInput,
 } from "@components/atoms";
+import { FormLocationConfirmField } from "@components/atoms/FormLocationConfirmField";
 import { FormV2 } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
-import { grid } from "@constants";
+import { grid, grid2x } from "@constants";
 import { selectUserId } from "@domain/user/selectors";
 import { AddDiaryEntry, addEntry } from "@features/diary/reducer";
+import { getLocationName } from "@features/locations/helper";
 import { useLocationAccessibility } from "@features/locations/hooks/useLocationAccessibility";
-import { LocationScreen } from "@features/locations/screens";
 import { ScanScreen } from "@features/scan/screens";
+import { isOutsideNZ } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -37,6 +38,7 @@ import { Keyboard } from "react-native";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
 
+import { useStartDate } from "../hooks/useStartDate";
 import { DiaryScreen } from "../screens";
 
 const { logError } = createLogger("AddManualDiaryEntry.tsx");
@@ -50,14 +52,17 @@ const schema = yup.object().shape({
   details: detailsValidation,
 });
 
+const newDate = new Date().getTime();
+const coeff = 1000 * 60 * 5;
+
 export function AddManualDiaryEntry(props: Props) {
   const { t } = useTranslation();
 
   const dispatch = useAppDispatch();
 
-  const date = props.route.params?.startDate;
+  const date = props.route.params?.startDate || newDate;
   const location = props.route.params?.location || "";
-  const name = typeof location === "object" ? location.name : location;
+  const name = getLocationName(location);
   const address = typeof location === "object" ? location.address : undefined;
   const type = typeof location === "object" ? location.type : "manual";
   const isFavourite =
@@ -67,10 +72,12 @@ export function AddManualDiaryEntry(props: Props) {
       ? location.id
       : undefined;
 
+  const rounded = useMemo(() => new Date(Math.round(date / coeff) * coeff), [
+    date,
+  ]);
+
   const [nameError, setNameError] = useState<string>("");
-  const [startDate, setStartDate] = useState<number>(
-    date || new Date().getTime(),
-  );
+  const [startDate, setDate] = useStartDate(rounded.getTime());
   const [dateError, setDateError] = useState<string>("");
   const [details, setDetails] = useState<string>("");
   const [detailsError, setDetailsError] = useState<string>("");
@@ -83,6 +90,10 @@ export function AddManualDiaryEntry(props: Props) {
     setDateError("");
     setDetailsError("");
   };
+
+  useEffect(() => {
+    setDate(rounded.getTime());
+  }, [rounded, setDate]);
 
   const onDetailsChange = (text: string) => {
     setDetails(text);
@@ -137,6 +148,7 @@ export function AddManualDiaryEntry(props: Props) {
       .then(unwrapResult)
       .then((entry) => {
         saved.current = true;
+        props.navigation.pop();
         props.navigation.replace(ScanScreen.Recorded, {
           id: entry.id,
           manualEntry: true,
@@ -182,18 +194,18 @@ export function AddManualDiaryEntry(props: Props) {
   const inputGroupRef = useRef<InputGroupRef | null>(null);
 
   const onPlaceOrActivityPress = useCallback(() => {
-    props.navigation.navigate(LocationScreen.PlaceOrActivity, { name: name });
-  }, [name, props.navigation]);
+    props.navigation.goBack();
+  }, [props.navigation]);
 
   const { locationIconAccessibilityLabel } = useLocationAccessibility({
     isFavourite: isFavourite,
     locationType: type,
   });
 
-  const placeOrAcitivityAccessibilityLabel = useMemo(() => {
+  const locationConfirmationAccessibilityLabel = useMemo(() => {
     if (name) {
       return t(
-        "screens:addManualDiaryEntry:placeOrActivityAccessibilityLabel",
+        "screens:addManualDiaryEntry:locationConfirmationAccessibilityLabel",
         {
           locationType: locationIconAccessibilityLabel,
           locationName: name,
@@ -210,34 +222,39 @@ export function AddManualDiaryEntry(props: Props) {
       buttonText={t("screens:addManualDiaryEntry:save")}
       onButtonPress={onSavePress}
       keyboardAvoiding={true}
+      paddingTop={grid2x}
+      step={t("screens:addManualDiaryEntry:stepTwoOfTwo")}
+      heading={t("screens:addManualDiaryEntry:details")}
     >
       <InputGroup ref={inputGroupRef}>
-        <DummyInput
-          info={t("screens:addManualDiaryEntry:placeOrActivityDisclaimer")}
+        <FormLocationConfirmField
+          buttonText={t("screens:addManualDiaryEntry:change")}
           identifier="name"
           onPress={onPlaceOrActivityPress}
           label={t("screens:addManualDiaryEntry:placeOrActivity")}
           value={name}
           required="required"
           errorMessage={nameError}
-          accessibilityLabel={placeOrAcitivityAccessibilityLabel}
-          accessibilityHint={
-            !name
-              ? t(
-                  "screens:addManualDiaryEntry:PlaceOrActivityAccessibilityHint",
-                )
-              : undefined
-          }
+          accessibilityLabel={locationConfirmationAccessibilityLabel}
           renderIcon={
             !!location && (
-              <LocationIcon locationType={type} isFavourite={isFavourite} />
+              <LocationIcon
+                locationType={type}
+                isFavourite={isFavourite}
+                alignLeft={true}
+              />
             )
           }
         />
 
         <DatePicker
+          info={
+            isOutsideNZ()
+              ? t("screens:addManualDiaryEntry:timeInNZT")
+              : undefined
+          }
           dateTime={startDate}
-          onDateChange={setStartDate}
+          onDateChange={setDate}
           errorMessage={dateError}
           clearErrorMessage={() => setDateError("")}
           label={t("screens:addManualDiaryEntry:datePicker")}
@@ -247,8 +264,8 @@ export function AddManualDiaryEntry(props: Props) {
         />
         <TextInput
           identifier="details"
-          testID="addManualDiaryEntry:details"
-          label={t("screens:addManualDiaryEntry:details")}
+          testID="addManualDiaryEntry:addANote"
+          label={t("screens:addManualDiaryEntry:addANote")}
           value={details}
           onChangeText={onDetailsChange}
           info={t("screens:addManualDiaryEntry:disclaimer")}

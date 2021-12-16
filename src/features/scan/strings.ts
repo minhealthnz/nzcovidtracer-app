@@ -94,7 +94,7 @@ export const strings = {
         heading: "This entry won't be added to your diary",
         description:
           "You’ve already added this location into your diary by scanning a poster or tapping an NFC sticker.",
-        addDetails: "Add details",
+        addDetails: "Note",
         doneButton: "Okay",
         doneHint: "Closes the page and navigates back",
         detailsDescription:
@@ -102,6 +102,11 @@ export const strings = {
         tip:
           "Tip: You can add a manual entry for any missed day even if you were just staying home.",
         notProvided: "Not provided.",
+        viewPass: "View My Vaccine Pass",
+        viewPassHint: "Tap to open the external app.",
+        myPass: "My Vaccine Pass",
+        openInAppleWallet: "Open In Apple Wallet",
+        openGPay: "Open Google Pay",
       },
       scanNotRecorded: {
         heading: "Something went wrong",

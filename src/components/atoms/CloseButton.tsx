@@ -6,24 +6,27 @@ import styled from "styled-components/native";
 
 import ImageButton from "./ImageButton";
 
-const Container = styled(ImageButton)`
+const Container = styled(ImageButton)<{ paddingTop?: number }>`
   padding: 13px 13px ${grid3x}px ${grid3x}px;
   position: absolute;
   top: 0px;
   right: 0px;
   z-index: 1;
+  padding-top: ${(props) => props.paddingTop || 13}px;
 `;
 
 interface Props {
   onDismiss(): void;
   accessibilityLabel?: string;
   accessibilityHint?: string;
+  paddingTop?: number;
 }
 
 export function CloseButton({
   onDismiss,
   accessibilityHint,
   accessibilityLabel,
+  paddingTop,
 }: Props) {
   const { t } = useTranslation();
 
@@ -38,6 +41,7 @@ export function CloseButton({
       accessibilityLabel={accessibilityLabel}
       accessibilityHint={accessibilityHint}
       imageStyle={styles.closeButtonImage}
+      paddingTop={paddingTop}
     />
   );
 }

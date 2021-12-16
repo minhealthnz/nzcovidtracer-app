@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import pupa from "pupa";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";

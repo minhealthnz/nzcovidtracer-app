@@ -123,10 +123,10 @@ export const strings = {
           detail:
             "Wash often. Use soap. 20 seconds. Then dry. This kills the virus by bursting its protective bubble.",
         },
-        saveLocationsInfo: {
-          title: "Save visited locations and manage notifications",
+        vaccinePassInfo: {
+          title: "My Vaccine Pass",
           description:
-            "It’s now easier to keep your diary complete if you missed scanning in, or simply stayed home. Pick a location you’ve been to previously when adding an entry manually, and save locations you go to frequently.\n\nYou can also now manage your notification preferences under My Data.",
+            "If you have My Vaccine Pass in your Wallet, you can now access it from NZ COVID Tracer App after scanning a QR Code Poster.\n\nYou can also now export your diary if you are moving to a new phone.",
           accessibilityLabel: "Dismiss the update",
           accessibilityHint: "This card will be removed from dashboard",
         },

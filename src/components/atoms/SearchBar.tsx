@@ -68,13 +68,12 @@ export function SearchBar(props: Props) {
 
   return (
     <MainView>
-      <SearchView
-        accessible
-        accessibilityLabel={t("accessibility:searchBarLabel")}
-        accessibilityHint={t("accessibility:searchBarHint")}
-      >
+      <SearchView>
         <SearchIcon source={assets.search} />
         <SearchInput
+          accessible={true}
+          accessibilityLabel={t("accessibility:searchBarLabel")}
+          accessibilityHint={t("accessibility:searchBarHint")}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}

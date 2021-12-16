@@ -2,7 +2,7 @@ import { TabBarButton } from "@components/atoms/TabBarButton";
 import { TabBarLabel } from "@components/atoms/TabBarLabel";
 import { colors } from "@constants";
 import { selectAnnouncement } from "@features/announcement/selectors";
-import { selectHasSeenSaveLocationsInfo } from "@features/dashboard/selectors";
+import { selectHasSeenVaccinePassInfo } from "@features/dashboard/selectors";
 import { Dashboard } from "@features/dashboard/views/Dashboard";
 import { selectENFAlert } from "@features/enfExposure/selectors";
 import { selectMatch } from "@features/exposure/selectors";
@@ -40,7 +40,7 @@ export function TabNavigator() {
   const { t } = useTranslation();
 
   const announcement = useSelector(selectAnnouncement);
-  const hasSeenDashboardNews = useSelector(selectHasSeenSaveLocationsInfo);
+  const hasSeenDashboardNews = useSelector(selectHasSeenVaccinePassInfo);
   const enfAlert = useSelector(selectENFAlert);
   const exposureMatch = useSelector(selectMatch);
   const hasInAppReminder = useSelector(selectHasInAppReminder);

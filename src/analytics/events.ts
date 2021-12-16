@@ -31,6 +31,7 @@ export const Events = {
   ViewNHIFromMyProfile: "viewNHIFromMyProfile",
   ENFSupportRetrySuccess: "enfSupportRetrySuccess",
   EasterEggTriggered: "easter_egg_triggered",
+  WalletOpen: "wallet_link_clicked",
 } as const;
 
 const AnalyticsEvent = {

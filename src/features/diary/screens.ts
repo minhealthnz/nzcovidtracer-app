@@ -1,5 +1,7 @@
 import { Location } from "@features/locations/types";
 
+import { DiaryEntry as DiaryEntryType } from "./types";
+
 export enum DiaryScreen {
   Navigator = "Diary/Navigator",
   ViewDiary = "Diary/ViewDiary",
@@ -8,8 +10,10 @@ export enum DiaryScreen {
   DiaryEntry = "Diary/DiaryEntry",
   EditEntry = "Diary/EditEntry",
   AddEntryManually = "Diary/AddEntryManually",
-  ShareDiary = "Profile/ShareDiary",
-  DiaryShared = "Profile/DiaryShared",
+  ShareDiary = "Diary/ShareDiary",
+  ShareDiaryList = "Diary/ShareDiaryList",
+  ShareDiaryConfirm = "Diary/ShareDiaryConfirm",
+  DiaryShared = "Diary/DiaryShared",
 }
 
 export type DiaryScreenParams = {
@@ -27,4 +31,6 @@ export type DiaryScreenParams = {
   [DiaryScreen.EditEntry]: { id: string };
   [DiaryScreen.ShareDiary]: undefined;
   [DiaryScreen.DiaryShared]: undefined;
+  [DiaryScreen.ShareDiaryList]: undefined;
+  [DiaryScreen.ShareDiaryConfirm]: { items: DiaryEntryType[] };
 };

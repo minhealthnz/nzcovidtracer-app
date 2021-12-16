@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment from "moment-timezone";
 import { CloseContact } from "react-native-exposure-notification-service";
 import { expectSaga } from "redux-saga-test-plan";
 import { call, select } from "redux-saga-test-plan/matchers";

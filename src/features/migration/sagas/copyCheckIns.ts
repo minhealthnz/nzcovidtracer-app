@@ -5,7 +5,7 @@ import {
 } from "@db/entities/checkInItem";
 import { setSessionType } from "@features/onboarding/reducer";
 import { createLogger } from "@logger/createLogger";
-import moment from "moment";
+import moment from "moment-timezone";
 import { NativeModules, Platform } from "react-native";
 import { SagaIterator } from "redux-saga";
 import { call, put, select, take } from "redux-saga/effects";

@@ -1,8 +1,8 @@
 import { colors, fontFamilies, fontSizes, grid, grid2x } from "@constants";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard } from "react-native";
+import DatePicker from "react-native-date-picker";
 import styled from "styled-components/native";
 
 import { useInputGroup } from "../molecules/InputGroup";
@@ -17,6 +17,13 @@ const Label = styled(Text)`
   text-align: left;
 `;
 
+const DisclaimerText = styled(Text)`
+  font-family: ${fontFamilies["open-sans-semi-bold-italic"]};
+  font-size: ${fontSizes.small}px;
+  color: ${colors.primaryGray};
+  margin-bottom: 8px;
+`;
+
 const ErrorText = styled(Text)`
   font-family: ${fontFamilies["open-sans-semi-bold"]};
   font-size: ${fontSizes.small}px;
@@ -25,6 +32,7 @@ const ErrorText = styled(Text)`
 
 const PickerView = styled.View`
   margin-bottom: ${grid2x}px;
+  align-items: center;
 `;
 
 export function DatePickerIOS(props: DatePickerProps) {
@@ -39,14 +47,12 @@ export function DatePickerIOS(props: DatePickerProps) {
     maximumDate,
     minimumDate,
     minuteInterval,
+    info,
   } = props;
 
   const [date, setDate] = useState(new Date(dateTime));
 
-  const onDatePickerChange = (
-    _event: Event,
-    selectedDate: Date | undefined,
-  ) => {
+  const onDatePickerChange = (selectedDate: Date | undefined) => {
     const currentDate = selectedDate ?? date;
     setDate(currentDate);
     onDateChange(currentDate.getTime());
@@ -63,13 +69,13 @@ export function DatePickerIOS(props: DatePickerProps) {
   return (
     <>
       <Label>{`${title} (${t("common:required")})`}</Label>
+      {info && <DisclaimerText>{info}</DisclaimerText>}
       <PickerView>
-        <DateTimePicker
+        <DatePicker
           testID="dateTimePicker"
-          value={date}
+          date={date}
           mode={justDate ? "date" : "datetime"}
-          display="spinner"
-          onChange={onDatePickerChange}
+          onDateChange={onDatePickerChange}
           maximumDate={maximumDate}
           minimumDate={minimumDate}
           minuteInterval={minuteInterval}

@@ -4,11 +4,10 @@ import React, { useEffect, useRef } from "react";
 import { AccessibilityInfo, findNodeHandle } from "react-native";
 import styled from "styled-components/native";
 
-const Container = styled.View`
-  background-color: ${colors.toastRed};
-  padding: ${grid}px ${grid2x}px;
-  border-bottom-width: 3px;
-  border-color: ${colors.darkRed};
+const Container = styled.View<{ backgroundColor?: string }>`
+  background-color: ${(props) =>
+    props.backgroundColor ? props.backgroundColor : colors.toastRed};
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -16,18 +15,34 @@ const Container = styled.View`
   z-index: 50;
 `;
 
-const Text = styled(BaseText)`
-  color: ${colors.white};
+const BottomBorder = styled.View`
+  background-color: ${colors.primaryBlack};
+  height: 4px;
+  width: 100%;
+  opacity: 0.3;
+`;
+
+const Text = styled(BaseText)<{ fontColor?: string }>`
+  color: ${(props) => (props.fontColor ? props.fontColor : colors.white)};
   font-family: ${fontFamilies["open-sans-semi-bold"]};
   font-size: ${fontSizes.small}px;
+  padding: ${grid}px ${grid2x}px;
 `;
 
 export interface ToastProps {
   text: string;
+  backgroundColor?: string;
+  fontColor?: string;
+  setToastHeight?: (height: number) => void;
 }
 
-export function Toast({ text }: ToastProps) {
-  const toastRef = useRef(null);
+export function Toast({
+  text,
+  backgroundColor,
+  fontColor,
+  setToastHeight,
+}: ToastProps) {
+  const toastRef = useRef<any>(null);
 
   useEffect(() => {
     const reactTag = findNodeHandle(toastRef.current);
@@ -37,8 +52,17 @@ export function Toast({ text }: ToastProps) {
   }, [toastRef, text]);
 
   return (
-    <Container ref={toastRef} accessible accessibilityLabel={`Error ${text}`}>
-      <Text>{text}</Text>
+    <Container
+      ref={toastRef}
+      onLayout={(event) => {
+        setToastHeight && setToastHeight(event.nativeEvent.layout.height);
+      }}
+      backgroundColor={backgroundColor}
+      accessible
+      accessibilityLabel={`${text}`}
+    >
+      <Text fontColor={fontColor}>{text}</Text>
+      <BottomBorder />
     </Container>
   );
 }

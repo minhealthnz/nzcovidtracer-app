@@ -34,5 +34,6 @@ Object {
   "SuccessBannerDuration": 5000,
   "SupportPhoneLink": "tel:0800800606",
   "WebAppBaseUrl": "",
+  "WebAppBaseUrlNoScheme": "",
 }
 `;

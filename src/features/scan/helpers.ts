@@ -1,7 +1,29 @@
+import { AddDiaryEntry } from "@features/diary/reducer";
+import { DiaryEntryType } from "@features/diary/types";
 import { createLogger } from "@logger/createLogger";
 import { Base64 } from "js-base64";
 
 import { ScanData, ScanDataSurprise } from "./types";
+
+// Move this to reducer
+export function createDiaryEntry(
+  scanData: ScanData,
+  type: DiaryEntryType,
+  id: string,
+  userId: string,
+): AddDiaryEntry {
+  const diaryEntry: AddDiaryEntry = {
+    id,
+    userId,
+    type,
+    startDate: new Date(),
+    name: scanData.opn,
+    address: scanData.adr,
+    globalLocationNumber: scanData.gln,
+  };
+
+  return diaryEntry;
+}
 
 function isQRScanDataValid(qrScanData: ScanData): boolean {
   const isInvalid =

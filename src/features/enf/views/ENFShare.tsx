@@ -1,7 +1,9 @@
-import { InputGroup, TextInput } from "@components/atoms";
+import { InputGroup, TextInput, VerticalSpacing } from "@components/atoms";
 import { presets } from "@components/atoms/TextInput";
+import { Tip, TipText } from "@components/atoms/Tip";
 import { FormV2, FormV2Handle } from "@components/molecules/FormV2";
 import { InputGroupRef } from "@components/molecules/InputGroup";
+import { colors } from "@constants";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -114,6 +116,11 @@ export function ENFShare(props: Props) {
       buttonLoading={isLoading}
       keyboardAvoiding={true}
     >
+      <Tip backgroundColor={colors.lightYellow}>
+        <TipText>{t("screens:enfShare:tip")}</TipText>
+      </Tip>
+      <VerticalSpacing height={30} />
+
       <InputGroup ref={inputGroupRef}>
         <TextInput
           label={t("screens:enfShare:inputLabel")}

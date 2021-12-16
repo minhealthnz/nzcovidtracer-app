@@ -18,7 +18,7 @@ export function ScanSpec(spec: TestScope) {
       await spec.press("scan:addManualEntry");
       const insertedTitle = `Test location ${nanoid()}`;
       spec.fillIn("addManualDiaryEntry:placeOrActivity", insertedTitle);
-      spec.fillIn("addManualDiaryEntry:details", "Test details");
+      spec.fillIn("addManualDiaryEntry:addANote", "Test details");
       await spec.pause(500);
       spec.press("addManualDiaryEntry:save");
       const heading = (await spec.findComponent(
