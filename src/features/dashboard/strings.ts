@@ -161,7 +161,7 @@ export const strings = {
           day: "day ago",
           days: "days ago",
           daySinceLastExposure: "{0} {1}",
-          numberOfExposures: "times over the last 14 days",
+          numberOfExposures: "times over the last {0} days",
           requestCallback: "Send your details",
           callbackRequested: "Details sent",
         },

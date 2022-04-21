@@ -92,24 +92,57 @@ class _DiaryEntryListItem extends Component<Props> {
     );
   }
 
-  render() {
-    const entryDate = moment(this.props.entry.startDate);
-    const dayText = entryDate.format("dddd");
-    const dateText = entryDate.format("D MMMM YYYY");
-    const timeText = entryDate.format("h:mma");
-    const isRisky = this.props.entry.isRisky;
-    const showCheckboxes = this.props.showCheckboxes;
-    const isChecked = this.props.isChecked;
-    const t = this.props.t;
-    let rightEl = null;
+  getAccessibilityObject = (
+    dayText: string,
+    dateText: string,
+    timeText: string,
+  ) => {
+    const { t, showCheckboxes, entry, isChecked } = this.props;
+    const isRisky = entry?.isRisky;
 
-    let locationAccessibilityHint = t(
+    let accessibilityHint = t(
       "components:diaryEntryListItem:locationAccessibilityHint",
     );
 
     let locationAccessibilityLabel = isRisky
       ? t("components:diaryEntryListItem:locationAccessibilityLabel")
       : "";
+
+    if (showCheckboxes) {
+      // Update the accessibility label
+      locationAccessibilityLabel = `${locationAccessibilityLabel} ${
+        isChecked
+          ? t("components:diaryEntryListItem:doubleTapUnselect")
+          : t("components:diaryEntryListItem:doubleTapSelect")
+      }`;
+
+      // Update the accessibility hint
+      accessibilityHint = pupa(t("components:diaryEntryListItem:diaryEntry"), {
+        selected: isChecked ? t("components:diaryEntryListItem:selected") : "",
+        type: t(
+          `components:diaryEntryListItem:${
+            this.props.entry.type === "manual" ? "manual" : "scan"
+          }`,
+        ),
+      });
+    }
+
+    const accessibilityLabel = [
+      this.props.entry.name,
+      `${dayText} ${dateText} ${timeText}`,
+      this.props.accessibilityLabel || "",
+      locationAccessibilityLabel,
+    ].join(". ");
+
+    return {
+      accessibilityLabel,
+      accessibilityHint,
+    };
+  };
+
+  getRightElement = () => {
+    const { showCheckboxes, isChecked } = this.props;
+    let rightEl = null;
 
     if (this.props.onEntryPress) {
       rightEl = <Chevron resizeMode="contain" source={assets.chevronRight} />;
@@ -141,36 +174,22 @@ class _DiaryEntryListItem extends Component<Props> {
           </View>
         </>
       );
-
-      // Update the accessibility label
-      locationAccessibilityLabel = `${locationAccessibilityLabel} ${
-        isChecked
-          ? t("components:diaryEntryListItem:doubleTapUnselect")
-          : t("components:diaryEntryListItem:doubleTapSelect")
-      }`;
-
-      // Update the accessibility hint
-      locationAccessibilityHint = pupa(
-        t("components:diaryEntryListItem:diaryEntry"),
-        {
-          selected: isChecked
-            ? t("components:diaryEntryListItem:selected")
-            : "",
-          type: t(
-            `components:diaryEntryListItem:${
-              this.props.entry.type === "manual" ? "manual" : "scan"
-            }`,
-          ),
-        },
-      );
     }
 
-    const accessibilityLabel = [
-      this.props.entry.name,
-      `${dayText} ${dateText} ${timeText}`,
-      this.props.accessibilityLabel || "",
-      locationAccessibilityLabel,
-    ].join(". ");
+    return rightEl;
+  };
+
+  render() {
+    const entryDate = moment(this.props.entry.startDate);
+    const dayText = entryDate.format("dddd");
+    const dateText = entryDate.format("D MMMM YYYY");
+    const timeText = entryDate.format("h:mma");
+    const isRisky = this.props.entry.isRisky;
+    const isChecked = this.props.isChecked;
+    const {
+      accessibilityHint,
+      accessibilityLabel,
+    } = this.getAccessibilityObject(dayText, dateText, timeText);
 
     return (
       <Container
@@ -179,7 +198,7 @@ class _DiaryEntryListItem extends Component<Props> {
         disabled={!this.props.onEntryPress}
         accessible={true}
         accessibilityLabel={accessibilityLabel}
-        accessibilityHint={locationAccessibilityHint}
+        accessibilityHint={accessibilityHint}
         accessibilityRole={this.props.onEntryPress ? "button" : "text"}
       >
         <LocationIcon
@@ -199,7 +218,7 @@ class _DiaryEntryListItem extends Component<Props> {
             <DateText>{`${timeText}${isOutsideNZ() ? " NZT" : ""}`}</DateText>
           </DateTextContainer>
         </TextContainer>
-        {rightEl}
+        {this.getRightElement()}
       </Container>
     );
   }

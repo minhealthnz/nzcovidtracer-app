@@ -1,6 +1,7 @@
 import { createLogger } from "@logger/createLogger";
 import { PayloadAction } from "@reduxjs/toolkit";
 import _ from "lodash";
+import moment from "moment";
 import { CloseContact } from "react-native-exposure-notification-service";
 import { SagaIterator } from "redux-saga";
 import { call, put, select } from "redux-saga/effects";
@@ -12,6 +13,7 @@ import {
   selectENFNotificationRiskBucket,
   selectLastEnfAlertDismissDate,
 } from "../selectors";
+import { defaultENFExpiresInDays } from "../util/defaultENFExpiresInDays";
 
 const { logInfo, logError } = createLogger("saga/updateENFAlert");
 
@@ -25,6 +27,19 @@ export const getLatestMatch = (
     (x) => x.exposureDate > lastEnfAlertDismissDate,
   );
   return _.maxBy(recentMatches, (x: CloseContact) => x.exposureDate);
+};
+
+export const countNumberOfExposures = (
+  alertExpireInDays: number,
+  contacts: CloseContact[],
+) => {
+  const alertExpiresInDays = defaultENFExpiresInDays(alertExpireInDays) + 1;
+  return contacts.filter(
+    (x) =>
+      moment
+        .duration(moment(new Date()).diff(moment(x.exposureDate)))
+        .asDays() < alertExpiresInDays,
+  ).length;
 };
 
 export default function* updateENFAlert(
@@ -47,8 +62,6 @@ export default function* updateENFAlert(
       yield put(setEnfAlert(undefined));
       return;
     }
-
-    const exposureCount = contacts.length;
 
     const lastEnfAlertDismissDate: number = yield select(
       selectLastEnfAlertDismissDate,
@@ -89,6 +102,11 @@ export default function* updateENFAlert(
       return;
     }
 
+    const exposureCount = countNumberOfExposures(
+      riskBucket.alertExpiresInDays,
+      contacts,
+    );
+
     const alertDate = match.exposureAlertDate;
 
     const result: ENFAlertData = {
@@ -96,6 +114,7 @@ export default function* updateENFAlert(
       alertDate,
       alertTitle: riskBucket.alertTitle,
       alertMessage: riskBucket.alertMessage,
+      alertExpiresInDays: riskBucket.alertExpiresInDays,
       linkUrl: riskBucket.linkUrl,
       exposureDate: match.exposureDate,
     };

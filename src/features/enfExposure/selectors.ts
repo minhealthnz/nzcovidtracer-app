@@ -3,6 +3,8 @@ import { selectDevice } from "@features/device/selectors";
 import moment from "moment-timezone";
 import { createSelector } from "reselect";
 
+import { defaultENFExpiresInDays } from "./util/defaultENFExpiresInDays";
+
 export const selectENFExposure = (state: ReduxState) => state.enfExposure;
 
 export const selectENFNotificationConfig = createSelector(
@@ -23,8 +25,10 @@ export const selectENFNotificationRiskBucket = (riskScore: number) =>
 export const selectENFAlert = createSelector(
   [selectENFExposure, selectDevice],
   (enfExposure, device) => {
-    //15 days
-    const ttl = 60 * 60 * 24 * 15 * 1000;
+    // Default alert expiry day is set to 15days
+    const alertExpiresInDays =
+      defaultENFExpiresInDays(enfExposure.enfAlert?.alertExpiresInDays) + 1;
+    const ttl = 60 * 60 * 24 * alertExpiresInDays * 1000;
 
     if (
       enfExposure.enfAlert != null &&

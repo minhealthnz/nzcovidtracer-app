@@ -17,7 +17,7 @@ import {
   grid2x,
   grid3x,
 } from "@constants";
-import { selectPassDisabled, selectPassUrl } from "@features/device/selectors";
+import { selectPassDisabled } from "@features/device/selectors";
 import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
 import { EditDiaryEntry, editEntry } from "@features/diary/reducer";
 import { DiaryScreen } from "@features/diary/screens";
@@ -32,6 +32,7 @@ import { selectLastScannedEntry } from "@features/nfc/selectors";
 import useEntry from "@hooks/diary/useEntry";
 import { isAndroid, isIOS } from "@lib/helpers";
 import { useAppDispatch } from "@lib/useAppDispatch";
+import { createLogger } from "@logger/createLogger";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { useFocusEffect } from "@react-navigation/native";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -48,7 +49,14 @@ import React, {
 } from "react";
 import { useLayoutEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Keyboard, Linking, StyleSheet, View } from "react-native";
+import {
+  Image,
+  Keyboard,
+  Linking,
+  NativeModules,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 import { useDebouncedCallback } from "use-debounce";
@@ -56,6 +64,8 @@ import * as yup from "yup";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../analytics";
 import { ScanScreen } from "../screens";
+
+const { logInfo, logError } = createLogger("VisitRecordedScreen.tsx");
 
 const DateTimeText = styled(Text)`
   font-family: ${fontFamilies["open-sans-semi-bold"]};
@@ -129,6 +139,7 @@ export function VisitRecordedScreen(props: Props) {
   const { t } = useTranslation();
   const [details, setDetails] = useState<string>();
   const [detailsError, setDetailsError] = useState<string>("");
+  const [passUrl, setPassUrl] = useState<string | null>(null);
 
   const entryId = props.route.params.id;
   const nfcDebounce = props.route.params.nfcDebounce;
@@ -148,12 +159,25 @@ export function VisitRecordedScreen(props: Props) {
   const numberOfDiaryEntries = useSelector(selectCountActiveDays);
   const totalEntryDay = 14;
   const lastScannedEntry = useSelector(selectLastScannedEntry);
-  const passUrl = useSelector(selectPassUrl);
   const passDisabled = useSelector(selectPassDisabled);
 
   const hasSeenLocationOnboarding = useSelector(
     selectHasSeenLocationOnboarding,
   );
+
+  useEffect(() => {
+    const { WalletManager } = NativeModules;
+    if (WalletManager && isIOS) {
+      WalletManager.getPassLink("pass.nz.govt.health.cert.nzcp")
+        .then((url: string) => {
+          logInfo(`PASSURL is: ${url}`);
+          setPassUrl(url);
+        })
+        .catch((error: string) => {
+          logError(`ERROR URL is: ${error}`);
+        });
+    }
+  }, []);
 
   const detailsCharLimit = 255;
 
@@ -328,6 +352,7 @@ export function VisitRecordedScreen(props: Props) {
       const description = t(
         `screens:visitRecorded:${isIOS ? "openInAppleWallet" : "openGPay"}`,
       );
+      const urlIOS = passUrl || "shoebox://";
       return (
         <Card
           maxFontSizeMultiplier={1.5}
@@ -338,11 +363,7 @@ export function VisitRecordedScreen(props: Props) {
           onPress={() => {
             recordAnalyticEvent(AnalyticsEvent.WalletOpen);
             Linking.openURL(
-              isIOS
-                ? passUrl
-                  ? passUrl
-                  : "shoebox://"
-                : "https://pay.app.goo.gl/gettheapp-au",
+              isIOS ? urlIOS : "https://pay.app.goo.gl/gettheapp-au",
             );
           }}
           accessibilityLabel={`${description} ${t(

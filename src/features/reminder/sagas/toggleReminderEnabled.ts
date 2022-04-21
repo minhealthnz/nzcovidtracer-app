@@ -1,9 +1,11 @@
 import { SagaIterator } from "redux-saga";
 import { put, select, takeLatest } from "redux-saga/effects";
 
-import { toggleIsRemindersEnabled } from "../commonActions";
-import { rescheduleReminders as rescheduleAction } from "../commonActions";
-import { cancelReminders } from "../commonActions";
+import {
+  cancelReminders,
+  rescheduleReminders as rescheduleAction,
+  toggleIsRemindersEnabled,
+} from "../commonActions";
 import { toggleRemindersEnabled as toggleAction } from "../reducer";
 import { selectIsEnabled } from "../selectors";
 

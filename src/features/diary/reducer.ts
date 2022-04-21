@@ -116,7 +116,7 @@ export const addEntry = createAsyncThunk(
 export const mergeEntries = createAsyncThunk(
   "diary/mergeEntries",
   async (request: AddDiaryEntry[]) => {
-    await recordAnalyticEvent(DiaryEvent.DiaryImportInitiated);
+    recordAnalyticEvent(DiaryEvent.DiaryImportInitiated);
     const minDate = calcCheckInMinDate();
 
     const recentEntries = request.filter(
@@ -126,7 +126,7 @@ export const mergeEntries = createAsyncThunk(
     await addCheckIns(recentEntries.map(mapUpsertCheckInItem));
 
     const checkIns = await Promise.all(
-      recentEntries.map(async (diary) => await findCheckInItemById(diary.id)),
+      recentEntries.map(async (diary) => findCheckInItemById(diary.id)),
     );
     return checkIns.map((i) => mapDiaryEntry(i));
   },

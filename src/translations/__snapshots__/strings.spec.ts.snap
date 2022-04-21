@@ -261,7 +261,7 @@ If you are known by multiple names, enter the one that most people would use.",
           "lastExposed2": "Last exposed around {0} ({1}) ",
           "more": "Find out more",
           "moreAccessibilityHint": "Leaves the app and navigates to a webpage",
-          "numberOfExposures": "times over the last 14 days",
+          "numberOfExposures": "times over the last {0} days",
           "requestCallback": "Send your details",
         },
         "beenInContact": Object {
@@ -545,7 +545,7 @@ If youâ€™ve been nearby someone with COVID-19 during the last 14 days, you wonâ€
             "rateLimited": "You have tried to share your tracing codes too many times. Try again later.",
           },
         },
-        "inputInfo": "Enter the code given to you by a Contact Tracer",
+        "inputInfo": "Enter the code given to you online or by a Contact Tracer.",
         "inputLabel": "Data request code",
         "tip": "You can only share your Bluetooth tracing codes if you were contacted by a Contact Tracer.",
         "title": "Share my Bluetooth tracing codes",
@@ -863,10 +863,10 @@ You will also get an alert if Bluetooth tracing identifies that you may have bee
       },
       "shareDiary": Object {
         "continue": "Continue",
-        "description": "If you have been asked by a Contact Tracer, you can share your digital diary with Contact Tracers.
+        "description": "If you have been asked by a Contact Tracer or provided with a diary upload code online, you can share recent locations from your digital diary with Contact Tracers.
 
 This will securely upload the locations, times and notes in your diary to the National Contact Tracing Solution.",
-        "subText": "It is not compulsory for you to share your diary but it helps make contact tracing easier. To help you protect your privacy, you can select which entries you want to share and which you want to exclude.
+        "subText": "It is not compulsory for you to share your diary but it helps make contact tracing easier. You can select which entries you want to share and which you want to exclude.
 
 This data will be treated as part of your medical record.",
         "tip": "You can only share your diary if you are a confirmed or probable case of COVID-19.",
@@ -880,7 +880,7 @@ This data will be treated as part of your medical record.",
         "changeEntriesHint": "Double tap to change.",
         "createdOn": "{0} that {1} created on",
         "dataRequestCode": "Diary upload code",
-        "dataRequestCodeInfo": "Enter the code given to you by a Contact Tracer",
+        "dataRequestCodeInfo": "Enter the code given to you online or by a Contact Tracer",
         "day": "day",
         "days": "days",
         "diaryEntries": "diary entries",
@@ -900,7 +900,6 @@ This data will be treated as part of your medical record.",
         "allDaysSelectedAccessibilityHint": "You can modify your selection in the list below. Double tap to unselect.",
         "allDaysSelectedAccessibilityLabel": "All diary entries selected.",
         "continue": "Continue",
-        "description": "We encourage you to share all days to give Contact Tracers as much context as possible.",
         "error": "Select at least one entry to continue",
         "lastFourteen": "Last 14 days",
         "lastFourteenAccessibilityHint": "You can modify your selection in the list below.",

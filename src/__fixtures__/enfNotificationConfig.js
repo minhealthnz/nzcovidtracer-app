@@ -6,6 +6,7 @@ export default [
     alertMessage:
       "Please go home and self-isolate. Then call Healthline on 0800 358 5453",
     linkUrl: "https://www.health.govt.nz/nz-covid-tracer-about-bt-alerts",
+    alertExpiresInDays: 14,
   },
   {
     minRiskScore: 101,
@@ -13,6 +14,7 @@ export default [
     alertTitle: "[101] title",
     alertMessage: "[101] message",
     linkUrl: "[101] url",
+    alertExpiresInDays: 14,
   },
   {
     minRiskScore: 102,
@@ -20,5 +22,6 @@ export default [
     alertTitle: "[102-200] title",
     alertMessage: "[102-200] message",
     linkUrl: "[102] url",
+    alertExpiresInDays: 14,
   },
 ];

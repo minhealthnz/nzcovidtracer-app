@@ -61,7 +61,7 @@ export const buildRandomEntries = (): DiaryEntry[] => {
 
 const buildCases = (entries: AddDiaryEntry[]) => {
   const cases: any[] = [];
-  entries.map((entry) => {
+  entries.forEach((entry) => {
     cases.push([entry.id, entry]);
   });
   return cases;
@@ -157,7 +157,7 @@ export default describe("Diary/reducer", () => {
     const diaryEntries = entries.map(mapAddDiaryEntry(userId));
 
     const newState = reducer(
-      initState! as DiaryState,
+      initState,
       mergeEntries.fulfilled(entries, nanoid(), diaryEntries),
     );
 

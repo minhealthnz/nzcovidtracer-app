@@ -1,4 +1,5 @@
 import { createLogger } from "@logger/createLogger";
+import { debounce } from "lodash";
 import { useCallback, useEffect, useRef } from "react";
 import { Linking } from "react-native";
 import { parse, UrlWithParsedQuery } from "url";
@@ -28,29 +29,31 @@ export function useHandleLink(
     [callback, options],
   );
 
+  const debouncedHandleUrl = debounce(handleUrl, 500, {
+    leading: true,
+    trailing: false,
+  });
+
   // handles opening link from closed state
   useEffect(() => {
     // only handle once on start
-    if (isInitialised.current) {
-      return;
+    if (!isInitialised.current) {
+      isInitialised.current = true;
+      Linking.getInitialURL()
+        .then((initialURL) => {
+          if (initialURL) {
+            debouncedHandleUrl({
+              url: initialURL,
+            });
+          }
+        })
+        .catch(logError);
     }
-    isInitialised.current = true;
-    Linking.getInitialURL()
-      .then((initialURL) => {
-        if (initialURL) {
-          handleUrl({
-            url: initialURL,
-          });
-        }
-      })
-      .catch(logError);
-  }, [handleUrl, isInitialised]);
 
-  // handles foreground / background
-  useEffect(() => {
-    Linking.addEventListener("url", handleUrl);
-    return () => Linking.removeEventListener("url", handleUrl);
-  }, [handleUrl]);
+    // handles foreground / background
+    Linking.addEventListener("url", debouncedHandleUrl);
+    return () => Linking.removeEventListener("url", debouncedHandleUrl);
+  }, [debouncedHandleUrl, isInitialised]);
 }
 
 export function matchUrl(url: string, { matcher }: LinkOptions) {

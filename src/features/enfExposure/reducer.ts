@@ -21,6 +21,7 @@ export const persistConfig = {
 export interface ENFAlertData {
   alertTitle: string;
   alertMessage: string;
+  alertExpiresInDays: number;
   linkUrl: string;
   exposureDate: number;
   alertDate: number;

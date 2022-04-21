@@ -134,8 +134,7 @@ export const addCheckIns = async (items: AddCheckInItem[]) => {
 
   const privateDb = await createPrivate();
   privateDb.write(() => {
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
+    for (const item of items) {
       const location = locationMap.get(item.globalLocationNumber || item.name)!;
       const checkIn = privateDb.create<CheckInItem>(
         CheckInItemEntity,
@@ -152,8 +151,7 @@ export const addCheckIns = async (items: AddCheckInItem[]) => {
 
   const publicDb = await createPublic();
   publicDb.write(() => {
-    for (let i = 0; i < items.length; i++) {
-      const item = items[i];
+    for (const item of items) {
       publicDb.create<CheckInItemPublic>(
         CheckInItemPublicEntity,
         {

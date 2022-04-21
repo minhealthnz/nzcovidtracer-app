@@ -69,22 +69,15 @@ function _useDiarySections(
         return obj;
       }
 
-      obj.data =
-        isEmptySection && !isOldDiary
-          ? ["button"]
-          : isEmptySection && isOldDiary
-          ? ["noEntry"]
-          : section.entries;
-
-      obj.ctaTitle =
-        isEmptySection && isOldDiary
-          ? t("screens:diary:addEntry")
-          : !isEmptySection
-          ? t("screens:diary:addAnother")
-          : "";
+      if (isEmptySection) {
+        obj.data = [isOldDiary ? "noEntry" : "button"];
+        obj.ctaTitle = isOldDiary ? t("screens:diary:addEntry") : "";
+      } else {
+        obj.data = section.entries;
+        obj.ctaTitle = t("screens:diary:addAnother");
+      }
 
       obj.ctaCallback = () => handleAddEntry(startOfDay);
-
       return obj;
     },
   );

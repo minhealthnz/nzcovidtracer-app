@@ -300,7 +300,6 @@ export function Diary(props: Props) {
         await FileSystem.unlink(filePath);
       })
       .catch((err) => {
-        // TODO display error message to the user
         Alert.alert(err.message);
       });
   }, [userId]);
@@ -438,7 +437,6 @@ export function Diary(props: Props) {
     }
   }, [placeHolderRef, showPlaceHolder]);
 
-  // Todo investigate why mergeStatus === loading doesnt render placeholder
   return (
     <>
       {showPlaceHolder ? (

@@ -4,7 +4,6 @@ import {
   colors,
   fontFamilies,
   fontSizes,
-  grid,
   grid2x,
   grid3x,
   grid4x,
@@ -66,7 +65,7 @@ export const Heading = styled(Text)`
   font-size: ${fontSizes.xxLarge}px;
   line-height: 26px;
   padding-top: 12px;
-  margin-bottom: ${grid}px;
+  margin-bottom: ${grid2x}px;
   text-align: left;
 `;
 
@@ -82,15 +81,11 @@ const ContentContainer = styled.View<{
   paddingBottom?: number;
   paddingTop?: number;
 }>`
-  padding: ${(props) => props.padding ?? grid3x}px;
+  padding: ${(props) => props.padding}px;
   padding-bottom: ${(props) =>
     props.paddingBottom ? props.paddingBottom : 0}px;
   padding-top: ${(props) =>
-    !isNil(props.paddingTop)
-      ? props.paddingTop
-      : !isNil(props.padding)
-      ? props.padding
-      : grid3x}px;
+    !isNil(props.paddingTop) ? props.paddingTop : props.padding}px;
   flex: 1;
 `;
 
@@ -468,7 +463,7 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
             ) : null
           }
           <ContentContainer
-            padding={props.padding}
+            padding={!isNil(props.padding) ? props.padding : grid3x}
             paddingBottom={isReduceMotionEnabled ? keyboardHeight : undefined}
             paddingTop={props.paddingTop}
           >

@@ -1,7 +1,6 @@
 import { useInputGroup } from "@components/molecules/InputGroup";
 import { colors, fontFamilies, fontSizes, grid, grid4x } from "@constants";
-import React from "react";
-import { useCallback, useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import styled from "styled-components/native";
 
 import { Requiredness } from "./InputWrapper";

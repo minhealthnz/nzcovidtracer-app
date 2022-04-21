@@ -26,17 +26,15 @@ export const strings = {
       shareDiary: {
         title: "Share my digital diary",
         description:
-          "If you have been asked by a Contact Tracer, you can share your digital diary with Contact Tracers.\n\nThis will securely upload the locations, times and notes in your diary to the National Contact Tracing Solution.",
+          "If you have been asked by a Contact Tracer or provided with a diary upload code online, you can share recent locations from your digital diary with Contact Tracers.\n\nThis will securely upload the locations, times and notes in your diary to the National Contact Tracing Solution.",
         tip:
           "You can only share your diary if you are a confirmed or probable case of COVID-19.",
         subText:
-          "It is not compulsory for you to share your diary but it helps make contact tracing easier. To help you protect your privacy, you can select which entries you want to share and which you want to exclude.\n\nThis data will be treated as part of your medical record.",
+          "It is not compulsory for you to share your diary but it helps make contact tracing easier. You can select which entries you want to share and which you want to exclude.\n\nThis data will be treated as part of your medical record.",
         continue: "Continue",
       },
       shareDiaryList: {
         title: "Select diary entries to share",
-        description:
-          "We encourage you to share all days to give Contact Tracers as much context as possible.",
         allDays: "All days",
         lastFourteen: "Last 14 days",
         allDaysAccessibilityLabel: "Select all diary entries",
@@ -65,7 +63,8 @@ export const strings = {
       shareDiaryConfirm: {
         title: "Confirm diary share",
         dataRequestCode: "Diary upload code",
-        dataRequestCodeInfo: "Enter the code given to you by a Contact Tracer",
+        dataRequestCodeInfo:
+          "Enter the code given to you online or by a Contact Tracer",
         summaryTitle: "Diary upload summary",
         changeEntries: "Change entries",
         changeEntriesAccessibility: "Change diary entries that I want to share",

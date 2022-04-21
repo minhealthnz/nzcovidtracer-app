@@ -3,7 +3,7 @@ import Divider from "@components/atoms/Divider";
 import { ListPlaceHolder } from "@components/atoms/ListPlaceHolder";
 import { SectionList } from "@components/atoms/SectionList";
 import { Toast } from "@components/atoms/Toast";
-import { Description, Heading } from "@components/molecules/FormV2";
+import { Heading } from "@components/molecules/FormV2";
 import { colors, grid2x, grid4x } from "@constants";
 import { useToast } from "@hooks/useToast";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
@@ -91,6 +91,37 @@ export function ShareDiaryList(props: ShareDiaryListProps) {
 
   useAccessibleTitle();
 
+  const checkLast14Button = useCallback(() => {
+    let index = sections.findIndex((i) => i.showOldDiaryTitle);
+    if (index <= 0) {
+      index = sections.length;
+    }
+    let data: DiaryEntry[] = [];
+    for (let i = 0; i < index; i++) {
+      const section = sections[i];
+      const sectionData = section.data as DiaryEntry[];
+      data = [...data, ...sectionData];
+    }
+
+    const last14Selected = data.every(
+      (i) => selectedRows[i.id] && selectedRows[i.id].checked,
+    );
+
+    const selectedRowsChecked = Object.values(selectedRows).filter(
+      (i) => i.checked,
+    );
+
+    if (
+      !isEmpty(data) &&
+      last14Selected &&
+      selectedRowsChecked.length === data.length
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [sections, selectedRows]);
+
   useEffect(() => {
     if (!loading && !allButtonActive && !last14ButtonActive) {
       const checkedRows = Object.values(selectedRows).filter((i) => i.checked);
@@ -98,41 +129,16 @@ export function ShareDiaryList(props: ShareDiaryListProps) {
         setAllButtonActive(true);
         setLast14ButtonActive(false);
       } else {
+        const last14Selected = checkLast14Button();
         setAllButtonActive(false);
-        let index = sections.findIndex((i) => i.showOldDiaryTitle);
-        if (index <= 0) {
-          index = sections.length;
-        }
-        let data: DiaryEntry[] = [];
-        for (let i = 0; i < index; i++) {
-          const section = sections[i];
-          const sectionData = section.data as DiaryEntry[];
-          data = [...data, ...sectionData];
-        }
-
-        const last14Selected = data.every(
-          (i) => selectedRows[i.id] && selectedRows[i.id].checked,
-        );
-
-        const selectedRowsChecked = Object.values(selectedRows).filter(
-          (i) => i.checked,
-        );
-
-        if (
-          !isEmpty(data) &&
-          last14Selected &&
-          selectedRowsChecked.length === data.length
-        ) {
-          setLast14ButtonActive(true);
-        } else {
-          setLast14ButtonActive(false);
-        }
+        setLast14ButtonActive(last14Selected);
       }
     }
   }, [
     allButtonActive,
     allEntries,
     allEntries.length,
+    checkLast14Button,
     last14ButtonActive,
     loading,
     sections,
@@ -305,9 +311,6 @@ export function ShareDiaryList(props: ShareDiaryListProps) {
         <Heading style={styles.heading}>
           {t("screens:shareDiaryList:title")}
         </Heading>
-        <Description style={styles.description}>
-          {t("screens:shareDiaryList:description")}
-        </Description>
         <ButtonsContainer>
           <Button
             text={t("screens:shareDiaryList:allDays")}

@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 echo "---------NODE VERSION---------"
 source ~/.nvm/nvm.sh
 nvm use

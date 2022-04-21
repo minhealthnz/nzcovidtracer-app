@@ -1,5 +1,6 @@
 import {
   HiddenAccessibilityTitle,
+  ImageButton,
   Text,
   VerticalSpacing,
 } from "@components/atoms";
@@ -8,17 +9,19 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from "@components/molecules/NotificationCard";
-import { colors, fontFamilies, fontSizes } from "@constants";
+import { colors, fontFamilies, fontSizes, grid2x } from "@constants";
 import useENFAlertCopy from "@features/enfExposure/hooks/useENFAlertCopy";
-import { ENFAlertData } from "@features/enfExposure/reducer";
+import { dismissEnfAlert, ENFAlertData } from "@features/enfExposure/reducer";
 import {
   selectENFCallbackRequested,
   selectSetCallbackEnabled,
 } from "@features/enfExposure/selectors";
-import React, { useCallback, useEffect, useState } from "react";
+import { defaultENFExpiresInDays } from "@features/enfExposure/util/defaultENFExpiresInDays";
+import pupa from "pupa";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking } from "react-native";
-import { useSelector } from "react-redux";
+import { Alert, Linking } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 
 import { AnalyticsEvent, recordAnalyticEvent } from "../../../../analytics";
@@ -59,13 +62,18 @@ const HeaderContainer = styled.View`
   padding-bottom: 0px;
 `;
 
+const CloseButton = styled(ImageButton)`
+  padding: ${grid2x}px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+`;
+
 export interface BeenInCloseContactProps {
   enfAlert: ENFAlertData | undefined;
   onRequestCallback?(): void;
 }
-
-// 14 days
-const ttl = 60 * 60 * 24 * 14 * 1000;
 
 const checkInterval = 60 * 1000;
 
@@ -74,8 +82,32 @@ export function BeenInCloseContact({
   onRequestCallback,
 }: BeenInCloseContactProps) {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const callbackEnabled = useSelector(selectSetCallbackEnabled);
   const callbackRequested = useSelector(selectENFCallbackRequested);
+
+  const handleDismissPressed = useCallback(() => {
+    if (!enfAlert) {
+      return;
+    }
+
+    Alert.alert(
+      t("screens:dashboard:beenInCloseContact:dismiss:title"),
+      undefined,
+      [
+        {
+          text: t("screens:dashboard:beenInCloseContact:dismiss:cancel"),
+          style: "cancel",
+        },
+        {
+          text: t("screens:dashboard:beenInCloseContact:dismiss:dimiss"),
+          onPress: () => {
+            dispatch(dismissEnfAlert(enfAlert.exposureDate));
+          },
+        },
+      ],
+    );
+  }, [dispatch, enfAlert, t]);
 
   const handlePressMore = useCallback(() => {
     if (enfAlert) {
@@ -103,6 +135,12 @@ export function BeenInCloseContact({
     if (enfAlert == null) {
       return;
     }
+
+    const alertExpiresInDays = defaultENFExpiresInDays(
+      enfAlert.alertExpiresInDays,
+    );
+    const ttl = 60 * 60 * 24 * alertExpiresInDays * 1000;
+
     setCallbackExpired(new Date().getTime() - enfAlert.exposureDate > ttl);
     const id = setInterval(() => {
       if (enfAlert == null) {
@@ -112,6 +150,18 @@ export function BeenInCloseContact({
     }, checkInterval);
     return () => clearInterval(id);
   }, [enfAlert]);
+
+  const numberOfExposuresLabel = useMemo(() => {
+    if (enfAlert == null) {
+      return;
+    }
+    const alertExpiresInDays = defaultENFExpiresInDays(
+      enfAlert.alertExpiresInDays,
+    );
+    return pupa(t("screens:dashboard:beenInCloseContact:numberOfExposures"), [
+      alertExpiresInDays,
+    ]);
+  }, [enfAlert, t]);
 
   if (!enfAlert) {
     return null;
@@ -124,13 +174,16 @@ export function BeenInCloseContact({
       <HiddenAccessibilityTitle
         label={t("accessibility:dashboard:beenInCloseContact")}
       />
+      <CloseButton
+        image={require("@assets/images/close.png")}
+        onPress={handleDismissPressed}
+        accessibilityLabel={t("accessibility:button:close")}
+      />
       <>
         <HeadingText>{alertText}</HeadingText>
         {enfAlert.exposureCount > 1 && (
           <HeadingText>
-            {`${enfAlert.exposureCount.toString()} ${t(
-              "screens:dashboard:beenInCloseContact:numberOfExposures",
-            )}`}
+            {`${enfAlert.exposureCount.toString()} ${numberOfExposuresLabel}`}
           </HeadingText>
         )}
 

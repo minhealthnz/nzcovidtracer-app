@@ -5,7 +5,8 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import pupa from "pupa";
 import React, { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, FlatList } from "react-native";
+import { Alert, StyleSheet } from "react-native";
+import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 import styled from "styled-components/native";
 
 import { addFavourite } from "../actions/addFavourite";
@@ -15,10 +16,6 @@ import { Location } from "../types";
 import { ListHeader } from "./ListHeader";
 import { LocationListItem } from "./LocationListItem";
 import { LocationSuccessContext } from "./LocationSuccessContextProvider";
-
-const List = styled(FlatList as new () => FlatList<Location>)`
-  background-color: ${colors.white};
-`;
 
 const Separator = styled.View`
   background-color: ${colors.platinum};
@@ -199,29 +196,34 @@ export function LocationList(props: LocationListProps) {
   );
 
   return (
-    <>
-      <List
-        scrollEnabled={true}
-        data={locations}
-        renderItem={renderItem}
-        onRefresh={() => refresh()}
-        refreshing={refreshing}
-        onEndReachedThreshold={8}
-        onEndReached={() => loadMore()}
-        keyExtractor={(_, index) => index.toString()}
-        ListFooterComponent={renderFooter}
-        keyboardShouldPersistTaps="handled"
-        ItemSeparatorComponent={Separator}
-        ListHeaderComponent={
-          rightButton === "save" ||
-          (isPlaceOrActivity && locations.length > 0) ? (
-            <ListHeader
-              isSearchEmpty={locations.length === 0 && !!props.textSearch}
-              isLocationEmpty={locations.length === 0 && !props.textSearch}
-            />
-          ) : null
-        }
-      />
-    </>
+    <KeyboardAwareFlatList
+      style={styles.List}
+      scrollEnabled={true}
+      data={locations}
+      renderItem={renderItem}
+      onRefresh={() => refresh()}
+      refreshing={refreshing}
+      onEndReachedThreshold={8}
+      onEndReached={() => loadMore()}
+      keyExtractor={(_, index) => index.toString()}
+      ListFooterComponent={renderFooter}
+      keyboardShouldPersistTaps="handled"
+      ItemSeparatorComponent={Separator}
+      ListHeaderComponent={
+        rightButton === "save" ||
+        (isPlaceOrActivity && locations.length > 0) ? (
+          <ListHeader
+            isSearchEmpty={locations.length === 0 && !!props.textSearch}
+            isLocationEmpty={locations.length === 0 && !props.textSearch}
+          />
+        ) : null
+      }
+    />
   );
 }
+
+const styles = StyleSheet.create({
+  List: {
+    backgroundColor: colors.white,
+  },
+});

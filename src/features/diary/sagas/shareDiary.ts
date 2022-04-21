@@ -39,7 +39,6 @@ function* onShareDiary(
         message: "errors:dataRequestCode:atleast1Item",
       }),
     );
-    return;
   } else {
     try {
       yield call(updateLocationHistory, code, items);

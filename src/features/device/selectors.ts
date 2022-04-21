@@ -13,11 +13,6 @@ export const selectCameraPermission = createSelector(
   (device) => device.cameraPermission,
 );
 
-export const selectPassUrl = createSelector(
-  selectDevice,
-  (device) => device.passUrl,
-);
-
 export const selectPassDisabled = createSelector(
   selectDevice,
   (device) => device.passDisabled,

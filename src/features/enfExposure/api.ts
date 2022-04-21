@@ -13,6 +13,7 @@ export interface ENFNotificationRiskBucket {
   maxRiskScore: number;
   alertTitle: string;
   alertMessage: string;
+  alertExpiresInDays: number;
   systemNotification: string;
   linkUrl: string;
   callbackEnabled: boolean;

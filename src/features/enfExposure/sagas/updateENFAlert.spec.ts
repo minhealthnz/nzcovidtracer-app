@@ -44,6 +44,11 @@ const CONTACT3: CloseContact = {
   matchedKeyCount: 2,
 };
 
+const CONTACT4: CloseContact = {
+  ...CONTACT1,
+  exposureDate: moment().valueOf(),
+};
+
 const DATE_BEFORE_CONTACT1 = moment("2020-11-05T00:00:00.000Z").valueOf();
 const DATE_AFTER_CONTACT1 = moment("2020-11-10T12:00:00.000Z").valueOf();
 
@@ -53,7 +58,8 @@ const RESULT_FROM_CONTACT1_BUCKET0: ENFAlertData = {
   linkUrl: enfConfig[0].linkUrl,
   alertDate: CONTACT1.exposureAlertDate,
   exposureDate: CONTACT1.exposureDate,
-  exposureCount: 1,
+  exposureCount: 0,
+  alertExpiresInDays: enfConfig[0].alertExpiresInDays,
 };
 
 const RESULT_FROM_CONTACT2_BUCKET2: ENFAlertData = {
@@ -62,7 +68,8 @@ const RESULT_FROM_CONTACT2_BUCKET2: ENFAlertData = {
   linkUrl: enfConfig[2].linkUrl,
   alertDate: CONTACT2.exposureAlertDate,
   exposureDate: CONTACT2.exposureDate,
-  exposureCount: 1,
+  exposureCount: 0,
+  alertExpiresInDays: enfConfig[0].alertExpiresInDays,
 };
 
 const RESULT_FROM_CONTACT2_BUCKET2_1: ENFAlertData = {
@@ -71,7 +78,18 @@ const RESULT_FROM_CONTACT2_BUCKET2_1: ENFAlertData = {
   linkUrl: enfConfig[2].linkUrl,
   alertDate: CONTACT2.exposureAlertDate,
   exposureDate: CONTACT2.exposureDate,
-  exposureCount: 3,
+  exposureCount: 0,
+  alertExpiresInDays: enfConfig[0].alertExpiresInDays,
+};
+
+const RESULT_FROM_CONTACT4_BUCKET0: ENFAlertData = {
+  alertTitle: enfConfig[0].alertTitle,
+  alertMessage: enfConfig[0].alertMessage,
+  linkUrl: enfConfig[0].linkUrl,
+  alertDate: CONTACT4.exposureAlertDate,
+  exposureDate: CONTACT4.exposureDate,
+  exposureCount: 1,
+  alertExpiresInDays: enfConfig[0].alertExpiresInDays,
 };
 
 const riskBucketSelector = () => {};
@@ -170,6 +188,24 @@ describe("#updateENFAlert", () => {
         [select(riskBucketSelector), enfConfig[2]],
       ])
       .put(setEnfAlert(RESULT_FROM_CONTACT2_BUCKET2_1))
+      .silentRun();
+  });
+
+  it("should show the alert with the exposure count of 1", async () => {
+    await expectSaga(updateENFAlert, {
+      type: "action",
+      payload: [CONTACT4],
+    })
+      .provide([
+        [select(selectLastEnfAlertDismissDate), DATE_AFTER_CONTACT1],
+        [select(selectENFAlert), undefined],
+        [
+          call(selectENFNotificationRiskBucket, CONTACT4.maxRiskScore),
+          riskBucketSelector,
+        ],
+        [select(riskBucketSelector), enfConfig[0]],
+      ])
+      .put(setEnfAlert(RESULT_FROM_CONTACT4_BUCKET0))
       .silentRun();
   });
 

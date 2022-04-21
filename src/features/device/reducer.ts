@@ -139,9 +139,6 @@ const deviceSlice = createSlice({
     ) {
       state.shouldSubscribeToAnnouncementsByDefault = payload;
     },
-    setPassUrl(state, { payload }: PayloadAction<string | null>) {
-      state.passUrl = payload;
-    },
     setPassDisabled(state, { payload }: PayloadAction<boolean>) {
       state.passDisabled = payload;
     },
@@ -155,7 +152,6 @@ export const {
   setNotificationPermission,
   setCameraPermision,
   setAppState,
-  setPassUrl,
   setPassDisabled,
   subscriptionFulfilled,
   subscriptionRemoved,

@@ -20,7 +20,11 @@ const getTime = (
 ) => {
   if (isOutsideNZ()) {
     const offset = getOffsetInMins() * 60000;
-    time = reverse ? time - offset : initial ? time : time + offset;
+    if (reverse) {
+      time = time - offset;
+    } else {
+      time = initial ? time : time + offset;
+    }
   }
 
   return time;

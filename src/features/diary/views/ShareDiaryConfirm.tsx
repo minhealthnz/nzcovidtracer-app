@@ -164,7 +164,7 @@ export function ShareDiaryConfirm(props: ShareDiaryConfirmProps) {
   // Get data sections grouped and with it's title
   const sections = useMemo(() => {
     const groupedItems = groupByStartDate(selectedItems);
-    const mappedData = groupedItems.map((section) => {
+    return groupedItems.map((section) => {
       const dt = moment(section[0].startDate);
       return {
         title: dt.format(
@@ -174,8 +174,6 @@ export function ShareDiaryConfirm(props: ShareDiaryConfirmProps) {
         data: section,
       };
     });
-
-    return mappedData;
   }, [selectedItems]);
 
   useEffect(() => {
