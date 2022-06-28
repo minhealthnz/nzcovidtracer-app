@@ -4,10 +4,8 @@ import { createSelector } from "reselect";
 
 import { INITIAL_STATE } from "./reducer";
 
-const {
-  refreshToken: DEFAULT_REFRESH_TOKEN,
-  token: DEFAULT_AUTH_TOKEN,
-} = INITIAL_STATE;
+const { refreshToken: DEFAULT_REFRESH_TOKEN, token: DEFAULT_AUTH_TOKEN } =
+  INITIAL_STATE;
 
 const selectVerification = (state: ReduxState) => state.verification;
 

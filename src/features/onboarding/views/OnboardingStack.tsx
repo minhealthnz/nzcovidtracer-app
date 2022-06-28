@@ -17,7 +17,6 @@ import { useSelector } from "react-redux";
 import { disableAnimations } from "../../../config";
 import { OnboardingScreen } from "../screens";
 import { selectInitialScreen } from "../selectors";
-import { ContactDetails } from "./ContactDetails";
 import { EnableAlerts } from "./EnableAlerts";
 import { EnableENF } from "./EnableENF";
 import { ExistingUser } from "./ExistingUser";
@@ -32,7 +31,6 @@ export type OnboardingScreenParams = {
   [OnboardingScreen.MultipleDiaries]: undefined;
   [OnboardingScreen.ValueStatements]: undefined;
   [OnboardingScreen.PrivacyStatement]: undefined;
-  [OnboardingScreen.ContactDetails]: undefined;
   [OnboardingScreen.EnableAlerts]: undefined;
   [OnboardingScreen.Thanks]: undefined;
   [OnboardingScreen.Splash]: undefined;
@@ -104,13 +102,6 @@ export function OnboardingStack() {
         component={EnableAlerts}
         options={{
           title: t("screenTitles:enableAlerts"),
-        }}
-      />
-      <Stack.Screen
-        name={OnboardingScreen.ContactDetails}
-        component={ContactDetails}
-        options={{
-          title: t("screenTitles:contactDetails"),
         }}
       />
       <Stack.Screen

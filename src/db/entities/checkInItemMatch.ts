@@ -164,7 +164,7 @@ export const acknowledgeOutstandingMatches = async () => {
 
   publicDb.write(() => {
     for (const match of matches) {
-      ((match as unknown) as CheckInItemMatch).acknowledged = true;
+      (match as unknown as CheckInItemMatch).acknowledged = true;
     }
   });
 

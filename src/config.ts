@@ -79,7 +79,7 @@ export function setDisableAnimations(value: boolean) {
   disableAnimations = value;
 }
 
-const raw = (Config as unknown) as AppConfigRaw;
+const raw = Config as unknown as AppConfigRaw;
 
 const defaultMaxCheckInDays = 60;
 
@@ -126,15 +126,16 @@ const features = (raw.Features ?? "").split(",").filter((a) =>
 export const getBuildId = (offset?: string, buildId?: string) => {
   const defaultBuildNumber = 1;
   const buildIdNumber =
-    (buildId ? parseInt(buildId) : defaultBuildNumber) || defaultBuildNumber;
-  const offsetNumber = (offset ? parseInt(offset) : 0) || 0;
+    (buildId ? parseInt(buildId, 10) : defaultBuildNumber) ||
+    defaultBuildNumber;
+  const offsetNumber = (offset ? parseInt(offset, 10) : 0) || 0;
 
   return (buildIdNumber + offsetNumber).toString();
 };
 
 const getENFCheckInterval = () => {
   if (raw.ENFCheckInterval) {
-    const parsed = parseInt(raw.ENFCheckInterval);
+    const parsed = parseInt(raw.ENFCheckInterval, 10);
     if (!isNaN(parsed)) {
       return Math.max(15, parsed);
     }
@@ -193,11 +194,17 @@ const config: AppConfig = {
   EasterEggPublicKey: raw.EasterEggPublicKey || "",
 };
 
-export function readHostWhitelist(raw: string | undefined): "*" | string[] {
-  if (raw == null || raw.length === 0 || raw === "*") {
+export function readHostWhitelist(
+  assetWhitelist: string | undefined,
+): "*" | string[] {
+  if (
+    assetWhitelist == null ||
+    assetWhitelist.length === 0 ||
+    assetWhitelist === "*"
+  ) {
     return "*";
   }
-  return raw.split(",").map((x) => x.trim());
+  return assetWhitelist.split(",").map((x) => x.trim());
 }
 
 export default config;

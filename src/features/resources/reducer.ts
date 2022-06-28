@@ -3,7 +3,7 @@ import { sectionListSchema } from "@components/validations";
 import { ReduxState } from "@domain/types";
 import { isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { maskToken } from "@utils/mask";
 import { persistReducer } from "redux-persist";

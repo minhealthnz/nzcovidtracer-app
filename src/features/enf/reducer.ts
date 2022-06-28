@@ -1,6 +1,6 @@
 import { isIOS, isNetworkError } from "@lib/helpers";
 import { createLogger } from "@logger/createLogger";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   createAsyncThunk,
   createSlice,

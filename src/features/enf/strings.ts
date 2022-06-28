@@ -70,8 +70,7 @@ export const strings = {
           link: "help@covidtracer.min.health.nz",
           subtextP4:
             "You can still help contact tracing efforts by scanning the QR code posters and creating manual entries in your diary.",
-          tip:
-            "You can still help contact tracing efforts by scanning the QR code posters and creating manual entries in your diary.",
+          tip: "You can still help contact tracing efforts by scanning the QR code posters and creating manual entries in your diary.",
         },
         disableModal: {
           title: "Turn off Bluetooth contact tracing?",
@@ -89,8 +88,7 @@ export const strings = {
         buttonAccessibilityLabel: "Share my Bluetooth tracing codes",
         inputLabel: "Data request code",
         inputInfo: "Enter the code given to you online or by a Contact Tracer.",
-        tip:
-          "You can only share your Bluetooth tracing codes if you were contacted by a Contact Tracer.",
+        tip: "You can only share your Bluetooth tracing codes if you were contacted by a Contact Tracer.",
         errors: {
           code: {
             invalid: "Incorrect code. Check your code and try again",

@@ -83,19 +83,18 @@ export const mapExportDiaryEntry = (
   isFavourite: checkInItem.location.isFavourite,
 });
 
-export const mapAddDiaryEntry = (userId: string) => (
-  diary: ExportDiaryEntry,
-) => ({
-  id: diary.id,
-  userId: userId,
-  startDate: new Date(diary.startDate),
-  name: diary.name,
-  address: diary.address,
-  globalLocationNumber: diary.globalLocationNumber,
-  details: diary.details,
-  type: diary.type,
-  isFavourite: diary.isFavourite,
-});
+export const mapAddDiaryEntry =
+  (userId: string) => (diary: ExportDiaryEntry) => ({
+    id: diary.id,
+    userId: userId,
+    startDate: new Date(diary.startDate),
+    name: diary.name,
+    address: diary.address,
+    globalLocationNumber: diary.globalLocationNumber,
+    details: diary.details,
+    type: diary.type,
+    isFavourite: diary.isFavourite,
+  });
 
 const checkExposureMatch = (
   entry: CheckInItem,

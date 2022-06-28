@@ -1,4 +1,3 @@
-import { addressLink, contactDetailsLink } from "@constants";
 import { selectUser } from "@domain/user/selectors";
 import { DiaryScreen } from "@features/diary/screens";
 import { selectHasOldDiary } from "@features/diary/selectors";
@@ -16,7 +15,7 @@ import { MainStackParamList } from "@views/MainStack";
 import _ from "lodash";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Linking, SectionListData } from "react-native";
+import { SectionListData } from "react-native";
 import { useExposure } from "react-native-exposure-notification-service";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -140,34 +139,6 @@ export function useProfileSections() {
     [navigation, dispatch, hasOldDiary, t],
   );
 
-  const contactDetail = useMemo(
-    () => ({
-      headerImage: assets.details,
-      title: t("screens:profile:contactDetails"),
-      description: t("screens:profile:contactDetailsDescription"),
-      onPress: () => {
-        Linking.openURL(contactDetailsLink);
-      },
-      isLink: true,
-      accessibilityHint: t("screens:dashboard:linkAccessiblityHint"),
-    }),
-    [t],
-  );
-
-  const address = useMemo(
-    () => ({
-      headerImage: assets.location,
-      title: t("screens:profile:address"),
-      description: t("screens:profile:addressDescription"),
-      onPress: () => {
-        Linking.openURL(addressLink);
-      },
-      isLink: true,
-      accessibilityHint: t("screens:dashboard:linkAccessiblityHint"),
-    }),
-    [t],
-  );
-
   const shareDiary = useMemo(
     () => ({
       headerImage: assets.send,
@@ -205,10 +176,6 @@ export function useProfileSections() {
         data: _.compact([diary, savedLocations, oldDiary, nhi]),
       },
       {
-        title: t("screens:profile:headingShareInfo"),
-        data: _.compact([contactDetail, address]),
-      },
-      {
         title: t("screens:profile:headingSharePostive"),
         data: _.compact([shareDiary, shareBluetoothTracing]),
       },
@@ -222,8 +189,6 @@ export function useProfileSections() {
     return items;
   }, [
     t,
-    address,
-    contactDetail,
     diary,
     savedLocations,
     nhi,

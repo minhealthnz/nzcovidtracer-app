@@ -249,7 +249,7 @@ export const query = async (
 
   privateDb.close();
 
-  return (Array.from(results) as unknown[]) as CheckInItem[];
+  return Array.from(results) as unknown[] as CheckInItem[];
 };
 
 export const count = async (userId?: string) => {

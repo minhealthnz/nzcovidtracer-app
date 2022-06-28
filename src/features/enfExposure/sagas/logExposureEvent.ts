@@ -6,7 +6,8 @@ import { call, take } from "redux-saga/effects";
 
 import config from "../../../config";
 
-const emitter = new NativeEventEmitter(ExposureNotificationModule);
+const exposureNotification = ExposureNotificationModule as any;
+const emitter = new NativeEventEmitter(exposureNotification);
 
 const { logInfo, logError } = createLogger("ExposureEvent");
 
@@ -25,7 +26,6 @@ function exposureEventChannel() {
 
     return () => {
       subscription.remove();
-      emitter.removeListener("exposureEvent", listener);
     };
   });
 }

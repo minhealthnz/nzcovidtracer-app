@@ -43,45 +43,34 @@ export const strings = {
         section1: {
           title:
             "Any personal information you share through NZ COVID Tracer will be used only for public health purposes related to contact tracing during the COVID-19 pandemic response.",
-          copy:
-            "You can choose which of the NZ COVID Tracer App features you wish to use:",
+          copy: "You can choose which of the NZ COVID Tracer App features you wish to use:",
         },
         section2: {
           title: "Digital Diary:",
-          copy:
-            "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days. You can choose to send your digital diary to us if a contact tracer asks you to (they will give you a code).",
+          copy: "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days. You can choose to send your digital diary to us if a contact tracer asks you to (they will give you a code).",
         },
         section3: {
-          title: "Contact Details:",
-          copy:
-            "You can choose what contact details you share with us. This is to help contact tracers if they need to get in touch with you.",
+          title: "Notifications:",
+          copy: "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19 and the contact tracers decide to send an alert. We will not know you have received an alert unless you choose to contact us about it.",
         },
         section4: {
-          title: "Notifications:",
-          copy:
-            "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19. We will not know you have received an alert unless you choose to contact us about it.",
+          title: "Bluetooth Tracing:",
+          copy: "You can choose if you want to turn on this functionality. This will enable your device to anonymously record when you are near other app users who have Bluetooth enabled. It will record only how close to them you were, and how long you were nearby. It does not record who either of you are or where you were. When an app user tests positive for COVID-19, they can choose to anonymously notify the other app users who have been nearby. No identifying information is exchanged. We will not know you have received a notification unless you choose to contact us about it.",
         },
         section5: {
-          title: "Bluetooth Tracing:",
-          copy:
-            "You can choose if you want to turn on this new functionality. This will enable your device to anonymously record when you are near other app users who have Bluetooth enabled. It will record only how close to them you were, and how long you were nearby. It does not record who either of you are or where you were. When an app user tests positive for COVID-19, they can choose to anonymously notify the other app users who have been nearby. No identifying information is exchanged. We will not know you have received a notification unless you choose to contact us about it.",
+          title: "My NHI Details:",
+          copy: "You can choose if you want to add your NHI number to the app to speed up access to testing if you visit a COVID-19 testing site.",
         },
         section6: {
-          title: "My NHI Details:",
-          copy:
-            "You can choose if you want to add your NHI number to the app to speed up access to testing if you visit a COVID-19 testing site.",
-        },
-        section7: {
           copy1:
-            "If you choose to share your name and contact details with the Ministry, they will be stored securely. All other information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
+            "All information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
           copy2:
             "To help keep the information on your phone safe, we recommend you keep your phone locked when you are not using it.",
         },
-        section8: {
+        section7: {
           title: "More information",
-          copy:
-            "For more information about how your information is used, or to get in contact with us (the Ministry of Health), please review the ",
-          link: "full Privacy and Security Statement.",
+          copy: "For more information about how your information is used, or to get in contact with us (the Ministry of Health), please review the full",
+          link: "Privacy and Security Statement.",
           linkAccessibilityHint: "Leaves the app and navigates to a webpage",
         },
       },
@@ -141,14 +130,11 @@ export const strings = {
         done: "Done",
       },
       thanks: {
-        heading: "You've joined our team of 5 million",
+        heading: "You’re all set",
         headerImageLabel:
           "A person with NZ COVID Tracer app surrounded by their friends and family",
-        description: [
+        description:
           "Thanks for downloading and using the NZ COVID Tracer app to protect yourself, your whānau, and your community.",
-          "",
-          "Together we can stop the spread of COVID-19.",
-        ].join("\n"),
         finish: "Finish",
       },
       lockCode: {

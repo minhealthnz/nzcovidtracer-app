@@ -7,8 +7,7 @@ import {
 const panel1: RemotePanelData = {
   component: "Panel",
   title: "COVID-19 Vaccines are now available to public",
-  body:
-    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.",
+  body: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa.",
   buttons: [
     {
       text: "Find out when I can get vaccinated",

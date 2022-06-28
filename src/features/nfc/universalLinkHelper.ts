@@ -48,7 +48,7 @@ export async function buildEntry(
     }
   }
 
-  const scanData = (barcodeData as unknown) as ScanData;
+  const scanData = barcodeData as unknown as ScanData;
 
   if (type === "nfc") {
     // From NFC

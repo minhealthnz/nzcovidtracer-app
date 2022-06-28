@@ -621,44 +621,35 @@ You can copy over any diary you want to keep using now, or you can do this later
           "title": "Digital Diary:",
         },
         "section3": Object {
-          "copy": "You can choose what contact details you share with us. This is to help contact tracers if they need to get in touch with you.",
-          "title": "Contact Details:",
-        },
-        "section4": Object {
-          "copy": "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19. We will not know you have received an alert unless you choose to contact us about it.",
+          "copy": "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19 and the contact tracers decide to send an alert. We will not know you have received an alert unless you choose to contact us about it.",
           "title": "Notifications:",
         },
-        "section5": Object {
-          "copy": "You can choose if you want to turn on this new functionality. This will enable your device to anonymously record when you are near other app users who have Bluetooth enabled. It will record only how close to them you were, and how long you were nearby. It does not record who either of you are or where you were. When an app user tests positive for COVID-19, they can choose to anonymously notify the other app users who have been nearby. No identifying information is exchanged. We will not know you have received a notification unless you choose to contact us about it.",
+        "section4": Object {
+          "copy": "You can choose if you want to turn on this functionality. This will enable your device to anonymously record when you are near other app users who have Bluetooth enabled. It will record only how close to them you were, and how long you were nearby. It does not record who either of you are or where you were. When an app user tests positive for COVID-19, they can choose to anonymously notify the other app users who have been nearby. No identifying information is exchanged. We will not know you have received a notification unless you choose to contact us about it.",
           "title": "Bluetooth Tracing:",
         },
-        "section6": Object {
+        "section5": Object {
           "copy": "You can choose if you want to add your NHI number to the app to speed up access to testing if you visit a COVID-19 testing site.",
           "title": "My NHI Details:",
         },
-        "section7": Object {
-          "copy1": "If you choose to share your name and contact details with the Ministry, they will be stored securely. All other information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
+        "section6": Object {
+          "copy1": "All information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
           "copy2": "To help keep the information on your phone safe, we recommend you keep your phone locked when you are not using it.",
         },
-        "section8": Object {
-          "copy": "For more information about how your information is used, or to get in contact with us (the Ministry of Health), please review the ",
-          "link": "full Privacy and Security Statement.",
+        "section7": Object {
+          "copy": "For more information about how your information is used, or to get in contact with us (the Ministry of Health), please review the full",
+          "link": "Privacy and Security Statement.",
           "linkAccessibilityHint": "Leaves the app and navigates to a webpage",
           "title": "More information",
         },
         "title": "Privacy statement",
       },
       "profile": Object {
-        "address": "My address",
-        "addressDescription": "Help us locate you faster if we need to",
-        "contactDetails": "My contact details",
-        "contactDetailsDescription": "Help us contact you faster if we need to",
         "contactUs": "Contact us",
         "copyrightNAttribution": "Copyright & Attribution",
         "disclaimer": "© Ministry of Health – Manatū Hauora",
         "feeback": "Feedback",
         "headingSettings": "Settings and support",
-        "headingShareInfo": "Information shared with contact tracers",
         "headingSharePostive": "If you test positive",
         "headingStorePrivate": "Information stored privately",
         "help": "Help",
@@ -915,12 +906,10 @@ This data will be treated as part of your medical record.",
         "unselectDayAccessibilityLabel": "Unselect all entries from this day",
       },
       "thanks": Object {
-        "description": "Thanks for downloading and using the NZ COVID Tracer app to protect yourself, your whānau, and your community.
-
-Together we can stop the spread of COVID-19.",
+        "description": "Thanks for downloading and using the NZ COVID Tracer app to protect yourself, your whānau, and your community.",
         "finish": "Finish",
         "headerImageLabel": "A person with NZ COVID Tracer app surrounded by their friends and family",
-        "heading": "You've joined our team of 5 million",
+        "heading": "You’re all set",
       },
       "valueStatements": Object {
         "buttonPrimary": "Get started",

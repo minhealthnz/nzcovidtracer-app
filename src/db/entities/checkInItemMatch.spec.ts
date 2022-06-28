@@ -71,6 +71,7 @@ it("finds matches", async () => {
   const match = matches[0];
 
   verifyMatch(match, event);
+  publicDb.close();
 });
 
 it("doesn't find matches after range", async () => {
@@ -133,10 +134,10 @@ it("updates callback requested", async () => {
   const updatedMatch: CheckInItemMatch = publicDb
     .objectForPrimaryKey(CheckInItemMatchEntity, checkInItemMatch.id)
     ?.toJSON();
-  publicDb.close();
 
   expect(updatedMatch).toBeTruthy();
   expect(updatedMatch.callbackRequested).toBe(true);
+  publicDb.close();
 });
 
 it("removes many", async () => {
@@ -144,7 +145,7 @@ it("removes many", async () => {
     10,
     new Date(new Date().getTime() - 10000),
   );
-  removeMany(new Date());
+  await removeMany(new Date());
   const db = await createPublic();
   for (const match of matches) {
     const deleted = db.objectForPrimaryKey(CheckInItemMatchEntity, match.id);

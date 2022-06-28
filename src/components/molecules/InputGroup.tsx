@@ -181,16 +181,17 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
 
   const focusIndex = useRef(-1);
 
+  const onFocus = props.onFocus;
   const handleFocus = useCallback(
     (index: number) => {
-      props.onFocus?.(index);
+      onFocus?.(index);
       focusIndex.current = index;
       if (Platform.OS === "android" || keyboardDidShow.current) {
         scrollToIndex(index);
       }
       formV2.onInputFocus(index);
     },
-    [scrollToIndex, props.onFocus, formV2],
+    [scrollToIndex, onFocus, formV2],
   );
 
   const keyboardDidShow = useRef(false);
@@ -207,14 +208,16 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
   }, [scrollToIndex]);
 
   useEffect(() => {
-    Keyboard.addListener("keyboardDidShow", handleKeyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", handleKeyboardDidHide);
+    const subscriptions = [
+      Keyboard.addListener("keyboardDidShow", handleKeyboardDidShow),
+      Keyboard.addListener("keyboardDidHide", handleKeyboardDidHide),
+    ];
     return () => {
-      Keyboard.removeListener("keyboardDidShow", handleKeyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", handleKeyboardDidHide);
+      subscriptions.forEach((s) => s?.remove?.());
     };
   }, [handleKeyboardDidShow, handleKeyboardDidHide]);
 
+  const onSubmit = props.onSubmit;
   const focusNext = useCallback(
     (index: number) => {
       for (let i = index + 1; i < focusFunctions.current.length; i++) {
@@ -224,9 +227,9 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
           return;
         }
       }
-      props.onSubmit?.();
+      onSubmit?.();
     },
-    [props.onSubmit],
+    [onSubmit],
   );
 
   const identifiers = useRef<(string | undefined)[]>([]);
@@ -235,12 +238,12 @@ function _InputGroup(props: InputGroupProps, ref: Ref<InputGroupRef>) {
       index: number,
       identifier: string | undefined,
       focus: () => boolean,
-      accessibilityFocus: () => void,
+      accessibilityFocusFucntion: () => void,
     ) => {
       isInput.current[index] = true;
       identifiers.current[index] = identifier;
       focusFunctions.current[index] = focus;
-      accessibilityFocusFunctions.current[index] = accessibilityFocus;
+      accessibilityFocusFunctions.current[index] = accessibilityFocusFucntion;
     },
     [],
   );
@@ -313,14 +316,8 @@ export function useInputGroup(
   focus: () => boolean,
   accessibilityFocus?: () => void,
 ): InputGroupHandle {
-  const {
-    index,
-    focusNext,
-    register,
-    deregister,
-    isLast,
-    onFocus,
-  } = useContext(InputGroupContext);
+  const { index, focusNext, register, deregister, isLast, onFocus } =
+    useContext(InputGroupContext);
 
   useEffect(() => {
     register(index, identifier, focus, accessibilityFocus);

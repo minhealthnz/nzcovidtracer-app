@@ -67,9 +67,7 @@ const announcementsSchema = yup.array().of(announcementSchema);
 
 const { logError } = createLogger("enfExposure/api");
 
-export async function getENFNotificationConfig(): Promise<
-  ENFNotificationSettings
-> {
+export async function getENFNotificationConfig(): Promise<ENFNotificationSettings> {
   const url = `${config.ENFServerUrl}/settings/notification`;
   const response: AxiosResponse<ENFNotificationSettingsRaw> = await Axios.get(
     url,

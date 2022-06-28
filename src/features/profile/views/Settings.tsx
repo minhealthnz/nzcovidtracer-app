@@ -69,9 +69,8 @@ export function Settings() {
   }
 
   const subscriptions = useSelector(selectSubscriptions);
-  const [isSubscriptionLoading, setIsSubscriptionLoading] = useState<boolean>(
-    false,
-  );
+  const [isSubscriptionLoading, setIsSubscriptionLoading] =
+    useState<boolean>(false);
 
   // Get current and previous value of the announcement toggle.
   // Current value will be passed into the dispatch function to know if opting in or out.

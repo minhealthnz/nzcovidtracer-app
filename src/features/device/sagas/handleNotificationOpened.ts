@@ -21,9 +21,8 @@ function notificationOpenedChannel() {
 }
 
 export function* handleNotificationOpened(): SagaIterator {
-  const channel: EventChannel<FirebaseMessagingTypes.RemoteMessage> = yield call(
-    notificationOpenedChannel,
-  );
+  const channel: EventChannel<FirebaseMessagingTypes.RemoteMessage> =
+    yield call(notificationOpenedChannel);
 
   yield takeEvery(channel, onNotificationOpened);
 }

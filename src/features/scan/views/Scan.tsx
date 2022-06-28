@@ -379,28 +379,26 @@ export function Scan(props: Props) {
       ? t("screens:scan:accessibility:hint")
       : "";
 
-  const {
-    manualEntryButtonTitle,
-    manualEntryButtonDescription,
-  } = useMemo(() => {
-    if (isSmallScreen(Dimensions.get("window").width)) {
-      return {
-        manualEntryButtonTitle: t(
-          "screens:scan:smallScreenManualEntryButtonTitle",
-        ),
-        manualEntryButtonDescription: t(
-          "screens:scan:manualEntryButtonDescription",
-        ),
-      };
-    } else {
-      return {
-        manualEntryButtonTitle: t("screens:scan:manualEntryButtonTitle"),
-        manualEntryButtonDescription: t(
-          "screens:scan:manualEntryButtonDescription",
-        ),
-      };
-    }
-  }, [t]);
+  const { manualEntryButtonTitle, manualEntryButtonDescription } =
+    useMemo(() => {
+      if (isSmallScreen(Dimensions.get("window").width)) {
+        return {
+          manualEntryButtonTitle: t(
+            "screens:scan:smallScreenManualEntryButtonTitle",
+          ),
+          manualEntryButtonDescription: t(
+            "screens:scan:manualEntryButtonDescription",
+          ),
+        };
+      } else {
+        return {
+          manualEntryButtonTitle: t("screens:scan:manualEntryButtonTitle"),
+          manualEntryButtonDescription: t(
+            "screens:scan:manualEntryButtonDescription",
+          ),
+        };
+      }
+    }, [t]);
 
   const displayFooter = useMemo(() => {
     return (

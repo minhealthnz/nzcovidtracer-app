@@ -10,7 +10,7 @@ const { logInfo } = createLogger("onboarding/migrations");
 
 export const migrations: MigrationManifest = {
   1: (state: PersistedState): PersistedState & OnboardingStateV1 => {
-    const prev = (state as unknown) as PersistedState & OnboardingStateV0;
+    const prev = state as unknown as PersistedState & OnboardingStateV0;
 
     if (config.IsDev) {
       logInfo(JSON.stringify(prev, null, 2));
@@ -24,8 +24,6 @@ export const migrations: MigrationManifest = {
         [OnboardingScreen.PrivacyStatement]: prev.seenPrivacyStatement,
         [OnboardingScreen.EnableAlerts]:
           prev.enabledNotifications || prev.skippedEnableAlerts,
-        [OnboardingScreen.ContactDetails]:
-          prev.confirmedContactDetails || prev.skippedContactDetails,
         [OnboardingScreen.ExistingUser]: prev.hasSeenChanges,
         [OnboardingScreen.MultipleDiaries]: prev.finishedCopyDiary,
         [OnboardingScreen.EnableENF]: prev.hasSeenEnf,
@@ -33,7 +31,6 @@ export const migrations: MigrationManifest = {
       },
       screenSkipped: {
         [OnboardingScreen.EnableAlerts]: prev.skippedEnableAlerts,
-        [OnboardingScreen.ContactDetails]: prev.skippedContactDetails,
       },
       startedCopyDiaryCurrentSession: false,
       isLoading: false,

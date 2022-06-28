@@ -115,10 +115,6 @@ function reduceScreens(state: Draft<OnboardingState>) {
       steps[screens.length] = stepCount++;
       screens.push(OnboardingScreen.EnableAlerts);
     }
-    if (!state.screenCompleted[OnboardingScreen.ContactDetails]) {
-      steps[screens.length] = stepCount++;
-      screens.push(OnboardingScreen.ContactDetails);
-    }
     screens.push(OnboardingScreen.Thanks);
     state.screens = screens;
     state.screenSteps = steps;

@@ -1,6 +1,6 @@
 import { defaultTestLocationsLink } from "@constants";
 import { setTestLocationsLink } from "@features/enfExposure/commonActions";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import _ from "lodash";
 import { persistReducer } from "redux-persist";

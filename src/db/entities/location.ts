@@ -197,16 +197,18 @@ export const removeOldLocations = async () => {
 
 export const getHasFavourites = async () => {
   const db = await createPrivate();
-  const result = db.objects(LocationEntity).filtered("isFavourite = $0", true)
-    .length;
+  const result = db
+    .objects(LocationEntity)
+    .filtered("isFavourite = $0", true).length;
   db.close();
   return result > 0;
 };
 
 export const getHasDiaryEntries = async () => {
   const db = await createPrivate();
-  const result = db.objects(LocationEntity).filtered("hasDiaryEntry = $0", true)
-    .length;
+  const result = db
+    .objects(LocationEntity)
+    .filtered("hasDiaryEntry = $0", true).length;
   db.close();
   return result > 0;
 };

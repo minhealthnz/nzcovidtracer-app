@@ -210,11 +210,8 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
     removePaddingWhenKeyboardShown,
   } = props;
 
-  const {
-    headerBanner,
-    headerImage,
-    headerBackgroundColor,
-  }: FormHeaderProps = props;
+  const { headerBanner, headerImage, headerBackgroundColor }: FormHeaderProps =
+    props;
 
   const { height: viewHeight } = Dimensions.get("window");
 
@@ -315,19 +312,16 @@ function _FormV2(props: FormV2Props, ref: Ref<FormV2Handle>) {
   const handleKeyboardDidHide = useCallback(() => {
     setKeyboardShown(false);
   }, []);
-
   useEffect(() => {
-    Keyboard.addListener("keyboardWillShow", handleKeyboardWillShow);
-    Keyboard.addListener("keyboardWillHide", handleKeyboardWillHide);
-    // Need these as Android doesn't have will show / hide event
-    Keyboard.addListener("keyboardDidShow", handleKeyboardDidShow);
-    Keyboard.addListener("keyboardDidHide", handleKeyboardDidHide);
-
+    const subscriptions = [
+      Keyboard.addListener("keyboardWillShow", handleKeyboardWillShow),
+      Keyboard.addListener("keyboardWillHide", handleKeyboardWillHide),
+      // Need these as Android doesn't have will show / hide event
+      Keyboard.addListener("keyboardDidShow", handleKeyboardDidShow),
+      Keyboard.addListener("keyboardDidHide", handleKeyboardDidHide),
+    ];
     return () => {
-      Keyboard.removeListener("keyboardWillShow", handleKeyboardWillShow);
-      Keyboard.removeListener("keyboardWillHide", handleKeyboardWillHide);
-      Keyboard.removeListener("keyboardDidShow", handleKeyboardDidShow);
-      Keyboard.removeListener("keyboardDidHide", handleKeyboardDidHide);
+      subscriptions.forEach((s) => s?.remove?.());
     };
   }, [
     handleKeyboardWillShow,

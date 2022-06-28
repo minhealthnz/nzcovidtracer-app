@@ -38,10 +38,10 @@ export function usePaginationSession(userIds?: string[]) {
   const sessions = useSelector(selectSessions);
   const byId = useSelector(selectById);
 
-  const querying = useMemo(() => sessions[sessionId]?.querying ?? false, [
-    sessions,
-    sessionId,
-  ]);
+  const querying = useMemo(
+    () => sessions[sessionId]?.querying ?? false,
+    [sessions, sessionId],
+  );
 
   const diaryEntries = useMemo(() => {
     if (sessions[sessionId] == null) {

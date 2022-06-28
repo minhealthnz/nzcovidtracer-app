@@ -16,12 +16,11 @@ interface LocationSuccessContextValue {
   setLocationId: (id: string | undefined) => void;
 }
 
-export const LocationSuccessContext = createContext<
-  LocationSuccessContextValue
->({
-  location: undefined,
-  setLocationId: () => {},
-});
+export const LocationSuccessContext =
+  createContext<LocationSuccessContextValue>({
+    location: undefined,
+    setLocationId: () => {},
+  });
 
 interface LocationSuccessContextProviderProps {
   children: React.ReactNode;

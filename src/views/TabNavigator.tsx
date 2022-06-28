@@ -65,7 +65,7 @@ export function TabNavigator() {
         tabBarIcon: ({ focused }) => {
           let imageSource: ImageSourcePropType | undefined;
 
-          switch (route.name as keyof TabScreenParams) {
+          switch (route.name) {
             case TabScreen.Home:
               imageSource = focused
                 ? assets.dashboardActive

@@ -43,9 +43,8 @@ export function* onSubcribeToTopics(): SagaIterator {
 }
 
 export function* subscribeToTopic(topicName: string): SagaIterator {
-  const subscriptions: ReturnType<typeof selectSubscriptions.resultFunc> = yield select(
-    selectSubscriptions,
-  );
+  const subscriptions: ReturnType<typeof selectSubscriptions.resultFunc> =
+    yield select(selectSubscriptions);
 
   if (subscriptions[topicName]?.fullfilled) {
     logInfo(`already subscribed ${topicName}, skip`);

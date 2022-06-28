@@ -7,7 +7,7 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { MainStackParamList } from "@views/MainStack";
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, FlatList, StyleSheet } from "react-native";
+import { Alert, FlatList, ListRenderItemInfo, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 
@@ -22,10 +22,6 @@ const keyExtractor = (diaryEntry: DiaryEntry) => diaryEntry.id;
 
 const Container = styled.View`
   padding: ${grid2x}px;
-`;
-
-const DiaryList = styled(FlatList as new () => FlatList<DiaryEntry>)`
-  background-color: ${colors.white};
 `;
 
 const DiaryView = styled.View`
@@ -62,15 +58,16 @@ export function ViewDiary(props: Props) {
   const dispatch = useDispatch();
 
   const anyCopyDiaryRequest = useSelector(selectCopyDiary);
-  const { request: copyDiaryRequest, requestId } = useRequest(
-    anyCopyDiaryRequest,
+  const { request: copyDiaryRequest, requestId } =
+    useRequest(anyCopyDiaryRequest);
+  const copyDiaryFulfilled = useMemo(
+    () => copyDiaryRequest?.fulfilled,
+    [copyDiaryRequest],
   );
-  const copyDiaryFulfilled = useMemo(() => copyDiaryRequest?.fulfilled, [
-    copyDiaryRequest,
-  ]);
-  const copyDiaryError = useMemo(() => copyDiaryRequest?.error, [
-    copyDiaryRequest,
-  ]);
+  const copyDiaryError = useMemo(
+    () => copyDiaryRequest?.error,
+    [copyDiaryRequest],
+  );
 
   const onSubmitPress = useCallback(() => {
     dispatch(
@@ -117,12 +114,15 @@ export function ViewDiary(props: Props) {
   return (
     <>
       <DiaryView>
-        <DiaryList
+        <FlatList
+          style={styles.listContainer}
           contentContainerStyle={styles.scrollViewContent}
           scrollEnabled={true}
           data={diaryEntries}
           keyExtractor={keyExtractor}
-          renderItem={({ item: entry }) => <DiaryEntryListItem entry={entry} />}
+          renderItem={({ item: entry }: ListRenderItemInfo<DiaryEntry>) => (
+            <DiaryEntryListItem entry={entry} />
+          )}
           ItemSeparatorComponent={Separator}
           ListFooterComponent={renderFooter}
           ListFooterComponentStyle={styles.listFooter}
@@ -145,6 +145,9 @@ export function ViewDiary(props: Props) {
 }
 
 const styles = StyleSheet.create({
+  listContainer: {
+    backgroundColor: colors.white,
+  },
   scrollViewContent: {
     flexGrow: 1,
   },

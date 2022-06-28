@@ -5,8 +5,7 @@ export const strings = {
         errors: {
           network: {
             title: "Can’t load content",
-            body:
-              "Make sure that Wi-Fi or mobile data is turned on, then try again",
+            body: "Make sure that Wi-Fi or mobile data is turned on, then try again",
           },
           expired: {
             title: "This page might be outdated",

@@ -117,7 +117,6 @@ describe("queryLocations", () => {
   ])(
     "text search filters by name and address",
     async (name, address, textSearch, type, match) => {
-      const db = await createPrivate();
       const globalLocationNumber = nanoid();
       await upsertLocation({
         globalLocationNumber,
@@ -125,10 +124,13 @@ describe("queryLocations", () => {
         address,
         type,
       });
+
+      const db = await createPrivate();
       const results = queryLocations(db, {
         sortBy: "name",
         textSearch,
       });
+
       if (match) {
         expect(
           results.filtered("globalLocationNumber = $0", globalLocationNumber),

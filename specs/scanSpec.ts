@@ -45,8 +45,7 @@ export function ScanSpec(spec: TestScope) {
       await spec.press("tutorial.close");
       const camera = (await spec.findComponent("camera")) as any;
       camera?.props.onBarCodeRead({
-        data:
-          "NZCOVIDTRACER:eyJnbG4iOiI3MDAwMDAwMjQzOTUwIiwidmVyIjoiYzE5OjEiLCJ0eXAiOiJlbnRyeSIsIm9wbiI6IkJsdWUgU3RvbmUgVGFibGUgMSIsImFkciI6IlVuaXQgMSwgNTQ3IFdhaWtpbWloaWEgUm9hZFxuUkQgMi9EdW5zYW5kZWxcbkxlZXN0b24ifQ==",
+        data: "NZCOVIDTRACER:eyJnbG4iOiI3MDAwMDAwMjQzOTUwIiwidmVyIjoiYzE5OjEiLCJ0eXAiOiJlbnRyeSIsIm9wbiI6IkJsdWUgU3RvbmUgVGFibGUgMSIsImFkciI6IlVuaXQgMSwgNTQ3IFdhaWtpbWloaWEgUm9hZFxuUkQgMi9EdW5zYW5kZWxcbkxlZXN0b24ifQ==",
         type: "qr",
       });
       await spec.exists("screens:visitRecorded");

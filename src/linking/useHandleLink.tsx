@@ -51,8 +51,10 @@ export function useHandleLink(
     }
 
     // handles foreground / background
-    Linking.addEventListener("url", debouncedHandleUrl);
-    return () => Linking.removeEventListener("url", debouncedHandleUrl);
+    const subscription = Linking.addEventListener("url", debouncedHandleUrl);
+    return () => {
+      subscription.remove();
+    };
   }, [debouncedHandleUrl, isInitialised]);
 }
 

@@ -48,38 +48,32 @@ export function ScannerBanner() {
   const enfActivating = !verified;
   const enfEnabled = enabled;
 
-  const {
-    text,
-    textColor,
-    backgroundColor,
-    chevron,
-    bluetoothIcon,
-    onPress,
-  } = useMemo(() => {
-    if (enabled && bluetoothDisabled) {
-      return {
-        text: t("screens:scan:blueToothTracingStatus:inactive"),
-        textColor: colors.primaryBlack,
-        backgroundColor: colors.orange,
-        chevron: assets.chevron,
-        bluetoothIcon: assets.activateBluetooth,
-        onPress: () => {
-          navigation.navigate(ENFScreen.Settings);
-        },
-      };
-    } else {
-      return {
-        text: t("screens:scan:blueToothTracingStatus:disabled"),
-        textColor: colors.white,
-        backgroundColor: colors.red,
-        chevron: assets.chevronWhite,
-        bluetoothIcon: assets.turnOnBluetooth,
-        onPress: () => {
-          navigation.navigate(ENFScreen.Settings);
-        },
-      };
-    }
-  }, [enabled, bluetoothDisabled, t, navigation]);
+  const { text, textColor, backgroundColor, chevron, bluetoothIcon, onPress } =
+    useMemo(() => {
+      if (enabled && bluetoothDisabled) {
+        return {
+          text: t("screens:scan:blueToothTracingStatus:inactive"),
+          textColor: colors.primaryBlack,
+          backgroundColor: colors.orange,
+          chevron: assets.chevron,
+          bluetoothIcon: assets.activateBluetooth,
+          onPress: () => {
+            navigation.navigate(ENFScreen.Settings);
+          },
+        };
+      } else {
+        return {
+          text: t("screens:scan:blueToothTracingStatus:disabled"),
+          textColor: colors.white,
+          backgroundColor: colors.red,
+          chevron: assets.chevronWhite,
+          bluetoothIcon: assets.turnOnBluetooth,
+          onPress: () => {
+            navigation.navigate(ENFScreen.Settings);
+          },
+        };
+      }
+    }, [enabled, bluetoothDisabled, t, navigation]);
 
   return (
     <>

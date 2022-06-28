@@ -9,9 +9,12 @@ export function isScreenReaderEnabledChannel() {
     const listener = (val: boolean) => {
       emit(val);
     };
-    AccessibilityInfo.addEventListener("screenReaderChanged", listener);
+    const subscription = AccessibilityInfo.addEventListener(
+      "screenReaderChanged",
+      listener,
+    );
     return () => {
-      AccessibilityInfo.removeEventListener("screenReaderChanged", listener);
+      subscription.remove();
     };
   });
 }

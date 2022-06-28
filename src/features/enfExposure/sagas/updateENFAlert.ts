@@ -123,11 +123,21 @@ export default function* updateENFAlert(
 
     logInfo(`result: ${JSON.stringify(result)}`);
 
+    const isENFChangeDetected =
+      !_.isEqual(result?.alertDate, currentAlert?.alertDate) ||
+      !_.isEqual(result?.exposureCount, currentAlert?.exposureCount) ||
+      !_.isEqual(result?.exposureDate, currentAlert?.exposureDate);
+    logInfo(`isChangeDetected: ${isENFChangeDetected}`);
+
     // put NEW alarm on the state and log an analytics event
-    if (!_.isEqual(result, currentAlert)) {
-      yield call(recordDisplayENFAlert, match);
-      yield put(setEnfAlert(result));
-      logInfo("new alarm created");
+    if (isENFChangeDetected) {
+      if ((result?.exposureCount ?? 0) > (currentAlert?.exposureCount ?? 0)) {
+        yield call(recordDisplayENFAlert, match);
+        yield put(setEnfAlert(result));
+        logInfo("new alarm created");
+      } else {
+        yield put(setEnfAlert(result));
+      }
     }
   } catch (error) {
     logError(error);

@@ -23,9 +23,8 @@ export function useLocations(options: LocationsOptions) {
   const [db, setDb] = useState<Realm>();
   const index = useRef(0);
   const pageSize = 12;
-  const [query, setQuery] = useState<
-    Realm.Results<Realm.Object & DbLocation>
-  >();
+  const [query, setQuery] =
+    useState<Realm.Results<DbLocation & Realm.Object>>();
   const [refreshing, setRefreshing] = useState(true);
   const [displayLocations, setDisplayLocations] = useState<Location[]>([]);
   const locations = useRef<Location[]>([]);
@@ -35,15 +34,14 @@ export function useLocations(options: LocationsOptions) {
       return;
     }
 
-    const listener: Realm.CollectionChangeCallback<Realm.Object & Location> = (
-      collection,
-      changes,
-    ) => {
+    const listener: Realm.CollectionChangeCallback<
+      DbLocation & Realm.Object
+    > = (collection, changes) => {
       for (const insertion of changes.insertions) {
         const item = collection[insertion].toJSON();
         locations.current.splice(insertion, 0, mapLocation(item));
       }
-      for (const modification of changes.modifications) {
+      for (const modification of changes.newModifications) {
         locations.current[modification] = collection[modification].toJSON();
       }
       for (const deletions of changes.deletions) {

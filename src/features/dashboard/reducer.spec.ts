@@ -17,8 +17,7 @@ export default describe("Dashboard/reducer", () => {
           value: "460",
           dailyChange: -100,
           dailyChangeIsGood: false,
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/mask.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/mask.png",
           subtitle: "Total active cases",
           backgroundColor: "#FFEB9A",
           url: "https://healthline.govt.nz/statistics/active-cases",
@@ -27,23 +26,20 @@ export default describe("Dashboard/reducer", () => {
           value: "3",
           dailyChange: 1,
           dailyChangeIsGood: false,
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/distancing.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/distancing.png",
           subtitle: "Community cases",
         },
       ],
       [
         {
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/scan.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/scan.png",
           backgroundColor: "#DEEAF7",
         },
       ],
       [
         {
           value: "15,234",
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/scan.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/scan.png",
           subtitle: "Total scans last 7 days",
           backgroundColor: "#DEEAF7",
         },
@@ -65,8 +61,7 @@ export default describe("Dashboard/reducer", () => {
           value: "460",
           dailyChange: -100,
           dailyChangeIsGood: false,
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/mask.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/mask.png",
           subtitle: "Total active cases",
           backgroundColor: "#FFEB9A",
           url: "https://healthline.govt.nz/statistics/active-cases",
@@ -75,16 +70,14 @@ export default describe("Dashboard/reducer", () => {
           value: "3",
           dailyChange: 1,
           dailyChangeIsGood: false,
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/distancing.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/distancing.png",
           subtitle: "Community cases",
         },
       ],
       [
         {
           value: "15,234",
-          icon:
-            "https://covid-stats-cranky-albattani-f8ba11.netlify.app/scan.png",
+          icon: "https://covid-stats-cranky-albattani-f8ba11.netlify.app/scan.png",
           subtitle: "Total scans last 7 days",
           backgroundColor: "#DEEAF7",
         },
@@ -104,7 +97,7 @@ export default describe("Dashboard/reducer", () => {
 
   describe("getCovidStatistics.fulfilled", () => {
     const payload = {
-      stats: (stats as unknown) as Statistics,
+      stats: stats as unknown as Statistics,
       expires: "",
     };
     const newState = reducer(
@@ -119,13 +112,13 @@ export default describe("Dashboard/reducer", () => {
 
   describe("getCovidStatistics.fulfilled on broken stats", () => {
     const payload = {
-      stats: (stats as unknown) as Statistics,
+      stats: stats as unknown as Statistics,
       expires: "",
     };
     const newState = reducer(
       initialState,
       getCovidStatistics.fulfilled(
-        { ...payload, stats: (statsBroken as unknown) as Statistics },
+        { ...payload, stats: statsBroken as unknown as Statistics },
         nanoid(),
         true,
       ),

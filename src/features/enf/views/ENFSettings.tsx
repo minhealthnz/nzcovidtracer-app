@@ -113,35 +113,31 @@ export function ENFSettings(props: Props) {
 
   const formRef = useRef<FormV2Handle | null>(null);
 
-  const {
-    bannerText,
-    bannerTextColor,
-    bannerColor,
-    bannerIcon,
-  } = useMemo(() => {
-    if (enabled && bluetoothDisabled) {
-      return {
-        bannerText: t("screens:enfSettings:bannerInactive"),
-        bannerTextColor: colors.primaryBlack,
-        bannerColor: colors.orange,
-        bannerIcon: assets.warning,
-      };
-    } else if (enabled) {
-      return {
-        bannerText: t("screens:enfSettings:bannerEnabled"),
-        bannerTextColor: colors.primaryBlack,
-        bannerColor: colors.green,
-        bannerIcon: assets.enabled,
-      };
-    } else {
-      return {
-        bannerText: t("screens:enfSettings:bannerDisabled"),
-        bannerTextColor: colors.white,
-        bannerColor: colors.failure,
-        bannerIcon: assets.disabled,
-      };
-    }
-  }, [enabled, bluetoothDisabled, t]);
+  const { bannerText, bannerTextColor, bannerColor, bannerIcon } =
+    useMemo(() => {
+      if (enabled && bluetoothDisabled) {
+        return {
+          bannerText: t("screens:enfSettings:bannerInactive"),
+          bannerTextColor: colors.primaryBlack,
+          bannerColor: colors.orange,
+          bannerIcon: assets.warning,
+        };
+      } else if (enabled) {
+        return {
+          bannerText: t("screens:enfSettings:bannerEnabled"),
+          bannerTextColor: colors.primaryBlack,
+          bannerColor: colors.green,
+          bannerIcon: assets.enabled,
+        };
+      } else {
+        return {
+          bannerText: t("screens:enfSettings:bannerDisabled"),
+          bannerTextColor: colors.white,
+          bannerColor: colors.failure,
+          bannerIcon: assets.disabled,
+        };
+      }
+    }, [enabled, bluetoothDisabled, t]);
 
   const isFirstRender = useRef<boolean>(true);
   useEffect(() => {

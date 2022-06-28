@@ -6,7 +6,6 @@ export enum OnboardingScreen {
   ValueStatements = "Onboarding/ValueStatements",
   PrivacyStatement = "Onboarding/PrivacyStatement",
   EnableENF = "Onboarding/EnableENF",
-  ContactDetails = "Onboarding/ContactDetails",
   EnableAlerts = "Onboarding/EnableAlerts",
   Thanks = "Onboarding/Thanks",
   Splash = "Onboarding/Splash",

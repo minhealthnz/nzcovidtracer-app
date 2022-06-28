@@ -65,17 +65,8 @@ function* _copyCheckIns(): SagaIterator {
 export function mapCheckInItem(
   item: DiaryEntryData,
 ): AddCheckInItem | undefined {
-  const {
-    id,
-    userId,
-    startDate,
-    endDate,
-    name,
-    address,
-    gln,
-    note,
-    type,
-  } = item;
+  const { id, userId, startDate, endDate, name, address, gln, note, type } =
+    item;
 
   if (
     // Diary entry must have id

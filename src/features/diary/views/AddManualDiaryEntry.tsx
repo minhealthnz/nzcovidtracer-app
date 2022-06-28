@@ -72,9 +72,10 @@ export function AddManualDiaryEntry(props: Props) {
       ? location.id
       : undefined;
 
-  const rounded = useMemo(() => new Date(Math.round(date / coeff) * coeff), [
-    date,
-  ]);
+  const rounded = useMemo(
+    () => new Date(Math.round(date / coeff) * coeff),
+    [date],
+  );
 
   const [nameError, setNameError] = useState<string>("");
   const [startDate, setDate] = useStartDate(rounded.getTime());

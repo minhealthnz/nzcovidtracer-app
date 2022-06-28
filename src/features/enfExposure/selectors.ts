@@ -25,7 +25,6 @@ export const selectENFNotificationRiskBucket = (riskScore: number) =>
 export const selectENFAlert = createSelector(
   [selectENFExposure, selectDevice],
   (enfExposure, device) => {
-    // Default alert expiry day is set to 15days
     const alertExpiresInDays =
       defaultENFExpiresInDays(enfExposure.enfAlert?.alertExpiresInDays) + 1;
     const ttl = 60 * 60 * 24 * alertExpiresInDays * 1000;
@@ -33,8 +32,8 @@ export const selectENFAlert = createSelector(
     if (
       enfExposure.enfAlert != null &&
       moment(device.currentDate).diff(
-        moment(enfExposure.enfAlert?.exposureDate),
-      ) > ttl
+        moment(enfExposure.enfAlert?.exposureDate).add(1, "day"),
+      ) >= ttl
     ) {
       return undefined;
     }

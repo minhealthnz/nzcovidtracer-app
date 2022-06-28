@@ -154,7 +154,10 @@ export function ShareDiaryConfirm(props: ShareDiaryConfirmProps) {
   const formRef = useRef<FormV2Handle | null>(null);
   const inputGroupRef = useRef<InputGroupRef | null>(null);
 
-  const selectedItems = props?.route?.params?.items || [];
+  const selectedItems = useMemo(() => {
+    return props?.route?.params?.items || [];
+  }, [props?.route?.params?.items]);
+
   useAccessibleTitle();
   const handleBackPressed = () => {
     return isLoading;

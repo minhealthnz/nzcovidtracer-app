@@ -1,4 +1,4 @@
-import { useDeepMemo } from "@hooks/useDeepCompareEffect";
+import useDeepMemo from "@hooks/useDeepMemo";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useEffect } from "react";
 import { useExposure } from "react-native-exposure-notification-service";
@@ -40,6 +40,8 @@ export function useProcessEnfContacts() {
   );
 
   useEffect(() => {
-    dispatch(processENFContacts(memoizedContacts));
+    if (memoizedContacts !== undefined && memoizedContacts.length > 0) {
+      dispatch(processENFContacts(memoizedContacts));
+    }
   }, [memoizedContacts, lastEnfAlertDismissDate, memoizedConfig, dispatch]);
 }

@@ -15,8 +15,7 @@ export const strings = {
           description:
             "Scan the QR codes on official NZ COVID Tracer posters when you arrive at a place.\n \nYou can also add a manual diary entry if you go somewhere without a poster or if you forgot to scan.",
           tipBold: "Your digital diary is stored privately on your phone. ",
-          tip:
-            "You can share it with contact tracers and will only be asked to do so if you test positive for COVID-19. \n \nWhenever you open the app, diary entries older than 60 days will be deleted.",
+          tip: "You can share it with contact tracers and will only be asked to do so if you test positive for COVID-19. \n \nWhenever you open the app, diary entries older than 60 days will be deleted.",
           imageAccessibilityLabel:
             "A person successfully scanning a QR code poster.",
         },
@@ -26,8 +25,7 @@ export const strings = {
             "Your phone will use low-energy Bluetooth to exchange anonymous keys with other phones that are using the app and have Bluetooth tracing enabled.",
           tipBold:
             "Your Bluetooth tracing codes are stored privately on your phone. ",
-          tip:
-            "You can choose to share them with contact tracers if you test positive for COVID-19.",
+          tip: "You can choose to share them with contact tracers if you test positive for COVID-19.",
           imageAccessibilityLabel:
             "Two phones anonymously exchanging Bluetooth Tracing keys at a cafe.",
         },
@@ -36,8 +34,7 @@ export const strings = {
           description:
             "If you scanned into a place at the same time as someone with COVID-19, we’ll send you an alert. \n \nYou will also get an alert if Bluetooth tracing identifies that you may have been in close contact with another app user who has COVID-19.",
           tipBold: "Alerts are sent anonymously. ",
-          tip:
-            "Only you know if you’ve received a contact alert. You can choose to get in touch with contact tracers.",
+          tip: "Only you know if you’ve received a contact alert. You can choose to get in touch with contact tracers.",
           imageAccessibilityLabel:
             "Multiple phones receiving an exposure notification when their owner came into contact with COVID-19.",
         },
@@ -99,8 +96,7 @@ export const strings = {
         doneHint: "Closes the page and navigates back",
         detailsDescription:
           "Describing who you were with and what you were doing can help Contact Tracers.",
-        tip:
-          "Tip: You can add a manual entry for any missed day even if you were just staying home.",
+        tip: "Tip: You can add a manual entry for any missed day even if you were just staying home.",
         notProvided: "Not provided.",
         viewPass: "View My Vaccine Pass",
         viewPassHint: "Tap to open the external app.",

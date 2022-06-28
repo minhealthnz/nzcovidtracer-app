@@ -1,10 +1,11 @@
 import util from "util";
 import path from "path";
 import fs from "graceful-fs";
-import makeDir from "make-dir";
 import imagemin from "imagemin";
 import imageminJpegtran from "imagemin-jpegtran";
 import imageminPngquant from "imagemin-pngquant";
+
+const makeDir = require('make-dir');
 
 const writeFile = util.promisify(fs.writeFile);
 

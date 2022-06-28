@@ -44,6 +44,7 @@ describe("#addCheckIn", () => {
     expect(result.globalLocationNumberHash).toEqual(
       hashLocationNumber(entry.globalLocationNumber),
     );
+    publicDb.close();
   });
 
   it("should update lastVisited", async () => {
@@ -79,6 +80,7 @@ describe("#removeCheckIn", () => {
     const publicDb = await createPublic();
     const result = publicDb.objectForPrimaryKey(CheckInItemPublicEntity, id);
     expect(result).toBeUndefined();
+    publicDb.close();
   });
 
   it("shoud update last visited", async () => {
@@ -156,17 +158,19 @@ describe("#removeMany", () => {
     await removeMany(new Date());
 
     const privateDb = await createPrivate();
-    const publicDb = await createPublic();
     for (const id of ids) {
       const item = privateDb.objectForPrimaryKey(CheckInItemEntity, id);
       expect(item).toEqual(undefined);
+    }
+    privateDb.close();
+    const publicDb = await createPublic();
+    for (const id of ids) {
       const publicItem = publicDb.objectForPrimaryKey(
         CheckInItemPublicEntity,
         id,
       );
       expect(publicItem).toEqual(undefined);
     }
-    privateDb.close();
     publicDb.close();
   });
 

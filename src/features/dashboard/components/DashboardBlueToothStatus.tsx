@@ -25,93 +25,88 @@ export function DashboardBluetoothStatus() {
   const enfEnabled = useSelector(selectIsEnfEnabled);
   const navigation = useNavigation();
 
-  const {
-    statusImage,
-    statusText,
-    description,
-    backgroundColor,
-    onPress,
-  } = useMemo(() => {
-    if (!enfSupported || (!verified && !registrationRetriable)) {
-      return {
-        statusImage: require("@features/dashboard/assets/images/bluetooth-not-supported.png"),
-        statusText: t(
-          "screens:dashboard:cards:bluetoothTracing:notSupported:status",
-        ),
-        description: t(
-          "screens:dashboard:cards:bluetoothTracing:notSupported:description",
-        ),
-        backgroundColor: colors.darkGrey,
-        onPress: () => {
-          navigation.navigate(ENFScreen.NotSupported);
-        },
-      };
-    } else if (!verified) {
-      return {
-        statusImage: require("@features/dashboard/assets/images/bluetooth-pending.png"),
-        statusText: t(
-          "screens:dashboard:cards:bluetoothTracing:notVerified:status",
-        ),
-        description: t(
-          "screens:dashboard:cards:bluetoothTracing:notVerified:description",
-        ),
-        backgroundColor: colors.darkGrey,
-        onPress: () => {
-          navigation.navigate(ENFScreen.NotSupported);
-        },
-      };
-    } else if (enfEnabled && bluetoothDisabled) {
-      return {
-        statusImage: require("@features/dashboard/assets/images/bluetooth-inactive.png"),
-        statusText: t(
-          "screens:dashboard:cards:bluetoothTracing:inactive:status",
-        ),
-        description: t(
-          "screens:dashboard:cards:bluetoothTracing:inactive:description",
-        ),
-        backgroundColor: colors.orange,
-        onPress: () => {
-          navigation.navigate(ENFScreen.Settings);
-        },
-      };
-    } else if (enfEnabled) {
-      return {
-        statusImage: require("@features/dashboard/assets/images/bluetooth-on.png"),
-        statusText: t(
-          "screens:dashboard:cards:bluetoothTracing:enabled:status",
-        ),
-        description: t(
-          "screens:dashboard:cards:bluetoothTracing:enabled:description",
-        ),
-        backgroundColor: colors.green,
-        onPress: () => {
-          navigation.navigate(ENFScreen.Settings);
-        },
-      };
-    } else {
-      return {
-        statusImage: require("@features/dashboard/assets/images/bluetooth-off.png"),
-        statusText: t(
-          "screens:dashboard:cards:bluetoothTracing:disabled:status",
-        ),
-        description: t(
-          "screens:dashboard:cards:bluetoothTracing:disabled:description",
-        ),
-        backgroundColor: colors.failure,
-        onPress: () => {
-          navigation.navigate(ENFScreen.Settings);
-        },
-      };
-    }
-  }, [
-    t,
-    enfEnabled,
-    enfSupported,
-    verified,
-    registrationRetriable,
-    bluetoothDisabled,
-    navigation,
-  ]);
+  const { statusImage, statusText, description, backgroundColor, onPress } =
+    useMemo(() => {
+      if (!enfSupported || (!verified && !registrationRetriable)) {
+        return {
+          statusImage: require("@features/dashboard/assets/images/bluetooth-not-supported.png"),
+          statusText: t(
+            "screens:dashboard:cards:bluetoothTracing:notSupported:status",
+          ),
+          description: t(
+            "screens:dashboard:cards:bluetoothTracing:notSupported:description",
+          ),
+          backgroundColor: colors.darkGrey,
+          onPress: () => {
+            navigation.navigate(ENFScreen.NotSupported);
+          },
+        };
+      } else if (!verified) {
+        return {
+          statusImage: require("@features/dashboard/assets/images/bluetooth-pending.png"),
+          statusText: t(
+            "screens:dashboard:cards:bluetoothTracing:notVerified:status",
+          ),
+          description: t(
+            "screens:dashboard:cards:bluetoothTracing:notVerified:description",
+          ),
+          backgroundColor: colors.darkGrey,
+          onPress: () => {
+            navigation.navigate(ENFScreen.NotSupported);
+          },
+        };
+      } else if (enfEnabled && bluetoothDisabled) {
+        return {
+          statusImage: require("@features/dashboard/assets/images/bluetooth-inactive.png"),
+          statusText: t(
+            "screens:dashboard:cards:bluetoothTracing:inactive:status",
+          ),
+          description: t(
+            "screens:dashboard:cards:bluetoothTracing:inactive:description",
+          ),
+          backgroundColor: colors.orange,
+          onPress: () => {
+            navigation.navigate(ENFScreen.Settings);
+          },
+        };
+      } else if (enfEnabled) {
+        return {
+          statusImage: require("@features/dashboard/assets/images/bluetooth-on.png"),
+          statusText: t(
+            "screens:dashboard:cards:bluetoothTracing:enabled:status",
+          ),
+          description: t(
+            "screens:dashboard:cards:bluetoothTracing:enabled:description",
+          ),
+          backgroundColor: colors.green,
+          onPress: () => {
+            navigation.navigate(ENFScreen.Settings);
+          },
+        };
+      } else {
+        return {
+          statusImage: require("@features/dashboard/assets/images/bluetooth-off.png"),
+          statusText: t(
+            "screens:dashboard:cards:bluetoothTracing:disabled:status",
+          ),
+          description: t(
+            "screens:dashboard:cards:bluetoothTracing:disabled:description",
+          ),
+          backgroundColor: colors.failure,
+          onPress: () => {
+            navigation.navigate(ENFScreen.Settings);
+          },
+        };
+      }
+    }, [
+      t,
+      enfEnabled,
+      enfSupported,
+      verified,
+      registrationRetriable,
+      bluetoothDisabled,
+      navigation,
+    ]);
 
   return (
     <StatusCard

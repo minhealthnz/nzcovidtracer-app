@@ -24,7 +24,7 @@ describe("#readHostWhitelist", () => {
     ["", "*"],
     ["foo.com,bar.com", ["foo.com", "bar.com"]],
     ["foo.com", ["foo.com"]],
-  ])("reads host white list %s %s", (config, hostWhitelist) => {
-    expect(readHostWhitelist(config)).toEqual(hostWhitelist);
+  ])("reads host white list %s %s", (conf, hostWhitelist) => {
+    expect(readHostWhitelist(conf)).toEqual(hostWhitelist);
   });
 });

@@ -101,9 +101,8 @@ interface Props
   extends StackScreenProps<MainStackParamList, DiaryScreen.Diary> {}
 
 export function Diary(props: Props) {
-  const [isActionSheetOpened, setIsActionSheetOpened] = useState<boolean>(
-    false,
-  );
+  const [isActionSheetOpened, setIsActionSheetOpened] =
+    useState<boolean>(false);
 
   const [isImporting, setIsImporting] = useState<boolean>(false);
 
@@ -120,12 +119,8 @@ export function Diary(props: Props) {
     [props.navigation],
   );
 
-  const {
-    refresh,
-    loadNextPage,
-    querying,
-    diaryEntries,
-  } = usePaginationSession();
+  const { refresh, loadNextPage, querying, diaryEntries } =
+    usePaginationSession();
 
   const dispatch = useAppDispatch();
 
@@ -277,11 +272,9 @@ export function Diary(props: Props) {
   );
 
   const exportDiary = useCallback(async () => {
-    const exportDiaryEntry = await query(
-      userId,
-      new Date(),
-      "ALL",
-    ).then((result) => result.map(mapExportDiaryEntry));
+    const exportDiaryEntry = await query(userId, new Date(), "ALL").then(
+      (result) => result.map(mapExportDiaryEntry),
+    );
 
     const filePath = `${Dirs.DocumentDir}/${moment().format(
       "YYYY-MM-DD",

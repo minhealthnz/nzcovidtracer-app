@@ -1,6 +1,13 @@
 import { SwitchContext } from "@features/dashboard/components/SwitchProvider";
 import { createLogger } from "@logger/createLogger";
-import { ReactNode, useCallback, useContext, useEffect, useRef } from "react";
+import {
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import React from "react";
 import {
   Animated,
@@ -16,12 +23,8 @@ export interface SwitchScrollViewProps {
 const { logInfo } = createLogger("SwitchScrollView.tsx");
 
 export function SwitchScrollView(props: SwitchScrollViewProps) {
-  const {
-    scrollX,
-    setIndex,
-    registerScrollToPage,
-    setScrollIndex,
-  } = useContext(SwitchContext);
+  const { scrollX, setIndex, registerScrollToPage, setScrollIndex } =
+    useContext(SwitchContext);
 
   const scrollViewRef = useRef<ScrollView>(null);
   const isDragging = useRef(false);
@@ -76,23 +79,24 @@ export function SwitchScrollView(props: SwitchScrollViewProps) {
     y: 0,
   });
 
-  const onScroll = useCallback(
-    Animated.event(
-      [
-        {
-          nativeEvent: {
-            contentOffset: {
-              x: scrollX,
+  const onScroll = useMemo(
+    () =>
+      Animated.event(
+        [
+          {
+            nativeEvent: {
+              contentOffset: {
+                x: scrollX,
+              },
             },
           },
+        ],
+        {
+          listener: handleScroll,
+          useNativeDriver: false,
         },
-      ],
-      {
-        listener: handleScroll,
-        useNativeDriver: false,
-      },
-    ),
-    [],
+      ),
+    [scrollX, handleScroll],
   );
 
   return (

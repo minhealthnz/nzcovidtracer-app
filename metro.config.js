@@ -17,8 +17,8 @@ const config = {
       return {
         preloadedModules: moduleMap,
         transform: {
-          inlineRequires: { blacklist: moduleMap },
-          experimentalImportSupport: false,
+          inlineRequires: false,
+          experimentalImportSupport: true,
         },
       };
     },

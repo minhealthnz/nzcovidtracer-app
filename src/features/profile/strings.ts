@@ -7,7 +7,6 @@ export const strings = {
     screens: {
       profile: {
         headingStorePrivate: "Information stored privately",
-        headingShareInfo: "Information shared with contact tracers",
         headingSharePostive: "If you test positive",
         viewDiary: "My diary",
         savedLocations: "Saved locations",
@@ -18,10 +17,6 @@ export const strings = {
         shareBluetooth: "Share my Bluetooth tracing codes",
         shareBluetoothDescription:
           "Anonymously notify people you may have exposed to the virus",
-        contactDetails: "My contact details",
-        contactDetailsDescription: "Help us contact you faster if we need to",
-        address: "My address",
-        addressDescription: "Help us locate you faster if we need to",
         nhiDetails: "My NHI number",
         nhiDescription: "Have your details ready for a faster COVID-19 test.",
         nhiDetailsHasNHI: "My NHI number",

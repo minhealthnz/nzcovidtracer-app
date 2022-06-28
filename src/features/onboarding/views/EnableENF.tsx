@@ -52,12 +52,8 @@ const { logInfo } = createLogger("EnableENFOnboarding");
 export function EnableENF(props: Props) {
   const { t } = useTranslation();
 
-  const {
-    enabled,
-    authoriseExposure,
-    isAuthorised,
-    readPermissions,
-  } = useExposure();
+  const { enabled, authoriseExposure, isAuthorised, readPermissions } =
+    useExposure();
   const { navigateNext } = useOnboardingFlow(props, OnboardingScreen.EnableENF);
   const formRef = useRef<FormV2Handle | null>(null);
   const [isLoading, setIsLoading] = useState(false);

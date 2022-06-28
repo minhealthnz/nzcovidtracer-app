@@ -17,8 +17,7 @@ export const strings = {
         secondSubtitle: "Save a written entry",
         secondDescription:
           "Make it easy to add entries for places you visit regularly when they don't have a poster, such as your friend’s place or if you’ve just stayed home.",
-        tip:
-          "Don’t save public transport or taxis. Every vehicle has a different QR code.",
+        tip: "Don’t save public transport or taxis. Every vehicle has a different QR code.",
         saveLocation: "Would you like to save this location?",
         save: "Save",
         saveNew: "Save a location",
@@ -100,8 +99,7 @@ export const strings = {
         accessibility: {
           manualEntry: "{0}. {1} Option {2} of {3}",
           scannedLocation: "{0}. {1} at {2} Option {3} of {4}",
-          hint:
-            "Double tap to choose this as your diary entry location or activity",
+          hint: "Double tap to choose this as your diary entry location or activity",
           delete: "Delete saved location",
           save: "Save this location",
         },

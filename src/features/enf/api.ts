@@ -11,10 +11,8 @@ import config from "../../config";
 
 export const verify = async (nonce: string) => {
   if (isAndroid) {
-    const deviceVerificationPayload = await AndroidAttestationService.sendRequest(
-      nonce,
-      config.SafetynetKey,
-    );
+    const deviceVerificationPayload =
+      await AndroidAttestationService.sendRequest(nonce, config.SafetynetKey);
 
     return {
       platform: "android",

@@ -13,7 +13,6 @@ const onboardingFlowScreenMap = {
   [OnboardingScreen.PrivacyStatement]: true,
   [OnboardingScreen.EnableENF]: true,
   [OnboardingScreen.EnableAlerts]: true,
-  [OnboardingScreen.ContactDetails]: true,
   [OnboardingScreen.Thanks]: true,
   [OnboardingScreen.ExistingUser]: true,
   [OnboardingScreen.MultipleDiaries]: true,
@@ -28,7 +27,6 @@ export const onboardingFlowScreens = Object.keys(
 export const skippableScreens = {
   [OnboardingScreen.EnableAlerts]: true,
   [OnboardingScreen.EnableENF]: true,
-  [OnboardingScreen.ContactDetails]: true,
 };
 
 export type OnboardingSkippableScreen = keyof typeof skippableScreens;

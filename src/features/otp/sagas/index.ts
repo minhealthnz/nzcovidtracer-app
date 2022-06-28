@@ -31,11 +31,7 @@ export function* onOtpFulfilled(): SagaIterator {
           logWarning("cannot find navigation ref");
           break;
         }
-        yield put(navigateNext(OnboardingScreen.ContactDetails));
-        // Double navigate to remove otp screens from stack
-        navigationRef.current.navigate(OnboardingScreen.ContactDetails);
-        // TODO move this logic to the view as the "next screen" can change
-        navigationRef.current.navigate(OnboardingScreen.Thanks);
+        yield put(navigateNext(OnboardingScreen.Thanks));
         break;
       default:
         break;

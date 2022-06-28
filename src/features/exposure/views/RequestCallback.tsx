@@ -39,10 +39,10 @@ export default function RequestCallback({
   const [countryCode, setCountryCode] = useState<CountryCode>("NZ");
   const [notes, setNotes] = useState("");
 
-  const formattedPhone = useMemo(() => formatPhone(phone, countryCode), [
-    phone,
-    countryCode,
-  ]);
+  const formattedPhone = useMemo(
+    () => formatPhone(phone, countryCode),
+    [phone, countryCode],
+  );
 
   const [phoneError, setPhoneError] = useState("");
 

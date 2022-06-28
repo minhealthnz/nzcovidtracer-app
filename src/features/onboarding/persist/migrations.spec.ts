@@ -39,7 +39,6 @@ const screensToComplete: OnboardingFlowScreen[] = [
   OnboardingScreen.ValueStatements,
   OnboardingScreen.PrivacyStatement,
   OnboardingScreen.EnableAlerts,
-  OnboardingScreen.ContactDetails,
   OnboardingScreen.ExistingUser,
   OnboardingScreen.MultipleDiaries,
   OnboardingScreen.EnableENF,
@@ -65,14 +64,13 @@ it.each(screensToComplete)(
         enabledNotifications: true,
       }),
     };
-    const state1 = (migrations["1"](state0) as unknown) as OnboardingStateV1;
+    const state1 = migrations["1"](state0) as unknown as OnboardingStateV1;
     expect(state1.screenCompleted[screen]).toBe(true);
   },
 );
 
 const screensToSkip: OnboardingSkippableScreen[] = [
   OnboardingScreen.EnableAlerts,
-  OnboardingScreen.ContactDetails,
 ];
 
 it.each(screensToSkip)(
@@ -88,7 +86,7 @@ it.each(screensToSkip)(
         skippedEnableAlerts: true,
       }),
     };
-    const state1 = (migrations["1"](state0) as unknown) as OnboardingStateV1;
+    const state1 = migrations["1"](state0) as unknown as OnboardingStateV1;
     expect(state1.screenCompleted[screen]).toBe(true);
   },
 );
@@ -104,6 +102,6 @@ it.each(screensToSkip)("v0 to v1 migrates screen skipped (%s)", (screen) => {
       skippedContactDetails: true,
     }),
   };
-  const state1 = (migrations[1](state0) as unknown) as OnboardingStateV1;
+  const state1 = migrations[1](state0) as unknown as OnboardingStateV1;
   expect(state1.screenSkipped[screen]).toBe(true);
 });

@@ -186,10 +186,8 @@ class _DiaryEntryListItem extends Component<Props> {
     const timeText = entryDate.format("h:mma");
     const isRisky = this.props.entry.isRisky;
     const isChecked = this.props.isChecked;
-    const {
-      accessibilityHint,
-      accessibilityLabel,
-    } = this.getAccessibilityObject(dayText, dateText, timeText);
+    const { accessibilityHint, accessibilityLabel } =
+      this.getAccessibilityObject(dayText, dateText, timeText);
 
     return (
       <Container

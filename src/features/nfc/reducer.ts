@@ -1,6 +1,6 @@
 import { AddDiaryEntry } from "@features/diary/reducer";
 import { DiaryEntryType } from "@features/diary/types";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 

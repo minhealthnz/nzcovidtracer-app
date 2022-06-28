@@ -40,9 +40,8 @@ function* onPollExposureEvents(): SagaIterator {
       .filter((x) => x != null)
       .map((x) => x!);
 
-    const mostRecentUnacknowledgedMatch:
-      | CheckInItemMatch
-      | undefined = yield call(processEvents, events, notificationBody);
+    const mostRecentUnacknowledgedMatch: CheckInItemMatch | undefined =
+      yield call(processEvents, events, notificationBody);
 
     if (mostRecentUnacknowledgedMatch != null) {
       yield put(setMatch(mostRecentUnacknowledgedMatch));

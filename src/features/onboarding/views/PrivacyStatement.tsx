@@ -98,27 +98,23 @@ export function PrivacyStatement(
         <Heading2>{t("screens:privacyStatement:section5:title")}</Heading2>
         <Paragraph>{t("screens:privacyStatement:section5:copy")}</Paragraph>
       </BulletItem>
-      <BulletItem>
-        <Heading2>{t("screens:privacyStatement:section6:title")}</Heading2>
-        <Paragraph>{t("screens:privacyStatement:section6:copy")}</Paragraph>
-      </BulletItem>
 
-      <Paragraph>{t("screens:privacyStatement:section7:copy1")}</Paragraph>
-      <Paragraph>{t("screens:privacyStatement:section7:copy2")}</Paragraph>
+      <Paragraph>{t("screens:privacyStatement:section6:copy1")}</Paragraph>
+      <Paragraph>{t("screens:privacyStatement:section6:copy2")}</Paragraph>
       <VerticalSpacing height={grid2x} />
-      <Heading2>{t("screens:privacyStatement:section8:title")}</Heading2>
-      <Paragraph>{t("screens:privacyStatement:section8:copy")}</Paragraph>
+      <Heading2>{t("screens:privacyStatement:section7:title")}</Heading2>
+      <Paragraph>{t("screens:privacyStatement:section7:copy")}</Paragraph>
       <VerticalSpacing height={grid} />
       <Paragraph
         accessible={true}
-        accessibilityLabel={t("screens:privacyStatement:section8:link")}
+        accessibilityLabel={t("screens:privacyStatement:section7:link")}
         accessibilityRole="button"
         accessibilityHint={t(
-          "screens:privacyStatement:section8:linkAccessibilityHint",
+          "screens:privacyStatement:section7:linkAccessibilityHint",
         )}
       >
         <Link onPress={handleLinkPressed}>
-          {t("screens:privacyStatement:section8:link")}
+          {t("screens:privacyStatement:section7:link")}
         </Link>
       </Paragraph>
       <VerticalSpacing height={grid2x} />

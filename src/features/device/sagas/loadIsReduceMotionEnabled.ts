@@ -9,9 +9,12 @@ export function isReducedMotionEnabledChannel() {
     const listener = (val: boolean) => {
       emit(val);
     };
-    AccessibilityInfo.addEventListener("reduceMotionChanged", listener);
+    const subscription = AccessibilityInfo.addEventListener(
+      "reduceMotionChanged",
+      listener,
+    );
     return () => {
-      AccessibilityInfo.removeEventListener("reduceMotionChanged", listener);
+      subscription?.remove();
     };
   });
 }

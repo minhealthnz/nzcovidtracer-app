@@ -12,7 +12,7 @@ import {
   setMatches,
 } from "@features/diary/commonActions";
 import { isNetworkError } from "@lib/helpers";
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import PushNotification from "react-native-push-notification";
 import { persistReducer } from "redux-persist";

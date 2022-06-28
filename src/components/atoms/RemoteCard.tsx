@@ -14,12 +14,13 @@ export function RemoteCard({ data }: RemoteCardProps) {
   const { t } = useTranslation();
 
   const handleShareApp = useCallback(
-    debounce(() => {
-      Share.share({
-        message: t("screens:dashboard:cards:unite:shareMessage"),
-      });
-    }),
-    [],
+    () =>
+      debounce(() => {
+        Share.share({
+          message: t("screens:dashboard:cards:unite:shareMessage"),
+        });
+      }),
+    [t],
   );
 
   const { openExternalLink, openDeepLink } = useLinking();

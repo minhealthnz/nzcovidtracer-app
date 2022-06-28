@@ -54,7 +54,6 @@ const screensNew = [
   OnboardingScreen.PrivacyStatement,
   OnboardingScreen.EnableENF,
   OnboardingScreen.EnableAlerts,
-  OnboardingScreen.ContactDetails,
   OnboardingScreen.Thanks,
 ];
 const screensSingle = [
@@ -126,13 +125,13 @@ describe("#setCountedOldDiaries", () => {
 });
 
 describe("#registerDevice", () => {
-  const cases = [
+  const states = [
     ["failure", registerDeviceFulfilled.type, "retrySuccess"],
     [undefined, registerDeviceFulfilled.type, "success"],
     [undefined, registerDeviceRejected.type, "failure"],
   ];
 
-  it.each(cases)("%s %s %s", (registered, transition, nextRegistered) => {
+  it.each(states)("%s %s %s", (registered, transition, nextRegistered) => {
     let action;
     switch (transition) {
       case registerDeviceFulfilled.type:

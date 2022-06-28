@@ -18,7 +18,7 @@ import {
 } from "@features/enfExposure/selectors";
 import { defaultENFExpiresInDays } from "@features/enfExposure/util/defaultENFExpiresInDays";
 import pupa from "pupa";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,8 +75,6 @@ export interface BeenInCloseContactProps {
   onRequestCallback?(): void;
 }
 
-const checkInterval = 60 * 1000;
-
 export function BeenInCloseContact({
   enfAlert,
   onRequestCallback,
@@ -126,30 +124,7 @@ export function BeenInCloseContact({
     }
   }, [callbackRequested, onRequestCallback]);
 
-  const [callbackExpired, setCallbackExpired] = useState(false);
-
-  const showPrimaryButton =
-    (callbackEnabled && !callbackExpired) || callbackRequested;
-
-  useEffect(() => {
-    if (enfAlert == null) {
-      return;
-    }
-
-    const alertExpiresInDays = defaultENFExpiresInDays(
-      enfAlert.alertExpiresInDays,
-    );
-    const ttl = 60 * 60 * 24 * alertExpiresInDays * 1000;
-
-    setCallbackExpired(new Date().getTime() - enfAlert.exposureDate > ttl);
-    const id = setInterval(() => {
-      if (enfAlert == null) {
-        return;
-      }
-      setCallbackExpired(new Date().getTime() - enfAlert.exposureDate > ttl);
-    }, checkInterval);
-    return () => clearInterval(id);
-  }, [enfAlert]);
+  const showPrimaryButton = callbackEnabled || callbackRequested;
 
   const numberOfExposuresLabel = useMemo(() => {
     if (enfAlert == null) {

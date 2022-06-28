@@ -1,11 +1,7 @@
 import { rootReducer } from "@domain/rootReducer";
 import { createLogger } from "@logger/createLogger";
 import { logPerformance } from "@logger/logPerformance";
-import {
-  configureStore as baseConfigureStore,
-  getDefaultMiddleware,
-  Store,
-} from "@reduxjs/toolkit";
+import { configureStore as baseConfigureStore, Store } from "@reduxjs/toolkit";
 import Reactotron from "reactotron-react-native";
 import { persistStore } from "redux-persist";
 import createSagaMiddleware from "redux-saga";
@@ -39,10 +35,11 @@ function _createStore() {
   return baseConfigureStore({
     reducer: rootReducer,
     enhancers: [reactotron.createEnhancer!()],
-    middleware: getDefaultMiddleware({
-      serializableCheck: false,
-      immutableCheck: false,
-    }).concat(sagaMiddleware),
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+        immutableCheck: false,
+      }).concat(sagaMiddleware),
   });
 }
 

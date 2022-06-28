@@ -28,6 +28,6 @@ AuthenticatedENFClient.interceptors.request.use(
   },
 );
 
-AuthenticatedENFClient.interceptors.response.use((config) => {
-  return config;
+AuthenticatedENFClient.interceptors.response.use((conf) => {
+  return conf;
 }, refreshTokenWhenUnauthorized);

@@ -27,8 +27,7 @@ export const strings = {
         title: "Share my digital diary",
         description:
           "If you have been asked by a Contact Tracer or provided with a diary upload code online, you can share recent locations from your digital diary with Contact Tracers.\n\nThis will securely upload the locations, times and notes in your diary to the National Contact Tracing Solution.",
-        tip:
-          "You can only share your diary if you are a confirmed or probable case of COVID-19.",
+        tip: "You can only share your diary if you are a confirmed or probable case of COVID-19.",
         subText:
           "It is not compulsory for you to share your diary but it helps make contact tracing easier. You can select which entries you want to share and which you want to exclude.\n\nThis data will be treated as part of your medical record.",
         continue: "Continue",
@@ -105,8 +104,7 @@ export const strings = {
         secondSubtitle: "Save manual diary entries",
         secondDescription:
           "Make it easier to enter them again, for example if you stayed home.",
-        tip:
-          "Do not save buses or taxis, as it is unlikely that you will visit the same vehicle again.",
+        tip: "Do not save buses or taxis, as it is unlikely that you will visit the same vehicle again.",
         saveLocation: "Would you like to save this location?",
         save: "save",
         cancel: "cancel",

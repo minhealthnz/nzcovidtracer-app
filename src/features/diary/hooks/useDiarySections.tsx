@@ -23,9 +23,8 @@ export function useDiarySections(
   handleAddEntry: ((startOfDay: number) => void) | null,
   t: TFunction,
 ) {
-  const currentStartOfDay = new Date(
-    moment(useCurrentDate()).startOf("day").valueOf(),
-  );
+  const currentStart = useCurrentDate();
+  const currentStartOfDay = moment(currentStart).startOf("day").toDate();
 
   return useMemo(
     () => _useDiarySections(diaryEntries, handleAddEntry, t, currentStartOfDay),
