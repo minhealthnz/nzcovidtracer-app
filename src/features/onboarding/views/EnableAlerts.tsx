@@ -3,7 +3,6 @@ import { FormV2 } from "@components/molecules/FormV2";
 import { colors } from "@constants";
 import { requestNotificationPermission } from "@features/device/reducer";
 import { selectNotificationPermission } from "@features/device/selectors";
-import { rescheduleReminders } from "@features/reminder/commonActions";
 import { commonStyles } from "@lib/commonStyles";
 import { useAccessibleTitle } from "@navigation/hooks/useAccessibleTitle";
 import { StackScreenProps } from "@react-navigation/stack";
@@ -35,7 +34,6 @@ export function EnableAlerts(props: Props) {
 
   const handlePress = useCallback(() => {
     if (notificationPermission === "granted") {
-      dispatch(rescheduleReminders());
       navigateNext();
     } else {
       enableTrigger.current = true;
@@ -63,7 +61,6 @@ export function EnableAlerts(props: Props) {
       return;
     }
     enableTrigger.current = false;
-    dispatch(rescheduleReminders());
     navigateNext();
   }, [notificationPermission, navigateNext, dispatch]);
 

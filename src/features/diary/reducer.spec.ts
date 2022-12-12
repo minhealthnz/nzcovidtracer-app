@@ -77,7 +77,6 @@ const buildInitialState = (
       map[item.id] = item;
       return map;
     }, {} as { [id: string]: DiaryEntry }),
-    hasSeenScanTutorial: false,
     userIds: [userId],
     sessions: {
       [sessionId]: {

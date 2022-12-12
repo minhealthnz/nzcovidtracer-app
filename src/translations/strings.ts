@@ -73,15 +73,6 @@ const strings = {
         scan: "Scanned Location",
         manual: "Manual",
       },
-      diaryPercentage: {
-        topText: "COMPLETE YOUR DIARY",
-        bottomText: "have recorded entries",
-        middleText: " of the last 14 days",
-        percentageAccessibilityLabel:
-          "Complete your diary. {0} of the last 14 days have recorded entries.",
-        percentageAccessibilityHint: "Double tap to view your digital diary.",
-        tip: "It is useful to fill out past days in your diary, including days you stayed home.",
-      },
       actionSheet: {
         cardAccessibilityHint: "{0} of {1} in list.",
         titleAccessibilityHint:

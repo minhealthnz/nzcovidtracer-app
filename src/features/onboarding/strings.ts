@@ -47,11 +47,7 @@ export const strings = {
         },
         section2: {
           title: "Digital Diary:",
-          copy: "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days. You can choose to send your digital diary to us if a contact tracer asks you to (they will give you a code).",
-        },
-        section3: {
-          title: "Notifications:",
-          copy: "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19 and the contact tracers decide to send an alert. We will not know you have received an alert unless you choose to contact us about it.",
+          copy: "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days.",
         },
         section4: {
           title: "Bluetooth Tracing:",
@@ -63,7 +59,7 @@ export const strings = {
         },
         section6: {
           copy1:
-            "All information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
+            "All information stays on your device. We do collect a small amount of statistical information that does not identify you in any way.",
           copy2:
             "To help keep the information on your phone safe, we recommend you keep your phone locked when you are not using it.",
         },
@@ -125,7 +121,7 @@ export const strings = {
         heading: "Enable notifications",
         headerImageLabel: "Two phones receiving COVID-19 exposure alerts",
         description:
-          "We use notifications to let you know if you may have been in close contact with someone with COVID-19. \n\nFrom time to time we may also send announcements and reminders to keep your diary up to date. \n\nYou can always update your notification preferences in My Data tab.",
+          "We use notifications to let you know if you may have been in close contact with someone with COVID-19. \n\nFrom time to time we may also send announcements. \n\nYou can update your notification preferences in My Data tab.",
         enableNotifications: "Enable notifications",
         done: "Done",
       },
@@ -141,7 +137,7 @@ export const strings = {
         heading: "A reminder about privacy",
         headerImageLabel: "A key opening a lock",
         description:
-          "Your diary is stored only on your phone. It isn’t uploaded anywhere unless a contact tracer asks you to share it and you say yes." +
+          "Your diary is stored only on your phone." +
           "\n" +
           "\n" +
           "We recommend you set a lock code on your phone to keep your data safe and private.",

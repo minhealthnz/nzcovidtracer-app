@@ -3,7 +3,6 @@ export enum ScanScreen {
   RecordVisit = "Scan/RecordVisit",
   Recorded = "Scan/Recorded",
   Tutorial = "Scan/Tutorial",
-  TutorialNavigator = "Scan/TutorialNavigator",
   ScanNotRecorded = "Scan/ScanNotRecorded",
 }
 

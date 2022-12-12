@@ -42,7 +42,6 @@ export function useProfileSections() {
   const { supported: enfSupported } = useExposure();
   const navigation = useNavigation<StackNavigationProp<MainStackParamList>>();
   const { t } = useTranslation();
-
   const showShareENF = enfSupported && verified;
 
   const diary = useMemo(
@@ -139,19 +138,6 @@ export function useProfileSections() {
     [navigation, dispatch, hasOldDiary, t],
   );
 
-  const shareDiary = useMemo(
-    () => ({
-      headerImage: assets.send,
-      testID: "profile:shareDiary",
-      title: t("screens:profile:shareDiary"),
-      description: t("screens:profile:shareDiaryDescription"),
-      onPress: () => {
-        navigation.navigate(DiaryScreen.ShareDiary);
-      },
-    }),
-    [navigation, t],
-  );
-
   const settings = useMemo(
     () => ({
       headerImage: assets.notification,
@@ -163,39 +149,42 @@ export function useProfileSections() {
     }),
     [navigation, t],
   );
-
   const sections = useMemo(() => {
     const settingsSection = {
       title: t("screens:profile:headingSettings"),
       data: [settings],
       isLastSection: true,
     };
+
+    const shareSection = showShareENF
+      ? {
+          title: t("screens:profile:headingSharePostive"),
+          data: _.compact([shareBluetoothTracing]),
+        }
+      : null;
+
     const items: SectionListData<ProfileItem>[] = _.compact([
       {
         title: t("screens:profile:headingStorePrivate"),
         data: _.compact([diary, savedLocations, oldDiary, nhi]),
       },
-      {
-        title: t("screens:profile:headingSharePostive"),
-        data: _.compact([shareDiary, shareBluetoothTracing]),
-      },
+      shareSection,
       settingsSection,
       {
         data: ["footer"],
         isLastSection: true,
       },
     ]);
-
     return items;
   }, [
     t,
+    settings,
+    showShareENF,
+    shareBluetoothTracing,
     diary,
     savedLocations,
-    nhi,
     oldDiary,
-    shareBluetoothTracing,
-    shareDiary,
-    settings,
+    nhi,
   ]);
   return sections;
 }

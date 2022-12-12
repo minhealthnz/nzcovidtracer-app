@@ -45,7 +45,6 @@ export type DashboardItem =
   | "beenInContact"
   | "statsLoading"
   | "announcement"
-  | "diaryPercentage"
   | "bluetoothStatus"
   | "vaccinePassInfo"
   | "reminder"

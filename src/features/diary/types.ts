@@ -61,7 +61,6 @@ export type MergeEntryError = "InvalidFileType" | "InvalidFileContent";
 export interface DiaryState {
   byId: { [id: string]: DiaryEntry };
   byLocationId: { [loccationId: string]: string[] };
-  hasSeenScanTutorial: boolean;
   userIds: string[];
   sessions: { [id: string]: DiaryPaginationSession };
   shareDiary: {

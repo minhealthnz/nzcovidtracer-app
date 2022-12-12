@@ -4,7 +4,6 @@ import { put, select, takeLatest } from "redux-saga/effects";
 
 import {
   cancelReminders,
-  rescheduleReminders,
   updateReminderNotificationConfig,
 } from "../commonActions";
 import {
@@ -38,6 +37,5 @@ function* onUpdateReminderConfig({
 
   if (payload.version > config.version) {
     yield put(setReminderNotificationConfig(payload));
-    yield put(rescheduleReminders());
   }
 }

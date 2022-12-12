@@ -383,11 +383,6 @@ export function Diary(props: Props) {
     );
   }, [handleExport, t]);
 
-  const handleShareDiary = useCallback(() => {
-    setIsActionSheetOpened(false);
-    props.navigation.navigate(DiaryScreen.ShareDiary);
-  }, [props.navigation]);
-
   const actionSheetSectionItems: ActionSheetSectionItems[] = useMemo(() => {
     return [
       {
@@ -407,19 +402,8 @@ export function Diary(props: Props) {
           },
         ],
       },
-      {
-        title: t("screens:diary:tracerCalls"),
-        data: [
-          {
-            title: t("screens:diary:shareDiary"),
-            subTitle: t("screens:diary:helpTracers"),
-            onPress: handleShareDiary,
-            icon: assets.shareDiary,
-          },
-        ],
-      },
     ];
-  }, [exportDiaryConfirmation, handleImport, handleShareDiary, t]);
+  }, [exportDiaryConfirmation, handleImport, t]);
 
   const placeHolderRef = useRef(null);
 

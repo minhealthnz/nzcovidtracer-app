@@ -6,12 +6,7 @@ import {
   selectCameraPermission,
   selectHasRequestedCameraPermission,
 } from "@features/device/selectors";
-import {
-  AddDiaryEntry,
-  addEntry,
-  setHasSeenScanTutorial,
-} from "@features/diary/reducer";
-import { selectHasSeenScanTutorial } from "@features/diary/selectors";
+import { AddDiaryEntry, addEntry } from "@features/diary/reducer";
 import { useEasterEggOverlay } from "@features/easterEgg/hooks/useEasterEggOverlay";
 import { LocationScreen } from "@features/locations/screens";
 import { isAndroid, isSmallScreen } from "@lib/helpers";
@@ -131,7 +126,6 @@ export function Scan(props: Props) {
   const lastScannedAt = useRef<Date>();
   const generateTestHook = useCavy();
   const isFocused = useIsFocused();
-  const hasSeenScanTutorial = useSelector(selectHasSeenScanTutorial);
   const [isCameraMounted, setIsCameraMounted] = useState(false);
   const cameraPermission = useSelector(selectCameraPermission);
   const [flashLightMode, setFlashLightMode] = useState(
@@ -194,27 +188,13 @@ export function Scan(props: Props) {
 
   useFocusEffect(
     useCallback(() => {
-      if (hasSeenScanTutorial) {
-        return;
-      }
-      /**
-       * Technically, don't need this action as the tutorial screen dispatches this on focus
-       * It's to prevent the scan screen from being stuck
-       */
-      dispatch(setHasSeenScanTutorial());
-      props.navigation.navigate(ScanScreen.TutorialNavigator);
-    }, [props.navigation, dispatch, hasSeenScanTutorial]),
-  );
-
-  useFocusEffect(
-    useCallback(() => {
       const task = InteractionManager.runAfterInteractions(() => {
-        if (hasSeenScanTutorial && cameraPermission === "denied") {
+        if (cameraPermission === "denied") {
           dispatch(requestCameraPermission());
         }
       });
       return () => task.cancel();
-    }, [cameraPermission, dispatch, hasSeenScanTutorial]),
+    }, [cameraPermission, dispatch]),
   );
 
   useEffect(() => {
@@ -260,12 +240,12 @@ export function Scan(props: Props) {
             id: entry.id,
           });
         } catch (err) {
-          logError(err);
+          logError(err as string);
           props.navigation.navigate(ScanScreen.ScanNotRecorded);
         }
       } catch (err) {
         showError(t("errors:generic"));
-        logError(err);
+        logError(err as string);
       }
     },
     [dispatch, props.navigation, showError, t],

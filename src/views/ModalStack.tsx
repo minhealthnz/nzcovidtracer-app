@@ -16,8 +16,6 @@ import { EnableENFNavigator } from "@features/onboarding/views/EnableENFNavigato
 import { LockCodeNavigator } from "@features/onboarding/views/LockCodeNavigator";
 import { OnboardingStack } from "@features/onboarding/views/OnboardingStack";
 import { SplashScreen as DummySplashScreen } from "@features/onboarding/views/SplashScreen";
-import { ScanScreen } from "@features/scan/screens";
-import { TutorialNavigator } from "@features/scan/views/TutorialNavigator";
 import { setEnfEnableNotificationSent } from "@features/verification/reducer";
 import { selectEnfEnableNotificationSent } from "@features/verification/selectors";
 import { notifyRegisterDeviceRetrySuccess } from "@features/verification/service/notifyRegisterDeviceRetrySuccess";
@@ -41,7 +39,6 @@ import { MainStackScreen, TabScreen } from "./screens";
 export type ModalStackParamList = {
   [TabScreen.Navigator]: undefined;
   [OnboardingScreen.Navigator]: undefined;
-  [ScanScreen.TutorialNavigator]: undefined;
   [MainStackScreen.Navigator]: undefined;
   [OnboardingScreen.Splash]: undefined;
   [OnboardingScreen.LockCodeNavigator]: undefined;
@@ -144,7 +141,7 @@ export function ModalStack() {
                 dispatch(setMatch(match));
               }
             } catch (err) {
-              logWarning(err);
+              logWarning(err as string);
             }
             break;
           default:
@@ -176,11 +173,6 @@ export function ModalStack() {
           <Stack.Screen
             name={MainStackScreen.Navigator}
             component={MainStack}
-          />
-          <Stack.Screen
-            name={ScanScreen.TutorialNavigator}
-            options={{ title: t("screenTitles:tutorial") }}
-            component={TutorialNavigator}
           />
           <Stack.Screen
             name={OnboardingScreen.LockCodeNavigator}

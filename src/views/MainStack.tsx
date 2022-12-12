@@ -24,7 +24,6 @@ import { useProfileScreens } from "@features/profile/hooks/useProfileScreens";
 import { ProfileScreenParams } from "@features/profile/screens";
 import { useScanScreens } from "@features/scan/hooks/useScanScreens";
 import { ScanScreenParams } from "@features/scan/screens";
-import { TutorialScreenParams } from "@features/scan/views/TutorialNavigator";
 import { createLogger } from "@logger/createLogger";
 import { useHeaderOptions } from "@navigation/hooks/useHeaderOptions";
 import { headerOptions } from "@navigation/options";
@@ -45,7 +44,6 @@ import { TabNavigator, TabScreenParams } from "./TabNavigator";
 export type MainStackParamList = ScanScreenParams &
   DiaryScreenParams &
   TabScreenParams &
-  TutorialScreenParams &
   OTPScreenParams &
   NHIScreenParams &
   ProfileScreenParams &

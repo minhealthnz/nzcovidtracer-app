@@ -8,7 +8,6 @@ import {
 import { ReduxState } from "@domain/types";
 import { addFavourite } from "@features/locations/actions/addFavourite";
 import { removeFavourite } from "@features/locations/actions/removeFavourite";
-import { setSessionType } from "@features/onboarding/reducer";
 import { createLogger } from "@logger/createLogger";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -43,12 +42,11 @@ import {
 export const persistConfig = {
   storage: AsyncStorage,
   key: "diary",
-  whitelist: ["hasSeenScanTutorial"],
+  whitelist: [],
 };
 
 const INITIAL_STATE: DiaryState = {
   byId: {},
-  hasSeenScanTutorial: false,
   userIds: [],
   sessions: {},
   shareDiary: {
@@ -244,9 +242,6 @@ const diarySlice = createSlice({
   name: "diary",
   initialState: INITIAL_STATE,
   reducers: {
-    setHasSeenScanTutorial(state) {
-      state.hasSeenScanTutorial = true;
-    },
     setUserIds(state, { payload }: PayloadAction<string[]>) {
       state.userIds = payload;
     },
@@ -447,11 +442,6 @@ const diarySlice = createSlice({
       .addCase(deleteEntry.rejected, (_state, action) => {
         logError(action.error);
       })
-      .addCase(setSessionType, (state, { payload }) => {
-        if (payload === "single" || payload === "multi") {
-          state.hasSeenScanTutorial = true;
-        }
-      })
       .addCase(setCountedOldDiaries, (state) => {
         state.countedOldDiaries = true;
       })
@@ -512,7 +502,6 @@ function reorderSession(state: DiaryState, session: DiaryPaginationSession) {
 const { actions, reducer } = diarySlice;
 
 export const {
-  setHasSeenScanTutorial,
   setUserIds,
   addLoadedEntries,
   setQuerying,

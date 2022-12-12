@@ -64,14 +64,6 @@ Object {
         "scan": "Scanned Location",
         "selected": "Selected ",
       },
-      "diaryPercentage": Object {
-        "bottomText": "have recorded entries",
-        "middleText": " of the last 14 days",
-        "percentageAccessibilityHint": "Double tap to view your digital diary.",
-        "percentageAccessibilityLabel": "Complete your diary. {0} of the last 14 days have recorded entries.",
-        "tip": "It is useful to fill out past days in your diary, including days you stayed home.",
-        "topText": "COMPLETE YOUR DIARY",
-      },
       "linkScan": Object {
         "invalidCommonTitle": "We couldn't add a diary entry",
         "invalidLinkMessage": "This link you've tapped is not an official NZ COVID Tracer location link",
@@ -456,9 +448,9 @@ You can also now export your diary if you are moving to a new phone.",
       "enableAlerts": Object {
         "description": "We use notifications to let you know if you may have been in close contact with someone with COVID-19. 
 
-From time to time we may also send announcements and reminders to keep your diary up to date. 
+From time to time we may also send announcements. 
 
-You can always update your notification preferences in My Data tab.",
+You can update your notification preferences in My Data tab.",
         "done": "Done",
         "enableNotifications": "Enable notifications",
         "headerImageLabel": "Two phones receiving COVID-19 exposure alerts",
@@ -572,7 +564,7 @@ If there are any diary entries on this device that were linked to this email add
         "title": "We’ve made a few changes for you",
       },
       "lockCode": Object {
-        "description": "Your diary is stored only on your phone. It isn’t uploaded anywhere unless a contact tracer asks you to share it and you say yes.
+        "description": "Your diary is stored only on your phone.
 
 We recommend you set a lock code on your phone to keep your data safe and private.",
         "headerImageLabel": "A key opening a lock",
@@ -617,12 +609,8 @@ You can copy over any diary you want to keep using now, or you can do this later
           "title": "Any personal information you share through NZ COVID Tracer will be used only for public health purposes related to contact tracing during the COVID-19 pandemic response.",
         },
         "section2": Object {
-          "copy": "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days. You can choose to send your digital diary to us if a contact tracer asks you to (they will give you a code).",
+          "copy": "You can choose what locations to scan, and what activities you record in your Digital Diary. This will help you remember where you have been. This stays on your device and each entry is deleted after 60 days.",
           "title": "Digital Diary:",
-        },
-        "section3": Object {
-          "copy": "You can choose if you want to receive an alert if you have scanned a location at the same time as a person who later tests positive for COVID-19 and the contact tracers decide to send an alert. We will not know you have received an alert unless you choose to contact us about it.",
-          "title": "Notifications:",
         },
         "section4": Object {
           "copy": "You can choose if you want to turn on this functionality. This will enable your device to anonymously record when you are near other app users who have Bluetooth enabled. It will record only how close to them you were, and how long you were nearby. It does not record who either of you are or where you were. When an app user tests positive for COVID-19, they can choose to anonymously notify the other app users who have been nearby. No identifying information is exchanged. We will not know you have received a notification unless you choose to contact us about it.",
@@ -633,7 +621,7 @@ You can copy over any diary you want to keep using now, or you can do this later
           "title": "My NHI Details:",
         },
         "section6": Object {
-          "copy1": "All information stays on your device unless you choose to share it. We do collect a small amount of statistical information that does not identify you in any way.",
+          "copy1": "All information stays on your device. We do collect a small amount of statistical information that does not identify you in any way.",
           "copy2": "To help keep the information on your phone safe, we recommend you keep your phone locked when you are not using it.",
         },
         "section7": Object {

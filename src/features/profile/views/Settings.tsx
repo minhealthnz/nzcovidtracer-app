@@ -12,8 +12,6 @@ import {
   selectNotificationPermission,
   selectSubscriptions,
 } from "@features/device/selectors";
-import { toggleIsRemindersEnabled } from "@features/reminder/commonActions";
-import { selectIsEnabled } from "@features/reminder/selectors";
 import { usePrevious } from "@hooks/usePrevious";
 import { useAppDispatch } from "@lib/useAppDispatch";
 import { isUndefined } from "lodash";
@@ -22,8 +20,6 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import styled from "styled-components/native";
-
-import config, { Feature } from "../../../config";
 
 const announcements = "announcements";
 
@@ -50,7 +46,6 @@ export function Settings() {
   const formRef = useRef<FormV2Handle | null>(null);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const isRemindersEnabled = useSelector(selectIsEnabled);
 
   // Check notifications
   const notificationPerm = useSelector(selectNotificationPermission);
@@ -106,10 +101,6 @@ export function Settings() {
     }
   }, [t, isAnnouncementsError, previousAnnouncementError]);
 
-  const onToggleReminders = useCallback(() => {
-    dispatch(toggleIsRemindersEnabled());
-  }, [dispatch]);
-
   const onToggleAnnouncements = useCallback(() => {
     setIsSubscriptionLoading(true);
     dispatch(requestToggleAnnouncements(!isAnnouncementSubscribed));
@@ -139,15 +130,6 @@ export function Settings() {
           description={t("screens:settings:announcementsDescription")}
           isLoading={isSubscriptionLoading}
         />
-        <Divider />
-        {config.Features.has(Feature.ReminderNotifications) && (
-          <SettingToggle
-            value={isRemindersEnabled}
-            onPress={onToggleReminders}
-            title={t("screens:settings:usageReminders")}
-            description={t("screens:settings:usageRemindersDescription")}
-          />
-        )}
       </ToggleContainer>
     </FormV2>
   );
