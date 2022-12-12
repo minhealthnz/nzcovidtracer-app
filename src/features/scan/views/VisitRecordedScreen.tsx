@@ -18,9 +18,7 @@ import {
   grid3x,
 } from "@constants";
 import { selectPassDisabled } from "@features/device/selectors";
-import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
 import { EditDiaryEntry, editEntry } from "@features/diary/reducer";
-import { DiaryScreen } from "@features/diary/screens";
 import { selectCountActiveDays } from "@features/diary/selectors";
 import { EntryPassAnalyticsType } from "@features/diary/types";
 import { addFavourite } from "@features/locations/actions/addFavourite";
@@ -293,19 +291,6 @@ export function VisitRecordedScreen(props: Props) {
 
   useAccessibleTitle();
 
-  const handleDiaryPercentagePress = useDebouncedCallback(
-    useCallback(() => {
-      // Remove recorded page from stack
-      props.navigation.pop();
-      props.navigation.navigate(DiaryScreen.Diary);
-    }, [props.navigation]),
-    2000,
-    {
-      leading: true,
-      trailing: false,
-    },
-  );
-
   const { tick, backgroundColor, statusBarColor } = useMemo(() => {
     if (nfcDebounce) {
       return {
@@ -465,16 +450,12 @@ export function VisitRecordedScreen(props: Props) {
         )}
       </HeaderContainer>
 
-      <View style={{ padding: grid3x, backgroundColor: colors.lightGrey }}>
-        {nfcDebounce ? (
-          <>
-            <Heading>{t("screens:visitRecorded:heading")}</Heading>
-            <Description>{t("screens:visitRecorded:description")}</Description>
-          </>
-        ) : (
-          <DiaryPercentage onPress={handleDiaryPercentagePress} />
-        )}
-      </View>
+      {nfcDebounce && (
+        <View style={{ padding: grid3x, backgroundColor: colors.lightGrey }}>
+          <Heading>{t("screens:visitRecorded:heading")}</Heading>
+          <Description>{t("screens:visitRecorded:description")}</Description>
+        </View>
+      )}
     </FormV2>
   );
 }

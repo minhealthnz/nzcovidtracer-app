@@ -9,7 +9,6 @@ import { AnnouncementEvents } from "@features/announcement/events";
 import { selectAnnouncement } from "@features/announcement/selectors";
 import { requestNotificationPermission } from "@features/device/reducer";
 import { selectNotificationPermission } from "@features/device/selectors";
-import { DiaryPercentage } from "@features/diary/components/DiaryPercentage";
 import { BeenInCloseContact } from "@features/enfExposure/components/beenInCloseContact/BeenInCloseContact";
 import { useProcessEnfContacts } from "@features/enfExposure/hooks/useProcessEnfContacts";
 import { selectENFAlert } from "@features/enfExposure/selectors";
@@ -20,7 +19,6 @@ import { RequestCallbackScreen } from "@features/exposure/screens";
 import { selectMatch } from "@features/exposure/selectors";
 import { setHasSeenDashboard } from "@features/onboarding/reducer";
 import { ReminderCard } from "@features/reminder/components/ReminderCard";
-import { selectHasInAppReminder } from "@features/reminder/selectors";
 import { StatsCard } from "@features/stats/components/StatsCard";
 import { useStatsSection } from "@features/stats/hooks/useStatsSection";
 import { useFocusEffect } from "@react-navigation/native";
@@ -37,7 +35,6 @@ import { DashboardBluetoothStatus } from "../components/DashboardBlueToothStatus
 import { DashboardFooter } from "../components/DashboardFooter";
 import { DashboardItemSeparator } from "../components/DashboardItemSeparator";
 import { DashboardVaccinePassInfo } from "../components/DashboardVaccinePassInfo";
-import { selectHasSeenVaccinePassInfo } from "../selectors";
 import { DashboardItem } from "../types";
 
 const SectionFooter = styled(Text)`
@@ -86,10 +83,6 @@ const _DashboardList = (props: Props) => {
 
   const statsSection = useStatsSection();
 
-  const hasInAppReminder = useSelector(selectHasInAppReminder);
-
-  const hasSeenVaccinePassInfo = useSelector(selectHasSeenVaccinePassInfo);
-
   const sections = useMemo(() => {
     const notificationsCard: DashboardItem | undefined =
       notificationPermission === "denied" ||
@@ -113,27 +106,6 @@ const _DashboardList = (props: Props) => {
         ]
       : [];
 
-    const reminders = hasInAppReminder
-      ? [
-          {
-            title: t("screens:dashboard:sections:reminder"),
-            data: ["reminder" as const],
-          },
-        ]
-      : [];
-
-    const infoItems = !hasSeenVaccinePassInfo
-      ? [
-          {
-            title: t("screens:dashboard:sections:whatsNew"),
-            data:
-              hasSeenVaccinePassInfo == null
-                ? []
-                : ["vaccinePassInfo" as const],
-          },
-        ]
-      : [];
-
     const items: SectionListData<DashboardItem>[] = [
       {
         title: doubleExposure
@@ -152,11 +124,9 @@ const _DashboardList = (props: Props) => {
       {
         data: notificationsCard == null ? [] : [notificationsCard],
       },
-      ...infoItems,
-      ...reminders,
       {
         title: t("screens:dashboard:sections:status"),
-        data: ["bluetoothStatus", "diaryPercentage"],
+        data: ["bluetoothStatus"],
       },
       statsSection,
     ];
@@ -183,8 +153,6 @@ const _DashboardList = (props: Props) => {
     doubleExposure,
     statsSection,
     announcement,
-    hasSeenVaccinePassInfo,
-    hasInAppReminder,
   ]);
 
   useEffect(() => {
@@ -237,10 +205,6 @@ const _DashboardList = (props: Props) => {
 
     if (item === "announcement") {
       return <Announcement />;
-    }
-
-    if (item === "diaryPercentage") {
-      return <DiaryPercentage />;
     }
 
     if (item === "bluetoothStatus") {

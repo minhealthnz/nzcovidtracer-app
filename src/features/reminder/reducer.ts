@@ -47,7 +47,7 @@ const initialState: ReminderNotificationState = {
   },
   scheduledInAppReminders: [],
   currentlyDisplayedInAppReminder: undefined,
-  isRemindersEnabled: true,
+  isRemindersEnabled: false,
 };
 
 const slice = createSlice({

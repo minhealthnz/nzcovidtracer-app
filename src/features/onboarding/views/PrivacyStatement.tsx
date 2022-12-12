@@ -87,10 +87,6 @@ export function PrivacyStatement(
         <Paragraph>{t("screens:privacyStatement:section2:copy")}</Paragraph>
       </BulletItem>
       <BulletItem>
-        <Heading2>{t("screens:privacyStatement:section3:title")}</Heading2>
-        <Paragraph>{t("screens:privacyStatement:section3:copy")}</Paragraph>
-      </BulletItem>
-      <BulletItem>
         <Heading2>{t("screens:privacyStatement:section4:title")}</Heading2>
         <Paragraph>{t("screens:privacyStatement:section4:copy")}</Paragraph>
       </BulletItem>

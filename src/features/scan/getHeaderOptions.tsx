@@ -11,33 +11,12 @@ import { useTranslation } from "react-i18next";
 import { StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
 
-import { ScanScreen } from "./screens";
-
 export function getHeaderOptions() {
   return {
-    headerLeft: () => <HeaderLeft />,
+    headerLeft: () => null,
     headerRight: () => <HeaderRight />,
     headerTitle: (props: StackHeaderTitleProps) => <HeaderTitle {...props} />,
   };
-}
-
-function HeaderLeft() {
-  const { t } = useTranslation();
-
-  const navigation = useNavigation();
-
-  const handlePress = useCallback(() => {
-    navigation.navigate(ScanScreen.TutorialNavigator);
-  }, [navigation]);
-
-  return (
-    <HeaderButton
-      text={t("screens:scan:guide")}
-      onPress={handlePress}
-      accessibilityLabel={t("screens:scan:accessibility:startTutorial")}
-      style={styles.infoButton}
-    />
-  );
 }
 
 function HeaderRight() {

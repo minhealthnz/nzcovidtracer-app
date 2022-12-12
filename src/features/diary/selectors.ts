@@ -7,11 +7,6 @@ export const selectDiary = (state: ReduxState) => state.diary;
 
 export const selectById = createSelector(selectDiary, (diary) => diary.byId);
 
-export const selectHasSeenScanTutorial = createSelector(
-  selectDiary,
-  (diary) => diary.hasSeenScanTutorial,
-);
-
 export const selectSessions = createSelector(
   selectDiary,
   (diary) => diary.sessions,
